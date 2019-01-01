@@ -1,6 +1,10 @@
 import VPlay 2.0
 import QtQuick 2.0
 
+import "common"
+import "scenes"
+import "scenes/modes" as Modes
+
 GameWindow {
 	id: gameWindow
 	
@@ -11,8 +15,6 @@ GameWindow {
 	//  * Add plugins to monetize, analyze & improve your apps (available with the Pro Licenses)
 	//licenseKey: "<generate one from https://v-play.net/licenseKey>"
 	
-	activeScene: scene
-	
 	// the size of the Window can be changed at runtime by pressing Ctrl (or Cmd on Mac) + the number keys 1-8
 	// the content of the logical scene size (480x320 for landscape mode by default) gets scaled to the window size based on the scaleMode
 	// you can set this size to any resolution you would like your project to start with, most of the times the one of your main target device
@@ -20,6 +22,49 @@ GameWindow {
 	screenWidth: 960
 	screenHeight: 640
 	
+//	state: "exerciseMenu"
+	state: "mode_standard"
+	states: [
+		State {
+			name: "home"
+			PropertyChanges { target: homeScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: homeScene }
+		},
+		State {
+			name: "exerciseMenu"
+			PropertyChanges { target: exerciseMenuScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: exerciseMenuScene }
+		},
+		State {
+			name: "mode_standard"
+			PropertyChanges { target: modeStandardScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: modeStandardScene }
+		}
+
+	]
+	
+	HomeScene {
+		id: homeScene
+		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
+		onStudyButtonClicked: gameWindow.state = "studyMenu"
+		
+	}
+	
+	ExerciseMenuScene {
+		id: exerciseMenuScene
+		
+		onModeClicked: {
+			console.debug("Mode: '" + mode + "'");
+			gameWindow.state = "mode_" + String(mode).toLowerCase()
+		}
+	}
+	
+	Modes.Standard {
+		id: modeStandardScene
+		
+	}
+	
+	/*
 	Scene {
 		id: scene
 		
@@ -98,4 +143,5 @@ GameWindow {
 		}
 		
 	}
+	*/
 }
