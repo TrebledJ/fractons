@@ -1,8 +1,15 @@
 import VPlay 2.0
 import QtQuick 2.0
+import QtQuick.Controls 2.4
+
+import "../js/Math.js" as JMath
 
 SceneBase {
 	id: scene
+	
+	property alias panel: panel
+	property alias goButton: goButton
+	property alias answerField: answerField
 	
 	property int level: 1
 	property int xp: 25
@@ -12,7 +19,7 @@ SceneBase {
 	MouseArea {
 		anchors.fill: parent
 		onClicked: {
-			console.log("Mouse @ ", mouseX, mouseY);
+//			console.log("Mouse @ ", mouseX, mouseY);
 //			xp += 1;
 			
 //			logEvent("Hello", "yellow", 8);
@@ -20,10 +27,10 @@ SceneBase {
 			combo += 1;
 			logCombo();
 			
-			goButton.animateScalar();
+//			goButton.animateScalar();
 		}
 		
-		onWheel:  {
+		onWheel: {
 //			addXp(Math.floor(wheel.angleDelta.y));
 		}
 	}
@@ -105,7 +112,9 @@ SceneBase {
 					
 					Rectangle {
 						id: eventSpace
-						width: parent.width; height: parent.height * 0.5
+						width: parent.width
+						height: parent.height - parent.spacing - goButton.height
+									- parent.spacing - xpDisplay.height
 						
 						color: "skyblue"	//	debug
 //						color: "transparent"
@@ -151,14 +160,15 @@ SceneBase {
 						
 						color: "yellow"
 						text: "Go"
+						
+						onClicked: {
+							animateScalar(0.9, 1.05);
+						}
 					}
 					
 					TextBase {
 						id: xpDisplay
-						height: parent.height 
-//									- parent.spacing - comboSpace.height
-									- parent.spacing - eventSpace.height
-									- parent.spacing - goButton.height
+						height: 30
 						anchors.horizontalCenter: parent.horizontalCenter
 						
 						text: 'Level ' + level + '   ' + xp + '/' + maxXp + " xp"
@@ -173,6 +183,50 @@ SceneBase {
 			}	//	Row
 		}	//	Column
 
+	}
+	
+	Column {
+		id: textFieldColumn
+		
+		anchors.left: panel.right
+		anchors.right: scene.right
+		anchors.bottom: scene.bottom
+		
+		TextField {
+			id: errorField
+			width: parent.width; height: 20
+			padding: 2
+			
+			color: "red"
+			font.pointSize: 8
+			font.family: "Trebuchet MS"
+			
+			visible: false
+			opacity: 0.8
+			
+			readOnly: true
+			onTextChanged: {
+				visible = (text !== "");
+			}
+		}
+		
+		TextField {
+			id: answerField
+			
+			width: parent.width; height: 20
+			padding: 2
+			
+			color: "navy"
+			font.pointSize: 8
+			font.family: "Trebuchet MS"
+			
+			placeholderText: "Answer"
+			
+			onEditingFinished: {
+				goButton.clicked()
+			}
+			
+		}
 	}
 	
 	QtObject {
@@ -202,7 +256,7 @@ SceneBase {
 		
 		obj.font.pixelSize = fontSize;
 		
-		var randY = randomI(-25, -5);
+		var randY = JMath.randI(-25, -5);
 		
 		var from = eventSpace.height;
 		var to = 20;
@@ -211,13 +265,10 @@ SceneBase {
 		obj.animation1.to = to + randY;
 		
 		
-		obj.x = randomI(0, eventSpace.width - 30);
+		obj.x = JMath.randI(0, eventSpace.width - 30);
 		obj.horizontalAlignment = Text.AlignHCenter
 		
 		obj.start();
-		
-		console.debug('From:', from)
-		console.debug('To:', to)
 	}
 	
 	function addXp(amount) {
@@ -238,24 +289,28 @@ SceneBase {
 		
 		if (num % 100 == 0)
 		{
-			logEvent('Combo ' + num + '!!!!!', "lightgoldenrodyellow", 16);
+			logEvent('Combo ' + num + ' ✨', "lightgoldenrodyellow", 16);
 		}
 		else if (num % 10 == 0)
 		{
-			logEvent('Combo ' + num + '!!!', "lightgoldenrodyellow", 12);
+			logEvent('Combo ' + num + ' 💫', "lightgoldenrodyellow", 12);
 		}
 		else if (num % 5 == 0)
 		{
-			logEvent('Combo ' + num + '!', "lightgoldenrodyellow", 10);
+			logEvent('Combo ' + num + ' 🌟', "lightgoldenrodyellow", 10);
 		}
 		else
 		{
-			logEvent('Combo ' + num, "yellow", 8);
+			logEvent('Combo ' + num + ' ⭐️', "yellow", 8);
 		}
 	}
 	
-	
-	function randomI(low, high) {
-		return Math.random() * (high - low) + low;
+	function showInputError(msg) {
+		errorField.text = msg;
 	}
+	
+	function acceptInput() {
+		errorField.text = "";
+	}
+	
 }

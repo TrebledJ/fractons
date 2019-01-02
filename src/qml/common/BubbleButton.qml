@@ -104,7 +104,7 @@ Item {
 		
 		priv.isPressedFlag = true;	//	turns on flag
 		priv.tempScalar = diagonalScalar;	//	stores the original radius in a private variable just in case
-		animateScalar(1, 1.05);	//	animate
+		animateScalar(0.9, 1.05);	//	animate
 	}
 	
 	onReleased: {
@@ -125,11 +125,11 @@ Item {
 			
 			scalarAnimation.stop();	//	stop the animation
 			animateScalar(diagonalScalar, priv.tempScalar);	//	animate to tempScalar
-			priv.tempScalar = 1;	//	reset to 1
+			priv.tempScalar = 0.9;	//	reset to default value
 			return;
 		}
 		
-		animateScalar(1.05, 1);	//	animate normally
+		animateScalar(1.05, 0.9);	//	animate normally
 	}
 	
 	onEntered: {
