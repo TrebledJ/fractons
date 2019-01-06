@@ -19,8 +19,8 @@ Row {
 	//		var <obj_instance> = textComponent.createObject(<parent>, <properties>);
 	
 	
-	
 	onEquationChanged: {
+		clear();
 		parse(equation);
 	}
 	
@@ -56,20 +56,18 @@ Row {
 	}
 	
 	function parse(text) {
-		clear();
-		
-		console.debug("Parsing", text);
+//		console.debug("Parsing", text);
 		
 		
 		var buffer = "";	//	holds buffered text
 		
 		for (var i = 0; i < text.length; i++)
 		{
-			console.debug("\nIndex", i, ':', text[i]);
+//			console.debug("\nIndex", i, ':', text[i]);
 			
 			if (text[i] === '(')
 			{
-				console.debug("Is Bracket");
+//				console.debug("Is Bracket");
 				
 				var ioClosingBracket = text.indexOf(')', i);
 				if (ioClosingBracket === -1)
@@ -87,9 +85,10 @@ Row {
 				continue;
 			}
 			
-			if ('+-*'.includes(text[i]))
+			
+			if ('+-*÷ '.includes(text[i]))
 			{
-				console.debug("Is +-*");
+//				console.debug("Is +-*");
 				
 				appendText(buffer + text[i]);
 				buffer = "";
@@ -98,54 +97,50 @@ Row {
 			
 			if (text[i] === '/')
 			{
-				console.debug("Is division operator");
+//				console.debug("Is division operator");
 				
 				//	if buffer is empty or is not a number
-				if (buffer === "" || isNaN(buffer))
+				if (buffer === "" )
 				{
-					console.debug("Buffer is empty/invalid, skipping division...")
+//					console.debug("Buffer is empty/invalid, skipping division...")
 					
 					buffer += text[i];
 					continue;
 				}
 
-				console.debug("Performing lookahead");
+//				console.debug("Performing lookahead");
 				
 				//	division: do a lookahead for denominator
 				var lookaheadIndex = -1;
 				for (var j = i + 1; j < text.length; j++)
 				{
-					if ('+-*()'.includes(text[j]))
+					if ('+-*÷() '.includes(text[j]))
 					{
 						lookaheadIndex = j;
 						break;
 					}
 				}
 				if (lookaheadIndex === -1)
-					lookaheadIndex = text.length - 1;	//	at end
+					lookaheadIndex = text.length;	//	at end
 				
-				console.debug("Finished lookahead at index", lookaheadIndex);
+//				console.debug("Finished lookahead at index", lookaheadIndex);
 				
 				
-				var fracSubText = text.substring(i, lookaheadIndex + 1);
-				console.debug("Retrieved substring", fracSubText);
+				var fracSubText = text.substring(i, lookaheadIndex);
+//				console.debug("Retrieved substring", fracSubText);
 				
-				if (fracSubText !== "" && !isNaN(fracSubText.substr(1)))
+				if (fracSubText !== "")
 				{
-					console.debug("Substring is somewhat fraction-parsible.");
+//					console.debug("Substring is somewhat fraction-parsible.");
 					
 					var fracText = buffer + fracSubText;
-					console.debug("Checking full fraction-parsibility text", fracText);
-					if (JFraction.isParsible(fracText))
-					{
-						console.debug(fracText, "IS fraction-parsible");
+//					console.debug("Checking full fraction-parsibility text", fracText);
 						
-						appendFraction(JFraction.parse(fracText));
-						
-						i = lookaheadIndex;
-						buffer = "";
-						continue;
-					}
+					appendFraction(JFraction.parse(fracText));
+					
+					i = lookaheadIndex - 1;
+					buffer = "";
+					continue;
 				}
 				
 				continue;

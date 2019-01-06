@@ -18,7 +18,9 @@ int main(int argc, char *argv[])
 	
 	// use this during development
 	// for PUBLISHING, use the entry point below
+#ifndef VP_LIVE_CLIENT_MODULE_H
 	vplay.setMainQmlFileName(QStringLiteral("qml/Main.qml"));
+#endif
 	
 	// use this instead of the above call to avoid deployment of the qml files and compile them into the binary with qt's resource system qrc
 	// this is the preferred deployment option for publishing games to the app stores, because then your qml files and js files are protected
@@ -26,7 +28,15 @@ int main(int argc, char *argv[])
 	// also see the .pro file for more details
 	//  vplay.setMainQmlFileName(QStringLiteral("qrc:/qml/Main.qml"));
 	
+//	QString thisMainUrl = "../../../../";
+	qmlRegisterSingletonType(QUrl::fromLocalFile(":/qml/game/Storage.qml"), "JSingletons", 1, 0, "JStorage");
+	
+	// uncomment for publishing
+#ifndef VP_LIVE_CLIENT_MODULE_H
 	engine.load(QUrl(vplay.mainQmlFileName()));
+#else
+	VPlayLiveClient liveClient(&engine);
+#endif
 	
 	return app.exec();
 }

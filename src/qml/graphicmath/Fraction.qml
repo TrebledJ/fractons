@@ -6,19 +6,22 @@ import "../js/Fraction.js" as JFraction
 
 Column {
 	id: column
-	width: 50
-	spacing: 1
+	width: Math.max(numerator.width, vinculum.width, denominator.width)
+	
+	property alias font: numerator.font
 	
 	property var fraction: new JFraction.Fraction(1, 2)
 	
 	MathText {
 		id: numerator
-		width: parent.width
+		anchors.horizontalCenter: parent.horizontalCenter
+		
 		
 		text: fraction.n
 	}
 	
 	Rectangle {
+		id: vinculum
 		width: Math.max(numerator.contentWidth, denominator.contentWidth) + 10; height: 1
 		anchors.horizontalCenter: parent.horizontalCenter
 		
@@ -27,8 +30,9 @@ Column {
 	
 	MathText {
 		id: denominator
-		width: parent.width
+		anchors.horizontalCenter: parent.horizontalCenter
 		
 		text: fraction.d
+		font: numerator.font
 	}
 }

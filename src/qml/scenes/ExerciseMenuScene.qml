@@ -2,19 +2,15 @@
 
 import VPlay 2.0
 import QtQuick 2.11
+import QtQuick.Controls 2.2
 
 import "../common"
 
 SceneBase {
 	id: scene
 	
+	signal backButtonClicked()
 	signal modeClicked(string mode)
-	
-	Text {
-		text: "ExerciseMenuScene"
-		anchors.horizontalCenter: parent.horizontalCenter
-		opacity: 0.5
-	}
 	
 	ListModel {
 		id: modeModel
@@ -27,29 +23,26 @@ SceneBase {
 		ListElement { role_stars: 0; role_mode: "Word" }
 	}
 	
-	
-
 	ListView {
 		id: modeView
 		
-		anchors.fill: parent
-		anchors.margins: 20
+		anchors {
+			fill: parent
+			leftMargin: 30; rightMargin: 10
+		}
 		
-		contentHeight: 1
+		topMargin: 10
 		
 		spacing: 5
 		
 		headerPositioning: ListView.OverlayHeader
-		boundsMovement: Flickable.StopAtBounds
-		boundsBehavior: Flickable.DragOverBounds
+		
+		boundsBehavior: Flickable.StopAtBounds
 		
 		focus: true
 		model: modeModel
 		delegate: modeDelegate
 		header: headerDelegate
-		
-		topMargin: 10
-
 		
 		Component {
 			id: headerDelegate
@@ -82,8 +75,9 @@ SceneBase {
 			Row {
 				id: row
 				width: modeView.width; height: 25
-				
 				spacing: 20
+				
+				clip: true
 				
 				//	TODO use another Row to hold stars
 				//	displays stars (mastery)
@@ -92,23 +86,25 @@ SceneBase {
 					id: starsRect
 					width: 80; height: parent.height
 					
-					color: "transparent"
-					border.width: 1
-					border.color: "black"
+					color: "black"
+					opacity: 0.6
 				}
 				
 				//	displays mode name with button function
-				ButtonBase {
+				BubbleButton {
 					id: modeRect
 					
-					width: parent.width - parent.spacing - starsRect.width; height: parent.height
-					background.radius: 5
+					width: parent.width - parent.spacing - starsRect.width - 15; height: parent.height
+					
 					defaultColor: "yellow"
 					
+					background.radius: 5
 					background.border.width: 3
 					
 					text: "<b>" + role_mode + "</b> Mode"
 					textBase.horizontalAlignment: Text.AlignRight
+					textBase.anchors.rightMargin: 10
+					animateText: false
 					
 					onEntered: {
 						modeView.currentIndex = index;
@@ -127,44 +123,30 @@ SceneBase {
 					});
 				}
 				
-			}	//	Row
-			
+			}	//	Row: row
 		}	//	Component: modelDelegate
-		
-//		Component {
-//			id: highlightDelegate
-			
-//			Rectangle {
-//				id: hlight
-				
-//				x: 100
-//				y: modeView.currentItem.y; z: 2
-				
-//				width: modeView.width - 100; height: 25
-//				radius: 5
-				
-//				color: "transparent"
-				
-//				border.width: 3
-//				border.color: "navy"
-				
-//				//	force width to 100
-//				onWidthChanged: {
-//					if (width != modeView.width - 100)
-//						width = modeView.width - 100;
-//				}
-				
-//				Behavior on y {
-//					NumberAnimation {
-//						target: hlight
-//						property: 'y'
-//						duration: 150
-//						easing.type: Easing.InOutQuad
-//					}
-//				}
-//			}
-			
-//		}	//	Component: highlightDelegate
-		
 	}	//	ListView: modeView
+	
+	
+	BubbleButton {
+		id: backButton
+		width: 20
+		anchors {
+			left: scene.left
+			top: scene.top
+			bottom: scene.bottom
+		}
+		
+		text: backButton.mouseArea.pressed ? "◄" : "◁";
+		animateText: false
+		color: "yellow"
+		
+		
+		defaultDiagonal: 1.1
+		
+		enteredFrom: 1; // enteredTo: 1.2
+		pressedFrom: defaultDiagonal; pressedTo: 1.3
+		
+		onClicked: backButtonClicked();
+	}
 }

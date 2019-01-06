@@ -46,13 +46,14 @@ GameWindow {
 	HomeScene {
 		id: homeScene
 		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
-		onStudyButtonClicked: gameWindow.state = "studyMenu"
+//		onStudyButtonClicked: gameWindow.state = "studyMenu"
 		
 	}
 	
 	ExerciseMenuScene {
 		id: exerciseMenuScene
 		
+		onBackButtonClicked: gameWindow.state = "home"
 		onModeClicked: {
 			console.debug("Mode: '" + mode + "'");
 			gameWindow.state = "mode_" + String(mode).toLowerCase()
@@ -61,6 +62,8 @@ GameWindow {
 	
 	Modes.Standard {
 		id: modeStandardScene
+		
+		onBackButtonClicked: gameWindow.state = "exerciseMenu"
 		
 	}
 	
@@ -145,3 +148,186 @@ GameWindow {
 	}
 	*/
 }
+
+
+//import QtQuick 2.0
+//import QtQuick.Window 2.0
+//import QtQuick.Controls 2.0
+//import QtQuick.Controls 1.4
+
+//Window {
+//	Page {
+//		id: realtimeCalendarPage
+		
+//		property var dayCycleArr: ["Full Day", "Half Day (AM)", "Half Day (PM)"]
+//		property int currCycleIndex: 0
+		
+//		rightBarItem: NavigationBarItem {
+//		  contentWidth: saveButton.width
+//		  AppButton {
+//			  id: saveButton
+//			  text: "Save & Request"
+//						onClicked: {
+//				userData = ({"date": calendar.selectedDate, "name": userName + userSurname, "details": dayCycle.text});
+//				console.log(JSON.stringify(userData))
+//				addNewCalendarItem(userData);
+//			  }
+//		   }
+//		}
+		
+//		AppButton {
+//			id: dayCycle
+//			text:  dayCycleArr[currCycleIndex]
+//					onClicked: {
+//					 if(currCycleIndex ==  dayCycleArr.length - 1)
+//					   currCycleIndex = 0;                 
+//					 else
+//					   currCycleIndex++; 
+//				   }
+//		}
+		
+//		Flow {
+//			id: row
+//			anchors.fill: parent
+//			spacing: 10
+//			layoutDirection: "RightToLeft"
+//			Calendar {
+//				id: calendar
+//				width: (parent.width > parent.height ? parent.width * 0.6 - parent.spacing : parent.width)
+//				height: (parent.height > parent.width ? parent.height * 0.6 - parent.spacing : parent.height)
+//				selectedDate: new Date()
+//				weekNumbersVisible: true
+//				focus: true
+//				onSelectedDateChanged: {
+//					const day = selectedDate.getDate();
+//					const month = selectedDate.getMonth() + 1;
+//					const year = selectedDate.getFullYear();
+//				}
+		
+//			   style: CalendarStyle {
+//				   dayOfWeekDelegate: Item {
+//					   height: dp(30)
+//					   width: parent.width
+//					   Rectangle {
+//						   height: parent.height
+//						   width: parent.width
+//						   anchors.fill: parent
+//						   Label {
+//							   id: dayOfWeekDelegateText
+//							   text: Qt.locale().dayName(styleData.dayOfWeek, Locale.ShortFormat)
+//							   anchors.centerIn: parent
+//							   color: "black"
+//						   }
+//					   }
+//				   }
+//				   dayDelegate: Item {
+//					   id: container
+//					   readonly property color sameMonthDateTextColor: "#444"
+//					   readonly property color previousDateColor: "#444"
+//					   readonly property color selectedDateColor: "#20d5f0"
+//					   readonly property color selectedDateTextColor: "white"
+//					   readonly property color differentMonthDateTextColor: "#bbb"
+//					   readonly property color invalidDatecolor: "#dddddd"
+		
+//					   Rectangle {
+//						   id: calendarMarker
+//						   property bool isConfirmed: false
+//						   visible: arrayFromFireBase.indexOf(styleData.date.getTime()) > -1
+//						   anchors.fill: parent
+//						   anchors.margins: -1
+//						   color: calendarListModel.status ? "#4286f4" : "red"}
+		
+//					   Label {
+//						   id: dayDelegateText
+//						   text: styleData.date.getDate()
+//						   anchors.centerIn: parent
+//						   color:  {
+//							   var color = invalidDatecolor;
+//							   if (styleData.valid) {
+//								   color = styleData.visibleMonth ? sameMonthDateTextColor : differentMonthDateTextColor ;
+//								   if (styleData.selected) {
+//									   color = selectedDateTextColor;
+//								   }
+//							   }
+//							   color ;
+//							}
+//						}
+//					}
+//				}
+//			}
+//			Component {
+//				id: eventListHeader
+//				Row {
+//					id: eventDateRow
+//					width: parent.width
+//					height: eventDayLabel.height
+//					spacing: 10
+//					Label {
+//						id: eventDayLabel
+//						text: calendar.selectedDate.getDate()
+//						font.pointSize: 35
+//						color: "black"
+//					}
+//					Column {
+//						height: eventDayLabel.height
+//						Label {
+//							readonly property var options: { weekday: "long" }
+//							text: Qt.locale().standaloneDayName(calendar.selectedDate.getDay(), Locale.LongFormat)
+//							font.pointSize: 18
+//							color: "black"
+//						}
+//						Label {
+//							text: Qt.locale().standaloneMonthName(calendar.selectedDate.getMonth())
+//								  + calendar.selectedDate.toLocaleDateString(Qt.locale(), " yyyy")
+//							font.pointSize: 12
+//							color: "black"
+//						}
+//					}
+//				}
+//			}
+//			Rectangle {
+//				width: (parent.width > parent.height ? parent.width * 0.4 - parent.spacing : parent.width)
+//				height: (parent.height > parent.width ? parent.height * 0.4 - parent.spacing : parent.height)
+//				ListView {
+//					id:eventListView
+//					spacing: 4
+//					clip: true
+//					anchors.fill: parent
+//					anchors.margins: 10
+//					model: calendarListModel
+//					delegate: Rectangle {
+//						width: eventListView.width
+//						height: eventItemColumn.height
+//						anchors.horizontalCenter: parent.horizontalCenter
+//						Rectangle {
+//							width: parent.width
+//							height: 1
+//							color: "#eee"
+//						Column {
+//							id: eventItemColumn
+//							anchors.left: parent.left
+//							anchors.leftMargin: 20
+//							anchors.right: parent.right
+//							height: timeLabel.height + nameLabel.height + 8
+//							Label {
+//								id: nameLabel
+//								width: parent.width
+//								wrapMode: Text.Wrap
+//								text: modelData.name
+//								color: "black"
+//							}
+//							Label {
+//								id: timeLabel
+//								width: parent.width
+//								wrapMode: Text.Wrap
+//								text: modelData.details
+//								color: "#aaa"
+//							  }
+//						   }
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//}
