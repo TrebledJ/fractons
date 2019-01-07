@@ -1,6 +1,7 @@
 import VPlay 2.0
 import QtQuick 2.0
 
+import "../backdrops"
 import "../../common"
 import "../../graphicmath/" as GMath
 
@@ -12,78 +13,20 @@ import "../../js/Math.js" as JMath
 ModesBase {
 	id: modesBase
 	
-	property int difficulty: medium
+//	property int difficulty: easy
 	property int operation: addition
+	readonly property int addition: 0
+	readonly property int subtraction: 1
+	readonly property int multiplication: 2
+	readonly property int division: 3
 	
+	difficulties: ["Easy", "Medium", "Hard"]
 	readonly property int easy: 0
 	readonly property int medium: 1
 	readonly property int hard: 2
 	
-	readonly property int addition: 0
-	readonly property int subtraction: 1
-	readonly property int multiplication: 2
-	readonly property int division: 2
-	
-//	drawingArea.ignoreTextFields: true	//	doesn't work, weird
 	Component.onCompleted: {
-		drawingArea.ignoreTextFields = true;
-		
 		generateRandomQuestion();
-	}
-	
-	Connections {
-		target: goButton
-		
-		onClicked: {
-			var text = answerField.text;
-			
-			if (text.length === 0)
-			{
-//				acceptInput();
-				showInputError("Expected input.")
-				return;
-			}
-			
-			var errCode = JFraction.isParsibleWithError(text);
-			if (errCode)
-			{
-				showInputError(JFraction.ParsingError[errCode]);
-				return;
-			}
-
-				
-			var fraction = JFraction.parse(text);
-			var correct = checkAnswer(fraction);
-			if (correct)
-			{
-				//	TODO update where combo and xp are stored
-				addCombo();
-				addXp(1);
-			}
-			else
-			{
-				resetCombo();
-			}
-			
-			clearInput();
-			generateRandomQuestion();
-			
-		}
-	}
-	
-	
-	Connections {
-		target: modesBase.answerField
-		
-		onTextChanged: {
-			var text = modesBase.answerField.text;
-			var errCode = JFraction.isParsibleWithError(text);
-			modesBase.hasInputError = (errCode !== 0);
-		}
-
-		onEditingFinished: {
-//			console.debug("Editing finished:", modesBase.answerField.text);
-		}
 	}
 	
 	QtObject {
@@ -133,13 +76,110 @@ ModesBase {
 	GMath.Equation {
 		id: equation
 		anchors.centerIn: drawingArea
+//		anchors.left: drawingArea.left
+//		anchors.leftMargin: 15
+//		anchors.verticalCenter: drawingArea.verticalCenter
 		
 		equation: equationComponents.join();
 	}
-
+	
+//	BubbleButton {
+//		id: difficultyButton
+//		width: textBase.contentWidth + 10; height: 30
+		
+//		anchors {
+//			top: modesBase.top
+//			left: drawingArea.left
+//			margins: 10
+//		}
+		
+//		text: {
+//			if (difficulty === easy)
+//				return "Difficulty: Easy";
+//			if (difficulty === medium)
+//				return "Difficulty: Medium";
+//			if (difficulty === hard)
+//				return "Difficulty: Hard";
+//			return "?";
+//		}
+//		animateText: false
+//		color: "yellow"
+		
+//		onClicked: {
+//			difficulty = (difficulty + 1) % (Math.max(easy, medium, hard) + 1);
+//			generateRandomQuestion();
+//		}
+//	}
+	
+	onDifficultyChanged: /*params: {int index, string difficulty} */ {
+		generateRandomQuestion();
+	}
+	
+	Connections {
+		target: goButton
+		
+		onClicked: {
+			var text = answerField.text;
+			
+			if (text.length === 0)
+			{
+				showInputError("Expected input.")
+				return;
+			}
+			
+			var errCode = JFraction.isParsibleWithError(text);
+			if (errCode)
+			{
+				showInputError(JFraction.ParsingError[errCode]);
+				return;
+			}
+			
+			acceptInput();
+			
+			var fraction = JFraction.parse(text);
+			var correct = checkAnswer(fraction);
+			if (correct)
+			{
+				//	TODO update where combo and xp are stored
+				addCombo();
+				
+				addXp(difficultyIndex === hard ? 5 :
+					  difficultyIndex === medium ? 3 :
+												   1);
+			}
+			else
+			{
+				resetCombo();
+			}
+			
+			clearInput();
+			generateRandomQuestion();
+		}
+	}
+	
+	
+	Connections {
+		target: modesBase.answerField
+		
+		onTextChanged: {
+			var text = modesBase.answerField.text;
+			var errCode = JFraction.isParsibleWithError(text);
+			modesBase.hasInputError = (errCode !== 0);
+		}
+	}
+	
 	//	receives an answer input as a fraction and checks the values
 	function checkAnswer(ans) {
-		var rhs = (equationComponents.rhsFraction.d !== '?' ? equationComponents.reparseRhs(ans.n) : ans);
+		//	numerator always an argument, if only one ?, but ans has two params
+		
+		if (equationComponents.rhsFraction.d !== '?')
+		{
+			if (!ans.isInteger())
+				return false;
+		}
+		
+		
+		var rhs = (equationComponents.rhsFraction.d !== '?' ? equationComponents.reparseRhs(ans.toInteger()) : ans);
 		
 		var lhs = (operation === addition ? equationComponents.lhsFractionA.add(equationComponents.lhsFractionB) :
 					operation === subtraction ? equationComponents.lhsFractionA.sub(equationComponents.lhsFractionB) : 
@@ -160,7 +200,7 @@ ModesBase {
 		n1 = n2 = d = d1 = d2 = 0;
 		
 		//	generate fraction components
-		if (difficulty === easy)
+		if (difficultyIndex === easy)
 		{
 			//	easy difficulty:
 			//	 + proper fractions only
@@ -188,10 +228,10 @@ ModesBase {
 			equationComponents.lhsFractionB = new JFraction.Fraction(n2, d);
 			equationComponents.rhsFraction = new JFraction.Fraction('?', d);
 		}
-		else if (difficulty === medium)
+		else if (difficultyIndex === medium)
 		{
 			//	medium difficulty:
-			//	 + proper fractions only
+			//	 + proper and improper fractions
 			//	 + both like and unlike denominators
 			//	 + only multiplication and division
 			//	 + both numerator and denominator answer
@@ -223,7 +263,7 @@ ModesBase {
 			equationComponents.lhsFractionB = new JFraction.Fraction(n2, d2);
 			equationComponents.rhsFraction = new JFraction.Fraction('?', '?');
 		}
-		else if (difficulty === hard)
+		else if (difficultyIndex === hard)
 		{
 			//	hard difficulty:
 			//	 + both proper and improper fractions
@@ -241,22 +281,39 @@ ModesBase {
 			{
 				n1 = JMath.randI(1, d1 - 2);
 				
+				//	this is an inequality formula for generating proper fractions
 				//		1			<   n1*d2 + n2*d1	<	d1*d2
 				//	  1 - n1*d2		<	n2*d1			< d1*d2 - n1*d2
 				//	(1 - n1*d2)/d1	<	n2				< (d1 - n1)*d2/d1
 				//		0			<	n2				<	(d1 - n1)*d2/d1
-				n2 = JMath.randI(0, Math.floor(d2 - d2*n1/d1));
+				//	n2 = JMath.randI(0, Math.floor(d2 - d2*n1/d1));
+				
+				n2 = JMath.randI(1, d2);
 			}
 			else if (operation === subtraction)
 			{
 				n1 = JMath.randI(1, d1);
 				
+				//	this is an inequality formula for generating proper fractions
 				//		1			<   n1*d2 - n2*d1	<	d1*d2
 				//	  1 - n1*d2		<	-n2*d1			< d1*d2 - n1*d2
 				//	(n1*d2 - 1)/d1	>	n2				> (n1 - d1)*d2/d1
 				//	(n1*d2 - 1)/d1	>	n2				> 0
 				n2 = JMath.randI(0, Math.floor(d2*n1/d1 - 1/d1));
+				
+//				n2 = JMath.randI(1, d2);	//	dangerous: we don't want negatives
 			}
+			else if (operation === multiplication)
+			{
+				n1 = JMath.randI(1, d1);
+				n2 = JMath.randI(1, d2);
+			}
+			else if (operation === division)
+			{
+				n1 = JMath.randI(1, d1);
+				n2 = JMath.randI(1, d2);
+			}
+			
 			
 			equationComponents.lhsFractionA = new JFraction.Fraction(n1, d1);
 			equationComponents.lhsFractionB = new JFraction.Fraction(n2, d2);

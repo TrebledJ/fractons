@@ -11,6 +11,7 @@ TextBase {
 	horizontalAlignment: Text.AlignHCenter
 	
 	font.family: "Cambria Math"
+//	font.family: cambriaMath.name
 	font.pixelSize: 24
 	
 	//	smart parse: replace ascii symbols with math symbols
@@ -32,4 +33,6 @@ TextBase {
 	function setText(t) {
 		text = t;
 	}
+	
+//	FontLoader { id: cambriaMath; source: "qrc:/assets/CambriaMath.ttf" }
 }

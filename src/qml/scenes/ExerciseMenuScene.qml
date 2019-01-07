@@ -4,6 +4,7 @@ import VPlay 2.0
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
+import "backdrops"
 import "../common"
 
 SceneBase {
@@ -32,6 +33,9 @@ SceneBase {
 		}
 		
 		topMargin: 10
+		bottomMargin: 10
+		leftMargin: 10
+		rightMargin: 10
 		
 		spacing: 5
 		
@@ -49,7 +53,7 @@ SceneBase {
 			
 			Item {
 				z: 3
-				width: modeView.width; height: 40
+				width: modeView.width - 10; height: 40
 				
 				Rectangle {
 					anchors.fill: parent
@@ -74,7 +78,7 @@ SceneBase {
 			//	a row for each list element
 			Row {
 				id: row
-				width: modeView.width; height: 25
+				width: modeView.width; height: 40
 				spacing: 20
 				
 				clip: true
@@ -130,7 +134,7 @@ SceneBase {
 	
 	BubbleButton {
 		id: backButton
-		width: 20
+		width: 30
 		anchors {
 			left: scene.left
 			top: scene.top

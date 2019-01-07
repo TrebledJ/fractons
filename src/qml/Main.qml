@@ -5,6 +5,8 @@ import "common"
 import "scenes"
 import "scenes/modes" as Modes
 
+//	TODO create an accounts feature that will let users switch accounts (locally, of course)
+
 GameWindow {
 	id: gameWindow
 	
@@ -22,8 +24,8 @@ GameWindow {
 	screenWidth: 960
 	screenHeight: 640
 	
-//	state: "exerciseMenu"
-	state: "mode_standard"
+	state: "exerciseMenu"
+//	state: "mode_standard"
 	states: [
 		State {
 			name: "home"
@@ -39,8 +41,12 @@ GameWindow {
 			name: "mode_standard"
 			PropertyChanges { target: modeStandardScene; opacity: 1 }
 			PropertyChanges { target: gameWindow; activeScene: modeStandardScene }
+		},
+		State {
+			name: "mode_bar"
+			PropertyChanges { target: modeBarScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: modeBarScene }
 		}
-
 	]
 	
 	HomeScene {
@@ -65,6 +71,12 @@ GameWindow {
 		
 		onBackButtonClicked: gameWindow.state = "exerciseMenu"
 		
+	}
+	
+	Modes.Bar {
+		id: modeBarScene
+		
+		onBackButtonClicked: gameWindow.state = "exerciseMenu"
 	}
 	
 	/*

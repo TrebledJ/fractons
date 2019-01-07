@@ -2,14 +2,16 @@ import VPlay 2.0
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 
-import "../game"
+import "../../common"
+import "../../game"
 
-import "../js/Math.js" as JMath
+import "../../js/Math.js" as JMath
 
 SceneBase {
 	id: scene
 	
 	signal backButtonClicked
+	signal difficultyChanged(int index, string difficulty)
 	
 	property alias panel: panel
 	property alias goButton: goButton
@@ -17,6 +19,12 @@ SceneBase {
 	
 	property alias drawingArea: drawingArea
 	
+	property alias numberPadVisible: numberPadSwitch.checked
+	
+	
+	property var difficulties: []
+	property int difficultyIndex: 0
+
 	property bool hasInputError: false
 	property string errorMessage
 	
@@ -36,12 +44,43 @@ SceneBase {
 //		{
 //			console.debug("XP", i * 10, "has level", JStorage.level(i*10));
 //		}
+		
+		console.warn("Current platform:", Qt.platform.os);
+		//	see: http://doc.qt.io/qt-5/qml-qtqml-qt.html#platform-prop
+		//	available enums: 
+		//	 + android
+		//	 + ios
+		//	 + tvos
+		//	 + linux
+		//	 + osx
+		//	 + qnx
+		//	 + unix
+		//	 + windows
+		//	 + winrt
+		
+		//	check if platform is mobile
+//		var mob = ["android", "ios", "tvos"];
+		var isMobile = "android,ios,tvos".includes(Qt.platform.os);
+		if (isMobile)
+		{
+			errorField.height = 30;
+			errorField.font.pixelSize = 12;
+			
+			answerField.height = 30;
+			answerField.font.pixelSize = 18;
+		}
+		else	//	non-mobile
+		{
+			numberPadVisible = false;	//	computers default to no numpad
+			
+			answerField.onEditingFinished.connect(function(){ goButton.clicked(); });
+		}
 	}
 	
-	MouseArea {
-		anchors.fill: parent
+//	MouseArea {
+//		anchors.fill: parent
 		
-	}
+//	}
 	
 	Rectangle {
 		id: panel
@@ -62,7 +101,7 @@ SceneBase {
 			
 			//	this is the row of buttons at the top of the panel
 			Row {
-				width: parent.width; height: 20
+				width: parent.width; height: 30
 				spacing: 10
 				
 				BubbleButton {
@@ -86,8 +125,26 @@ SceneBase {
 				}
 			}
 			
+			BubbleButton {
+				id: difficultyButton
+				width: parent.width; height: 30
+				background.radius: 5
+				
+				text: difficulties.length === 0 ? "" : difficulties[difficultyIndex]
+				color: "yellow"
+				
+				visible: difficulties.length !== 0
+				
+				onClicked: {
+					difficultyIndex++;
+					if (difficultyIndex >= difficulties.length)
+						difficultyIndex = 0;
+				}
+			}
+			
 			Row {
 				width: parent.width; height: parent.height - parent.spacing - backButton.height
+													-(difficultyButton.visible ? parent.spacing + difficultyButton.height : 0)
 				spacing: 10
 				
 				//	this will display the xp
@@ -131,7 +188,7 @@ SceneBase {
 					
 					BubbleButton {
 						id: goButton
-						width: parent.width; height: 20
+						width: parent.width; height: 30
 						background.radius: 5
 						
 						text: "Go"
@@ -160,13 +217,15 @@ SceneBase {
 		}	//	Column: panelColumn
 	}	//	Rectangle: panel
 	
-	//	this column holds text fields, anchored to the bottom of the scene
+	//	this column holds text fields, anchored to the bottom of the scene (for non-mobile/tvos platforms only)
 	Column {
 		id: textFieldColumn
 		
 		anchors.left: panel.right
 		anchors.right: scene.right
 		anchors.bottom: scene.bottom
+		
+		//	TODO make some animation for the error field so that it will slide above the answerField
 		
 		//	this will popup above the answerField below when there is an error message
 		TextField {
@@ -199,9 +258,9 @@ SceneBase {
 			font.pointSize: 8
 			font.family: "Trebuchet MS"
 			
-			onEditingFinished: {
-				goButton.clicked()
-			}
+			//	onEditingFinished: goButton.clicked()	//	done now in scene::Component.onCompleted
+			
+			//	onTextChanged: console.debug("Text changed.", text);
 			
 			background: Rectangle {
 				anchors.fill: parent
@@ -221,6 +280,54 @@ SceneBase {
 		}
 	}
 	
+	BubbleButton {
+		id: numberPadSwitch
+		width: height; height: 30
+		anchors {
+			top: drawingArea.top
+			right: drawingArea.right
+			margins: 10
+		}
+
+		color: "navy"
+		text: "C"
+		textBase.color: "yellow"
+		
+		checked: true
+		isCheckButton: true
+		
+		onClicked: {
+//			numberPad.visible = !numberPad.visible;
+			if (numberPad.visible)
+				numberPad.animate();
+		}
+	}
+	
+	NumberPad {
+		id: numberPad
+		height: 150
+		anchors {
+			left: drawingArea.left
+			right: drawingArea.right
+			bottom: textFieldColumn.top
+			margins: 5
+		}
+		
+		visible: numberPadVisible
+		
+		onKeyPressed: /*params: {string key}*/ {
+			if (key === 'back')
+			{
+				if (answerField.text.length > 0)
+					answerField.text = answerField.text.substring(0, answerField.text.length - 1);
+				
+				return;
+			}
+			
+			answerField.text += key;
+		}
+	}
+	
 	//	this will be referenced in child scenes for appropriate drawing points
 	Rectangle {
 		id: drawingArea
@@ -228,10 +335,10 @@ SceneBase {
 			left: panel.right
 			right: scene.right
 			top: scene.top
-			bottom: ignoreTextFields ? scene.bottom : textFieldColumn.top
+			bottom: ignoreItems ? scene.bottom : (numberPad.visible ? numberPad.top : textFieldColumn.top)
 		}
 		
-		property bool ignoreTextFields: false
+		property bool ignoreItems: false
 		
 		color: "transparent"
 	}
@@ -240,8 +347,12 @@ SceneBase {
 	QtObject {
 		id: priv
 		
-		property var eventTextComponent: Qt.createComponent("../common/TextAnimation.qml")
+		property var eventTextComponent: Qt.createComponent("../../common/TextAnimation.qml")
 		property int eventCounter: 0
+	}
+	
+	onDifficultyIndexChanged: {
+		modesBase.difficultyChanged(difficultyIndex, difficulties[difficultyIndex]);
 	}
 	
 	//	this function will create animated text floating upwards across the eventSpace

@@ -3,6 +3,7 @@
 import VPlay 2.0
 import QtQuick 2.0
 
+import "backdrops"
 import "../common"
 
 SceneBase {
@@ -44,6 +45,25 @@ SceneBase {
 		
 //		onEntered: console.debug("Radius:", radius)
 		onClicked: studyButtonClicked()
+	}
+	
+	BubbleButton {
+		id: exitButton
+		
+		width: height; height: 30
+		
+		anchors {
+			top: scene.top
+			left: scene.left
+			margins: 10
+		}
+		
+		text: "X"
+		color: "yellow"
+		
+		onClicked: {
+			Qt.quit();
+		}
 	}
 	
 	//	useful for pinpointing coordinates

@@ -70,8 +70,26 @@ function Fraction(n, d) {
 		return new Fraction(Number(this.n), Number(this.d));
 	}
 	
+	this.isInteger = function() {
+		if (!this.isValid())
+			return false;
+		
+		if (this.n === 0)
+			return true;
+		
+		return this.n % this.d === 0;
+	}
+	
+	//	if not divisible, return floor to guarantee integer
+	this.toInteger = function() {
+		if (this.isInteger())
+			return this.n / this.d;
+		
+		return Math.floor(this.n / this.d);
+	}
+	
 	this.isValid = function() {
-		return this.d != 0 && isNaN(this.n) && isNaN(this.d);
+		return this.d != 0 && !isNaN(this.n) && !isNaN(this.d);
 	}
 	
 	this.copy = function() {

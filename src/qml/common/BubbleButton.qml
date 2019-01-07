@@ -55,6 +55,10 @@ Item {
 	
 	property real defaultDiagonal: 1
 	
+	property bool checked: false
+	property bool isCheckButton: false
+	state: checked ? "on" : "off"
+	
 	//	private variables
 	QtObject {
 		id: priv
@@ -64,13 +68,15 @@ Item {
 	// button background
 	Rectangle {
 		id: background
-		color: mouseArea.containsMouse ? hoverColor : defaultColor
-//		anchors.fill: parent
-		
+
 		x: -((diagonalScalar - 1) * parent.width / 2)
 		y: -((diagonalScalar - 1) * parent.height / 2)
 		width: parent.width * diagonalScalar
 		height: parent.height * diagonalScalar
+		radius: 5
+		
+		color: mouseArea.containsMouse ? hoverColor : defaultColor
+		opacity: isCheckButton ? checked ? 1 : 0.5 : parent.opacity
 	}
 	
 	// button text
@@ -125,6 +131,9 @@ Item {
 	}
 	
 	onReleased: {
+		if (isCheckButton)
+			checked = !checked;
+		
 		animateExitPress();
 	}
 	
@@ -173,4 +182,5 @@ Item {
 		
 		animateScalar(releasedFrom, releasedTo);	//	animate normally
 	}
+	
 }
