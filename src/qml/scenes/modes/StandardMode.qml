@@ -3,7 +3,7 @@ import QtQuick 2.0
 
 import "../backdrops"
 import "../../common"
-import "../../graphicmath/" as GMath
+import "../../graphicmath/"
 
 import "../../js/Fraction.js" as JFraction
 import "../../js/Math.js" as JMath
@@ -13,7 +13,6 @@ import "../../js/Math.js" as JMath
 ModesBase {
 	id: modesBase
 	
-//	property int difficulty: easy
 	property int operation: addition
 	readonly property int addition: 0
 	readonly property int subtraction: 1
@@ -51,116 +50,65 @@ ModesBase {
 		
 		property var rhsFraction: new JFraction.Fraction('?')
 		
+		//	normal join
 		function join() {
-			return lhsFractionA + ' ' + op + ' ' + lhsFractionB + ' = ' + rhsFraction
+			return lhsFractionA + ' ' + op + ' ' + lhsFractionB + ' = ' + rhsFraction;
 		}
 		
-		//	substitutes arguments in place of question marks
-		function reparseRhs(args) {
-			var counter = 0;
-			var frac_s = rhsFraction.toString();
+		//	substitutes arguments in place of question marks, no error checking is done
+		//	input: JFraction.Fraction.string
+		//	return: JFraction.Fraction
+		function reparseRhs(input) {
 			
-			while (frac_s.indexOf('?') !== -1)
-			{
-				var i = frac_s.indexOf('?');
-				frac_s = frac_s.substring(0, i) + arguments[counter] + frac_s.substring(i + 1);
-				
-				counter++;
-			}
+			//	parse input as fraction
+			var frac = JFraction.parse(input);
 			
-			return JFraction.parse(frac_s);
+			//	in medium/hard mode, both numerator and denominator are ?
+			//	so we just return the entire fraction input
+			if (difficultyIndex !== easy)
+				return frac;
+			
+			//	fractional inputs should be rejected since there is only one "?" 
+			var token = (frac.isInteger() ? frac.toInteger() : "??");
+			
+			//	convert rhs fraction to a string so that we can find & replace "?"
+			var rhsFrac_s = rhsFraction.toString();
+			
+			//	find "?" and...
+			var i = rhsFrac_s.indexOf('?');
+			
+			//	...	replace
+			rhsFrac_s = rhsFrac_s.substring(0, i) + token + rhsFrac_s.substring(i + 1);
+			
+			//	return as fraction
+			return JFraction.parse(rhsFrac_s);
+		}
+		
+		//	joins with input in rhs
+		function dynamicJoin() {
+			return lhsFractionA + ' ' + op + ' ' + lhsFractionB + ' = ' + reparseRhs(answerField.text);
 		}
 	}
 	
 	//	displays the equation as text
-	GMath.Equation {
+	Equation {
 		id: equation
 		anchors.centerIn: drawingArea
-//		anchors.left: drawingArea.left
-//		anchors.leftMargin: 15
-//		anchors.verticalCenter: drawingArea.verticalCenter
-		
-		equation: equationComponents.join();
+		equation: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 	}
-	
-//	BubbleButton {
-//		id: difficultyButton
-//		width: textBase.contentWidth + 10; height: 30
-		
-//		anchors {
-//			top: modesBase.top
-//			left: drawingArea.left
-//			margins: 10
-//		}
-		
-//		text: {
-//			if (difficulty === easy)
-//				return "Difficulty: Easy";
-//			if (difficulty === medium)
-//				return "Difficulty: Medium";
-//			if (difficulty === hard)
-//				return "Difficulty: Hard";
-//			return "?";
-//		}
-//		animateText: false
-//		color: "yellow"
-		
-//		onClicked: {
-//			difficulty = (difficulty + 1) % (Math.max(easy, medium, hard) + 1);
-//			generateRandomQuestion();
-//		}
-//	}
 	
 	onDifficultyChanged: /*params: {int index, string difficulty} */ {
 		generateRandomQuestion();
 	}
 	
-	Connections {
-		target: goButton
-		
-		onClicked: {
-			var text = answerField.text;
-			
-			if (text.length === 0)
-			{
-				showInputError("Expected input.")
-				return;
-			}
-			
-			var errCode = JFraction.isParsibleWithError(text);
-			if (errCode)
-			{
-				showInputError(JFraction.ParsingError[errCode]);
-				return;
-			}
-			
-			acceptInput();
-			
-			var fraction = JFraction.parse(text);
-			var correct = checkAnswer(fraction);
-			if (correct)
-			{
-				//	TODO update where combo and xp are stored
-				addCombo();
-				
-				addXp(difficultyIndex === hard ? 5 :
-					  difficultyIndex === medium ? 3 :
-												   1);
-			}
-			else
-			{
-				resetCombo();
-			}
-			
-			clearInput();
-			generateRandomQuestion();
-		}
+	onGoButtonClicked: {
+		handleInput();
 	}
-	
 	
 	Connections {
 		target: modesBase.answerField
 		
+		//	this will update the errCode which will update the background if the answer is invalid
 		onTextChanged: {
 			var text = modesBase.answerField.text;
 			var errCode = JFraction.isParsibleWithError(text);
@@ -168,18 +116,48 @@ ModesBase {
 		}
 	}
 	
-	//	receives an answer input as a fraction and checks the values
-	function checkAnswer(ans) {
-		//	numerator always an argument, if only one ?, but ans has two params
+	//	handles accepting/rejecting input
+	function handleInput() {
+		var text = answerField.text;
 		
-		if (equationComponents.rhsFraction.d !== '?')
+		if (text.length === 0)
 		{
-			if (!ans.isInteger())
-				return false;
+			rejectInput("Expected input.")
+			return;
 		}
 		
+		var errCode = JFraction.isParsibleWithError(text);
+		if (errCode)
+		{
+			rejectInput(JFraction.ParsingError[errCode]);
+			return;
+		}
 		
-		var rhs = (equationComponents.rhsFraction.d !== '?' ? equationComponents.reparseRhs(ans.toInteger()) : ans);
+		acceptInput();
+		
+		var fraction = JFraction.parse(text);
+		var isCorrect = checkAnswer(fraction);
+		if (isCorrect)
+		{
+			addCombo();
+			
+			addXp(difficultyIndex === hard ? 5 : difficultyIndex === medium ? 3 : 1);
+		}
+		else
+		{
+			resetCombo();
+		}
+		
+		clearInput();
+		generateRandomQuestion();
+	}
+	
+	//	receives an answer input as a fraction and checks the values
+	//	ans: JFraction.Fraction
+	function checkAnswer(ans) {
+		
+		//	parse the rhs as a JFraction
+		var rhs = equationComponents.reparseRhs(ans.toString());
 		
 		var lhs = (operation === addition ? equationComponents.lhsFractionA.add(equationComponents.lhsFractionB) :
 					operation === subtraction ? equationComponents.lhsFractionA.sub(equationComponents.lhsFractionB) : 
@@ -190,6 +168,7 @@ ModesBase {
 		var res = lhs.equals(rhs.toNumericFraction());
 		console.debug("Question:", equationComponents.join());
 		console.debug("Answer:", "'" + lhs + "'", "(or", lhs.simplified(), ")", "versus", "'" + rhs + "'", ':', res);
+		
 		return res;
 	}
 	

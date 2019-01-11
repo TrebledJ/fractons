@@ -11,4 +11,5 @@ ModesBase {
 	Component.onCompleted: {
 //		modesBase.textFieldColumn.visible = false;
 	}
+	
 }

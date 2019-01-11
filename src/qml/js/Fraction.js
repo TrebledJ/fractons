@@ -2,6 +2,41 @@
 
 Qt.include("Math.js");
 
+/**
+Documentation
+
+Class: Fraction
+
+Members Variables:
+  n : int
+  d : int
+  
+Methods:
+  Fraction		simplified()
+  bool			isSimplified()
+  bool			equals(other: Fraction)
+  Fraction		add(other: Fraction)
+  Fraction		sub(other: Fraction)
+  Fraction		mul(other: Fraction)
+  Fraction		div(other: Fraction)
+  Fraction		toNumericFraction()
+  bool			isInteger()
+  int			toInteger()
+  bool			isValid()
+  Fraction		copy()
+  string		toString()
+
+Static Non-Class Methods:
+  bool			isParsible(input: string)
+  int			isParsibleWithError(input: string)
+  Fraction		parse(input: string)
+
+Enum Object:
+  ParsingError: int -> string { 0..4 }
+  
+**/
+
+
 function Fraction(n, d) {
 	this.n = (n !== undefined ? n : 0);
 	this.d = (d !== undefined && d !== 0 ? d : 1);
@@ -19,13 +54,16 @@ function Fraction(n, d) {
 	}
 	
 	this.equals = function(other) {
+		if (!this.isValid() || !other.isValid())
+			return false;
+		
 		if (this.n === 0 && other.n === 0)
 			return true;
 		
 		if (this.n === other.n && this.d === other.d)
 			return true;
 		
-		if (this.isSimplified())
+		if (this.isSimplified() && other.isSimplified())
 			return false;
 		
 		return this.simplified().equals(other.simplified());

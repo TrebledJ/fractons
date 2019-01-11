@@ -47,24 +47,6 @@ SceneBase {
 		onClicked: studyButtonClicked()
 	}
 	
-	BubbleButton {
-		id: exitButton
-		
-		width: height; height: 30
-		
-		anchors {
-			top: scene.top
-			left: scene.left
-			margins: 10
-		}
-		
-		text: "X"
-		color: "yellow"
-		
-		onClicked: {
-			Qt.quit();
-		}
-	}
 	
 	//	useful for pinpointing coordinates
 //	MouseArea {

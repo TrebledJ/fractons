@@ -35,6 +35,9 @@ function randI(low, high) {
 		low = 0;
 	}
 	
+	if (low > high)
+		return randI(high, low);
+	
 	low = Math.floor(low);
 	high = Math.ceil(high);
 	

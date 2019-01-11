@@ -42,10 +42,15 @@ GameWindow {
 			PropertyChanges { target: modeStandardScene; opacity: 1 }
 			PropertyChanges { target: gameWindow; activeScene: modeStandardScene }
 		},
+//		State {
+//			name: "mode_bar"
+//			PropertyChanges { target: modeBarScene; opacity: 1 }
+//			PropertyChanges { target: gameWindow; activeScene: modeBarScene }
+//		},
 		State {
-			name: "mode_bar"
-			PropertyChanges { target: modeBarScene; opacity: 1 }
-			PropertyChanges { target: gameWindow; activeScene: modeBarScene }
+			name: "mode_balance"
+			PropertyChanges { target: modeBalanceScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: modeBalanceScene }
 		}
 	]
 	
@@ -53,12 +58,10 @@ GameWindow {
 		id: homeScene
 		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
 //		onStudyButtonClicked: gameWindow.state = "studyMenu"
-		
 	}
 	
 	ExerciseMenuScene {
 		id: exerciseMenuScene
-		
 		onBackButtonClicked: gameWindow.state = "home"
 		onModeClicked: {
 			console.debug("Mode: '" + mode + "'");
@@ -66,16 +69,18 @@ GameWindow {
 		}
 	}
 	
-	Modes.Standard {
+	Modes.StandardMode {
 		id: modeStandardScene
-		
 		onBackButtonClicked: gameWindow.state = "exerciseMenu"
-		
 	}
 	
-	Modes.Bar {
-		id: modeBarScene
-		
+//	Modes.BarMode {
+//		id: modeBarScene
+//		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+//	}
+	
+	Modes.BalanceMode {
+		id: modeBalanceScene
 		onBackButtonClicked: gameWindow.state = "exerciseMenu"
 	}
 	

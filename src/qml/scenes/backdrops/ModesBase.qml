@@ -11,6 +11,7 @@ SceneBase {
 	id: scene
 	
 	signal backButtonClicked
+	signal goButtonClicked
 	signal difficultyChanged(int index, string difficulty)
 	
 	property alias panel: panel
@@ -136,9 +137,7 @@ SceneBase {
 				visible: difficulties.length !== 0
 				
 				onClicked: {
-					difficultyIndex++;
-					if (difficultyIndex >= difficulties.length)
-						difficultyIndex = 0;
+					difficultyIndex = (difficultyIndex + 1) % difficulties.length;
 				}
 			}
 			
@@ -196,6 +195,7 @@ SceneBase {
 						
 						onClicked: {
 							animateScalar(pressedFrom, pressedTo);
+							scene.goButtonClicked();
 						}
 					}
 					
@@ -452,7 +452,7 @@ SceneBase {
 	}
 	
 	//	this will modify properties such that there IS a state of error present
-	function showInputError(msg) {
+	function rejectInput(msg) {
 		errorMessage = msg;
 		hasInputError = true;
 	}

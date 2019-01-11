@@ -15,13 +15,15 @@ SceneBase {
 	
 	ListModel {
 		id: modeModel
-		ListElement { role_stars: 0; role_mode: "Standard" }
-		ListElement { role_stars: 0; role_mode: "Bar" }
-		ListElement { role_stars: 0; role_mode: "Match" }
-		ListElement { role_stars: 0; role_mode: "Conversion" }
-		ListElement { role_stars: 0; role_mode: "Truth" }
-		ListElement { role_stars: 0; role_mode: "Rush" }
-		ListElement { role_stars: 0; role_mode: "Word" }
+		ListElement { role_stars: 0; role_mode: "Standard" }	//	Standard equation solving, given two fractions on the lhs and an operation
+//		ListElement { role_stars: 0; role_mode: "Bar" }
+		ListElement { role_stars: 0; role_mode: "Balance" }		//	balance or simplify a given fraction
+		ListElement { role_stars: 0; role_mode: "Conversion" }	//	convert between decimals and fractions
+		ListElement { role_stars: 0; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
+		ListElement { role_stars: 0; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
+		
+		ListElement { role_stars: 0; role_mode: "Fill" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
+		ListElement { role_stars: 0; role_mode: "Rush" }		//	timed ... what exercise?
 	}
 	
 	ListView {
