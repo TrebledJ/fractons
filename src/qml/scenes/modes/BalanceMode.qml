@@ -12,13 +12,13 @@ import "../../js/Math.js" as JMath
 ModesBase {
 	id: modesBase
 	
-	difficulties: ["Easy", "Hard"]
-	readonly property int easy: 0
-	readonly property int hard: 1
+//	difficulties: ["Easy", "Hard"]
+//	difficulties: ["Easy"]
+//	readonly property int easy: 0
+//	readonly property int hard: 1
 	
-	Component.onCompleted: {
-		generateRandomQuestion();
-	}
+	xpAmount: 1
+	
 	
 	QtObject {
 		id: equationComponents
@@ -64,52 +64,39 @@ ModesBase {
 	Equation {
 		id: equation
 		anchors.centerIn: drawingArea
-		equation: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
+		text: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 	}
 	
-	onDifficultyIndexChanged: generateRandomQuestion();
-	onGoButtonClicked: handleInput();
+	function hasParsingError(text) {
+		var errCode = JFraction.isParsibleWithError(text);
+		return errCode;
+	}
 	
-	function handleInput() {
-		var text = answerField.text;
-		
+	function checkInput(text) {
 		if (text.length === 0)
 		{
 			rejectInput("Expected input.")
-			return;
+			return false;
 		}
 		
-		var errCode = JFraction.isParsibleWithError(text);
+		var errCode = hasParsingError(text);
 		if (errCode)
 		{
 			rejectInput(JFraction.ParsingError[errCode]);
-			return;
+			return false;
 		}
 		
 		acceptInput();
-		
-		var fraction = JFraction.parse(text);
-		var isCorrect = checkAnswer(fraction);
-		if (isCorrect)
-		{
-			addCombo();
-			
-			addXp(difficultyIndex === hard ? 2 : 1);
-		}
-		else
-		{
-			resetCombo();
-		}
-		
-		clearInput();
-		generateRandomQuestion();
+		return true;
 	}
-
+	
 	//	ans: JFraction.Fraction
 	//	return: bool
-	function checkAnswer(ans) {
+	function checkAnswer(text) {
+		var ans = JFraction.parse(text);
 		
-		if (difficultyIndex === easy && !ans.isInteger())
+//		if (difficultyIndex === easy && !ans.isInteger())	//	no difficulties for now
+		if (!ans.isInteger())
 		{
 			console.debug("Answer is not Integer");
 			return false;
@@ -128,7 +115,7 @@ ModesBase {
 	function generateRandomQuestion() {
 		
 		//	generate lhs fraction
-		var dLeft = JMath.randI(2, 12);
+		var dLeft = JMath.randI(2, 10);
 		var nLeft = JMath.randI(1, dLeft - 1);
 		
 		equationComponents.lhsFraction = new JFraction.Fraction(nLeft, dLeft);
@@ -151,7 +138,7 @@ ModesBase {
 		//	special for lhs not simplified
 		if (!equationComponents.lhsFraction.isSimplified())
 		{
-			//	make this a simplification exercise ?
+			//	if useSimplifiedFraction is true it becomes a simplification exercise
 			var useSimplifiedFraction = JMath.randI(false, true);
 			if (useSimplifiedFraction)
 			{

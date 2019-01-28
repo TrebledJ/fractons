@@ -7,6 +7,7 @@ import "../js/Fraction.js" as JFraction
 Column {
 	id: column
 	width: Math.max(numerator.width, vinculum.width, denominator.width)
+	height: numerator.height + spacing + vinculum.height + spacing + denominator.height
 	
 	property alias font: numerator.font
 	
@@ -22,7 +23,7 @@ Column {
 	
 	Rectangle {
 		id: vinculum
-		width: Math.max(numerator.contentWidth, denominator.contentWidth) + 10; height: 1
+		width: Math.max(numerator.contentWidth, denominator.contentWidth) + 10; height: 1 * numerator.height / 24
 		anchors.horizontalCenter: parent.horizontalCenter
 		
 		color: "navy"

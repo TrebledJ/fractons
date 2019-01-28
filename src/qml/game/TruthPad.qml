@@ -5,11 +5,11 @@ import "../common"
 
 Item {
 	id: item
-	width: 150; height: 200
 	
 	signal keyPressed(string key)
-	property var keys: [7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']
-
+	property var keys: ['T', 'F', 'back']
+	
+	
 	Rectangle {
 		id: background
 		
@@ -22,13 +22,12 @@ Item {
 	}
 	
 	
-	Grid {
-		id: grid
+	Column {
+		id: column
 		
 		anchors.fill: background
 		anchors.margins: spacing
 		
-		columns: 3
 		spacing: 5
 		
 		Repeater {
@@ -36,15 +35,14 @@ Item {
 			model: item.keys
 			
 			BubbleButton {
-//				id: tempBubble
-				width: (grid.width - 2*grid.spacing) / 3; height: (grid.height - 3*grid.spacing) / 4
+				width: column.width; height: (column.height - 2*column.spacing)/3
 				background.radius: 5
 				color: "yellow"
 				
 				text: modelData === 'back' ? '⬅' : modelData
+				
 				onClicked: {
 					item.keyPressed('' + modelData);
-//					console.debug("Key Pressed:", modelData);
 				}
 				
 				Connections {
@@ -65,4 +63,5 @@ Item {
 			gridRepeater.itemAt(i).animateScalar(0.8, 1);
 		}
 	}
+	
 }

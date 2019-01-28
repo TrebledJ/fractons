@@ -5,47 +5,147 @@ import QtQuick 2.0
 
 import "backdrops"
 import "../common"
+import "../game"
+
+import fractureuns 1.0
 
 SceneBase {
 	id: scene
 	
 	signal exercisesButtonClicked
 	signal studyButtonClicked
+	signal achievementsButtonClicked
+	signal statisticsButtonClicked
+	signal patchNotesButtonClicked
 	
-	//	TODO animate "Circle" to pop up on entrance
-	CircleButton {
-		id: exercisesButton
+	useDefaultBackButton: false
+	
+	Row {
+		anchors.centerIn: parent
+		spacing: 20
 		
-		x: 300
-		y: 200
-		radius: 50
+		BubbleButton {
+			id: studyNotesButton
+			width: height; height: 80
+			color: "yellow"
+			
+			//	TODO replace text with image
+			text: "Study"
+			
+			onClicked: studyButtonClicked()
+		}
 		
-		defaultColor: "lightgoldenrodyellow"
-		hoverColor: "yellow"
-		
-		//	TODO replace text with image
-		text: "Exercises"
-		
-//		onEntered: console.debug("Radius:", radius)
-		onClicked: exercisesButtonClicked()
+		BubbleButton {
+			id: exercisesButton
+			width: height; height: 80
+			color: "yellow"
+			
+			//	TODO replace text with image
+			text: "Exercises"
+			
+			onClicked: exercisesButtonClicked()
+		}
 	}
 	
-	CircleButton {
-		id: studyNotesButton
+	//	level + frac display
+	Rectangle {
+		width: parent.width; height: levelFracDisplay.height + 10
+		anchors.bottom: parent.bottom
+		color: "yellow"
 		
-		x: 180
-		y: 140
-		radius: 40
-		
-		defaultColor: "lightgoldenrodyellow"
-		hoverColor: "yellow"
-		
-		//	TODO replace text with image
-		text: "Study"
-		
-//		onEntered: console.debug("Radius:", radius)
-		onClicked: studyButtonClicked()
 	}
+	
+	Row {
+		id: levelFracDisplay
+		width: 250; height: 10
+		anchors {
+			bottom: parent.bottom
+			horizontalCenter: parent.horizontalCenter
+			margins: 5
+		}
+		
+		spacing: 10
+		
+		TextBase {
+			id: fractureunDisplay
+			width: contentWidth + 10; height: parent.height
+			text: 'Level ' + JFractureuns.level() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " F"
+			verticalAlignment: Text.AlignVCenter
+		}
+		
+		//	displays the frac progress
+		Rectangle {
+			id: fractureunOuterBar
+			width: parent.width - parent.spacing - fractureunDisplay.width; height: parent.height
+			radius: 5
+			
+			anchors {
+				top: parent.top
+				bottom: parent.bottom
+			}
+			
+			color: "lightgoldenrodyellow"
+			
+			Rectangle {
+				id: xpMeter
+				width: (parent.width - 4.0) * JFractureuns.fProgress(); height: 4
+				radius: 4
+				anchors {
+					left: parent.left
+					top: parent.top
+					bottom: parent.bottom
+					margins: 2
+				}
+				
+				color: "navy"
+			}
+		}	//	Rectangle: fractureunOuterBar
+	}
+
+	
+	//	TODO find images for these buttons below
+	
+	Row {
+		id: otherButtons
+		spacing: 10
+		
+		anchors {
+			top: parent.top
+			left: parent.left; right: parent.right
+			margins: 5
+		}
+		
+		BubbleButton {
+			id: achievementsButton
+			width: height; height: 40
+			color: "yellow"
+			
+			text: 'A'
+			
+			onClicked: achievementsButtonClicked();
+		}
+		
+		BubbleButton {
+			id: statisticsButton
+			width: height; height: 40
+			color: "yellow"
+			
+			text: 'S'
+			
+			onClicked: statisticsButtonClicked();
+		}
+		
+		BubbleButton {
+			id: patchNotesButton
+			width: height; height: 40
+			color: "yellow"
+			
+			text: 'PN'
+			
+			onClicked: patchNotesButtonClicked();
+		}
+	}
+	
 	
 	
 	//	useful for pinpointing coordinates

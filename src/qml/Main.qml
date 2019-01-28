@@ -4,8 +4,18 @@ import QtQuick 2.0
 import "common"
 import "scenes"
 import "scenes/modes" as Modes
+import "scenes/others" as Others
+
+
+import QtApplicationManager 2.0
 
 //	TODO create an accounts feature that will let users switch accounts (locally, of course)
+
+//	TODO consider change name XP to Fractureuns as currency
+//	using "experience" as a levelling token seems inhumane. Consider:
+//	"haha! I have more EXPERIENCE than you. :P" this isn't good psychologically-speaking
+//	Khan Academy uses "Energy Points". Something abstract but countable. Totally made up. I can do that to. :-)
+//	Let's call it "Fractureuns" to go with the title.
 
 GameWindow {
 	id: gameWindow
@@ -24,8 +34,13 @@ GameWindow {
 	screenWidth: 960
 	screenHeight: 640
 	
-	state: "exerciseMenu"
-//	state: "mode_standard"
+	Notification {
+		
+	}
+	
+//	state: "home"
+//	state: "achievements"
+	state: "mode_standard"
 	states: [
 		State {
 			name: "home"
@@ -51,13 +66,46 @@ GameWindow {
 			name: "mode_balance"
 			PropertyChanges { target: modeBalanceScene; opacity: 1 }
 			PropertyChanges { target: gameWindow; activeScene: modeBalanceScene }
+		},
+		State {
+			name: "mode_conversion"
+			PropertyChanges { target: modeConversionScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: modeConversionScene }
+		},
+		State {
+			name: "mode_truth"
+			PropertyChanges { target: modeTruthScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: modeTruthScene }
+		},
+		State {
+			name: "studyMenu"
+			PropertyChanges { target: studyMenuScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: studyMenuScene }
+		},
+		State {
+			name: "achievements"
+			PropertyChanges { target: achievementsScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: achievementsScene }
+		},
+		State {
+			name: "statistics"
+			PropertyChanges { target: statisticsScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: statisticsScene }
+		},
+		State {
+			name: "patchNotes"
+			PropertyChanges { target: patchNotesScene; opacity: 1 }
+			PropertyChanges { target: gameWindow; activeScene: patchNotesScene }
 		}
 	]
 	
 	HomeScene {
 		id: homeScene
 		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
-//		onStudyButtonClicked: gameWindow.state = "studyMenu"
+		onStudyButtonClicked: gameWindow.state = "studyMenu"
+		onAchievementsButtonClicked: gameWindow.state = "achievements"
+		onStatisticsButtonClicked: gameWindow.state = "statistics"
+		onPatchNotesButtonClicked: gameWindow.state = "patchNotes"
 	}
 	
 	ExerciseMenuScene {
@@ -82,6 +130,38 @@ GameWindow {
 	Modes.BalanceMode {
 		id: modeBalanceScene
 		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+	}
+	
+	Modes.ConversionMode {
+		id: modeConversionScene
+		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+	}
+	
+	Modes.TruthMode {
+		id: modeTruthScene
+		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+	}
+	
+	
+	StudyMenu {
+		id: studyMenuScene
+		onBackButtonClicked: gameWindow.state = "home"
+	}
+	
+	
+	Others.Achievements {
+		id: achievementsScene
+		onBackButtonClicked: gameWindow.state = "home"
+	}
+	
+	Others.Statistics {
+		id: statisticsScene
+		onBackButtonClicked: gameWindow.state = "home"
+	}
+	
+	Others.PatchNotes {
+		id: patchNotesScene
+		onBackButtonClicked: gameWindow.state = "home"
 	}
 	
 	/*

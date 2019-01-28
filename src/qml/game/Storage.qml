@@ -4,11 +4,55 @@ pragma Singleton
 import VPlay 2.0
 import QtQuick 2.0
 
+/**
+  
+  
+  Sources and Citations
+  [1]: Qt.platform: http://doc.qt.io/qt-5/qml-qtqml-qt.html#platform-prop
+  
+	`Qt.platform.os` available enums: 
+	 + android
+	 + ios
+	 + tvos
+	 + linux
+	 + osx
+	 + qnx
+	 + unix
+	 + windows
+	 + winrt
+
+*/
+
+
 Item {
 	id: item
 	
-	property int xpCurrent: -1
-	property int xpLevelingConstant: -1	//	also the xp threshold for Level 1
+	readonly property bool isMobile: "android,ios,tvos".includes(Qt.platform.os);
+	
+	readonly property var defaultKeys: ({	//	object with key-value pairs of default values
+									 fCurrent: 0,
+									 fLevelingConstant: 25,
+									 achievements: {
+										 nou: {
+											 name: 'no u',
+											 description: 'no u',
+											 reward: 500,
+											 isSecret: true,
+											 progress: 0,
+											 maxProgress: 5,
+											 isCollected: false
+										 },
+										 associate: {
+											 name: 'Associate',
+											 description: 'Correctly answer a question.',
+											 reward: 10,
+											 isSecret: false,
+											 progress: 0,
+											 maxProgress: 1,
+											 isCollected: false
+										 }
+									 }
+								 })
 	
 	Storage {
 		id: storage
@@ -23,73 +67,34 @@ Item {
 	Component.onCompleted: {
 		console.warn("Reloading JStorage...");
 		
-		var xpC = storage.getValue("xpCurrent");
-		xpCurrent = xpC !== undefined ? xpC : 0;
 		
-		var xpLC = storage.getValue("xpLevelingConstant");
-		xpLevelingConstant = xpLC !== undefined ? xpLC : 25;
+		//	see [1]
+		console.warn("Current platform:", Qt.platform.os);
 		
-	}
-	
-	onXpCurrentChanged: {
-		storage.setValue("xpCurrent", xpCurrent);
-	}
-	
-	onXpLevelingConstantChanged: {
-		storage.setValue("xpLevelingConstant", xpLevelingConstant);
-	}
-	
-	function addXp(amount) {
-		if (amount === '' || isNaN(amount))
+		
+		//	checking keys
+		console.log("Checking keys...");
+		for (var k in defaultKeys)
 		{
-			console.error("Fractureuns:/game/Storage.qml:addXp(amount) ::: Expected integer, got", "'" + amount + "'");
-			return;
+			var res = getValue(k);
+//			console.log("Key", k, "is", JSON.stringify(res));
+			if (res === undefined)
+			{
+				console.log("Key", k, "is undefined.");
+				setValue(k, defaultKeys[k]);
+			}
 		}
 		
-		xpCurrent += amount;
 	}
 	
-	function level(xp) {
-		if (xp === '' || isNaN(xp))
-			xp = xpCurrent;
-		
-		/*
-		  XP Polynomial Equation:
-		  
-			y = I*x*(x + 1)/2
-			
-			where
-				x = level,
-				y = minimum xp required to reach level x,
-				I = xp init/increment (xpLevelingConstant here)
-		  */
-		/*
-		  Solving for x, by the quadratic equation, etc, we get
-		  
-		  x = -1/2 + √((I + 8y) / 4I)
-		  x = -0.5 + √(0.25 + 2*y/I)
-		  */
-		
-		return Math.floor(-0.5 + Math.sqrt(0.25 + 2 *xp / xpLevelingConstant));
+	function getValue(key) {
+		return storage.getValue(key);
 	}
 	
-	function xpCurrentThresh() {
-		return xpThresh(level());
+	function setValue(key, value) {
+		storage.setValue(key, value);
 	}
 	
-	function xpNextThresh() {
-		return xpThresh(level() + 1);
-	}
 	
-	function xpProgress() {
-		var xpThreshAbove = xpNextThresh();
-		var xpThreshBelow = xpCurrentThresh();
-		return 1 - (xpThreshAbove - xpCurrent) / (xpThreshAbove - xpThreshBelow);
-	}
-	
-	function xpThresh(lvl) {
-		//	y = I*x*(x + 1)/2
-		return (xpLevelingConstant * lvl * (lvl + 1) / 2);
-	}
 	
 }

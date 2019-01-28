@@ -2,12 +2,26 @@
 #include <VPApplication>
 
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
 
+#include <VPLiveClient>
+
+#include <QDebug>
+
+#include "achievement.h"
+#include "achievementsmanager.h"
+#include "desktopnotifications.h"
 
 int main(int argc, char *argv[])
 {
 	
 	QApplication app(argc, argv);
+	
+	DesktopNotifications notifications;
+//	notifications.notify("Hi", ":P", 20);
+//	notifications.notify("Bye", "Saynoara", 5);
+	
+	
 	
 	VPApplication vplay;
 	
@@ -29,7 +43,17 @@ int main(int argc, char *argv[])
 	//  vplay.setMainQmlFileName(QStringLiteral("qrc:/qml/Main.qml"));
 	
 //	QString thisMainUrl = "../../../../";
-	qmlRegisterSingletonType(QUrl::fromLocalFile(":/qml/game/Storage.qml"), "JSingletons", 1, 0, "JStorage");
+//	qmlRegisterSingletonType(QUrl::fromLocalFile(":/qml/game/Storage.qml"), "JSingletons", 1, 0, "JStorage");
+	
+	
+	qmlRegisterType<Achievement>("fractureuns", 1, 0, "JAchievement");	//	use J to prevent conflict with VPlay's Achievement type
+	qmlRegisterType<AchievementsManager>("fractureuns", 1, 0, "JAchievementManager");
+	
+	
+	AchievementsManager manager;
+	engine.rootContext()->setContextProperty("achievementsManager", &manager);
+	
+	QObject::connect(&manager, &AchievementsManager::sendNotification, &notifications, &DesktopNotifications::notify);
 	
 	// uncomment for publishing
 #ifndef VP_LIVE_CLIENT_MODULE_H
@@ -37,6 +61,27 @@ int main(int argc, char *argv[])
 #else
 	VPlayLiveClient liveClient(&engine);
 #endif
+	
+//	QObject* obj = engine.findChild<AchievementsManager*>("jam");
+//	AchievementsManager* obj = engine.findChild<AchievementsManager*>("jam");
+//	if (obj)
+//	{
+//		qDebug() << "AchievementsManager was found!";
+		
+////		AchievementsManager* manager = qobject_cast<AchievementsManager*>(obj);
+		
+////		QObject::connect(manager, &AchievementsManager::sendNotification, &notifications, &DesktopNotifications::notify);
+//		QObject::connect(obj, &AchievementsManager::sendNotification, &notifications, 
+//						 [&] (QString a, QString b, double c)
+//		{
+//			qDebug() << "Sending notification!";
+//			notifications.notify(a, b, c);
+//		});
+//	}
+//	else
+//	{
+//		qDebug() << "AchievementsManager not found...";
+//	}
 	
 	return app.exec();
 }

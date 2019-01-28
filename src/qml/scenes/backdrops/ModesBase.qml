@@ -1,3 +1,5 @@
+//	ModesBase.qml
+
 import VPlay 2.0
 import QtQuick 2.0
 import QtQuick.Controls 2.4
@@ -7,12 +9,68 @@ import "../../game"
 
 import "../../js/Math.js" as JMath
 
+/*	ModesBase provides an interface/template for building questions and accepting answers. It builds on a SceneBase by drawing a panel on the left
+	with the following buttons:
+		+ Back (previous scene)
+		+ i (information)
+		+ Go (checks the answer and generates a new question)
+	
+	The panel also contains a vertical xp bar, information on the level & xp, as well as a log feed.
+		
+	When inheriting ModesBase to construct a question, the following abstract functions should be noted and implemented:
+		int hasParsingError(text: string)	//	checks if text has a parsing error (this shouldn't include empty-string checking)
+		bool checkInput(text: string)		//	checks text against input validation
+		bool checkAnswer(text: string)		//	checks the answer provided by text (should return true if the answer is correct)
+		void generateRandomQuestion()		//	generates a new, random question
+	
+	When a difficulty is changed, the following abstract functions will be in use. If a question has no difficulty levels,
+	the following functions may be ignored.
+		string getQuestionState()				//	encodes the current question's state
+		void parseQuestionState(state: string)	//	decodes the state provided
+		
+	Template: 
+	
+	//	checks if text has a parsing error
+	function hasParsingError(text) {
+		
+	}
+	
+	//	checks text against input validation
+	function checkInput(text) {
+		
+	}
+	
+	//	checks the answer provided by text
+	function checkAnswer(text) {
+		
+	}
+	
+	//	generates a new, random question
+	function generateRandomQuestion() {
+		
+	}
+	
+	//	encodes the current question's state
+	function getQuestionState() {
+		
+	}
+	
+	//	decodes the state provided
+	function parseQuestionState(state) {
+		
+	}
+	
+  */
+
+
 SceneBase {
 	id: scene
 	
-	signal backButtonClicked
+//	signal backButtonClicked	//	signal provided by SceneBase
 	signal goButtonClicked
 	signal difficultyChanged(int index, string difficulty)
+	
+	property var lastQuestions: ({})
 	
 	property alias panel: panel
 	property alias goButton: goButton
@@ -20,6 +78,7 @@ SceneBase {
 	
 	property alias drawingArea: drawingArea
 	
+	property alias numberPad: numberPad
 	property alias numberPadVisible: numberPadSwitch.checked
 	
 	
@@ -29,40 +88,32 @@ SceneBase {
 	property bool hasInputError: false
 	property string errorMessage
 	
+	
+	property var xpAmount: 0
 	property int combo: 0
 	
+	
+	useDefaultBackButton: false
+	
 	Component.onCompleted: {
-		console.debug("Level", JStorage.level());
-		console.debug("xp", JStorage.xpCurrent);
-		console.debug("leveling_constant", JStorage.xpLevelingConstant);
+//		console.debug("Level", JFractureuns.level());
+//		console.debug("fractureuns", JFractureuns.fCurrent);
+//		console.debug("leveling_constant", JFractureuns.fLevelingConstant);
 		
 //		for (var i = 0; i < 10; i++)
 //		{
-//			console.debug("Level", i, "has a thresh of", JStorage.xpThresh(i));
+//			console.debug("Level", i, "has a thresh of", JFractureuns.xpThresh(i));
 //		}
 		
 //		for (var i = 0; i < 20; i++)
 //		{
-//			console.debug("XP", i * 10, "has level", JStorage.level(i*10));
+//			console.debug("XP", i * 10, "has level", JFractureuns.level(i*10));
 //		}
 		
-		console.warn("Current platform:", Qt.platform.os);
-		//	see: http://doc.qt.io/qt-5/qml-qtqml-qt.html#platform-prop
-		//	available enums: 
-		//	 + android
-		//	 + ios
-		//	 + tvos
-		//	 + linux
-		//	 + osx
-		//	 + qnx
-		//	 + unix
-		//	 + windows
-		//	 + winrt
+		
 		
 		//	check if platform is mobile
-//		var mob = ["android", "ios", "tvos"];
-		var isMobile = "android,ios,tvos".includes(Qt.platform.os);
-		if (isMobile)
+		if (JStorage.isMobile)
 		{
 			errorField.height = 30;
 			errorField.font.pixelSize = 12;
@@ -74,14 +125,60 @@ SceneBase {
 		{
 			numberPadVisible = false;	//	computers default to no numpad
 			
-			answerField.onEditingFinished.connect(function(){ goButton.clicked(); });
+//			answerField.onEditingFinished.connect(function(){ goButton.clicked(); });
+		}
+		
+		//	generate a random question
+		generateRandomQuestion();
+	}
+	
+	
+	BubbleButton {
+		id: numberPadSwitch
+		width: height; height: 30
+		anchors {
+			top: drawingArea.top
+			right: drawingArea.right
+			margins: 10
+		}
+		color: "navy"
+		
+		text: "C"
+		textBase.color: "yellow"
+		
+		checked: true
+		isCheckButton: true
+		
+		onClicked: {
+			if (numberPad.visible)
+				numberPad.animate();
 		}
 	}
 	
-//	MouseArea {
-//		anchors.fill: parent
+	NumberPad {
+		id: numberPad
+		height: 150
+		anchors {
+			left: drawingArea.left
+			right: drawingArea.right
+			bottom: textFieldColumn.top
+			margins: 5
+		}
 		
-//	}
+		visible: numberPadVisible
+		
+		onKeyPressed: /*params: {string key}*/ {
+			if (key === 'back')
+			{
+				if (answerField.text.length > 0)
+					answerField.text = answerField.text.substring(0, answerField.text.length - 1);
+				
+				return;
+			}
+			
+			answerField.text += key;
+		}
+	}
 	
 	Rectangle {
 		id: panel
@@ -109,20 +206,20 @@ SceneBase {
 					id: backButton
 					width: parent.width - parent.spacing - infoButton.width; height: parent.height
 					background.radius: 5
-					
-					text: "Back"
 					color: "yellow"
 					
-					onClicked: backButtonClicked()
+					text: "Back"
+					
+					onClicked: scene.backButtonClicked()
 				}
 				
 				BubbleButton {
 					id: infoButton
 					width: height; height: parent.height
 					background.radius: 5
+					color: "yellow"
 					
 					text: "i"
-					color: "yellow"
 				}
 			}
 			
@@ -130,33 +227,36 @@ SceneBase {
 				id: difficultyButton
 				width: parent.width; height: 30
 				background.radius: 5
-				
-				text: difficulties.length === 0 ? "" : difficulties[difficultyIndex]
 				color: "yellow"
 				
-				visible: difficulties.length !== 0
+				text: difficulties.length === 0 ? "" : difficulties[difficultyIndex]
+				
+				
+				visible: difficulties.length > 0
 				
 				onClicked: {
+					lastQuestions[difficultyIndex] = getQuestionState();
+					
 					difficultyIndex = (difficultyIndex + 1) % difficulties.length;
 				}
 			}
 			
 			Row {
 				width: parent.width; height: parent.height - parent.spacing - backButton.height
-													-(difficultyButton.visible ? parent.spacing + difficultyButton.height : 0)
+													- (difficultyButton.visible ? parent.spacing + difficultyButton.height : 0)
 				spacing: 10
 				
-				//	this will display the xp
+				//	this will display the fracs
 				Rectangle {
-					id: xpOuterBar
+					id: fractureunOuterBar
 					width: 10; height: parent.height
 					radius: 5
 					
 					color: "lightgoldenrodyellow"
 					
 					Rectangle {
-						id: xpMeter
-						width: 4; height: (parent.height - 4.0) * JStorage.xpProgress()
+						id: fractureunMeter
+						width: 4; height: (parent.height - 4.0) * JFractureuns.fProgress()
 						radius: 4
 						anchors {
 							left: parent.left
@@ -167,19 +267,19 @@ SceneBase {
 						
 						color: "navy"
 					}
-				}	//	Rectangle: xpOuterBar
+				}	//	Rectangle: fractureunOuterBar
 				
 				//	this column will display miscellaneous objects
 				//	 event logs, the Go button, level/xp labels
 				Column {
-					width: parent.width - parent.spacing - xpOuterBar.width; height: parent.height
+					width: parent.width - parent.spacing - fractureunOuterBar.width; height: parent.height
 					spacing: 10
 					
 					Rectangle {
 						id: eventSpace
 						width: parent.width
 						height: parent.height - parent.spacing - goButton.height
-									- parent.spacing - xpDisplay.height
+									- parent.spacing - fractureunDisplay.height
 						
 						color: "skyblue"	//	debug
 //						color: "transparent"
@@ -189,22 +289,24 @@ SceneBase {
 						id: goButton
 						width: parent.width; height: 30
 						background.radius: 5
-						
-						text: "Go"
 						color: "yellow"
 						
+						text: "Go"
+						
 						onClicked: {
-							animateScalar(pressedFrom, pressedTo);
+							//	broadcast
 							scene.goButtonClicked();
+							
+							//	all the intense logic is kept out of here for brevity
 						}
 					}
 					
 					TextBase {
-						id: xpDisplay
-						height: 30
+						id: fractureunDisplay
+						height: contentHeight + 5
 						anchors.horizontalCenter: parent.horizontalCenter
 						
-						text: 'Level ' + JStorage.level() + '   ' + JStorage.xpCurrent + '/' + JStorage.xpNextThresh() + " xp"
+						text: 'Level ' + JFractureuns.level() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " F"
 						color: "yellow"
 						
 						font.pixelSize: 10
@@ -258,9 +360,13 @@ SceneBase {
 			font.pointSize: 8
 			font.family: "Trebuchet MS"
 			
-			//	onEditingFinished: goButton.clicked()	//	done now in scene::Component.onCompleted
-			
-			//	onTextChanged: console.debug("Text changed.", text);
+			Keys.onReturnPressed: {
+				if (JStorage.isMobile)
+					return;
+				
+				//	simulate goButton being clicked
+				goButton.clicked();
+			}
 			
 			background: Rectangle {
 				anchors.fill: parent
@@ -277,54 +383,14 @@ SceneBase {
 					opacity: 0.5
 				}
 			}
-		}
-	}
-	
-	BubbleButton {
-		id: numberPadSwitch
-		width: height; height: 30
-		anchors {
-			top: drawingArea.top
-			right: drawingArea.right
-			margins: 10
-		}
+		
+			onTextChanged: {
+				//	update the errCode which will update the background if the answer is invalid
+				var text = answerField.text;
 
-		color: "navy"
-		text: "C"
-		textBase.color: "yellow"
-		
-		checked: true
-		isCheckButton: true
-		
-		onClicked: {
-//			numberPad.visible = !numberPad.visible;
-			if (numberPad.visible)
-				numberPad.animate();
-		}
-	}
-	
-	NumberPad {
-		id: numberPad
-		height: 150
-		anchors {
-			left: drawingArea.left
-			right: drawingArea.right
-			bottom: textFieldColumn.top
-			margins: 5
-		}
-		
-		visible: numberPadVisible
-		
-		onKeyPressed: /*params: {string key}*/ {
-			if (key === 'back')
-			{
-				if (answerField.text.length > 0)
-					answerField.text = answerField.text.substring(0, answerField.text.length - 1);
-				
-				return;
+				var error = hasParsingError(text);
+				hasInputError = error;
 			}
-			
-			answerField.text += key;
 		}
 	}
 	
@@ -349,11 +415,75 @@ SceneBase {
 		
 		property var eventTextComponent: Qt.createComponent("../../common/TextAnimation.qml")
 		property int eventCounter: 0
+		
+		//	ACVM : no u
+		property int nou: 0
 	}
 	
 	onDifficultyIndexChanged: {
+		console.warn("Difficulty Index Changed:", difficultyIndex)
+		console.log(JSON.stringify(lastQuestions))
+		
+		//	generate a new random question
+		if (lastQuestions[difficultyIndex] === undefined)
+			generateRandomQuestion();
+		else
+			parseQuestionState(lastQuestions[difficultyIndex]);
+		
 		modesBase.difficultyChanged(difficultyIndex, difficulties[difficultyIndex]);
 	}
+	
+	onGoButtonClicked: {
+		//	animation logic
+		goButton.animateScalar(goButton.pressedFrom, goButton.pressedTo);
+		
+		//	processing logic
+		var text = answerField.text;
+		
+		//	ACVM : no u
+		if (text === "no u")
+		{
+			console.warn("NO U!");
+			priv.nou++;
+			
+			//	retrieve achievement
+//			var acvm = JGameAchievements.getByName("no u");
+			
+//			acvm.progress += 1;
+			JGameAchievements.addProgressByName("no u", 1);
+			
+			if (priv.nou === 5)
+			{
+				console.error("Achievement get!: no u");
+				
+				
+//				var acvm = JGameAchievements.getByName("no u");
+//				console.debug("Retrieved acvm:", JSON.stringify(acvm));
+				
+//				acvm.
+			}
+		}
+		
+		//	back to logic-processing
+		var hasAcceptableInput = checkInput(text);
+		if (!hasAcceptableInput)
+			return;
+		
+		var isCorrect = checkAnswer(text);
+		if (isCorrect)
+		{
+			addCombo();
+			addFractureuns(xpAmount);
+		}
+		else
+		{
+			resetCombo();
+		}
+		
+		clearInput();
+		generateRandomQuestion();
+	}
+	
 	
 	//	this function will create animated text floating upwards across the eventSpace
 	function logEvent(text, color, fontSize) {
@@ -392,17 +522,17 @@ SceneBase {
 	}
 	
 	//	this will increment (or decrement) the xp variable and log the increase (or decrease)
-	function addXp(amount) {
+	function addFractureuns(amount) {
 		if (isNaN(amount) || amount === "") {
-			console.error("addXp(): Expected numeric amount, got", amount === "" ? "<empty>" : amount);
+			console.error("addFractureuns(): Expected numeric amount, got", amount === "" ? "<empty>" : amount);
 			return;
 		}
 		
-		JStorage.addXp(amount);
+		JFractureuns.addFractureuns(amount);
 		if (amount >= 0)
-			logEvent('+' + amount + 'xp', "yellow", 8);
+			logEvent('+' + amount + 'F', "yellow", 8);
 		else
-			logEvent(amount + 'xp', "red", 8);
+			logEvent(amount + 'F', "red", 8);
 	}
 	
 	//	this will log the combo with a special emoticon format for milestones, such as the combos divisible
@@ -466,5 +596,9 @@ SceneBase {
 	//	this will clear the input in answerField
 	function clearInput() {
 		answerField.clear();
+	}
+	
+	function setCustomNumpadKeys(keys) {
+		numberPad.keys = keys;
 	}
 }

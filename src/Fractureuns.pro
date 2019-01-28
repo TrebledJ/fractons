@@ -3,7 +3,7 @@ CONFIG += v-play
 
 # uncomment this line to add the Live Client Module and use live reloading with your custom C++ code
 # for the remaining steps to build a custom Live Code Reload app see here: https://v-play.net/custom-code-reload-app/
-#CONFIG += v-play-live
+CONFIG += v-play-live
 
 # configure the bundle identifier for iOS
 PRODUCT_IDENTIFIER = com.trebledj.wizardEVP.Fractureuns
@@ -29,7 +29,10 @@ RESOURCES += resources.qrc # uncomment for publishing
 
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    achievement.cpp \
+    achievementsmanager.cpp \
+    desktopnotifications.cpp
 
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
@@ -50,4 +53,7 @@ macx {
     ICON = macx/app_icon.icns
 }
 
-HEADERS +=
+HEADERS += \
+    achievement.h \
+    achievementsmanager.h \
+    desktopnotifications.h

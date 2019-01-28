@@ -7,23 +7,31 @@ import QtQuick.Controls 2.2
 import "backdrops"
 import "../common"
 
+//	TODO implement stars/mastery
+
 SceneBase {
 	id: scene
 	
-	signal backButtonClicked()
+//	signal backButtonClicked()
 	signal modeClicked(string mode)
+	
+	useDefaultBackButton: false
 	
 	ListModel {
 		id: modeModel
 		ListElement { role_stars: 0; role_mode: "Standard" }	//	Standard equation solving, given two fractions on the lhs and an operation
-//		ListElement { role_stars: 0; role_mode: "Bar" }
 		ListElement { role_stars: 0; role_mode: "Balance" }		//	balance or simplify a given fraction
+		
+		//		ListElement { role_stars: 0; role_mode: "Bar" }	//	deprecated ?
+		
 		ListElement { role_stars: 0; role_mode: "Conversion" }	//	convert between decimals and fractions
 		ListElement { role_stars: 0; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
-		ListElement { role_stars: 0; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
 		
-		ListElement { role_stars: 0; role_mode: "Fill" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
-		ListElement { role_stars: 0; role_mode: "Rush" }		//	timed ... what exercise?
+		//	TODO implement these other modes
+//		ListElement { role_stars: 0; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
+		
+//		ListElement { role_stars: 0; role_mode: "Fill" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
+//		ListElement { role_stars: 0; role_mode: "Rush" }		//	timed ... what exercise?
 	}
 	
 	ListView {
@@ -99,10 +107,8 @@ SceneBase {
 				//	displays mode name with button function
 				BubbleButton {
 					id: modeRect
-					
 					width: parent.width - parent.spacing - starsRect.width - 15; height: parent.height
-					
-					defaultColor: "yellow"
+					color: "yellow"
 					
 					background.radius: 5
 					background.border.width: 3
@@ -142,10 +148,10 @@ SceneBase {
 			top: scene.top
 			bottom: scene.bottom
 		}
+		color: "yellow"
 		
 		text: backButton.mouseArea.pressed ? "◄" : "◁";
 		animateText: false
-		color: "yellow"
 		
 		
 		defaultDiagonal: 1.1

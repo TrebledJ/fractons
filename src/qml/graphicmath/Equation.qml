@@ -6,8 +6,11 @@ import "../js/Fraction.js" as JFraction
 Row {
 	id: row
 	
+	property real contentWidth: 0
+	property real contentHeight: 0
+	
 	//	stores the equation
-	property string equation
+	property string text
 	
 	//	items: stores an array of qml Items added into the row
 	property var items: []
@@ -18,10 +21,12 @@ Row {
 	//	usage (JS):
 	//		var <obj_instance> = textComponent.createObject(<parent>, <properties>);
 	
+	property int fontSize: 24
 	
-	onEquationChanged: {
+	
+	onTextChanged: {
 		clear();
-		parse(equation);
+		parse(text);
 	}
 	
 	
@@ -31,6 +36,9 @@ Row {
 			items[i].destroy();
 		
 		items = [];	//	clear array
+		
+		contentWidth = 0;
+		contentHeight = 0;
 	}
 	
 	function appendText(text) {
@@ -40,8 +48,11 @@ Row {
 
 		var obj = textComponent.createObject(row, props);
 		obj.anchors.verticalCenter = row.verticalCenter;
+		obj.font.pixelSize = fontSize;
 		
-		items.push(obj);
+		items.push(obj);	//	push into array
+		contentWidth += obj.width;	//	add width
+		contentHeight = Math.max(contentHeight, obj.height);	//	check/update height
 	}
 	
 	function appendFraction(fraction) {
@@ -51,8 +62,11 @@ Row {
 		
 		var obj = fractionComponent.createObject(row, props);
 		obj.anchors.verticalCenter = row.verticalCenter;
+		obj.font.pixelSize = fontSize;
 		
 		items.push(obj);
+		contentWidth += obj.width;
+		contentHeight = Math.max(contentHeight, obj.height);
 	}
 	
 	function parse(text) {
@@ -100,7 +114,7 @@ Row {
 //				console.debug("Is division operator");
 				
 				//	if buffer is empty or is not a number
-				if (buffer === "" )
+				if (buffer === "")
 				{
 //					console.debug("Buffer is empty/invalid, skipping division...")
 					

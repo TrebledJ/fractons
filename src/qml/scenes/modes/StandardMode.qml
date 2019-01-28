@@ -24,17 +24,16 @@ ModesBase {
 	readonly property int medium: 1
 	readonly property int hard: 2
 	
-	Component.onCompleted: {
-		generateRandomQuestion();
-	}
+	xpAmount: [1, 3, 5][difficultyIndex]
+	
 	
 	QtObject {
 		id: equationComponents
 		property var lhsFractionA: new JFraction.Fraction()
 		property var lhsFractionB: new JFraction.Fraction()
 		
-		//	+, -, *, or ÷
-		property string op: {
+		//	+, -, *, or ÷ //	readonly
+		readonly property string op: {
 			//	update operation
 			if (operation === addition)
 				return JMath.operations['add'];
@@ -94,67 +93,42 @@ ModesBase {
 	Equation {
 		id: equation
 		anchors.centerIn: drawingArea
-		equation: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
+		text: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 	}
 	
-	onDifficultyChanged: /*params: {int index, string difficulty} */ {
-		generateRandomQuestion();
+	
+	function hasParsingError(text) {
+		var errCode = JFraction.isParsibleWithError(text);
+		return errCode;
 	}
 	
-	onGoButtonClicked: {
-		handleInput();
-	}
-	
-	Connections {
-		target: modesBase.answerField
-		
-		//	this will update the errCode which will update the background if the answer is invalid
-		onTextChanged: {
-			var text = modesBase.answerField.text;
-			var errCode = JFraction.isParsibleWithError(text);
-			modesBase.hasInputError = (errCode !== 0);
-		}
-	}
-	
-	//	handles accepting/rejecting input
-	function handleInput() {
-		var text = answerField.text;
-		
+	//	provides input validation for a given input
+	//	text: string
+	//	return: bool
+	function checkInput(text) {
 		if (text.length === 0)
 		{
 			rejectInput("Expected input.")
-			return;
+			return false;
 		}
 		
-		var errCode = JFraction.isParsibleWithError(text);
+		var errCode = hasParsingError(text);
 		if (errCode)
 		{
 			rejectInput(JFraction.ParsingError[errCode]);
-			return;
+			return false;
 		}
 		
 		acceptInput();
-		
-		var fraction = JFraction.parse(text);
-		var isCorrect = checkAnswer(fraction);
-		if (isCorrect)
-		{
-			addCombo();
-			
-			addXp(difficultyIndex === hard ? 5 : difficultyIndex === medium ? 3 : 1);
-		}
-		else
-		{
-			resetCombo();
-		}
-		
-		clearInput();
-		generateRandomQuestion();
+		return true;
 	}
 	
 	//	receives an answer input as a fraction and checks the values
-	//	ans: JFraction.Fraction
-	function checkAnswer(ans) {
+	//	text: string
+	//	return: bool
+	function checkAnswer(text) {
+		var ans = JFraction.parse(text);
+		
 		
 		//	parse the rhs as a JFraction
 		var rhs = equationComponents.reparseRhs(ans.toString());
@@ -173,6 +147,7 @@ ModesBase {
 	}
 	
 	//	updates equationComponents with new values ('new' is not guaranteed)
+	//	return: void
 	function generateRandomQuestion() {
 		
 		var n1, n2, d, d1, d2;
@@ -300,4 +275,51 @@ ModesBase {
 		}
 	}
 	
+	//	encodes the current question's state
+	function getQuestionState() {
+	    return equationComponents.join();
+	}
+	
+	//	decodes the state provided
+	function parseQuestionState(state) {
+		var expressions = state.split('=');
+		
+		var ops = { buffer: "=" };
+		ops[addition] = JMath.operations.add;
+		ops[subtraction] = JMath.operations.sub;
+		ops[multiplication] = JMath.operations.mul;
+		
+		var i, index;
+		for (i in ops)
+		{
+			index = expressions[0].indexOf(ops[i]);
+			if (index !== -1)	//	found a match
+				break;
+		}
+		var op, lhs;
+		if (index === -1)	//	not found: division
+		{
+			op = division;
+			var temp = expressions[0].split('/');
+			lhs = [temp[0] + '/' + temp[1], temp[2] + '/' + temp[3]];
+		}
+		else	//	found: addition, subtraction, or multiplication
+		{
+			op = i;	//	set to operation
+			lhs = expressions[0].split(ops[i]);
+		}
+		
+		
+		equationComponents.lhsFractionA = JFraction.parse(lhs[0]);
+		equationComponents.lhsFractionB = JFraction.parse(lhs[1]);
+		operation = op;
+		equationComponents.rhsFraction = JFraction.parse(expressions[1]);
+		
+//		console.log(equationComponents.lhsFractionA);
+//		console.log(equationComponents.lhsFractionB);
+//		console.log(equationComponents.op);
+//		console.log(equationComponents.rhsFraction);
+//		console.log()
+		
+	}
 }

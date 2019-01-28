@@ -126,6 +126,12 @@ function Fraction(n, d) {
 		return Math.floor(this.n / this.d);
 	}
 	
+	//	checks equity with a numeric value
+	this.equalsValue = function(other) {
+		var frac = this.toNumericFraction();
+		return frac.n / frac.d === other;
+	}
+	
 	this.isValid = function() {
 		return this.d != 0 && !isNaN(this.n) && !isNaN(this.d);
 	}
@@ -142,7 +148,7 @@ function Fraction(n, d) {
 
 var ParsingError = {
 	0: "",
-	1: "Program Error: No input passed into `Fraction.isParsible` function",
+	1: "Program Error: Undefined input passed into `Fraction.isParsibleWithError` function.",
 	2: "Too many '/' symbols",
 	3: "Expected numeric value: '[0-9]'",
 	4: "Expected numeric value before and after '/': '[0-9]/[0-9]'"
@@ -159,9 +165,13 @@ var isParsibleWithError = function(input) {
 	if (input.length === 0)
 		return 0;
 	
-	var tokens = input.split(' ').filter(function(t){ return t.trim() !== ""; });
+//	var tokens = input.split(' ').filter(function(t){ return t.trim() !== ""; });
+//	var fracTokens = tokens.join('').split('/');
 	
-	var fracTokens = tokens.join('').split('/');
+	var tokens = input.replace(/ /g, '');
+	var fracTokens = tokens.split('/');
+	
+	
 	if (fracTokens.length > 2)
 		return 2;
 	
