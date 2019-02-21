@@ -1,5 +1,6 @@
-import VPlay 2.0
-import QtQuick 2.0
+import Felgo 3.0
+import QtQuick 2.11
+import QtQuick.Controls 2.2
 
 import "backdrops"
 import "../common"

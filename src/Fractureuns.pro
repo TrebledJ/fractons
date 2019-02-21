@@ -1,9 +1,10 @@
 # allows to add DEPLOYMENTFOLDERS and links to the V-Play library and QtCreator auto-completion
-CONFIG += v-play
+CONFIG += felgo
+#CONFIG += qml quick
 
 # uncomment this line to add the Live Client Module and use live reloading with your custom C++ code
 # for the remaining steps to build a custom Live Code Reload app see here: https://v-play.net/custom-code-reload-app/
-CONFIG += v-play-live
+CONFIG += felgo-live
 
 # configure the bundle identifier for iOS
 PRODUCT_IDENTIFIER = com.trebledj.wizardEVP.Fractureuns

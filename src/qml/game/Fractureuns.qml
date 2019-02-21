@@ -1,7 +1,7 @@
 //	Fractureuns.qml
 
 pragma Singleton
-import VPlay 2.0
+import Felgo 3.0
 import QtQuick 2.0
 
 import "../game"

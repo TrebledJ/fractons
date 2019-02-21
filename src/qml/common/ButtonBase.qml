@@ -1,7 +1,7 @@
 //	ButtonBase.qml
 
 import QtQuick 2.0
-import VPlay 2.0
+import Felgo 3.0
 
 /*
   
