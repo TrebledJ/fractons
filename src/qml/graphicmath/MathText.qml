@@ -11,7 +11,7 @@ TextBase {
 	horizontalAlignment: Text.AlignHCenter
 	
 	font.family: "Cambria Math"
-	font.pixelSize: 24
+	font.pointSize: 24
 	
 	//	smart parse: replace ascii symbols with math symbols
 	onTextChanged: {

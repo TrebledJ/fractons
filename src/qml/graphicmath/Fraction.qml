@@ -10,8 +10,8 @@ Column {
 	height: numerator.height + spacing + vinculum.height + spacing + denominator.height
 	
 	property alias font: numerator.font
-	
 	property var fraction: new JFraction.Fraction(1, 2)
+	property alias vinculum: vinculum
 	
 	MathText {
 		id: numerator

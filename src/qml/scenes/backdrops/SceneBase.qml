@@ -23,10 +23,21 @@ Scene {
 	
 	
 	opacity: 0
-	visible: opacity > 0
+//	opacity: 1
+	visible: !(opacity == 0)
 	enabled: visible
 	
-	
+//	state: visible ? "in" : "out"
+	states: [
+		State {
+			name: "show"
+			PropertyChanges { target: scene; opacity: 1 }
+		},
+		State {
+			name: "hide"
+			PropertyChanges { target: scene; opacity: 0 }
+		}
+	]
 	
 	Rectangle {
 		id: background
@@ -94,6 +105,9 @@ Scene {
 			obj.start();
 			
 			counter++;
+			
+			//	reset timer interval to a random time
+			spawnTimer.interval = JMath.randI(8000, 10000);
 			
 			//	TODO add secret achievement: when player click an animation
 		}

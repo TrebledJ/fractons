@@ -50,6 +50,10 @@ import "../../js/Math.js" as JMath
 		
 	}
 	
+	
+	
+	//	== If there is more than one difficulty: == //
+	
 	//	encodes the current question's state
 	function getQuestionState() {
 		
@@ -88,15 +92,14 @@ SceneBase {
 	property bool hasInputError: false
 	property string errorMessage
 	
-	
-	property var xpAmount: 0
-	property int combo: 0
+	property int xpAmount: 0
+//	property int combo: 0
 	
 	
 	useDefaultBackButton: false
 	
 	Component.onCompleted: {
-//		console.debug("Level", JFractureuns.level());
+//		console.debug("Level", JFractureuns.levelAt());
 //		console.debug("fractureuns", JFractureuns.fCurrent);
 //		console.debug("leveling_constant", JFractureuns.fLevelingConstant);
 		
@@ -107,19 +110,23 @@ SceneBase {
 		
 //		for (var i = 0; i < 20; i++)
 //		{
-//			console.debug("XP", i * 10, "has level", JFractureuns.level(i*10));
+//			console.debug("XP", i * 10, "has level", JFractureuns.levelAt(i*10));
 //		}
 		
+		
+		//	ACVM : no u
+		priv.nou = JGameAchievements.getByName("no u").progress;
+//		console.debug("[ModesBase] Got nou progress:", priv.nou)
 		
 		
 		//	check if platform is mobile
 		if (JStorage.isMobile)
 		{
 			errorField.height = 30;
-			errorField.font.pixelSize = 12;
+			errorField.font.pointSize = 12;
 			
 			answerField.height = 30;
-			answerField.font.pixelSize = 18;
+			answerField.font.pointSize = 18;
 		}
 		else	//	non-mobile
 		{
@@ -306,10 +313,10 @@ SceneBase {
 						height: contentHeight + 5
 						anchors.horizontalCenter: parent.horizontalCenter
 						
-						text: 'Level ' + JFractureuns.level() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " F"
+						text: 'Level ' + JFractureuns.currentLevel() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " F"
 						color: "yellow"
 						
-						font.pixelSize: 10
+						font.pointSize: 10
 						verticalAlignment: Text.AlignBottom
 					}
 					
@@ -446,22 +453,7 @@ SceneBase {
 			console.warn("NO U!");
 			priv.nou++;
 			
-			//	retrieve achievement
-//			var acvm = JGameAchievements.getByName("no u");
-			
-//			acvm.progress += 1;
 			JGameAchievements.addProgressByName("no u", 1);
-			
-			if (priv.nou === 5)
-			{
-				console.error("Achievement get!: no u");
-				
-				
-//				var acvm = JGameAchievements.getByName("no u");
-//				console.debug("Retrieved acvm:", JSON.stringify(acvm));
-				
-//				acvm.
-			}
 		}
 		
 		//	back to logic-processing
@@ -473,7 +465,17 @@ SceneBase {
 		if (isCorrect)
 		{
 			addCombo();
+			
+			//	ACVM : jogger
+			if (JStorage.combo() > JGameAchievements.getByName("jogger").progress)
+				JGameAchievements.addProgressByName("jogger", 1);
+			
+			
 			addFractureuns(xpAmount);
+			
+			//	ACVM : associate
+			JGameAchievements.addProgressByName("associate", 1)
+//			if ()
 		}
 		else
 		{
@@ -504,7 +506,7 @@ SceneBase {
 		
 		var obj = priv.eventTextComponent.createObject(eventSpace, props);
 		
-		obj.font.pixelSize = fontSize;
+		obj.font.pointSize = fontSize;
 		
 		var randY = JMath.randI(-25, -5);
 		
@@ -538,7 +540,7 @@ SceneBase {
 	//	this will log the combo with a special emoticon format for milestones, such as the combos divisible
 	//	by 5, 10, and 100
 	function logCombo(num) {
-		num = num !== undefined ? num : combo;
+		num = num !== undefined ? num : JStorage.combo();
 		
 		if (num % 100 == 0)
 		{
@@ -559,12 +561,14 @@ SceneBase {
 	}
 	
 	function addCombo() {
-		combo++;
+		JStorage.addCombo(1);
 		logCombo();
 	}
 	
 	function resetCombo() {
-		combo = 0;
+//		combo = 0;
+		JStorage.setCombo(0);
+		
 		var expressions = [
 					"Oh no!",
 					"Oh no!",

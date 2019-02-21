@@ -5,9 +5,7 @@ import "common"
 import "scenes"
 import "scenes/modes" as Modes
 import "scenes/others" as Others
-
-
-import QtApplicationManager 2.0
+import "scenes/lessons" as Lessons
 
 //	TODO create an accounts feature that will let users switch accounts (locally, of course)
 
@@ -34,27 +32,28 @@ GameWindow {
 	screenWidth: 960
 	screenHeight: 640
 	
-	Notification {
-		
+	Component.onCompleted: {
+//		jNotifications.notify("Greetings", "Hello there, welcome to Fractureuns.", 5);
 	}
+	
 	
 //	state: "home"
 //	state: "achievements"
-	state: "mode_standard"
+	state: "lesson_zero"
 	states: [
 		State {
 			name: "home"
-			PropertyChanges { target: homeScene; opacity: 1 }
+			PropertyChanges { target: homeScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: homeScene }
 		},
 		State {
 			name: "exerciseMenu"
-			PropertyChanges { target: exerciseMenuScene; opacity: 1 }
+			PropertyChanges { target: exerciseMenuScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: exerciseMenuScene }
 		},
 		State {
 			name: "mode_standard"
-			PropertyChanges { target: modeStandardScene; opacity: 1 }
+			PropertyChanges { target: modeStandardScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: modeStandardScene }
 		},
 //		State {
@@ -64,48 +63,76 @@ GameWindow {
 //		},
 		State {
 			name: "mode_balance"
-			PropertyChanges { target: modeBalanceScene; opacity: 1 }
+			PropertyChanges { target: modeBalanceScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: modeBalanceScene }
 		},
 		State {
 			name: "mode_conversion"
-			PropertyChanges { target: modeConversionScene; opacity: 1 }
+			PropertyChanges { target: modeConversionScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: modeConversionScene }
 		},
 		State {
 			name: "mode_truth"
-			PropertyChanges { target: modeTruthScene; opacity: 1 }
+			PropertyChanges { target: modeTruthScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: modeTruthScene }
 		},
+		
 		State {
 			name: "studyMenu"
-			PropertyChanges { target: studyMenuScene; opacity: 1 }
+			PropertyChanges { target: studyMenuScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: studyMenuScene }
 		},
 		State {
+			name: "lesson_zero"
+			PropertyChanges { target: lessonZeroScene; state: "show" }
+			PropertyChanges { target: gameWindow; activeScene: lessonZeroScene }
+		},
+		State {
+			name: "lesson_one"
+			PropertyChanges { target: lessonOneScene; state: "show" }
+			PropertyChanges { target: gameWindow; activeScene: lessonOneScene }
+		},
+		
+		State {
 			name: "achievements"
-			PropertyChanges { target: achievementsScene; opacity: 1 }
+			PropertyChanges { target: achievementsScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: achievementsScene }
 		},
 		State {
 			name: "statistics"
-			PropertyChanges { target: statisticsScene; opacity: 1 }
+			PropertyChanges { target: statisticsScene; state: "show" }
 			PropertyChanges { target: gameWindow; activeScene: statisticsScene }
 		},
 		State {
-			name: "patchNotes"
-			PropertyChanges { target: patchNotesScene; opacity: 1 }
-			PropertyChanges { target: gameWindow; activeScene: patchNotesScene }
+			name: "settings"
+			PropertyChanges { target: settingsScene; state: "show" }
+			PropertyChanges { target: gameWindow; activeScene: settingsScene }
+//			Transition
 		}
 	]
 	
+	//	TODO Change transition from home to exerciseMenu or studyMenu to a slide
+//	transitions: [
+//		Transition {
+//			from: "home"; to: "exerciseMenu"
+//			NumberAnimation {
+//				target: homeScene
+//				property: "x"
+//				duration: 300
+//				easing.type: Easing.OutCubic
+//				to: -homeScene.width
+//			}
+//		}
+//	]
+	
 	HomeScene {
 		id: homeScene
+		
 		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
 		onStudyButtonClicked: gameWindow.state = "studyMenu"
 		onAchievementsButtonClicked: gameWindow.state = "achievements"
 		onStatisticsButtonClicked: gameWindow.state = "statistics"
-		onPatchNotesButtonClicked: gameWindow.state = "patchNotes"
+		onSettingsButtonClicked: gameWindow.state = "settings"
 	}
 	
 	ExerciseMenuScene {
@@ -146,6 +173,22 @@ GameWindow {
 	StudyMenu {
 		id: studyMenuScene
 		onBackButtonClicked: gameWindow.state = "home"
+		
+		onLessonClicked: {
+			console.debug("Lesson: '" + lesson + "'");
+			gameWindow.state = "lesson_" + lesson;
+		}
+	}
+	
+	Lessons.Zero {
+		id: lessonZeroScene
+		onBackButtonClicked: gameWindow.state = "studyMenu"
+	}
+	
+	Lessons.One {
+		id: lessonOneScene
+		onBackButtonClicked: gameWindow.state = "studyMenu"
+		onPracticeButtonClicked: gotoExercise(mode, difficulty)
 	}
 	
 	
@@ -159,272 +202,22 @@ GameWindow {
 		onBackButtonClicked: gameWindow.state = "home"
 	}
 	
-	Others.PatchNotes {
-		id: patchNotesScene
+	Others.Settings {
+		id: settingsScene
 		onBackButtonClicked: gameWindow.state = "home"
 	}
 	
-	/*
-	Scene {
-		id: scene
+	function gotoExercise(mode, difficulty) {
+		console.log("Going to exercise", mode, "with a", difficulty, "difficulty.");
 		
-		// the "logical size" - the scene content is auto-scaled to match the GameWindow size
-		width: 480
-		height: 320
+		//	set state to mode
+		gameWindow.state = "mode_" + mode.toLowerCase();
 		
-		// background rectangle matching the logical scene size (= safe zone available on all devices)
-		// see here for more details on content scaling and safe zone: https://v-play.net/doc/vplay-different-screen-sizes/
-		Rectangle {
-			id: rectangle
-			anchors.fill: parent
-			color: "grey"
-			
-			Text {
-				id: textElement
-				// qsTr() uses the internationalization feature for multi-language support
-				text: qsTr("Hello V-Play World")
-				color: "#ffffff"
-				anchors.centerIn: parent
-			}
-			
-			MouseArea {
-				anchors.fill: parent
-				
-				// when the rectangle that fits the whole scene is pressed, change the background color and the text
-				onPressed: {
-					textElement.text = qsTr("Scene-Rectangle is pressed at position " + Math.round(mouse.x) + "," + Math.round(mouse.y))
-					rectangle.color = "black"
-					console.debug("pressed position:", mouse.x, mouse.y)
-				}
-				
-				onPositionChanged: {
-					textElement.text = qsTr("Scene-Rectangle is moved at position " + Math.round(mouse.x) + "," + Math.round(mouse.y))
-					console.debug("mouseMoved or touchDragged position:", mouse.x, mouse.y)
-				}
-				
-				// revert the text & color after the touch/mouse button was released
-				// also States could be used for that - search for "QML States" in the doc
-				onReleased: {
-					textElement.text = qsTr("Hello V-Play World")
-					rectangle.color = "grey"
-					console.debug("released position:", mouse.x, mouse.y)
-				}
-			}
-		}// Rectangle with size of logical scene
+		if (difficulty === "" || activeScene.difficulties.length === 0)
+			return;
 		
-		Image {
-			id: vplayLogo
-			source: "../assets/vplay-logo.png"
-			
-			// 50px is the "logical size" of the image, based on the scene size 480x320
-			// on hd or hd2 displays, it will be shown at 100px (hd) or 200px (hd2)
-			// thus this image should be at least 200px big to look crisp on all resolutions
-			// for more details, see here: https://v-play.net/doc/vplay-different-screen-sizes/
-			width: 50
-			height: 50
-			
-			// this positions it absolute right and top of the GameWindow
-			// change resolutions with Ctrl (or Cmd on Mac) + the number keys 1-8 to see the effect
-			anchors.right: scene.gameWindowAnchorItem.right
-			anchors.top: scene.gameWindowAnchorItem.top
-			
-			// this animation sequence fades the V-Play logo in and out infinitely (by modifying its opacity property)
-			SequentialAnimation on opacity {
-				loops: Animation.Infinite
-				PropertyAnimation {
-					to: 0
-					duration: 1000 // 1 second for fade out
-				}
-				PropertyAnimation {
-					to: 1
-					duration: 1000 // 1 second for fade in
-				}
-			}
-		}
-		
+		var index = activeScene.difficulties.findIndex(function(e){ return e.toLowerCase() === difficulty.toLowerCase(); });
+		activeScene.difficultyIndex = index;
 	}
-	*/
+	
 }
-
-
-//import QtQuick 2.0
-//import QtQuick.Window 2.0
-//import QtQuick.Controls 2.0
-//import QtQuick.Controls 1.4
-
-//Window {
-//	Page {
-//		id: realtimeCalendarPage
-		
-//		property var dayCycleArr: ["Full Day", "Half Day (AM)", "Half Day (PM)"]
-//		property int currCycleIndex: 0
-		
-//		rightBarItem: NavigationBarItem {
-//		  contentWidth: saveButton.width
-//		  AppButton {
-//			  id: saveButton
-//			  text: "Save & Request"
-//						onClicked: {
-//				userData = ({"date": calendar.selectedDate, "name": userName + userSurname, "details": dayCycle.text});
-//				console.log(JSON.stringify(userData))
-//				addNewCalendarItem(userData);
-//			  }
-//		   }
-//		}
-		
-//		AppButton {
-//			id: dayCycle
-//			text:  dayCycleArr[currCycleIndex]
-//					onClicked: {
-//					 if(currCycleIndex ==  dayCycleArr.length - 1)
-//					   currCycleIndex = 0;                 
-//					 else
-//					   currCycleIndex++; 
-//				   }
-//		}
-		
-//		Flow {
-//			id: row
-//			anchors.fill: parent
-//			spacing: 10
-//			layoutDirection: "RightToLeft"
-//			Calendar {
-//				id: calendar
-//				width: (parent.width > parent.height ? parent.width * 0.6 - parent.spacing : parent.width)
-//				height: (parent.height > parent.width ? parent.height * 0.6 - parent.spacing : parent.height)
-//				selectedDate: new Date()
-//				weekNumbersVisible: true
-//				focus: true
-//				onSelectedDateChanged: {
-//					const day = selectedDate.getDate();
-//					const month = selectedDate.getMonth() + 1;
-//					const year = selectedDate.getFullYear();
-//				}
-		
-//			   style: CalendarStyle {
-//				   dayOfWeekDelegate: Item {
-//					   height: dp(30)
-//					   width: parent.width
-//					   Rectangle {
-//						   height: parent.height
-//						   width: parent.width
-//						   anchors.fill: parent
-//						   Label {
-//							   id: dayOfWeekDelegateText
-//							   text: Qt.locale().dayName(styleData.dayOfWeek, Locale.ShortFormat)
-//							   anchors.centerIn: parent
-//							   color: "black"
-//						   }
-//					   }
-//				   }
-//				   dayDelegate: Item {
-//					   id: container
-//					   readonly property color sameMonthDateTextColor: "#444"
-//					   readonly property color previousDateColor: "#444"
-//					   readonly property color selectedDateColor: "#20d5f0"
-//					   readonly property color selectedDateTextColor: "white"
-//					   readonly property color differentMonthDateTextColor: "#bbb"
-//					   readonly property color invalidDatecolor: "#dddddd"
-		
-//					   Rectangle {
-//						   id: calendarMarker
-//						   property bool isConfirmed: false
-//						   visible: arrayFromFireBase.indexOf(styleData.date.getTime()) > -1
-//						   anchors.fill: parent
-//						   anchors.margins: -1
-//						   color: calendarListModel.status ? "#4286f4" : "red"}
-		
-//					   Label {
-//						   id: dayDelegateText
-//						   text: styleData.date.getDate()
-//						   anchors.centerIn: parent
-//						   color:  {
-//							   var color = invalidDatecolor;
-//							   if (styleData.valid) {
-//								   color = styleData.visibleMonth ? sameMonthDateTextColor : differentMonthDateTextColor ;
-//								   if (styleData.selected) {
-//									   color = selectedDateTextColor;
-//								   }
-//							   }
-//							   color ;
-//							}
-//						}
-//					}
-//				}
-//			}
-//			Component {
-//				id: eventListHeader
-//				Row {
-//					id: eventDateRow
-//					width: parent.width
-//					height: eventDayLabel.height
-//					spacing: 10
-//					Label {
-//						id: eventDayLabel
-//						text: calendar.selectedDate.getDate()
-//						font.pointSize: 35
-//						color: "black"
-//					}
-//					Column {
-//						height: eventDayLabel.height
-//						Label {
-//							readonly property var options: { weekday: "long" }
-//							text: Qt.locale().standaloneDayName(calendar.selectedDate.getDay(), Locale.LongFormat)
-//							font.pointSize: 18
-//							color: "black"
-//						}
-//						Label {
-//							text: Qt.locale().standaloneMonthName(calendar.selectedDate.getMonth())
-//								  + calendar.selectedDate.toLocaleDateString(Qt.locale(), " yyyy")
-//							font.pointSize: 12
-//							color: "black"
-//						}
-//					}
-//				}
-//			}
-//			Rectangle {
-//				width: (parent.width > parent.height ? parent.width * 0.4 - parent.spacing : parent.width)
-//				height: (parent.height > parent.width ? parent.height * 0.4 - parent.spacing : parent.height)
-//				ListView {
-//					id:eventListView
-//					spacing: 4
-//					clip: true
-//					anchors.fill: parent
-//					anchors.margins: 10
-//					model: calendarListModel
-//					delegate: Rectangle {
-//						width: eventListView.width
-//						height: eventItemColumn.height
-//						anchors.horizontalCenter: parent.horizontalCenter
-//						Rectangle {
-//							width: parent.width
-//							height: 1
-//							color: "#eee"
-//						Column {
-//							id: eventItemColumn
-//							anchors.left: parent.left
-//							anchors.leftMargin: 20
-//							anchors.right: parent.right
-//							height: timeLabel.height + nameLabel.height + 8
-//							Label {
-//								id: nameLabel
-//								width: parent.width
-//								wrapMode: Text.Wrap
-//								text: modelData.name
-//								color: "black"
-//							}
-//							Label {
-//								id: timeLabel
-//								width: parent.width
-//								wrapMode: Text.Wrap
-//								text: modelData.details
-//								color: "#aaa"
-//							  }
-//						   }
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//}

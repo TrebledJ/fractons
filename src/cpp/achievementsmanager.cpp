@@ -30,12 +30,10 @@ void AchievementsManager::appendAchievements(QQmlListProperty<Achievement>* list
 		QObject::connect(e, &Achievement::achievementChanged, manager, &AchievementsManager::achievementsChanged);
 		
 		//	send a signal for desktop notification on getting an achievement
-		QObject::connect(e, &Achievement::achievementGet, manager,	//	try using "this" instead of "manager"
+		QObject::connect(e, &Achievement::achievementGet, manager,
 						 [&,e,manager] ()
 		{
-//			qDebug() << "C++: AchievementsManager: Achievement Get!";
-//			qDebug() << "Achievement Object:" << e << "(managed by" << manager << ")";
-			qDebug() << "C++: AchievementsManager: Achievement (" << e->m_name << ")";
+			qDebug() << "[C++ AchievementsManager] Achievement Get: " << e->m_name;
 			QString msg = QString("You just got %1 and earned %2 Fractureuns!").arg(e->m_name).arg(e->m_reward);
 			emit manager->sendNotification("Achievment Get!", msg, 8);
 		});

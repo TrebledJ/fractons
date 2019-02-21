@@ -30,22 +30,22 @@ Item {
 	
 	BubbleButton {
 		id: background
-//		radius: 5
 		anchors.fill: parent
-		
-		color: "yellow"
+		color: achievement.isSecret ? "mediumblue" : "yellow"
+		opacity: achievement.isCollected ? 1 : 0.8
 		
 		text: ''
-		
-//		border.color: "navy"
-//		border.width: 1
+
+		enteredFrom: 0.9
+		pressedFrom: 0.95
+		pressedTo: 1.1
 		
 		onClicked: item.clicked();
 	}
 	
 	ColumnLayout {
 		anchors.fill: background
-		anchors.margins: 2 * (3/background.diagonalScalar)
+		anchors.margins: 2 * (3/background.diagonalScalar)	//	inversely proportional
 		
 		spacing: 0
 		
@@ -53,28 +53,32 @@ Item {
 		TextBase {
 			id: descriptionText
 			Layout.fillWidth: true
+			color: achievement.isSecret ? "yellow" : "navy"
 			
-			text: achievement === undefined ? "<description>" : achievement.description
-			font.pixelSize: 8
+			text: achievement.description.length > 45 ? achievement.description.substr(0, 30) + '...' : achievement.description
+			font.pointSize: achievement.description.length > 30 ? 6 : 8
 			
 			horizontalAlignment: Text.AlignRight
 			wrapMode: Text.WordWrap
 		}
 		
 		//	filler, see [1]
-//		Item {
-//			Layout.fillHeight: true
-//		}
+		Item {
+			Layout.fillHeight: true
+		}
 		
 		//	bottom ribbon
 		RowLayout {
+			width: parent.width
 			
 			//	name at bottom left
 			TextBase {
 				id: nameText
+				Layout.fillHeight: true
+				color: achievement.isSecret ? "yellow" : "navy"
 				
 				text: achievement === undefined ? "<name>" : achievement.name
-				font.pixelSize: 12
+				font.pointSize: achievement.name.length < 8 ? 12 : 11
 				
 				horizontalAlignment: Text.AlignLeft
 				verticalAlignment: Text.AlignBottom
@@ -89,9 +93,10 @@ Item {
 			TextBase {
 				id: rewardText
 				Layout.fillHeight: true
+				color: achievement.isSecret ? "yellow" : "navy"
 				
-				text: achievement === undefined ? "???" : achievement.reward
-				font.pixelSize: 8
+				text: achievement === undefined || achievement.isSecret ? "???" : achievement.reward + 'ƒ'
+				font.pointSize: 8
 				
 				verticalAlignment: Text.AlignBottom
 			}

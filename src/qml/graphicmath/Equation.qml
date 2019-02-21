@@ -48,7 +48,7 @@ Row {
 
 		var obj = textComponent.createObject(row, props);
 		obj.anchors.verticalCenter = row.verticalCenter;
-		obj.font.pixelSize = fontSize;
+		obj.font.pointSize = fontSize;
 		
 		items.push(obj);	//	push into array
 		contentWidth += obj.width;	//	add width
@@ -62,7 +62,7 @@ Row {
 		
 		var obj = fractionComponent.createObject(row, props);
 		obj.anchors.verticalCenter = row.verticalCenter;
-		obj.font.pixelSize = fontSize;
+		obj.font.pointSize = fontSize;
 		
 		items.push(obj);
 		contentWidth += obj.width;

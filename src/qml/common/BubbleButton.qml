@@ -88,7 +88,7 @@ Item {
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
 		
-		font.pixelSize: animateText ? 14 * diagonalScalar : 14
+		font.pointSize: animateText ? 14 * diagonalScalar : 14
 	}
 	
 	// mouse area to handle click events

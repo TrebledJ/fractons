@@ -2,12 +2,13 @@
 
 import VPlay 2.0
 import QtQuick 2.0
+import QtQuick.Controls 2.4
 
 import "backdrops"
 import "../common"
 import "../game"
 
-import fractureuns 1.0
+import Fractureuns 1.0
 
 SceneBase {
 	id: scene
@@ -16,7 +17,7 @@ SceneBase {
 	signal studyButtonClicked
 	signal achievementsButtonClicked
 	signal statisticsButtonClicked
-	signal patchNotesButtonClicked
+	signal settingsButtonClicked
 	
 	useDefaultBackButton: false
 	
@@ -69,7 +70,7 @@ SceneBase {
 		TextBase {
 			id: fractureunDisplay
 			width: contentWidth + 10; height: parent.height
-			text: 'Level ' + JFractureuns.level() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " F"
+			text: 'Level ' + JFractureuns.currentLevel() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " ƒ"
 			verticalAlignment: Text.AlignVCenter
 		}
 		
@@ -79,28 +80,28 @@ SceneBase {
 			width: parent.width - parent.spacing - fractureunDisplay.width; height: parent.height
 			radius: 5
 			
-			anchors {
-				top: parent.top
-				bottom: parent.bottom
-			}
-			
 			color: "lightgoldenrodyellow"
 			
 			Rectangle {
 				id: xpMeter
-				width: (parent.width - 4.0) * JFractureuns.fProgress(); height: 4
-				radius: 4
+				width: (parent.width - 4.0) * JFractureuns.fProgress(); height: parent.height
+				radius: 5
 				anchors {
 					left: parent.left
 					top: parent.top
 					bottom: parent.bottom
-					margins: 2
 				}
 				
 				color: "navy"
 			}
 		}	//	Rectangle: fractureunOuterBar
-	}
+		
+		//	INFO
+		//	I tried using a ProgressBar from QtQuick.Controls 2.4 but it showed incorrect results (bar was full even though progress should be halfway through).
+		//	So I reverted to manual rectangles.
+
+		
+	}	//	Row
 
 	
 	//	TODO find images for these buttons below
@@ -120,7 +121,7 @@ SceneBase {
 			width: height; height: 40
 			color: "yellow"
 			
-			text: 'A'
+			text: 'Acvm'
 			
 			onClicked: achievementsButtonClicked();
 		}
@@ -130,20 +131,25 @@ SceneBase {
 			width: height; height: 40
 			color: "yellow"
 			
-			text: 'S'
+			text: 'Stt'
 			
 			onClicked: statisticsButtonClicked();
 		}
 		
-		BubbleButton {
-			id: patchNotesButton
-			width: height; height: 40
-			color: "yellow"
-			
-			text: 'PN'
-			
-			onClicked: patchNotesButtonClicked();
+	}
+	
+	BubbleButton {
+		id: settingsButton
+		width: height; height: 40
+		anchors {
+			top: parent.top
+			right: parent.right
+			margins: 5
 		}
+		color: "yellow"
+		
+		text: 'Set'
+		onClicked: settingsButtonClicked();
 	}
 	
 	

@@ -12,10 +12,9 @@ import "../common"
 SceneBase {
 	id: scene
 	
-//	signal backButtonClicked()
 	signal modeClicked(string mode)
 	
-	useDefaultBackButton: false
+//	useDefaultBackButton: false
 	
 	ListModel {
 		id: modeModel
@@ -39,7 +38,7 @@ SceneBase {
 		
 		anchors {
 			fill: parent
-			leftMargin: 30; rightMargin: 10
+			leftMargin: 80; rightMargin: 10
 		}
 		
 		topMargin: 10
@@ -58,6 +57,11 @@ SceneBase {
 		delegate: modeDelegate
 		header: headerDelegate
 		
+		ScrollBar.vertical: ScrollBar {
+			anchors.left: modeView.right
+			active: true
+		}
+		
 		Component {
 			id: headerDelegate
 			
@@ -67,10 +71,6 @@ SceneBase {
 				
 				Rectangle {
 					anchors.fill: parent
-//					anchors.bottomMargin: 20
-					
-					radius: 5
-					
 					color: "yellow"
 					
 					TextBase {
@@ -98,9 +98,9 @@ SceneBase {
 				//	TODO define mastery
 				Rectangle {
 					id: starsRect
-					width: 80; height: parent.height
+					width: 100; height: parent.height
 					
-					color: "black"
+					color: "black"	//	4 DEBUG
 					opacity: 0.6
 				}
 				
@@ -140,25 +140,25 @@ SceneBase {
 	}	//	ListView: modeView
 	
 	
-	BubbleButton {
-		id: backButton
-		width: 30
-		anchors {
-			left: scene.left
-			top: scene.top
-			bottom: scene.bottom
-		}
-		color: "yellow"
+//	BubbleButton {
+//		id: backButton
+//		width: 30
+//		anchors {
+//			left: scene.left
+//			top: scene.top
+//			bottom: scene.bottom
+//		}
+//		color: "yellow"
 		
-		text: backButton.mouseArea.pressed ? "◄" : "◁";
-		animateText: false
+//		text: backButton.mouseArea.pressed ? "◄" : "◁";
+//		animateText: false
 		
 		
-		defaultDiagonal: 1.1
+//		defaultDiagonal: 1.1
 		
-		enteredFrom: 1; // enteredTo: 1.2
-		pressedFrom: defaultDiagonal; pressedTo: 1.3
+//		enteredFrom: 1; // enteredTo: 1.2
+//		pressedFrom: defaultDiagonal; pressedTo: 1.3
 		
-		onClicked: backButtonClicked();
-	}
+//		onClicked: backButtonClicked();
+//	}
 }

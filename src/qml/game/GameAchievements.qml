@@ -7,7 +7,7 @@ import QtQuick 2.0
 
 import "../common"
 
-import fractureuns 1.0
+import Fractureuns 1.0
 
 
 /**
@@ -32,27 +32,80 @@ import fractureuns 1.0
 
 Item {
 	id: item
-	
-	
-	function encodeAchievements() {
-		var ret = [];
 		
-		for (var i = 0; i < achievementsManager.achievements.length; i++)
-		{
-			var obj = {
-				name: achievementsManager.achievements[i].name,
-				description: achievementsManager.achievements[i].description,
-				reward: achievementsManager.achievements[i].reward,
-				isSecret: achievementsManager.achievements[i].isSecret,
-				progress: achievementsManager.achievements[i].progress,
-				maxProgress: achievementsManager.achievements[i].maxProgress,
-				isCollected: achievementsManager.achievements[i].isCollected,
-			};
+	Component.onCompleted: {
+		//	basic setup and data retrieval
+		console.warn("[GameAchievements] Reloading GameAchievements...");
+		
+		//	connect onChanged signal after setting achievements
+		//	whenever achievements changes, update storage
+		var listener = function() {
+			console.warn("[GameAchievements] Achievements changed!");
 			
-			ret.push(obj);
+			var encoded = priv.encodeAchievements();
+//			console.debug(JSON.stringify(encoded));
+			
+			JStorage.setValue("achievements", encoded);
+		}
+		jAchievementsManager.achievementsChanged.connect(listener);
+		
+		//	connect signal that will remove listener later on
+//		jAchievementsManager.destroyed.connect(function() {	//	sidenote: this doesn't work
+//			jAchievementsManager.achievementsChanged.disconnect(listener);
+//		});
+		
+		
+		loadAchievements();
+		
+		//	for testing purposes
+//		jAchievementsManager.testNotify();
+	}
+	
+	QtObject {
+		id: priv
+		
+		function encodeAchievements() {
+			var ret = [];
+			
+			for (var i = 0; i < jAchievementsManager.achievements.length; i++)
+			{
+				var obj = {
+					name: jAchievementsManager.achievements[i].name,
+					description: jAchievementsManager.achievements[i].description,
+					reward: jAchievementsManager.achievements[i].reward,
+					isSecret: jAchievementsManager.achievements[i].isSecret,
+					progress: jAchievementsManager.achievements[i].progress,
+					maxProgress: jAchievementsManager.achievements[i].maxProgress,
+					isCollected: jAchievementsManager.achievements[i].isCollected,
+				};
+				
+				ret.push(obj);
+			}
+			
+			return ret;
 		}
 		
-		return ret;
+	}
+	
+	function loadAchievements() {
+		//	retrieve achievements from storage
+		var achievements = JStorage.getValue("achievements")
+		if (achievements === undefined)
+		{
+			console.error("[GameAchievments] Key: 'achievements' returned undefined from storage.")
+			return;
+		}
+		
+		//	clear previous list
+		jAchievementsManager.achievements = [];
+		
+		//	add achievements to manager
+		for (var name in achievements)
+		{
+			var acvm = achievements[name];
+			console.log("[GameAchievements] Adding achievement [", acvm.name, "]")
+			addAchievement(acvm.name, acvm.description, acvm.reward, acvm.isSecret, acvm.progress, acvm.maxProgress, acvm.isCollected);
+		}
 	}
 	
 	//	creates JAchievement objects
@@ -64,84 +117,41 @@ Item {
 		}
 		
 		//	see [1]
-		var str = "
-import fractureuns 1.0
-JAchievement { name:'"+name+"'; description:'"+description+"'; reward:"+reward+"; isSecret:"+isSecret+"; progress:"+progress+"; maxProgress:"+maxProgress+"; isCollected:"+isCollected+" }";
+		var str = "import Fractureuns 1.0
+			JAchievement { name:'"+name+"'; description:'"+description+"'; reward:"+reward+"; isSecret:"+isSecret+";						progress:"+progress+"; maxProgress:"+maxProgress+"; isCollected:"+isCollected+" }";
 		
-		var obj = Qt.createQmlObject(str, achievementsManager, 'achievementObject' + achievementsManager.achievements.length)
+		var obj = Qt.createQmlObject(str, jAchievementsManager, 'achievementObject' + jAchievementsManager.achievements.length)
 		
-		achievementsManager.achievements.push(obj);	//	add to achievements array in achievementsManager
-	}
-		
-	Component.onCompleted: {
-		//	basic setup and data retrieval
-		console.warn("Reloading GameAchievements...");
-		
-		//	connect onChanged signal after setting achievements
-		//	whenever achievements changes, update storage
-		var listener = function() {
-			console.warn("GameAchievements.qml: Achievements changed!");
-			
-			var encoded = encodeAchievements();
-			console.debug(JSON.stringify(encoded));
-			
-			JStorage.setValue("achievements", encoded);
-		}
-		achievementsManager.achievementsChanged.connect(listener);
-		
-		//	connect signal that will remove listener later on
-//		achievementsManager.destroyed.connect(function() {	//	sidenote: this doesn't work
-//			achievementsManager.achievementsChanged.disconnect(listener);
-//		});
-		
-		
-		//	retrieve achievements from storage
-		var achievements = JStorage.getValue("achievements")
-		if (achievements === undefined)
-		{
-			console.error("Key: 'achievements' returned undefined from storage.")
-			return;
-		}
-		
-		//	clear previous list
-		achievementsManager.achievements = [];
-		
-		//	add achievements to manager
-		for (var name in achievements)
-		{
-			var acvm = achievements[name];
-			addAchievement(acvm.name, acvm.description, acvm.reward, acvm.isSecret, acvm.progress, acvm.maxProgress, acvm.isCollected);
-		}
-		
-		
-		//	for testing purposes
-//		achievementsManager.testNotify();
-	}
-	
-	function debug() {
-		console.warn("GameAchievements.qml: Running GameAchievements Debug Function");
-		achievementsManager.debug();
+		jAchievementsManager.achievements.push(obj);	//	add to achievements array in jAchievementsManager
 	}
 	
 	function getByIndex(i) {
-		if (i < 0 || achievementsManager.achievements.length <= i)
+		if (i < 0 || jAchievementsManager.achievements.length <= i)
 		{
 			console.error("Achievement with index", i, "is out of range in GameAchievements.qml::getByIndex");
 			return undefined;
 		}
 		
-		return achievementsManager.achievements[i];
+		return jAchievementsManager.achievements[i];
 	}
 	
 	function getByName(name) {
-		for (var i = 0; i < achievementsManager.achievements.length; i++)
+		for (var i = 0; i < jAchievementsManager.achievements.length; i++)
 		{
-			if (achievementsManager.achievements[i].name === name)
-				return achievementsManager.achievements[i];
+			if (jAchievementsManager.achievements[i].name.toLowerCase() === name.toLowerCase())
+				return jAchievementsManager.achievements[i];
 		}
 		
 		console.error("Achievement", name, "not found in GameAchievements.qml::getByName");
 		return undefined;
+	}
+	
+	function getNames() {
+		var ret = [];
+		for (var i = 0; i < jAchievementsManager.achievements.length; i++)
+			ret.push(jAchievementsManager.achievements[i].name);
+		
+		return ret;
 	}
 	
 	function addProgressByIndex(i, amount) {
@@ -157,21 +167,37 @@ JAchievement { name:'"+name+"'; description:'"+description+"'; reward:"+reward+"
 			JFractureuns.addFractureuns(acvm.reward);
 		}
 	}
-	
+
 	function addProgressByName(name, amount) {
+		//	retrieve the achievement
 		var acvm = getByName(name);
+		
+		//	error-checking
 		if (acvm === undefined)
 			return;
+		if (amount === undefined)
+			amount = 1;
+		if (acvm.progress > acvm.maxProgress)
+			return;
 		
+		//	add the amount
 		acvm.progress += amount;
 		
 		if (acvm.progress >= acvm.maxProgress && !acvm.isCollected)
 		{
+			//	set progress to maxProgress as maximum
+			acvm.progress = acvm.maxProgress;
+			
+			//	emit the achievementGet signal
 			acvm.achievementGet();
+			
+			//	add the reward
 			JFractureuns.addFractureuns(acvm.reward);
 		}
 	}
 	
+	
+	//	TODO Deprecate
 	function resetAchievements() {
 		
 	}
