@@ -5,7 +5,7 @@ pragma Singleton
 //import Felgo 3.0
 import QtQuick 2.0
 
-import "../common"
+import "../../common"
 
 import Fractureuns 1.0
 

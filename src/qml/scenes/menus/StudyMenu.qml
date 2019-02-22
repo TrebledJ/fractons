@@ -2,8 +2,8 @@ import Felgo 3.0
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import "backdrops"
-import "../common"
+import "../backdrops"
+import "../../common"
 
 SceneBase {
 	id: sceneBase
@@ -15,13 +15,13 @@ SceneBase {
 		
 		ListElement { role_stars: 0; role_shorthand: "zero"; role_lesson: "Introduction to Fractions" }
 		ListElement { role_stars: 0; role_shorthand: "one"; role_lesson: "Adding and Subtracting Fractions of Like Denominators" }
-		ListElement { role_stars: 0; role_shorthand: "two"; role_lesson: "Multiplying and Dividing Fractions" }
-		ListElement { role_stars: 0; role_shorthand: "three"; role_lesson: "Adding and Subtracting Fractions of Unlike Denominators" }
-		ListElement { role_stars: 0; role_shorthand: "four"; role_lesson: "Converting from Fractions to Decimals" }
-		ListElement { role_stars: 0; role_shorthand: "five"; role_lesson: "Converting from Decimals to Fractions" }
-		ListElement { role_stars: 0; role_shorthand: "six"; role_lesson: "Balancing Equations" }
-		ListElement { role_stars: 0; role_shorthand: "seven"; role_lesson: "Checking the Equality of Fractions" }
-		ListElement { role_stars: 0; role_shorthand: "eight"; role_lesson: "Comparing Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "two"; role_lesson: "Multiplying and Dividing Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "three"; role_lesson: "Adding and Subtracting Fractions of Unlike Denominators" }
+//		ListElement { role_stars: 0; role_shorthand: "four"; role_lesson: "Converting from Fractions to Decimals" }
+//		ListElement { role_stars: 0; role_shorthand: "five"; role_lesson: "Converting from Decimals to Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "six"; role_lesson: "Balancing Equations" }
+//		ListElement { role_stars: 0; role_shorthand: "seven"; role_lesson: "Checking the Equality of Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "eight"; role_lesson: "Comparing Fractions" }
 	}
 	
 	ListView {

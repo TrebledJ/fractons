@@ -152,7 +152,7 @@ Item {
 		
 		from = (from !== undefined ? from : pressedFrom);
 		to = (to !== undefined ? to : pressedTo);
-		duration = (duration !== undefined ? duration : 500);
+		duration = (duration !== undefined ? duration : 800);
 		type = (type !== undefined ? type : Easing.OutBack);
 		overshoot = (overshoot!== undefined ? overshoot : 3);
 		

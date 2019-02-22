@@ -2,7 +2,7 @@ import Felgo 3.0
 import QtQuick 2.0
 
 import "common"
-import "scenes"
+import "scenes/menus"
 import "scenes/modes" as Modes
 import "scenes/others" as Others
 import "scenes/lessons" as Lessons
@@ -24,6 +24,7 @@ GameWindow {
 	//  * Remove the V-Play Splash Screen or set a custom one (available with the Pro Licenses)
 	//  * Add plugins to monetize, analyze & improve your apps (available with the Pro Licenses)
 	//licenseKey: "<generate one from https://v-play.net/licenseKey>"
+//	licenseKey: "B995B3FCCB976891D2E1AE2AFEF301213909105D4FAA9684A32C0C3D61EC2192A1FAC7EB72369A9DA8906EB1A4BBF11B23D24C0C40889061644E97DA0D1B5D80FF7B3E63BFADAAD22EAA6F5E16BEF6DD203810C55E966BEA53115A82E569AE8A5515CBE24504FBDF48DE3287F98D84FF40D1F4916E4B0DE1E30C632528F47F3C3581033C2E739FDBBBF404B349D4A99BFB849894DC5575149D385BDE14E710F1D7260872D016E54DE53C2295A7FD75FF7D72E15CABCF0B35F035676CE2D17929574B1A5F870AC8E92343329191E519337532049F2651471D5EB196D3DD4B0AEE5ABCC80167B07713D94A3B736C7AC3C09CF442A7D9255B8D2B57C21E42EDB797DED4175CE8A0A0327B8343A1B286F18D4FAAAD216D7C4F2A8F371E0DF89984A37A8F9D6016859DCEFE177928A7D8633A"
 	
 	// the size of the Window can be changed at runtime by pressing Ctrl (or Cmd on Mac) + the number keys 1-8
 	// the content of the logical scene size (480x320 for landscape mode by default) gets scaled to the window size based on the scaleMode
@@ -37,9 +38,9 @@ GameWindow {
 	}
 	
 	
-//	state: "home"
+	state: "home"
 //	state: "achievements"
-	state: "lesson_zero"
+//	state: "lesson_zero"
 	states: [
 		State {
 			name: "home"
@@ -125,7 +126,7 @@ GameWindow {
 //		}
 //	]
 	
-	HomeScene {
+	Home {
 		id: homeScene
 		
 		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
@@ -135,7 +136,7 @@ GameWindow {
 		onSettingsButtonClicked: gameWindow.state = "settings"
 	}
 	
-	ExerciseMenuScene {
+	ExerciseMenu {
 		id: exerciseMenuScene
 		onBackButtonClicked: gameWindow.state = "home"
 		onModeClicked: {

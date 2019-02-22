@@ -74,7 +74,7 @@ Item {
 //		clearAllAtStartup: true	//	uncomment to clear db
 		
 		onStorageError: {
-			console.warn("Fractureuns:/game/Storage.qml:Storage:storage ::: A storage error occured!");
+			console.warn("Fractureuns:/game/singles/Storage.qml:Storage:storage ::: A storage error occured!");
 			console.error(JSON.stringify(errorData));
 		}
 		

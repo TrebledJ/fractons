@@ -6,7 +6,7 @@
 
 #include <FelgoLiveClient>
 
-#include <QDebug>
+//#include <QDebug>
 
 #include "achievement.h"
 #include "achievementsmanager.h"
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	felgo.initialize(&engine);
 	
 	// ** use this during development **
-//	felgo.setMainQmlFileName(QStringLiteral("qml/Main.qml"));
+	felgo.setMainQmlFileName(QStringLiteral("qml/Main.qml"));
 	// ** for PUBLISHING, use the entry point below **
 	
 	// use this instead of the above call to avoid deployment of the qml files and compile them into the binary with qt's resource system qrc
@@ -34,14 +34,14 @@ int main(int argc, char *argv[])
 	// to avoid deployment of your qml files and images, also comment the DEPLOYMENTFOLDERS command in the .pro file
 	// also see the .pro file for more details
 	
-	//  felgo.setMainQmlFileName(QStringLiteral("qrc:/qml/Main.qml")); // uncomment for publishing
+//	felgo.setMainQmlFileName(QStringLiteral("qrc:/qml/Main.qml")); // uncomment for publishing
 	
 	
 //	QString thisMainUrl = "../../../../";
 //	qmlRegisterSingletonType(QUrl::fromLocalFile(":/qml/game/Storage.qml"), "JSingletons", 1, 0, "JStorage");
 	
 	
-	qmlRegisterType<Achievement>("Fractureuns", 1, 0, "JAchievement");	//	use J to prevent conflict with VPlay's Achievement type
+	qmlRegisterType<Achievement>("Fractureuns", 1, 0, "JAchievement");	//	use J to prevent conflict with Felgo's Achievement type
 //	qmlRegisterType<AchievementsManager>("Fractureuns", 1, 0, "JAchievementManager");
 	
 	
@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 	//	connect notifications sender from AchievementsManager to DesktopNotifications object
 	QObject::connect(&manager, &AchievementsManager::sendNotification, &notifications, 
 					 &DesktopNotifications::notify);
+	
 	
 //	engine.load(QUrl(felgo.mainQmlFileName()));	// uncomment for publishing
 	

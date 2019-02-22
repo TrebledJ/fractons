@@ -78,6 +78,7 @@ SceneBase {
 	}	//	Flickable: flickable
 	
 	
+	//	header bar
 	Rectangle {
 		width: parent.width; height: 40
 		anchors.top: parent.top
@@ -105,7 +106,7 @@ SceneBase {
 			color: "yellow"
 			
 			text: lessonName
-			font.pointSize: 18
+			font.pointSize: lessonName.length < 30 ? 18 : lessonName.length < 50 ? 14 : 12
 			font.bold: true
 		}
 		

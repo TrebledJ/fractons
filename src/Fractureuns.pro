@@ -1,6 +1,5 @@
 # allows to add DEPLOYMENTFOLDERS and links to the V-Play library and QtCreator auto-completion
 CONFIG += felgo
-#CONFIG += qml quick
 
 # uncomment this line to add the Live Client Module and use live reloading with your custom C++ code
 # for the remaining steps to build a custom Live Code Reload app see here: https://v-play.net/custom-code-reload-app/
@@ -17,7 +16,9 @@ DEPLOYMENTFOLDERS += assetsFolder
 
 # Add more folders to ship with the application here
 
-#RESOURCES += resources.qrc # uncomment for publishing
+RESOURCES += \
+#	resources.qrc # uncomment for publishing
+
 
 # NOTE: for PUBLISHING, perform the following steps:
 # 1. comment the DEPLOYMENTFOLDERS += qmlFolder line above, to avoid shipping your qml files with the application (instead they get compiled to the app binary)

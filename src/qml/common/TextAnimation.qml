@@ -17,7 +17,7 @@ TextBase
 			id: positionAnimation
 			target: textAnimation
 			property: 'y'
-			duration: 5000
+			duration: 10000
 		}
 		NumberAnimation
 		{
@@ -26,7 +26,7 @@ TextBase
 			property: 'opacity'
 			from: 1
 			to: 0
-			duration: 2000
+			duration: 4000
 		}
 		
 		onStopped: textAnimation.destroy()

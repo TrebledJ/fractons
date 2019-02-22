@@ -1,5 +1,7 @@
 //	Achievements.qml
-//	Scene for displaying achievements
+/*	Achievements provides a Scene for displaying achievements, 
+	opening achievements for details, and viewing progress.
+*/
 
 import Felgo 3.0
 import QtQuick 2.0
@@ -9,7 +11,7 @@ import QtQuick.Layouts 1.3
 import "../backdrops"
 import "../../common"
 
-import "../../game"
+import "../../game/singles"
 
 import Fractureuns 1.0
 
@@ -111,7 +113,7 @@ SceneBase {
 		}
 		
 		exit: Transition {
-			NumberAnimation { property: "opacity"; duration: 500; to: 0 }
+			NumberAnimation { property: "opacity"; easing.type: Easing.OutSine; duration: 2000; to: 0 }
 		}
 		
 		Rectangle {

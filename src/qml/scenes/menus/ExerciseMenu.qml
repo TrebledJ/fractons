@@ -1,12 +1,10 @@
-//	ExerciseMenuScene.qml
-
 import Felgo 3.0
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
-import "backdrops"
-import "../common"
-
+import "../backdrops"
+import "../../common"
+import "../../game/singles"
 //	TODO implement stars/mastery
 
 SceneBase {
@@ -18,13 +16,13 @@ SceneBase {
 	
 	ListModel {
 		id: modeModel
-		ListElement { role_stars: 0; role_mode: "Standard" }	//	Standard equation solving, given two fractions on the lhs and an operation
-		ListElement { role_stars: 0; role_mode: "Balance" }		//	balance or simplify a given fraction
+		ListElement { role_stars: 0; role_min_level: 1; role_mode: "Standard" }	//	Standard equation solving, given two fractions on the lhs and an operation
+		ListElement { role_stars: 0; role_min_level: 3; role_mode: "Balance" }		//	balance or simplify a given fraction
 		
 		//		ListElement { role_stars: 0; role_mode: "Bar" }	//	deprecated ?
 		
-		ListElement { role_stars: 0; role_mode: "Conversion" }	//	convert between decimals and fractions
-		ListElement { role_stars: 0; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
+		ListElement { role_stars: 0; role_min_level: 5; role_mode: "Conversion" }	//	convert between decimals and fractions
+		ListElement { role_stars: 0; role_min_level: 7; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
 		
 		//	TODO implement these other modes
 //		ListElement { role_stars: 0; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
@@ -91,6 +89,8 @@ SceneBase {
 				width: modeView.width; height: 40
 				spacing: 20
 				
+				opacity: JFractureuns.currentLevel() < role_min_level ? 0.5 : 1
+				
 				clip: true
 				
 				//	TODO use another Row to hold stars
@@ -114,6 +114,7 @@ SceneBase {
 					background.border.width: 3
 					
 					text: "<b>" + role_mode + "</b> Mode"
+					textBase.textFormat: Text.StyledText
 					textBase.horizontalAlignment: Text.AlignRight
 					textBase.anchors.rightMargin: 10
 					animateText: false
@@ -123,6 +124,9 @@ SceneBase {
 					}
 					
 					onClicked: {
+						if (JFractureuns.currentLevel() < role_min_level)
+							return;
+						
 						console.debug(role_mode + " Mode clicked.");
 						modeClicked(role_mode);
 					}

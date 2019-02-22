@@ -4,7 +4,7 @@ pragma Singleton
 import Felgo 3.0
 import QtQuick 2.0
 
-import "../game"
+//import "../../game/singles"
 
 Item {
 //	id: item
@@ -38,7 +38,7 @@ Item {
 	function addFractureuns(amount) {
 		if (amount === '' || isNaN(amount))
 		{
-			console.error("Fractureuns:/game/Storage.qml:addFractureuns(amount) ::: Expected integer, got", "'" + amount + "'");
+			console.error("Fractureuns:/game/singles/Storage.qml:addFractureuns(amount) ::: Expected integer, got", "'" + amount + "'");
 			return;
 		}
 		

@@ -1,12 +1,11 @@
-//	HomeScene.qml
-
 import Felgo 3.0
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 
-import "backdrops"
-import "../common"
-import "../game"
+import "../backdrops"
+import "../../common"
+import "../../game"
+import "../../game/singles"
 
 import Fractureuns 1.0
 
@@ -50,9 +49,10 @@ SceneBase {
 	
 	//	level + frac display
 	Rectangle {
+		id: ribbonBackground
 		width: parent.width; height: levelFracDisplay.height + 10
 		anchors.bottom: parent.bottom
-		color: "yellow"
+		color: "navy"
 		
 	}
 	
@@ -70,6 +70,7 @@ SceneBase {
 		TextBase {
 			id: fractureunDisplay
 			width: contentWidth + 10; height: parent.height
+			color: "yellow"
 			text: 'Level ' + JFractureuns.currentLevel() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " ƒ"
 			verticalAlignment: Text.AlignVCenter
 		}
@@ -84,12 +85,13 @@ SceneBase {
 			
 			Rectangle {
 				id: xpMeter
-				width: (parent.width - 4.0) * JFractureuns.fProgress(); height: parent.height
+				width: (parent.width - 6) * JFractureuns.fProgress() + 2; height: parent.height - 4
 				radius: 5
 				anchors {
 					left: parent.left
 					top: parent.top
 					bottom: parent.bottom
+					margins: 2
 				}
 				
 				color: "navy"

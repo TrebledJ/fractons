@@ -26,7 +26,6 @@
         <file>qml/scenes/modes/StandardMode.qml</file>
         <file>qml/scenes/modes/TruthMode.qml</file>
         <file>qml/scenes/others/Achievements.qml</file>
-        <file>qml/scenes/others/PatchNotes.qml</file>
         <file>qml/scenes/others/Statistics.qml</file>
         <file>qml/scenes/ExerciseMenuScene.qml</file>
         <file>qml/scenes/HomeScene.qml</file>
@@ -34,5 +33,19 @@
         <file>qml/config.json</file>
         <file>qml/Main.qml</file>
         <file>qml/game/Storage.qml</file>
+        <file>qml/scenes/others/Settings.qml</file>
+        <file>qml/scenes/backdrops/LessonsBase.qml</file>
+        <file>qml/scenes/lessons/One.qml</file>
+        <file>qml/scenes/lessons/ParagraphText.qml</file>
+        <file>qml/scenes/lessons/Zero.qml</file>
+        <file>assets/icons/Calculator.png</file>
+        <file>assets/icons/Document.png</file>
+        <file>assets/icons/Gear.png</file>
+        <file>assets/icons/HtmlTag.png</file>
+        <file>assets/icons/LineChart.png</file>
+        <file>assets/icons/OpenBook.png</file>
+        <file>assets/icons/Star.png</file>
+        <file>assets/icons/Trophy.png</file>
+        <file>assets/icons/YellowStar.png</file>
     </qresource>
 </RCC>

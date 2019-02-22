@@ -1,14 +1,4 @@
 //	ModesBase.qml
-
-import Felgo 3.0
-import QtQuick 2.0
-import QtQuick.Controls 2.4
-
-import "../../common"
-import "../../game"
-
-import "../../js/Math.js" as JMath
-
 /*	ModesBase provides an interface/template for building questions and accepting answers. It builds on a SceneBase by drawing a panel on the left
 	with the following buttons:
 		+ Back (previous scene)
@@ -64,8 +54,17 @@ import "../../js/Math.js" as JMath
 		
 	}
 	
-  */
+*/
 
+import Felgo 3.0
+import QtQuick 2.0
+import QtQuick.Controls 2.4
+
+import "../../common"
+import "../../game"
+import "../../game/singles"
+
+import "../../js/Math.js" as JMath
 
 SceneBase {
 	id: scene
