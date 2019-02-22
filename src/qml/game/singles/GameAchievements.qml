@@ -7,7 +7,7 @@ import QtQuick 2.0
 
 import "../../common"
 
-import Fractureuns 1.0
+import Fractons 1.0
 
 
 /**
@@ -117,7 +117,7 @@ Item {
 		}
 		
 		//	see [1]
-		var str = "import Fractureuns 1.0
+		var str = "import Fractons 1.0
 			JAchievement { name:'"+name+"'; description:'"+description+"'; reward:"+reward+"; isSecret:"+isSecret+";						progress:"+progress+"; maxProgress:"+maxProgress+"; isCollected:"+isCollected+" }";
 		
 		var obj = Qt.createQmlObject(str, jAchievementsManager, 'achievementObject' + jAchievementsManager.achievements.length)
@@ -164,7 +164,7 @@ Item {
 		if (acvm.progress >= acvm.maxProgress && !acvm.isCollected)
 		{
 			acvm.achievementGet();
-			JFractureuns.addFractureuns(acvm.reward);
+			JFractons.addFractons(acvm.reward);
 		}
 	}
 
@@ -192,7 +192,7 @@ Item {
 			acvm.achievementGet();
 			
 			//	add the reward
-			JFractureuns.addFractureuns(acvm.reward);
+			JFractons.addFractons(acvm.reward);
 		}
 	}
 	

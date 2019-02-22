@@ -8,7 +8,7 @@
         <file>qml/common/TextAnimation.qml</file>
         <file>qml/common/TextBase.qml</file>
         <file>qml/game/AnimatedMath.qml</file>
-        <file>qml/game/Fractureuns.qml</file>
+        <file>qml/game/Fractons.qml</file>
         <file>qml/game/GameAchievements.qml</file>
         <file>qml/game/NumberPad.qml</file>
         <file>qml/game/qmldir</file>

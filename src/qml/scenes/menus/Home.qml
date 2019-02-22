@@ -7,7 +7,7 @@ import "../../common"
 import "../../game"
 import "../../game/singles"
 
-import Fractureuns 1.0
+import Fractons 1.0
 
 SceneBase {
 	id: scene
@@ -68,24 +68,24 @@ SceneBase {
 		spacing: 10
 		
 		TextBase {
-			id: fractureunDisplay
+			id: fractonDisplay
 			width: contentWidth + 10; height: parent.height
 			color: "yellow"
-			text: 'Level ' + JFractureuns.currentLevel() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " ƒ"
+			text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fCurrent + '/' + JFractons.fNextThresh() + " ƒ"
 			verticalAlignment: Text.AlignVCenter
 		}
 		
 		//	displays the frac progress
 		Rectangle {
-			id: fractureunOuterBar
-			width: parent.width - parent.spacing - fractureunDisplay.width; height: parent.height
+			id: fractonOuterBar
+			width: parent.width - parent.spacing - fractonDisplay.width; height: parent.height
 			radius: 5
 			
 			color: "lightgoldenrodyellow"
 			
 			Rectangle {
 				id: xpMeter
-				width: (parent.width - 6) * JFractureuns.fProgress() + 2; height: parent.height - 4
+				width: (parent.width - 6) * JFractons.fProgress() + 2; height: parent.height - 4
 				radius: 5
 				anchors {
 					left: parent.left
@@ -96,7 +96,7 @@ SceneBase {
 				
 				color: "navy"
 			}
-		}	//	Rectangle: fractureunOuterBar
+		}	//	Rectangle: fractonOuterBar
 		
 		//	INFO
 		//	I tried using a ProgressBar from QtQuick.Controls 2.4 but it showed incorrect results (bar was full even though progress should be halfway through).

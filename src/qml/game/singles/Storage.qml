@@ -74,7 +74,7 @@ Item {
 //		clearAllAtStartup: true	//	uncomment to clear db
 		
 		onStorageError: {
-			console.warn("Fractureuns:/game/singles/Storage.qml:Storage:storage ::: A storage error occured!");
+			console.warn("Fractons:/game/singles/Storage.qml:Storage:storage ::: A storage error occured!");
 			console.error(JSON.stringify(errorData));
 		}
 		
@@ -138,8 +138,8 @@ Item {
 		storage.clearAll();
 		storage.fillDefaults();
 		
-//		JFractureuns.fCurrent = defaultKeys.fCurrent;
-		JFractureuns.loadFractureuns();
+//		JFractons.fCurrent = defaultKeys.fCurrent;
+		JFractons.loadFractons();
 		JGameAchievements.loadAchievements();
 	}
 	

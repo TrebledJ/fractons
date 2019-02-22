@@ -9,11 +9,11 @@ import "scenes/lessons" as Lessons
 
 //	TODO create an accounts feature that will let users switch accounts (locally, of course)
 
-//	TODO consider change name XP to Fractureuns as currency
+//	Consider change name XP to Fractons as currency
 //	using "experience" as a levelling token seems inhumane. Consider:
 //	"haha! I have more EXPERIENCE than you. :P" this isn't good psychologically-speaking
 //	Khan Academy uses "Energy Points". Something abstract but countable. Totally made up. I can do that to. :-)
-//	Let's call it "Fractureuns" to go with the title.
+//	Let's call it "Fractons" to go with the title.
 
 GameWindow {
 	id: gameWindow
@@ -34,7 +34,7 @@ GameWindow {
 	screenHeight: 640
 	
 	Component.onCompleted: {
-//		jNotifications.notify("Greetings", "Hello there, welcome to Fractureuns.", 5);
+//		jNotifications.notify("Greetings", "Hello there, welcome to Fractons.", 5);
 	}
 	
 	

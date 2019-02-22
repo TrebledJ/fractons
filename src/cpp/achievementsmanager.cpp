@@ -34,7 +34,7 @@ void AchievementsManager::appendAchievements(QQmlListProperty<Achievement>* list
 						 [&,e,manager] ()
 		{
 			qDebug() << "[C++ AchievementsManager] Achievement Get: " << e->m_name;
-			QString msg = QString("You just got %1 and earned %2 Fractureuns!").arg(e->m_name).arg(e->m_reward);
+			QString msg = QString("You just got %1 and earned %2 Fractons!").arg(e->m_name).arg(e->m_reward);
 			emit manager->sendNotification("Achievment Get!", msg, 8);
 		});
 	}

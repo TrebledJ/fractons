@@ -43,7 +43,7 @@ android {
     compileSdkVersion androidCompileSdkVersion.toInteger()
     buildToolsVersion androidBuildToolsVersion
 
-    defaultConfig.applicationId = 'com.trebledj.wizardEVP.Fractureuns'
+    defaultConfig.applicationId = 'com.trebledj.wizardEVP.Fractons'
 
     sourceSets {
         main {

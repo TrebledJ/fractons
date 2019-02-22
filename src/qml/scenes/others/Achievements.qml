@@ -13,7 +13,7 @@ import "../../common"
 
 import "../../game/singles"
 
-import Fractureuns 1.0
+import Fractons 1.0
 
 SceneBase {
 	id: sceneBase

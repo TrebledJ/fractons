@@ -89,7 +89,7 @@ SceneBase {
 				width: modeView.width; height: 40
 				spacing: 20
 				
-				opacity: JFractureuns.currentLevel() < role_min_level ? 0.5 : 1
+				opacity: JFractons.currentLevel() < role_min_level ? 0.5 : 1
 				
 				clip: true
 				
@@ -124,7 +124,7 @@ SceneBase {
 					}
 					
 					onClicked: {
-						if (JFractureuns.currentLevel() < role_min_level)
+						if (JFractons.currentLevel() < role_min_level)
 							return;
 						
 						console.debug(role_mode + " Mode clicked.");

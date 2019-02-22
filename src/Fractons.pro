@@ -6,7 +6,7 @@ CONFIG += felgo
 CONFIG += felgo-live
 
 # configure the bundle identifier for iOS
-PRODUCT_IDENTIFIER = com.trebledj.wizardEVP.Fractureuns
+PRODUCT_IDENTIFIER = com.trebledj.wizardEVP.Fractons
 
 qmlFolder.source = qml
 DEPLOYMENTFOLDERS += qmlFolder # comment for publishing

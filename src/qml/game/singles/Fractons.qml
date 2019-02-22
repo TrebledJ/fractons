@@ -1,4 +1,4 @@
-//	Fractureuns.qml
+//	Fractons.qml
 
 pragma Singleton
 import Felgo 3.0
@@ -12,17 +12,17 @@ Item {
 	signal levelUp(int level)
 	
 	property int fCurrent: -1
-	property int fLevelingConstant: -1	//	also the fractureuns threshold for Level 1
+	property int fLevelingConstant: -1	//	also the fractons threshold for Level 1
 	
 	Component.onCompleted: {
 		//	basic setup and data retrieval
-		console.warn("Reloading JFractureuns...");
+		console.warn("Reloading JFractons...");
 		
-		loadFractureuns();
+		loadFractons();
 	}
 	
 	onFCurrentChanged: {
-		setFractureuns(fCurrent);
+		setFractons(fCurrent);
 	}
 	
 	onFLevelingConstantChanged: {
@@ -35,10 +35,10 @@ Item {
 		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 5);
 	}
 	
-	function addFractureuns(amount) {
+	function addFractons(amount) {
 		if (amount === '' || isNaN(amount))
 		{
-			console.error("Fractureuns:/game/singles/Storage.qml:addFractureuns(amount) ::: Expected integer, got", "'" + amount + "'");
+			console.error("Fractons:/game/singles/Storage.qml:addFractons(amount) ::: Expected integer, got", "'" + amount + "'");
 			return;
 		}
 		
@@ -50,9 +50,9 @@ Item {
 			levelUp(levelAt(fCurrent));	//	emit the level up signal
 	}
 	
-	function levelAt(fractureuns) {
-		if (fractureuns === '' || isNaN(fractureuns))
-			fractureuns = fCurrent;
+	function levelAt(fractons) {
+		if (fractons === '' || isNaN(fractons))
+			fractons = fCurrent;
 		
 		/*
 		  XP Polynomial Equation:
@@ -61,8 +61,8 @@ Item {
 			
 			where
 				x = level,
-				y = minimum fractureuns required to reach level x,
-				I = fractureuns init/increment (fractureunsLevelingConstant here)
+				y = minimum fractons required to reach level x,
+				I = fractons init/increment (fractonsLevelingConstant here)
 		  */
 		/*
 		  Solving for x, by the quadratic equation, etc, we get
@@ -72,7 +72,7 @@ Item {
 		  */
 		
 		//	implements quadratic formula from equation above. +1 for a 1-based index
-		return Math.floor(-0.5 + Math.sqrt(0.25 + 2 *fractureuns / fLevelingConstant)) + 1;
+		return Math.floor(-0.5 + Math.sqrt(0.25 + 2 *fractons / fLevelingConstant)) + 1;
 	}
 	
 	function currentLevel() {
@@ -98,7 +98,7 @@ Item {
 		return (fLevelingConstant * (lvl - 1) * lvl / 2);
 	}
 	
-	function loadFractureuns() {
+	function loadFractons() {
 		var fC = JStorage.getValue("fCurrent");
 		fCurrent = fC !== undefined ? fC : 0;
 		
@@ -107,7 +107,7 @@ Item {
 	}
 	
 	//	centralised function, don't need to bother with remembering the key (i.e. fCurrent)
-	function setFractureuns(ftn) {
+	function setFractons(ftn) {
 		JStorage.setValue("fCurrent", ftn);
 	}
 	
@@ -117,7 +117,7 @@ Item {
 	//	========================  //
 	
 	function debug() {
-		console.debug("State of Fractureuns:");
+		console.debug("State of Fractons:");
 		console.debug(" • Current Amount [fCurrent]:", fCurrent);
 		console.debug(" • Current Threshold [fCurrentThresh()]:", fCurrentThresh());
 		console.debug(" • Next Threshold [fNextThresh()]:", fNextThresh());

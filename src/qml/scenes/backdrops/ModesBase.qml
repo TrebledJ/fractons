@@ -98,18 +98,18 @@ SceneBase {
 	useDefaultBackButton: false
 	
 	Component.onCompleted: {
-//		console.debug("Level", JFractureuns.levelAt());
-//		console.debug("fractureuns", JFractureuns.fCurrent);
-//		console.debug("leveling_constant", JFractureuns.fLevelingConstant);
+//		console.debug("Level", JFractons.levelAt());
+//		console.debug("fractons", JFractons.fCurrent);
+//		console.debug("leveling_constant", JFractons.fLevelingConstant);
 		
 //		for (var i = 0; i < 10; i++)
 //		{
-//			console.debug("Level", i, "has a thresh of", JFractureuns.xpThresh(i));
+//			console.debug("Level", i, "has a thresh of", JFractons.xpThresh(i));
 //		}
 		
 //		for (var i = 0; i < 20; i++)
 //		{
-//			console.debug("XP", i * 10, "has level", JFractureuns.levelAt(i*10));
+//			console.debug("XP", i * 10, "has level", JFractons.levelAt(i*10));
 //		}
 		
 		
@@ -254,15 +254,15 @@ SceneBase {
 				
 				//	this will display the fracs
 				Rectangle {
-					id: fractureunOuterBar
+					id: fractonOuterBar
 					width: 10; height: parent.height
 					radius: 5
 					
 					color: "lightgoldenrodyellow"
 					
 					Rectangle {
-						id: fractureunMeter
-						width: 4; height: (parent.height - 4.0) * JFractureuns.fProgress()
+						id: fractonMeter
+						width: 4; height: (parent.height - 4.0) * JFractons.fProgress()
 						radius: 4
 						anchors {
 							left: parent.left
@@ -273,19 +273,19 @@ SceneBase {
 						
 						color: "navy"
 					}
-				}	//	Rectangle: fractureunOuterBar
+				}	//	Rectangle: fractonOuterBar
 				
 				//	this column will display miscellaneous objects
 				//	 event logs, the Go button, level/xp labels
 				Column {
-					width: parent.width - parent.spacing - fractureunOuterBar.width; height: parent.height
+					width: parent.width - parent.spacing - fractonOuterBar.width; height: parent.height
 					spacing: 10
 					
 					Rectangle {
 						id: eventSpace
 						width: parent.width
 						height: parent.height - parent.spacing - goButton.height
-									- parent.spacing - fractureunDisplay.height
+									- parent.spacing - fractonDisplay.height
 						
 						color: "skyblue"	//	debug
 //						color: "transparent"
@@ -308,11 +308,11 @@ SceneBase {
 					}
 					
 					TextBase {
-						id: fractureunDisplay
+						id: fractonDisplay
 						height: contentHeight + 5
 						anchors.horizontalCenter: parent.horizontalCenter
 						
-						text: 'Level ' + JFractureuns.currentLevel() + '   ' + JFractureuns.fCurrent + '/' + JFractureuns.fNextThresh() + " F"
+						text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fCurrent + '/' + JFractons.fNextThresh() + " F"
 						color: "yellow"
 						
 						font.pointSize: 10
@@ -470,7 +470,7 @@ SceneBase {
 				JGameAchievements.addProgressByName("jogger", 1);
 			
 			
-			addFractureuns(xpAmount);
+			addFractons(xpAmount);
 			
 			//	ACVM : associate
 			JGameAchievements.addProgressByName("associate", 1)
@@ -523,13 +523,13 @@ SceneBase {
 	}
 	
 	//	this will increment (or decrement) the xp variable and log the increase (or decrease)
-	function addFractureuns(amount) {
+	function addFractons(amount) {
 		if (isNaN(amount) || amount === "") {
-			console.error("addFractureuns(): Expected numeric amount, got", amount === "" ? "<empty>" : amount);
+			console.error("addFractons(): Expected numeric amount, got", amount === "" ? "<empty>" : amount);
 			return;
 		}
 		
-		JFractureuns.addFractureuns(amount);
+		JFractons.addFractons(amount);
 		if (amount >= 0)
 			logEvent('+' + amount + 'F', "yellow", 8);
 		else

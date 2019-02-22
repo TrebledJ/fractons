@@ -41,8 +41,8 @@ int main(int argc, char *argv[])
 //	qmlRegisterSingletonType(QUrl::fromLocalFile(":/qml/game/Storage.qml"), "JSingletons", 1, 0, "JStorage");
 	
 	
-	qmlRegisterType<Achievement>("Fractureuns", 1, 0, "JAchievement");	//	use J to prevent conflict with Felgo's Achievement type
-//	qmlRegisterType<AchievementsManager>("Fractureuns", 1, 0, "JAchievementManager");
+	qmlRegisterType<Achievement>("Fractons", 1, 0, "JAchievement");	//	use J to prevent conflict with Felgo's Achievement type
+//	qmlRegisterType<AchievementsManager>("Fractons", 1, 0, "JAchievementManager");
 	
 	
 	AchievementsManager manager;
