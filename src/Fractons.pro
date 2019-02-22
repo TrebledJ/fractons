@@ -17,7 +17,9 @@ DEPLOYMENTFOLDERS += assetsFolder
 # Add more folders to ship with the application here
 
 RESOURCES += \
+	images.qrc \
 #	resources.qrc # uncomment for publishing
+    
 
 
 # NOTE: for PUBLISHING, perform the following steps:

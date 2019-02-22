@@ -38,10 +38,10 @@ Item {
 	property alias font: buttonText.font
 	property alias background: background
 	property alias mouseArea: mouseArea
-	property alias textBase: buttonText
+	property alias textObj: buttonText
+	property alias image: image
 	
 	property real diagonalScalar: defaultDiagonal
-	property bool animateText: true
 	
 	//	these From-To values will be used for animation purposes
 	property real enteredFrom: 0.75
@@ -53,10 +53,11 @@ Item {
 	property real releasedFrom: pressedTo
 	property real releasedTo: defaultDiagonal
 	
+	//	the diagonal is crucial in bubbling
 	property real defaultDiagonal: 1
 	
-	property bool checked: false
 	property bool isCheckButton: false
+	property bool checked: false
 	state: checked ? "on" : "off"
 	
 	//	private variables
@@ -76,19 +77,35 @@ Item {
 		radius: 5
 		
 		color: mouseArea.containsMouse ? hoverColor : defaultColor
-		opacity: isCheckButton ? checked ? 1 : 0.5 : parent.opacity
+		opacity: isCheckButton ? checked ? 1 : 0.6 : parent.opacity
+	}
+	
+	//	button image
+	Image {
+		id: image
+		anchors.fill: background
+		anchors.centerIn: background
+		anchors.margins: 5
+		
+		fillMode: Image.PreserveAspectFit
+		visible: source !== ""
+		
+		mipmap: true
 	}
 	
 	// button text
 	TextBase {
 		id: buttonText
-		anchors.fill: parent
+		
+		anchors.fill: firmAnchor ? parent : background
 		anchors.centerIn: background
 		
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
 		
-		font.pointSize: animateText ? 14 * diagonalScalar : 14
+		font.pointSize: animate ? 14 * diagonalScalar : 14
+		
+		animate: true
 	}
 	
 	// mouse area to handle click events

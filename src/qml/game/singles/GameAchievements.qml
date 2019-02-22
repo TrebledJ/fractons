@@ -74,6 +74,8 @@ Item {
 					description: jAchievementsManager.achievements[i].description,
 					reward: jAchievementsManager.achievements[i].reward,
 					isSecret: jAchievementsManager.achievements[i].isSecret,
+					secret: jAchievementsManager.achievements[i].secret,
+					isClassified: jAchievementsManager.achievements[i].isClassified,
 					progress: jAchievementsManager.achievements[i].progress,
 					maxProgress: jAchievementsManager.achievements[i].maxProgress,
 					isCollected: jAchievementsManager.achievements[i].isCollected,
@@ -103,22 +105,34 @@ Item {
 		for (var name in achievements)
 		{
 			var acvm = achievements[name];
-			console.log("[GameAchievements] Adding achievement [", acvm.name, "]")
-			addAchievement(acvm.name, acvm.description, acvm.reward, acvm.isSecret, acvm.progress, acvm.maxProgress, acvm.isCollected);
+			console.log("[GameAchievements] Adding achievement [" + acvm.name + "]")
+			addAchievement(acvm.name, acvm.description, acvm.reward, acvm.isSecret, acvm.secret,
+						   acvm.isClassified, acvm.progress, acvm.maxProgress, acvm.isCollected);
 		}
 	}
 	
 	//	creates JAchievement objects
-	function addAchievement(name, description, reward, isSecret, progress, maxProgress, isCollected) {
-		if (arguments.length < 7)
+	function addAchievement(name, description, reward, isSecret, secret, isClassified, progress, maxProgress, isCollected) {
+		if (arguments.length !== 9)
 		{
-			console.warn("Not enough arguments provided to GameAchievements.qml:addAchievement");
+			console.warn("[GameAchievements] Incorrect number of arguments provided to GameAchievements.qml::addAchievement");
 			return;
 		}
 		
 		//	see [1]
-		var str = "import Fractons 1.0
-			JAchievement { name:'"+name+"'; description:'"+description+"'; reward:"+reward+"; isSecret:"+isSecret+";						progress:"+progress+"; maxProgress:"+maxProgress+"; isCollected:"+isCollected+" }";
+		var str = "
+import Fractons 1.0 
+JAchievement {
+	name: '"+name+"';
+	description: '"+description+"';
+	reward: "+reward+";
+	isSecret: "+isSecret+";
+	secret: '"+secret+"';
+	isClassified: "+isClassified+";
+	progress: "+progress+";
+	maxProgress: "+maxProgress+";
+	isCollected: "+isCollected+";
+}";
 		
 		var obj = Qt.createQmlObject(str, jAchievementsManager, 'achievementObject' + jAchievementsManager.achievements.length)
 		
@@ -128,7 +142,7 @@ Item {
 	function getByIndex(i) {
 		if (i < 0 || jAchievementsManager.achievements.length <= i)
 		{
-			console.error("Achievement with index", i, "is out of range in GameAchievements.qml::getByIndex");
+			console.error("[GameAchievements] Achievement with index", i, "is out of range in GameAchievements.qml::getByIndex");
 			return undefined;
 		}
 		
@@ -142,42 +156,61 @@ Item {
 				return jAchievementsManager.achievements[i];
 		}
 		
-		console.error("Achievement", name, "not found in GameAchievements.qml::getByName");
+		console.error("[GameAchievements] Achievement", name, "not found in GameAchievements.qml::getByName");
 		return undefined;
 	}
 	
-	function getNames() {
+	function getNames(filter) {
+		filter = filter === undefined ? filter = [] : filter.split(' ');
+		
+		var passesFilters = function(acvm)
+		{
+			for (var i in filter)
+			{
+				var req = filter[i];
+				if (req === "secret" && !acvm.isSecret)
+					return false;
+				if (req === "!secret" && acvm.isSecret)
+					return false;
+				if (req === "classified" && !acvm.isClassified)
+					return false;
+				if (req === "!classified" && acvm.isClassified)
+					return false;
+				if (req === "collected" && !acvm.isCollected)
+					return false;
+				if (req === "!collected" && acvm.isCollected)
+					return false;
+			}
+			
+			return true;
+		}
+		
 		var ret = [];
 		for (var i = 0; i < jAchievementsManager.achievements.length; i++)
-			ret.push(jAchievementsManager.achievements[i].name);
+		{
+			var acvm = jAchievementsManager.achievements[i];
+			if (passesFilters(acvm))
+				ret.push(acvm.name);
+		}
 		
 		return ret;
 	}
 	
 	function addProgressByIndex(i, amount) {
-		var acvm = getByIndex(i);
-		if (acvm === undefined)
-			return;
-		
-		acvm.progress += amount;
-		
-		if (acvm.progress >= acvm.maxProgress && !acvm.isCollected)
-		{
-			acvm.achievementGet();
-			JFractons.addFractons(acvm.reward);
-		}
+		addProgress(getByIndex(i), amount);
 	}
 
 	function addProgressByName(name, amount) {
-		//	retrieve the achievement
-		var acvm = getByName(name);
-		
+		addProgress(getByName(name), amount);
+	}
+	
+	function addProgress(acvm, amount) {
 		//	error-checking
 		if (acvm === undefined)
 			return;
 		if (amount === undefined)
 			amount = 1;
-		if (acvm.progress > acvm.maxProgress)
+		if (acvm.progress >= acvm.maxProgress)
 			return;
 		
 		//	add the amount

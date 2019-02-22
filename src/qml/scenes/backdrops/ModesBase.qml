@@ -59,6 +59,7 @@
 import Felgo 3.0
 import QtQuick 2.0
 import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 
 import "../../common"
 import "../../game"
@@ -140,25 +141,16 @@ SceneBase {
 	
 	
 	BubbleButton {
-		id: numberPadSwitch
+		id: infoButton
 		width: height; height: 30
 		anchors {
 			top: drawingArea.top
 			right: drawingArea.right
 			margins: 10
 		}
-		color: "navy"
+		color: "yellow"
 		
-		text: "C"
-		textBase.color: "yellow"
-		
-		checked: true
-		isCheckButton: true
-		
-		onClicked: {
-			if (numberPad.visible)
-				numberPad.animate();
-		}
+		text: "i"
 	}
 	
 	NumberPad {
@@ -197,7 +189,7 @@ SceneBase {
 		
 		color: "navy"
 		
-		Column {
+		ColumnLayout {
 			id: panelColumn
 			anchors.fill: parent
 			anchors.margins: 10
@@ -220,12 +212,20 @@ SceneBase {
 				}
 				
 				BubbleButton {
-					id: infoButton
+					id: numberPadSwitch
 					width: height; height: parent.height
-					background.radius: 5
+					
 					color: "yellow"
 					
-					text: "i"
+					image.source: "qrc:/assets/icons/Calculator"
+					
+					isCheckButton: true
+					checked: true
+					
+					onClicked: {
+						if (numberPad.visible)
+							numberPad.animate();
+					}
 				}
 			}
 			
@@ -247,81 +247,66 @@ SceneBase {
 				}
 			}
 			
-			Row {
-				width: parent.width; height: parent.height - parent.spacing - backButton.height
-													- (difficultyButton.visible ? parent.spacing + difficultyButton.height : 0)
-				spacing: 10
+			Rectangle {
+				id: eventSpace
+				width: parent.width; Layout.fillHeight: true
 				
-				//	this will display the fracs
+				color: "skyblue"	//	debug
+//				color: "transparent"
+			}
+			
+			BubbleButton {
+				id: goButton
+				width: parent.width; height: 30
+				background.radius: 5
+				color: "yellow"
+				
+				text: "Go"
+				
+				//	broadcast
+				onClicked: scene.goButtonClicked();
+				//	all the intense logic is kept out of here for brevity
+				//	and moved to the onGoButtonClicked signal handler below
+			}
+			
+			TextBase {
+				id: fractonDisplay
+				width: parent.width; height: contentHeight + 5
+				Layout.alignment: Qt.AlignHCenter
+				
+				color: "yellow"
+				
+				text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fCurrent + '/' + JFractons.fNextThresh() + " ƒ"
+				
+				font.pointSize: 10
+				
+				horizontalAlignment: Text.AlignHCenter
+				verticalAlignment: Text.AlignBottom
+			}
+					
+			//	displays the frac progress
+			Rectangle {
+				id: fractonOuterBar
+				width: parent.width; height: 10
+				radius: 5
+				
+				color: "lightgoldenrodyellow"
+				
 				Rectangle {
-					id: fractonOuterBar
-					width: 10; height: parent.height
+					id: xpMeter
+					width: (parent.width - 6) * JFractons.fProgress() + 2; height: parent.height - 4
 					radius: 5
-					
-					color: "lightgoldenrodyellow"
-					
-					Rectangle {
-						id: fractonMeter
-						width: 4; height: (parent.height - 4.0) * JFractons.fProgress()
-						radius: 4
-						anchors {
-							left: parent.left
-							right: parent.right
-							bottom: parent.bottom
-							margins: 2
-						}
-						
-						color: "navy"
-					}
-				}	//	Rectangle: fractonOuterBar
-				
-				//	this column will display miscellaneous objects
-				//	 event logs, the Go button, level/xp labels
-				Column {
-					width: parent.width - parent.spacing - fractonOuterBar.width; height: parent.height
-					spacing: 10
-					
-					Rectangle {
-						id: eventSpace
-						width: parent.width
-						height: parent.height - parent.spacing - goButton.height
-									- parent.spacing - fractonDisplay.height
-						
-						color: "skyblue"	//	debug
-//						color: "transparent"
+					anchors {
+						left: parent.left
+						top: parent.top
+						bottom: parent.bottom
+						margins: 2
 					}
 					
-					BubbleButton {
-						id: goButton
-						width: parent.width; height: 30
-						background.radius: 5
-						color: "yellow"
-						
-						text: "Go"
-						
-						onClicked: {
-							//	broadcast
-							scene.goButtonClicked();
-							
-							//	all the intense logic is kept out of here for brevity
-						}
-					}
+					color: "navy"
+				}
+			}	//	Rectangle: fractonOuterBar
 					
-					TextBase {
-						id: fractonDisplay
-						height: contentHeight + 5
-						anchors.horizontalCenter: parent.horizontalCenter
-						
-						text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fCurrent + '/' + JFractons.fNextThresh() + " F"
-						color: "yellow"
-						
-						font.pointSize: 10
-						verticalAlignment: Text.AlignBottom
-					}
-					
-					
-				}	//	Column
-			}	//	Row
 		}	//	Column: panelColumn
 	}	//	Rectangle: panel
 	
@@ -441,7 +426,7 @@ SceneBase {
 	
 	onGoButtonClicked: {
 		//	animation logic
-		goButton.animateScalar(goButton.pressedFrom, goButton.pressedTo);
+		goButton.animateScalar();
 		
 		//	processing logic
 		var text = answerField.text;
@@ -487,10 +472,18 @@ SceneBase {
 	
 	
 	//	this function will create animated text floating upwards across the eventSpace
-	function logEvent(text, color, fontSize) {
+	function logEvent(text, color, fontSize, x) {
 		text = text !== undefined ? text : "Hello world?";
 		color = color !== undefined ? color : "yellow";
 		fontSize = fontSize !== undefined ? fontSize : 12;
+		
+		//	x is should be a real number from 0 to 1
+		if (x === undefined)
+			x = 0;
+		else if (x === "random")
+			x = JMath.randI(0, eventSpace.width);
+		else
+			x = x*eventSpace.width;
 		
 		priv.eventCounter++;
 		
@@ -500,6 +493,7 @@ SceneBase {
 			id: id,
 			text: text,
 			color: color,
+			x: x,
 		};
 		
 		
@@ -516,7 +510,7 @@ SceneBase {
 		obj.animation1.to = to + randY;
 		
 		
-		obj.x = JMath.randI(0, eventSpace.width - 30);
+//		obj.x = x;
 		obj.horizontalAlignment = Text.AlignHCenter
 		
 		obj.start();
@@ -530,10 +524,12 @@ SceneBase {
 		}
 		
 		JFractons.addFractons(amount);
-		if (amount >= 0)
-			logEvent('+' + amount + 'F', "yellow", 8);
+		if (amount > 0)
+			logEvent('+' + amount + 'ƒ', "green", 8, 0.75);
+		else if (amount === 0)
+			logEvent('+' + amount + 'ƒ', "yellow", 8, 0.75);
 		else
-			logEvent(amount + 'F', "red", 8);
+			logEvent(amount + 'ƒ', "red", 8, 0.75);
 	}
 	
 	//	this will log the combo with a special emoticon format for milestones, such as the combos divisible

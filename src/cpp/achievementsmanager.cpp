@@ -73,17 +73,9 @@ void AchievementsManager::elementsClear(QQmlListProperty<Achievement> *list)
 
 void AchievementsManager::debug()
 {
-//	qDebug() << "No Debug...";
-	
 	qDebug() << "Number of Achievements:";
 	qDebug() << "  " << m_achievements.count();
 	
-//	for (int i = 0; i < achievements.count(); i++)
-//	{
-//		qDebug();
-//		qDebug() << " Achieve" << i+1;
-		
-	//	}
 }
 
 void AchievementsManager::testNotify()

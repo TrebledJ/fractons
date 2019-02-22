@@ -37,7 +37,7 @@ Item {
 	property alias font: buttonText.font
 	property alias background: background
 	property alias mouseArea: mouseArea
-	property alias textBase: buttonText
+	property alias textObj: buttonText
 	
 	property real diagonalScalar: 1
 	property bool animateText: false

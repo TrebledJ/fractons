@@ -29,8 +29,11 @@ SceneBase {
 			width: height; height: 80
 			color: "yellow"
 			
-			//	TODO replace text with image
 			text: "Study"
+			textObj.verticalAlignment: Text.AlignBottom
+			
+			image.source: "qrc:/assets/icons/OpenBook"
+			image.anchors.bottomMargin: 20
 			
 			onClicked: studyButtonClicked()
 		}
@@ -40,8 +43,11 @@ SceneBase {
 			width: height; height: 80
 			color: "yellow"
 			
-			//	TODO replace text with image
 			text: "Exercises"
+			textObj.verticalAlignment: Text.AlignBottom
+			
+			image.source: "qrc:/assets/icons/Star"
+			image.anchors.bottomMargin: 20
 			
 			onClicked: exercisesButtonClicked()
 		}
@@ -106,8 +112,6 @@ SceneBase {
 	}	//	Row
 
 	
-	//	TODO find images for these buttons below
-	
 	Row {
 		id: otherButtons
 		spacing: 10
@@ -123,7 +127,7 @@ SceneBase {
 			width: height; height: 40
 			color: "yellow"
 			
-			text: 'Acvm'
+			image.source: "qrc:/assets/icons/Trophy"
 			
 			onClicked: achievementsButtonClicked();
 		}
@@ -133,8 +137,7 @@ SceneBase {
 			width: height; height: 40
 			color: "yellow"
 			
-			text: 'Stt'
-			
+			image.source: "qrc:/assets/icons/LineChart"
 			onClicked: statisticsButtonClicked();
 		}
 		
@@ -150,7 +153,7 @@ SceneBase {
 		}
 		color: "yellow"
 		
-		text: 'Set'
+		image.source: "qrc:/assets/icons/Gear"
 		onClicked: settingsButtonClicked();
 	}
 	

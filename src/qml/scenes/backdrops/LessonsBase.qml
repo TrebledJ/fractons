@@ -111,7 +111,8 @@ SceneBase {
 		}
 		
 		BubbleButton {
-			width: textBase.contentWidth + 20; height: 30
+//			width: textObj.contentWidth + 20; height: 30
+			width: height; height: 30
 			anchors {
 				top: parent.top
 				right: parent.right
@@ -121,8 +122,10 @@ SceneBase {
 			visible: useDefaultPracticeButton
 			color: "yellow"
 			
-			text: "Practice"
-			animateText: false
+//			text: "Practice"
+//			textObj.animate: false
+			image.source: "qrc:/assets/icons/Star"
+//			image.anchors.margins: 3
 			
 			onClicked: {
 				if (gotoMode === "")

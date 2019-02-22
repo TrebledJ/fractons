@@ -32,10 +32,10 @@ ModesBase {
 	
 	QtObject {
 		id: equationComponents
-		property var lhs: "1/2+1/2"
-		property var rhs: "4/3 - 1/3"
+		property var lhs: new JFraction.Fraction()
+		property var rhs: new JFraction.Fraction()
 		
-		property var op: '='
+		property string op: '='
 		
 		//	different from other modes, correct answer is calculated when question is generated
 		property bool isTrue: true
@@ -119,13 +119,19 @@ ModesBase {
 	//	ans: JFraction.Fraction
 	//	return: bool
 	function checkAnswer(text) {
+		var res = false;		
+		
 		if (text[0].toUpperCase() === 'T' && equationComponents.isTrue)
-			return true;
+			res = true;
 		
 		if (text[0].toUpperCase() === 'F' && !equationComponents.isTrue)
-			return true;
+			res = true;
 		
-		return false;
+		
+		console.debug("Question:", equationComponents.join());
+		console.debug("Answer:", equationComponents.isTrue, "versus", text[0].toUpperCase() === 'T');
+		
+		return res;
 	}
 	
 	function generateRandomQuestion() {
@@ -189,9 +195,16 @@ ModesBase {
 			{
 				//	then make this a simplification exercise
 				
+//				leftN = JMath.randI(0, leftD);
 				leftN = JMath.randI(1, leftD);
 				
-				if (new JFraction.Fraction(leftN, leftD).isSimplified() == false && JMath.coin())
+//				if (leftN === 0)
+//				{
+//					rightN = 0;
+//					rightD = JMath.randI(2, 10);
+//				}
+//				else 
+				if (new JFraction.Fraction(leftN, leftD).isSimplified() === false && JMath.coin())
 				{
 					//	use simplified
 					rightN = leftN / JMath.gcd(leftN, leftD)
@@ -210,20 +223,33 @@ ModesBase {
 				
 				leftN = JMath.randI(1, leftD);
 				
-				rightD = JMath.randI(2, 12);
+				rightD = JMath.randI(0, 12);
 				
-				//	offset the correct answer by a number
-				temp = JMath.choose([-3, -2, -1, 1, 2, 3]);
-				if (rightD === leftD)
+				//	check if true version of rightN is integer
+				temp = new JFraction.Fraction(leftN*rightD, leftD);
+				if (temp.isInteger())
 				{
-					rightN = leftN + temp;
-					if (rightN <= 0) rightN = leftN + 1;
+					temp = temp.toInteger();
+					
+					//	choose from a range without temp
+					rightN = JMath.choose(JMath.range(0, temp).concat(JMath.range(temp + 1, rightD)));
 				}
 				else
-				{
-					rightN = leftN * Math.floor(rightD / leftD) + temp;
-					if (rightN <= 0) rightN = leftN * Math.floor(rightD / leftD) + 1;
-				}
+					rightN = JMath.randI(0, rightD);	//	choose any
+				
+//				//	offset the correct answer by a number
+//				temp = JMath.choose([-3, -2, -1, 1, 2, 3]);
+//				if (rightD === leftD)
+//				{
+//					//	offset the denominator
+//					rightN = leftN + temp;
+//					if (rightN <= 0) rightN = leftN + 1;
+//				}
+//				else
+//				{
+//					rightN = leftN * Math.floor(rightD / leftD) + temp;
+//					if (rightN <= 0) rightN = leftN * Math.floor(rightD / leftD) + 1;
+//				}
 				
 			}
 			

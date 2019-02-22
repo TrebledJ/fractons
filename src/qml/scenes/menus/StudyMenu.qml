@@ -98,15 +98,15 @@ SceneBase {
 					width: parent.width - parent.spacing - starsRect.width - 15; height: parent.height
 					color: "yellow"
 					
-					background.radius: 5
 					background.border.width: 3
 					
 					text: "" + role_lesson + ""
-					textBase.horizontalAlignment: Text.AlignRight
-					textBase.anchors.margins: 10
-					textBase.wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+					textObj.horizontalAlignment: Text.AlignRight
+					textObj.anchors.margins: 10
+					textObj.wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+					textObj.animate: false
+					textObj.firmAnchor: true
 					font.pointSize: 10
-					animateText: false
 					
 					
 					onEntered: {

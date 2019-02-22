@@ -27,14 +27,26 @@ Item {
 	
 	property var achievement
 	
+	property color primaryColor: achievement.isSecret ? "mediumblue" : "yellow";
+	property color secondaryColor: achievement.isSecret ? "gold" : "navy"
+	
+	property string name: achievement.name
+	property string description: achievement.description
+	property int	reward: achievement.reward
+	property bool	isSecret: achievement.isSecret
+	property string secret: achievement.secret
+	property bool	isClassified: achievement.isClassified
+	property int	progress: achievement.progress
+	property int	maxProgress: achievement.maxProgress
+	property bool	isCollected: achievement.isCollected
 	
 	BubbleButton {
 		id: background
 		anchors.fill: parent
-		color: achievement.isSecret ? "mediumblue" : "yellow"
-		opacity: achievement.isCollected ? 1 : 0.8
+		color: primaryColor
 		
 		text: ''
+		textObj.animate: false
 
 		enteredFrom: 0.9
 		pressedFrom: 0.95
@@ -53,7 +65,7 @@ Item {
 		TextBase {
 			id: descriptionText
 			Layout.fillWidth: true
-			color: achievement.isSecret ? "yellow" : "navy"
+			color: secondaryColor
 			
 			text: achievement.description.length > 45 ? achievement.description.substr(0, 30) + '...' : achievement.description
 			font.pointSize: achievement.description.length > 30 ? 6 : 8
@@ -75,7 +87,7 @@ Item {
 			TextBase {
 				id: nameText
 				Layout.fillHeight: true
-				color: achievement.isSecret ? "yellow" : "navy"
+				color: secondaryColor
 				
 				text: achievement === undefined ? "<name>" : achievement.name
 				font.pointSize: achievement.name.length < 8 ? 12 : 11
@@ -93,7 +105,7 @@ Item {
 			TextBase {
 				id: rewardText
 				Layout.fillHeight: true
-				color: achievement.isSecret ? "yellow" : "navy"
+				color: secondaryColor
 				
 				text: achievement === undefined || achievement.isSecret ? "???" : achievement.reward + 'ƒ'
 				font.pointSize: 8

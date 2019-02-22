@@ -112,6 +112,9 @@ function Fraction(n, d) {
 		if (!this.isValid())
 			return false;
 		
+		if (this.d === 0)
+			return false;
+		
 		if (this.n === 0)
 			return true;
 		
@@ -120,9 +123,6 @@ function Fraction(n, d) {
 	
 	//	if not divisible, return floor to guarantee integer
 	this.toInteger = function() {
-		if (this.isInteger())
-			return this.n / this.d;
-		
 		return Math.floor(this.n / this.d);
 	}
 	

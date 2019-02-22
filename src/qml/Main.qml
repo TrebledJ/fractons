@@ -38,9 +38,9 @@ GameWindow {
 	}
 	
 	
-	state: "home"
+//	state: "home"
 //	state: "achievements"
-//	state: "lesson_zero"
+	state: "mode_standard"
 	states: [
 		State {
 			name: "home"

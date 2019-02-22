@@ -13,16 +13,11 @@ Achievement::Achievement(QObject *parent) :
 	
 	QObject::connect(this, &Achievement::isSecretChanged, this, &Achievement::achievementChanged);
 	
-	QObject::connect(this, &Achievement::progressChanged, this,
-					 [&] ()
-	{
-//		qDebug() << "Progress changed!";
-		
-//		if (this->m_progress >= this->m_maxProgress && !this->m_isCollected)
-//			emit achievementGet();
-		
-		emit achievementChanged();
-	});
+	QObject::connect(this, &Achievement::secretChanged, this, &Achievement::achievementChanged);
+	
+	QObject::connect(this, &Achievement::isClassifiedChanged, this, &Achievement::achievementChanged);
+	
+	QObject::connect(this, &Achievement::progressChanged, this, &Achievement::achievementChanged);
 	
 	QObject::connect(this, &Achievement::maxProgressChanged, this, &Achievement::achievementChanged);
 
@@ -48,6 +43,8 @@ Achievement::Achievement(const Achievement &other)
 	m_description = other.m_description;
 	m_reward = other.m_reward;
 	m_isSecret = other.m_isSecret;
+	m_secret = other.m_secret;
+	m_isClassified = other.m_isClassified;
 	m_progress = other.m_progress;
 	m_maxProgress = other.m_maxProgress;
 	m_isCollected = other.m_isCollected;
@@ -59,6 +56,8 @@ Achievement& Achievement::operator= (const Achievement &other)
 	m_description = other.m_description;
 	m_reward = other.m_reward;
 	m_isSecret = other.m_isSecret;
+	m_secret = other.m_secret;
+	m_isClassified = other.m_isClassified;
 	m_progress = other.m_progress;
 	m_maxProgress = other.m_maxProgress;
 	m_isCollected = other.m_isCollected;
@@ -68,8 +67,14 @@ Achievement& Achievement::operator= (const Achievement &other)
 
 bool Achievement::operator==(const Achievement &other)
 {
-	return m_name == other.m_name && m_description == other.m_description && 
-			m_reward == other.m_reward && m_isSecret == other.m_isSecret && 
-			m_progress == other.m_progress && m_maxProgress == other.m_maxProgress && 
+	return m_name == other.m_name &&
+			m_description == other.m_description && 
+			m_reward == other.m_reward && 
+			m_isSecret == other.m_isSecret && 
+			m_secret == other.m_secret && 
+			m_isClassified == other.m_isClassified && 
+			m_progress == other.m_progress && 
+			m_maxProgress == other.m_maxProgress && 
 			m_isCollected == other.m_isCollected;
+			
 }

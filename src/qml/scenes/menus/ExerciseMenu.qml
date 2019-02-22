@@ -25,10 +25,10 @@ SceneBase {
 		ListElement { role_stars: 0; role_min_level: 7; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
 		
 		//	TODO implement these other modes
-//		ListElement { role_stars: 0; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
+		ListElement { role_stars: 0; role_min_level: 9; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
 		
-//		ListElement { role_stars: 0; role_mode: "Fill" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
-//		ListElement { role_stars: 0; role_mode: "Rush" }		//	timed ... what exercise?
+		ListElement { role_stars: 0; role_min_level: 12; role_mode: "Fill" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
+		ListElement { role_stars: 0; role_min_level: 15; role_mode: "Rush" }		//	timed ... what exercise?
 	}
 	
 	ListView {
@@ -53,32 +53,34 @@ SceneBase {
 		focus: true
 		model: modeModel
 		delegate: modeDelegate
-		header: headerDelegate
+//		header: headerDelegate
 		
 		ScrollBar.vertical: ScrollBar {
+			id: scrollbar
 			anchors.left: modeView.right
 			active: true
+
 		}
 		
-		Component {
-			id: headerDelegate
+//		Component {
+//			id: headerDelegate
 			
-			Item {
-				z: 3
-				width: modeView.width - 10; height: 40
+//			Item {
+//				z: 3
+//				width: modeView.width - 10; height: 40
 				
-				Rectangle {
-					anchors.fill: parent
-					color: "yellow"
+//				Rectangle {
+//					anchors.fill: parent
+//					color: "yellow"
 					
-					TextBase {
-						anchors.centerIn: parent
-						text: "Exercise Modes"
-					}
-				}
-			}
+//					TextBase {
+//						anchors.centerIn: parent
+//						text: "Exercise Modes"
+//					}
+//				}
+//			}
 			
-		}	//	Component: headerDelegate
+//		}	//	Component: headerDelegate
 		
 		Component {
 			id: modeDelegate
@@ -110,14 +112,13 @@ SceneBase {
 					width: parent.width - parent.spacing - starsRect.width - 15; height: parent.height
 					color: "yellow"
 					
-					background.radius: 5
 					background.border.width: 3
 					
 					text: "<b>" + role_mode + "</b> Mode"
-					textBase.textFormat: Text.StyledText
-					textBase.horizontalAlignment: Text.AlignRight
-					textBase.anchors.rightMargin: 10
-					animateText: false
+					textObj.textFormat: Text.StyledText
+					textObj.horizontalAlignment: Text.AlignRight
+					textObj.anchors.rightMargin: 10
+					textObj.animate: false
 					
 					onEntered: {
 						modeView.currentIndex = index;
@@ -143,26 +144,5 @@ SceneBase {
 		}	//	Component: modelDelegate
 	}	//	ListView: modeView
 	
-	
-//	BubbleButton {
-//		id: backButton
-//		width: 30
-//		anchors {
-//			left: scene.left
-//			top: scene.top
-//			bottom: scene.bottom
-//		}
-//		color: "yellow"
-		
-//		text: backButton.mouseArea.pressed ? "◄" : "◁";
-//		animateText: false
-		
-		
-//		defaultDiagonal: 1.1
-		
-//		enteredFrom: 1; // enteredTo: 1.2
-//		pressedFrom: defaultDiagonal; pressedTo: 1.3
-		
-//		onClicked: backButtonClicked();
-//	}
+
 }

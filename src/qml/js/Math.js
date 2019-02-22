@@ -67,6 +67,13 @@ function oneIn(n) {
 	return Math.random() < 1/n;
 }
 
+function range(start, end) {
+	var ret = [];
+	for (var i = start; i < end; i++)
+		ret.push(i);
+	return ret;
+}
+
 //	prime-factorises n 
 function primeFactors(n) {
 	var ret = [];

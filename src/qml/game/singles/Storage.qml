@@ -20,6 +20,12 @@ import QtQuick 2.0
 	 + unix
 	 + windows
 	 + winrt
+	 
+	 Mobile versions will include
+	  * android
+	  * ios
+	  * tvos
+	  * winrt
 
 */
 
@@ -27,7 +33,7 @@ import QtQuick 2.0
 Item {
 	id: item
 	
-	readonly property bool isMobile: "android,ios,tvos".includes(Qt.platform.os);
+	readonly property bool isMobile: "android,ios,tvos,winrt".includes(Qt.platform.os);
 	
 	readonly property var defaultKeys: ({	//	object with key-value pairs of default values
 											fCurrent: 0,
@@ -40,6 +46,8 @@ Item {
 													description: 'no u',
 													reward: 500,
 													isSecret: true,
+													secret: 'Enter "no u" into the answer box.',
+													isClassified: false,
 													progress: 0,
 													maxProgress: 5,
 													isCollected: false
@@ -49,15 +57,19 @@ Item {
 													description: 'Correctly answer a question.',
 													reward: 10,
 													isSecret: false,
+													secret: '',
+													isClassified: false,
 													progress: 0,
 													maxProgress: 1,
 													isCollected: false
 												},
 												jogger: {
-													name:"Jogger",
-													description:"Reach a combo of 10.",
-													reward:20,
-													isSecret:false,
+													name: 'Jogger',
+													description: 'Reach a combo of 10.',
+													reward: 20,
+													isSecret: false,
+													secret: '',
+													isClassified: false,
 													progress:0,
 													maxProgress:10,
 													isCollected:false
@@ -71,7 +83,7 @@ Item {
 		id: storage
 		databaseName: "data"
 		
-//		clearAllAtStartup: true	//	uncomment to clear db
+//		clearAllAtStartup: true	//	uncomment to clear db at startup
 		
 		onStorageError: {
 			console.warn("Fractons:/game/singles/Storage.qml:Storage:storage ::: A storage error occured!");
