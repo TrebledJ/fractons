@@ -24,6 +24,7 @@ ModesBase {
 	readonly property int medium: 1
 	readonly property int hard: 2
 	
+	modeName: 'Operations'
 	xpAmount: [1, 3, 5][difficultyIndex]
 	
 	

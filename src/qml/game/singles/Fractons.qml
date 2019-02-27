@@ -4,8 +4,6 @@ pragma Singleton
 import Felgo 3.0
 import QtQuick 2.0
 
-//import "../../game/singles"
-
 Item {
 //	id: item
 	
@@ -44,10 +42,12 @@ Item {
 		
 		//	add amount
 		fCurrent += amount;
+		JGameStatistics.addDailyFractons(amount);
 		
 		//	check if difference caused level-up
 		if (levelAt(fCurrent - amount) < levelAt(fCurrent))
 			levelUp(levelAt(fCurrent));	//	emit the level up signal
+		
 	}
 	
 	function levelAt(fractons) {
@@ -100,9 +100,11 @@ Item {
 	
 	function loadFractons() {
 		var fC = JStorage.getValue("fCurrent");
+		if (fC === undefined) console.error("[Fractons] Key: 'fCurrent' returned undefined from storage.");
 		fCurrent = fC !== undefined ? fC : 0;
 		
 		var fLC = JStorage.getValue("fLevelingConstant");
+		if (fLC === undefined) console.error("[Fractons] Key: 'fLevelingConstant' returned undefined from storage.");
 		fLevelingConstant = fLC !== undefined ? fLC : 25;
 	}
 	

@@ -2,12 +2,11 @@
 //	Singleton for managing achievements
 
 pragma Singleton
-//import Felgo 3.0
 import QtQuick 2.0
 
-import "../../common"
-
 import Fractons 1.0
+
+import "../../common"
 
 
 /**
@@ -35,7 +34,7 @@ Item {
 		
 	Component.onCompleted: {
 		//	basic setup and data retrieval
-		console.warn("[GameAchievements] Reloading GameAchievements...");
+		console.warn("Reloading GameAchievements...");
 		
 		//	connect onChanged signal after setting achievements
 		//	whenever achievements changes, update storage

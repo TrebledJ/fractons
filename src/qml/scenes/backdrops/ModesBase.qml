@@ -85,7 +85,7 @@ SceneBase {
 	property alias numberPad: numberPad
 	property alias numberPadVisible: numberPadSwitch.checked
 	
-	
+	property string modeName
 	property var difficulties: []
 	property int difficultyIndex: 0
 
@@ -450,9 +450,9 @@ SceneBase {
 		{
 			addCombo();
 			
-			//	ACVM : jogger
-			if (JStorage.combo() > JGameAchievements.getByName("jogger").progress)
-				JGameAchievements.addProgressByName("jogger", 1);
+			//	ACVM : sprinter1
+			if (JStorage.combo() > JGameAchievements.getByName("sprinter i").progress)
+				JGameAchievements.addProgressByName("sprinter i", 1);
 			
 			
 			addFractons(xpAmount);
@@ -460,11 +460,15 @@ SceneBase {
 			//	ACVM : associate
 			JGameAchievements.addProgressByName("associate", 1)
 //			if ()
+			JGameStatistics.incDailyCorrect();
 		}
 		else
 		{
 			resetCombo();
 		}
+		
+		JGameStatistics.incDailyAttempted();
+//		JGameStatistics.pushQuestion(modeName, difficulties[difficultyIndex], question, input, answer, isCorrect);	//	TODO uncomplete
 		
 		clearInput();
 		generateRandomQuestion();
@@ -509,8 +513,6 @@ SceneBase {
 		obj.animation1.from = from + randY;
 		obj.animation1.to = to + randY;
 		
-		
-//		obj.x = x;
 		obj.horizontalAlignment = Text.AlignHCenter
 		
 		obj.start();
@@ -537,21 +539,23 @@ SceneBase {
 	function logCombo(num) {
 		num = num !== undefined ? num : JStorage.combo();
 		
+		var x = JMath.randI(1, 10) / 100;
+		
 		if (num % 100 == 0)
 		{
-			logEvent('Combo ' + num + ' ✨', "lightgoldenrodyellow", 16);
+			logEvent('Combo ' + num + ' ✨', "lightgoldenrodyellow", 16, x);
 		}
 		else if (num % 10 == 0)
 		{
-			logEvent('Combo ' + num + ' 💫', "lightgoldenrodyellow", 12);
+			logEvent('Combo ' + num + ' 💫', "lightgoldenrodyellow", 12, x);
 		}
 		else if (num % 5 == 0)
 		{
-			logEvent('Combo ' + num + ' 🌟', "lightgoldenrodyellow", 10);
+			logEvent('Combo ' + num + ' 🌟', "lightgoldenrodyellow", 10, x);
 		}
 		else
 		{
-			logEvent('Combo ' + num + ' ⭐️', "yellow", 8);
+			logEvent('Combo ' + num + ' ⭐️', "yellow", 8, x);
 		}
 	}
 	
@@ -577,7 +581,10 @@ SceneBase {
 					"😥",
 					"😱"
 				];
-		logEvent(JMath.choose(expressions) + ' ' + JMath.choose(emojis), "red", 8);
+		
+		var x = JMath.randI(0, 50) / 100;
+		
+		logEvent(JMath.choose(expressions) + ' ' + JMath.choose(emojis), "red", 12, x);
 	}
 	
 	//	this will modify properties such that there IS a state of error present

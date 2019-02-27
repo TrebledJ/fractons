@@ -2,6 +2,7 @@ import Felgo 3.0
 import QtQuick 2.0
 
 import "common"
+import "scenes"
 import "scenes/menus"
 import "scenes/modes" as Modes
 import "scenes/others" as Others
@@ -38,24 +39,19 @@ GameWindow {
 	}
 	
 	
-//	state: "home"
+	state: "home"
 //	state: "achievements"
-	state: "mode_standard"
+//	state: "mode_balance"
 	states: [
 		State {
 			name: "home"
-			PropertyChanges { target: homeScene; state: "show" }
+			PropertyChanges { target: homeScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: homeScene }
 		},
 		State {
 			name: "exerciseMenu"
-			PropertyChanges { target: exerciseMenuScene; state: "show" }
+			PropertyChanges { target: exerciseMenuScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: exerciseMenuScene }
-		},
-		State {
-			name: "mode_standard"
-			PropertyChanges { target: modeStandardScene; state: "show" }
-			PropertyChanges { target: gameWindow; activeScene: modeStandardScene }
 		},
 //		State {
 //			name: "mode_bar"
@@ -64,49 +60,54 @@ GameWindow {
 //		},
 		State {
 			name: "mode_balance"
-			PropertyChanges { target: modeBalanceScene; state: "show" }
+			PropertyChanges { target: modeBalanceScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: modeBalanceScene }
 		},
 		State {
 			name: "mode_conversion"
-			PropertyChanges { target: modeConversionScene; state: "show" }
+			PropertyChanges { target: modeConversionScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: modeConversionScene }
 		},
 		State {
 			name: "mode_truth"
-			PropertyChanges { target: modeTruthScene; state: "show" }
+			PropertyChanges { target: modeTruthScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: modeTruthScene }
+		},
+		State {
+			name: "mode_operations"
+			PropertyChanges { target: modeOperationsScene; /*state: "show"*/ }
+			PropertyChanges { target: gameWindow; activeScene: modeOperationsScene }
 		},
 		
 		State {
 			name: "studyMenu"
-			PropertyChanges { target: studyMenuScene; state: "show" }
+			PropertyChanges { target: studyMenuScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: studyMenuScene }
 		},
 		State {
 			name: "lesson_zero"
-			PropertyChanges { target: lessonZeroScene; state: "show" }
+			PropertyChanges { target: lessonZeroScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: lessonZeroScene }
 		},
 		State {
 			name: "lesson_one"
-			PropertyChanges { target: lessonOneScene; state: "show" }
+			PropertyChanges { target: lessonOneScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: lessonOneScene }
 		},
 		
 		State {
 			name: "achievements"
-			PropertyChanges { target: achievementsScene; state: "show" }
+			PropertyChanges { target: achievementsScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: achievementsScene }
 		},
 		State {
 			name: "statistics"
-			PropertyChanges { target: statisticsScene; state: "show" }
+			PropertyChanges { target: statisticsScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: statisticsScene }
 		},
 		State {
 			name: "settings"
-			PropertyChanges { target: settingsScene; state: "show" }
+			PropertyChanges { target: settingsScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: settingsScene }
 //			Transition
 		}
@@ -145,11 +146,6 @@ GameWindow {
 		}
 	}
 	
-	Modes.StandardMode {
-		id: modeStandardScene
-		onBackButtonClicked: gameWindow.state = "exerciseMenu"
-	}
-	
 //	Modes.BarMode {
 //		id: modeBarScene
 //		onBackButtonClicked: gameWindow.state = "exerciseMenu"
@@ -167,6 +163,11 @@ GameWindow {
 	
 	Modes.TruthMode {
 		id: modeTruthScene
+		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+	}
+	
+	Modes.OperationsMode {
+		id: modeOperationsScene
 		onBackButtonClicked: gameWindow.state = "exerciseMenu"
 	}
 	

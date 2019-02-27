@@ -46,7 +46,7 @@ Item {
 													description: 'no u',
 													reward: 500,
 													isSecret: true,
-													secret: 'Enter "no u" into the answer box.',
+													secret: 'Input "no u".',
 													isClassified: false,
 													progress: 0,
 													maxProgress: 5,
@@ -55,7 +55,7 @@ Item {
 												associate: {
 													name: 'Associate',
 													description: 'Correctly answer a question.',
-													reward: 10,
+													reward: 1,
 													isSecret: false,
 													secret: '',
 													isClassified: false,
@@ -63,18 +63,43 @@ Item {
 													maxProgress: 1,
 													isCollected: false
 												},
-												jogger: {
-													name: 'Jogger',
-													description: 'Reach a combo of 10.',
-													reward: 20,
+												sprinter1: {
+													name: 'Sprinter I',
+													description: 'Reach a combo of 3.',
+													reward: 10,
 													isSecret: false,
 													secret: '',
 													isClassified: false,
-													progress:0,
-													maxProgress:10,
+													progress: 0,
+													maxProgress: 3,
 													isCollected:false
 												}
-											}
+											},
+											
+//											stats_general: {
+//												'2019-02-26': {
+//													attempted: 0,
+//													correct: 0,
+//													fractonsEarned: 0
+//												},
+//											},
+//											stats_questions: [
+//												{
+//													mode: 'Balance',
+//													difficulty: '',
+//													question: '2/4 = ?/2',
+//													input: '1',
+//													answer: '1',
+//													isCorrect: true,
+//												},
+//											],
+											stats_general: {
+												
+											},
+											stats_questions: [
+												
+											],
+											
 										})
 	
 	property alias storage: storage
@@ -153,6 +178,7 @@ Item {
 //		JFractons.fCurrent = defaultKeys.fCurrent;
 		JFractons.loadFractons();
 		JGameAchievements.loadAchievements();
+		JGameStatistics.loadStatistics();
 	}
 	
 }

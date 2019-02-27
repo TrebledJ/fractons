@@ -17,6 +17,7 @@ ModesBase {
 //	readonly property int easy: 0
 //	readonly property int hard: 1
 	
+	modeName: 'Balance'
 	xpAmount: 1
 	
 	
@@ -115,24 +116,24 @@ ModesBase {
 	function generateRandomQuestion() {
 		
 		//	generate lhs fraction
-		var dLeft = JMath.randI(2, 10);
+		var dLeft = JMath.randI(2, 12);
 		var nLeft = JMath.randI(1, dLeft - 1);
 		
 		equationComponents.lhsFraction = new JFraction.Fraction(nLeft, dLeft);
 		
 		//	generate rhs fraction
 		var top = 0, bottom = 1;
-		var questionMark = JMath.randI(top, bottom);
+		var questionMark = JMath.choose([top, bottom]);
 		
 		var nRight = '?', dRight = '?';
 		
 		if (questionMark === top)
 		{
-			dRight = dLeft * JMath.randI(2, 5);		//	denominator
+			dRight = dLeft * JMath.randI(2, 4);		//	denominator
 		}
 		else if (questionMark === bottom)
 		{
-			nRight = nLeft * JMath.randI(2, 5);		//	numerator
+			nRight = nLeft * JMath.randI(2, 4);		//	numerator
 		}
 		
 		//	special for lhs not simplified

@@ -28,9 +28,11 @@ Scene {
 	enabled: visible
 	
 //	state: visible ? "in" : "out"
+	state: "hide"
 	states: [
 		State {
 			name: "show"
+			when: gameWindow.activeScene === scene
 			PropertyChanges { target: scene; opacity: 1 }
 		},
 		State {

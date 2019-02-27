@@ -16,13 +16,15 @@ SceneBase {
 	
 	ListModel {
 		id: modeModel
-		ListElement { role_stars: 0; role_min_level: 1; role_mode: "Standard" }	//	Standard equation solving, given two fractions on the lhs and an operation
-		ListElement { role_stars: 0; role_min_level: 3; role_mode: "Balance" }		//	balance or simplify a given fraction
+		
+		ListElement { role_stars: 0; role_min_level: 1; role_mode: "Balance" }		//	balance or simplify a given fraction
 		
 		//		ListElement { role_stars: 0; role_mode: "Bar" }	//	deprecated ?
 		
-		ListElement { role_stars: 0; role_min_level: 5; role_mode: "Conversion" }	//	convert between decimals and fractions
-		ListElement { role_stars: 0; role_min_level: 7; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
+		ListElement { role_stars: 0; role_min_level: 3; role_mode: "Conversion" }	//	convert between decimals and fractions
+		ListElement { role_stars: 0; role_min_level: 5; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
+		
+		ListElement { role_stars: 0; role_min_level: 7; role_mode: "Operations" }	//	Standard equation solving, given two fractions on the lhs and an operation
 		
 		//	TODO implement these other modes
 		ListElement { role_stars: 0; role_min_level: 9; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer

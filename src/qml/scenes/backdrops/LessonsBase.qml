@@ -48,6 +48,8 @@ SceneBase {
 			anchors.top: flickable.contentItem.bottom
 			color: "transparent"
 			
+			visible: false	//	TODO make this workable
+			
 			BubbleButton {
 				width: 60; height: 30
 				anchors {

@@ -107,7 +107,7 @@ Item {
 				Layout.fillHeight: true
 				color: secondaryColor
 				
-				text: achievement === undefined || achievement.isSecret ? "???" : achievement.reward + 'ƒ'
+				text: achievement === undefined || achievement.isSecret && !achievement.isCollected ? "???" : achievement.reward + 'ƒ'
 				font.pointSize: 8
 				
 				verticalAlignment: Text.AlignBottom

@@ -220,7 +220,7 @@ SceneBase {
 			if (achievementCard.isSecret && achievementCard.isCollected)
 				descriptionText.text += '\n\n' + achievementCard.secret;
 			
-			if (achievementCard.isSecret)
+			if (achievementCard.isSecret && !achievementCard.isCollected)
 				rewardText.text = 'Reward: ???'
 			else
 				rewardText.text = 'Reward: ' + achievementCard.reward + 'ƒ';

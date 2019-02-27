@@ -6,6 +6,7 @@ import "../backdrops"
 ModesBase {
 	id: modesBase
 	
+	modeName: 'Bar'
 	numberPadVisible: false
 	
 	Component.onCompleted: {

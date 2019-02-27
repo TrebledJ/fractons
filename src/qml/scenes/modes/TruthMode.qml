@@ -23,6 +23,7 @@ ModesBase {
 											 2: "Expected one character: 'T' or 'F'"
 										 })
 	
+	modeName: 'Truth'
 	xpAmount: [3, 5, 7, 10][difficultyIndex]
 	
 	Component.onCompleted: {

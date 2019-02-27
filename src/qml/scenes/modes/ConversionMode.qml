@@ -20,6 +20,7 @@ ModesBase {
 											 2: "Expected numeric value: [0-9].[0-9]"
 										 })
 	
+	modeName: 'Conversion'
 	xpAmount: 1
 	
 	

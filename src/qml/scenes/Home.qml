@@ -2,10 +2,10 @@ import Felgo 3.0
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 
-import "../backdrops"
-import "../../common"
-import "../../game"
-import "../../game/singles"
+import "backdrops"
+import "../common"
+import "../game"
+import "../game/singles"
 
 import Fractons 1.0
 

@@ -5,4 +5,5 @@ TextBase {
 	width: parent.width
 	text: "Paragraph text here."
 	wrapMode: Text.WordWrap
+	textFormat: Text.StyledText
 }

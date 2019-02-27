@@ -28,7 +28,7 @@ LessonsBase {
 			ParagraphText {
 				width: parent.width - 160 - 20
 				anchors.verticalCenter: parent.verticalCenter
-				text: "How do we mathematically represent pizzas? On first thought, it seems that we can easily represent <i>whole</i> pizzas by using <i>whole numbers</i>. For example, the two pizzas on the right could be represented as the number 2."
+				text: "How do we mathematically represent pizzas? We can easily represent <i>whole</i> pizzas by using <i>whole numbers</i> (also known as the <i>positive integers</i>). For example, the number of pizzas on the right could be represented by \"two\" or 2."
 			}
 			
 			Image {

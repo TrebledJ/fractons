@@ -65,10 +65,6 @@ Item {
 		}
 	}
 	
-	function animate() {
-		animator.begin();
-	}
-	
 	Timer {
 		id: animator
 		property int index: 0
@@ -91,9 +87,16 @@ Item {
 		
 		function begin() {
 			index = 0;
-			interval = 400;
+			interval = 250;
 			repeat = true;
 			start();
 		}
 	}
+	
+	function animate() {
+		animator.begin();
+	}
+	
+	//	TODO
+	//	Add a states/transitions with a genie-like effect, popping up from below
 }
