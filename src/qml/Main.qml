@@ -3,6 +3,7 @@ import QtQuick 2.0
 
 import "common"
 import "scenes"
+import "scenes/backdrops"
 import "scenes/menus"
 import "scenes/modes" as Modes
 import "scenes/others" as Others
@@ -126,6 +127,11 @@ GameWindow {
 //			}
 //		}
 //	]
+	
+	AnimationLayer {
+		id: animationLayer
+		z: -100
+	}
 	
 	Home {
 		id: homeScene

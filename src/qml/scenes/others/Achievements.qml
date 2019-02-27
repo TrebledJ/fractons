@@ -124,7 +124,7 @@ SceneBase {
 		}
 		
 		exit: Transition {
-			NumberAnimation { property: "opacity"; easing.type: Easing.OutSine; duration: 2000; to: 0 }
+			NumberAnimation { property: "opacity"; easing.type: Easing.Linear; duration: 600; to: 0 }
 		}
 		
 		Rectangle {
