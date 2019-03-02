@@ -97,7 +97,8 @@ Scene {
 //			backgroundAnimationTimer.parent_ = parent_;
 //			backgroundAnimationTimer.visibleListener = visibleListener;
 //			backgroundAnimationTimer.fontSize = fontSize;
-			
+			console.log("Pushing message:", message);
+			console.log("Queue now has size", messageQueue.length);
 			messageQueue.push({
 								 message: message,
 								  parent: parent_,
@@ -107,6 +108,15 @@ Scene {
 			
 			check();
 //			start();
+		}
+		
+		function cancel(message) {
+			stop();
+			
+			var index = messageQueue.map(function(item){ return item.message }).lastIndexOf(message);
+			messageQueue = messageQueue.slice(0, index).concat(messageQueue.slice(index + 1));	//	remove index "index"
+			
+			check();
 		}
 	}
 }

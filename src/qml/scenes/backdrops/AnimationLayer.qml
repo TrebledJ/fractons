@@ -52,6 +52,7 @@ Scene {
 			var text, fontSize = 10;
 			var component, parent, visibleListener;
 			var isBanner = false;
+			var isText = false;
 			
 			if (bannerQueue.length > 0)
 			{
@@ -62,14 +63,12 @@ Scene {
 					bannerQueue = bannerQueue.slice(1);
 					
 					text = bannerQueueObj.text;
-					
 					parent = bannerQueueObj.parentObject ? bannerQueueObj.parentObject : scene;
 					visibleListener = bannerQueueObj.visibleListener ? bannerQueueObj.visibleListener : scene;
 					fontSize = bannerQueueObj.fontSize ? bannerQueueObj.fontSize : 40;
 					component = textComponent;
 					
 					isBanner = true;
-					
 					readySpawn = true;
 				}
 			}
@@ -78,12 +77,10 @@ Scene {
 			{
 				var queueObj = animationQueue[0];
 				
-				text = queueObj.text;
-
-					
 				//	pop the object from the queue
 				animationQueue = animationQueue.slice(1);
 				
+				text = queueObj.text;
 				parent = queueObj.parentObject ? queueObj.parentObject : scene;
 				visibleListener = queueObj.visibleListener ? queueObj.visibleListener : scene;
 				fontSize = queueObj.fontSize ? queueObj.fontSize : 30;
@@ -96,6 +93,7 @@ Scene {
 					component = mathComponent;	//	select a better component
 				}
 				
+				isText = true;
 				readySpawn = true;	//	ready to spawn!
 					
 			}
@@ -134,19 +132,17 @@ Scene {
 			};
 			
 			var obj = component.createObject(parent, props);
-			
-//			obj.y = JMath.randI(0, parent.height - obj.height);	//	set y after creating obj to determine height
-			obj.y = JMath.randI(animationSmallerYBound, animationLargerYBound - obj.height - (currentBanner ? 30 : 0));
 			obj.to = -obj.width;	//	set to after creating obj to determine width
 			
-			
+			//	set a random y position
 			if (isBanner)
-			{
-				//	banners get special attention
-				obj.y = animationLargerYBound - obj.height;
-				currentBanner = obj;
-				bannerTimer.run(obj.duration);
-			}
+				obj.y = animationLargerYBound - obj.height;	//	fixed for banners
+			else if (isText)
+				obj.y = JMath.randI(animationSmallerYBound, animationLargerYBound - obj.height - (currentBanner ? 40 : 0));
+			else if (!isText && !isBanner)
+				obj.y = JMath.randI(0, parent.height - obj.height);	//	set y after creating obj to determine height
+			
+			if (isBanner) { currentBanner = obj; bannerTimer.run(obj.duration); }
 			
 			
 			obj.start();

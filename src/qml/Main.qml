@@ -262,13 +262,13 @@ GameWindow {
 		activeScene.difficultyIndex = index;
 	}
 	
-	function pushBackgroundAnimation(text, parentObject, visibleListener, font) {
+	function pushBackgroundAnimation(text, parentObject, visibleListener, fontSize) {
 		
 		var obj = {
 			text: text,
 			parentObject: parentObject,
 			visibleListener: visibleListener,
-			font: font,
+			fontSize: fontSize,
 		};
 		
 		if (text.substr(0, 7) === "#banner")
@@ -293,7 +293,7 @@ GameWindow {
 		target: JGameAchievements
 		
 		onAchievementGet: {
-			pushBackgroundAnimation("#bannerYou got the achievement \"" + name + "\"!", 0, 0, 20);
+			pushBackgroundAnimation("#bannerAchievement Get: " + name + "!", 0, 0, 20);
 		}
 	}
 }

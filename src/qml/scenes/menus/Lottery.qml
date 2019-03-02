@@ -14,6 +14,9 @@ SceneBase {
 	
 	property int tokens: 5
 	
+	animationSmallerYBound: slotBackground.y + slotBackground.height
+	animationLargerYBound: height
+	
 	Rectangle {
 		id: panel
 		width: parent.width; height: 50

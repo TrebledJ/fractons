@@ -481,10 +481,12 @@ SceneBase {
 	
 	
 	onStateChanged: {
+		var msg = modeName + " Mode";
+		
 		if (state === "show")
-			backgroundAnimationTimer.run(modeName + " Mode", null, scene, 20);
+			backgroundAnimationTimer.run(msg, null, scene, 20);
 		else
-			backgroundAnimationTimer.stop();
+			backgroundAnimationTimer.cancel(msg);
 	}
 	
 	//	this function will create animated text floating upwards across the eventSpace
