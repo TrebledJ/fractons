@@ -52,6 +52,7 @@ public:
 	
 signals:
 	void achievementsChanged();
+	void achievementGet(QString name, int reward);
 	void sendNotification(QString, QString, double);
 	
 public slots:

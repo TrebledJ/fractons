@@ -1,13 +1,16 @@
 <RCC>
     <qresource prefix="/">
-        <file>assets/icons/Calculator.png</file>
-        <file>assets/icons/Document.png</file>
-        <file>assets/icons/Gear.png</file>
-        <file>assets/icons/HtmlTag.png</file>
-        <file>assets/icons/LineChart.png</file>
-        <file>assets/icons/OpenBook.png</file>
-        <file>assets/icons/Star.png</file>
-        <file>assets/icons/Trophy.png</file>
-        <file>assets/icons/YellowStar.png</file>
+        <file>assets/icons/book-open.png</file>
+        <file>assets/icons/calculator.png</file>
+        <file>assets/icons/gear.png</file>
+        <file>assets/icons/html-tag.png</file>
+        <file>assets/icons/line-chart.png</file>
+        <file>assets/icons/slot.png</file>
+        <file>assets/icons/star-yellow.png</file>
+        <file>assets/icons/star.png</file>
+        <file>assets/icons/trophy.png</file>
+        <file>assets/icons/coins.png</file>
+        <file>assets/icons/question-mark2.png</file>
+        <file>assets/icons/padlock-closed.png</file>
     </qresource>
 </RCC>

@@ -31,6 +31,8 @@ import "../../common"
 
 Item {
 	id: item
+	
+	signal achievementGet(string name, int reward)
 		
 	Component.onCompleted: {
 		//	basic setup and data retrieval
@@ -58,6 +60,11 @@ Item {
 		
 		//	for testing purposes
 //		jAchievementsManager.testNotify();
+	}
+	
+	Connections {
+		target: jAchievementsManager
+		onAchievementGet: achievementGet(name, reward);
 	}
 	
 	QtObject {

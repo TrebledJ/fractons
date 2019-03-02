@@ -1,4 +1,3 @@
-import Felgo 3.0
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
@@ -21,7 +20,7 @@ SceneBase {
 	property bool useDefaultPracticeButton: true
 	
 	
-	useDefaultBackButton: false
+//	useDefaultBackButton: false
 	
 	
 	onLessonItemsChanged: {
@@ -34,7 +33,7 @@ SceneBase {
 		anchors {
 			fill: parent
 			margins: 10
-			topMargin: 50
+			topMargin: header.height + 10
 		}
 		contentWidth: width
 		contentHeight: lessonContents.height	//	contents is aliased to inherited lesson
@@ -56,7 +55,6 @@ SceneBase {
 					verticalCenter: parent.verticalCenter
 					left: parent.left
 				}
-				color: "yellow"
 				text: "Previous"
 				
 				onClicked: previousLessonButtonClicked()
@@ -68,39 +66,22 @@ SceneBase {
 					verticalCenter: parent.verticalCenter
 					right: parent.right
 				}
-				color: "yellow"
-				
 				text: "Next"
 				
 				onClicked: nextLessonButtonClicked()
 			}
 			
 		}	//	Rectangle
-		
 	}	//	Flickable: flickable
 	
 	
 	//	header bar
 	Rectangle {
-		width: parent.width; height: 40
+		id: header
+		width: parent.width; height: 50
 		anchors.top: parent.top
 		
 		color: "navy"
-		
-		BubbleButton {
-			width: 60; height: 30
-			anchors {
-				top: parent.top
-				left: parent.left
-				margins: 5
-			}
-			color: "yellow"
-			
-			text: "Back"
-			
-			onClicked: backButtonClicked()
-		}
-		
 		
 		TextBase {
 			id: titleText
@@ -113,20 +94,19 @@ SceneBase {
 		}
 		
 		BubbleButton {
-//			width: textObj.contentWidth + 20; height: 30
-			width: height; height: 30
+			width: height; height: parent.height - 2*anchors.margins
 			anchors {
 				top: parent.top
+//				bottom: parent.bottom
 				right: parent.right
 				margins: 5
 			}
 			
 			visible: useDefaultPracticeButton
-			color: "yellow"
 			
 //			text: "Practice"
 //			textObj.animate: false
-			image.source: "qrc:/assets/icons/Star"
+			image.source: "qrc:/assets/icons/star"
 //			image.anchors.margins: 3
 			
 			onClicked: {

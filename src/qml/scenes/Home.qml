@@ -1,4 +1,3 @@
-import Felgo 3.0
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 
@@ -7,32 +6,45 @@ import "../common"
 import "../game"
 import "../game/singles"
 
-import Fractons 1.0
+//import Fractons 1.0
 
 SceneBase {
 	id: scene
 	
-	signal exercisesButtonClicked
+	
 	signal studyButtonClicked
+	signal exercisesButtonClicked
+	signal lotteryButtonClicked
 	signal achievementsButtonClicked
 	signal statisticsButtonClicked
 	signal settingsButtonClicked
 	
 	useDefaultBackButton: false
 	
+	TextBase {
+		anchors.bottom: mainButtonsRow.top
+		anchors.bottomMargin: 30
+		anchors.horizontalCenter: parent.horizontalCenter
+//		color: "yellow"
+		text: "ƒRACTONS"
+		font.bold: true
+		font.italic: true
+		font.pointSize: 48
+	}
+	
 	Row {
+		id: mainButtonsRow
 		anchors.centerIn: parent
 		spacing: 20
 		
 		BubbleButton {
 			id: studyNotesButton
 			width: height; height: 80
-			color: "yellow"
 			
 			text: "Study"
 			textObj.verticalAlignment: Text.AlignBottom
 			
-			image.source: "qrc:/assets/icons/OpenBook"
+			image.source: "qrc:/assets/icons/book-open"
 			image.anchors.bottomMargin: 20
 			
 			onClicked: studyButtonClicked()
@@ -41,15 +53,31 @@ SceneBase {
 		BubbleButton {
 			id: exercisesButton
 			width: height; height: 80
-			color: "yellow"
 			
 			text: "Exercises"
 			textObj.verticalAlignment: Text.AlignBottom
 			
-			image.source: "qrc:/assets/icons/Star"
+			image.source: "qrc:/assets/icons/star"
 			image.anchors.bottomMargin: 20
 			
 			onClicked: exercisesButtonClicked()
+		}
+		
+		BubbleButton {
+			id: lotteryButton
+			width: height; height: 80
+			
+			text: enabled ? "Lottery" : "???"
+			textObj.verticalAlignment: Text.AlignBottom
+			
+			enabled: true
+//			enabled: JFractons.currentLevel() >= 15
+			opacity: enabled ? 1 : 0.6
+			
+			image.source: enabled ? "qrc:/assets/icons/slot" : "qrc:/assets/icons/question-mark2"
+			image.anchors.bottomMargin: 20
+			
+			onClicked: lotteryButtonClicked()
 		}
 	}
 	
@@ -125,9 +153,8 @@ SceneBase {
 		BubbleButton {
 			id: achievementsButton
 			width: height; height: 40
-			color: "yellow"
 			
-			image.source: "qrc:/assets/icons/Trophy"
+			image.source: "qrc:/assets/icons/trophy"
 			
 			onClicked: achievementsButtonClicked();
 		}
@@ -135,9 +162,8 @@ SceneBase {
 		BubbleButton {
 			id: statisticsButton
 			width: height; height: 40
-			color: "yellow"
 			
-			image.source: "qrc:/assets/icons/LineChart"
+			image.source: "qrc:/assets/icons/line-chart"
 			onClicked: statisticsButtonClicked();
 		}
 		
@@ -151,9 +177,8 @@ SceneBase {
 			right: parent.right
 			margins: 5
 		}
-		color: "yellow"
 		
-		image.source: "qrc:/assets/icons/Gear"
+		image.source: "qrc:/assets/icons/gear"
 		onClicked: settingsButtonClicked();
 	}
 	

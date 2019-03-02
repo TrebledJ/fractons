@@ -1,4 +1,3 @@
-import Felgo 3.0
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
@@ -30,7 +29,10 @@ SceneBase {
 		ListElement { role_stars: 0; role_min_level: 9; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
 		
 		ListElement { role_stars: 0; role_min_level: 12; role_mode: "Fill" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
-		ListElement { role_stars: 0; role_min_level: 15; role_mode: "Rush" }		//	timed ... what exercise?
+		ListElement { role_stars: 0; role_min_level: 15; role_mode: "Token" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
+//		ListElement { role_stars: 0; role_min_level: 15; role_mode: "Rush" }		//	timed ... what exercise?
+		
+//		ListElement { role_stars: 0; role_min_level: -1; role_mode: "Pie" }		//	hidden mode, accessible from lottery but not from menu
 	}
 	
 	ListView {
@@ -64,26 +66,6 @@ SceneBase {
 
 		}
 		
-//		Component {
-//			id: headerDelegate
-			
-//			Item {
-//				z: 3
-//				width: modeView.width - 10; height: 40
-				
-//				Rectangle {
-//					anchors.fill: parent
-//					color: "yellow"
-					
-//					TextBase {
-//						anchors.centerIn: parent
-//						text: "Exercise Modes"
-//					}
-//				}
-//			}
-			
-//		}	//	Component: headerDelegate
-		
 		Component {
 			id: modeDelegate
 			
@@ -93,7 +75,8 @@ SceneBase {
 				width: modeView.width; height: 40
 				spacing: 20
 				
-				opacity: JFractons.currentLevel() < role_min_level ? 0.5 : 1
+				enabled: JFractons.currentLevel() >= role_min_level
+				opacity: enabled ? 1 : 0.5
 				
 				clip: true
 				
@@ -104,30 +87,36 @@ SceneBase {
 					id: starsRect
 					width: 100; height: parent.height
 					
-					color: "black"	//	4 DEBUG
-					opacity: 0.6
+//					visible: false
+					
+//					color: "black"	//	4 DEBUG
+//					opacity: 0.6
+					color: "transparent"
+
 				}
 				
 				//	displays mode name with button function
 				BubbleButton {
 					id: modeRect
 					width: parent.width - parent.spacing - starsRect.width - 15; height: parent.height
-					color: "yellow"
+//					width: parent.width - 15; height: parent.height
 					
 					background.border.width: 3
 					
-					text: "<b>" + role_mode + "</b> Mode"
+					text: "<b>" + (row.enabled ? role_mode : "Level " + role_min_level) + "</b>"
 					textObj.textFormat: Text.StyledText
 					textObj.horizontalAlignment: Text.AlignRight
 					textObj.anchors.rightMargin: 10
 					textObj.animate: false
+					
+					image.source: row.enabled ? "" : "qrc:/assets/icons/padlock-closed"
 					
 					onEntered: {
 						modeView.currentIndex = index;
 					}
 					
 					onClicked: {
-						if (JFractons.currentLevel() < role_min_level)
+						if (!row.enabled)
 							return;
 						
 						console.debug(role_mode + " Mode clicked.");

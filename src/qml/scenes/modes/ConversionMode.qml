@@ -1,4 +1,3 @@
-import Felgo 3.0
 import QtQuick 2.0
 
 import "../backdrops"
@@ -21,7 +20,7 @@ ModesBase {
 										 })
 	
 	modeName: 'Conversion'
-	xpAmount: 1
+	xpAmount: 2
 	
 	
 	onDifficultyIndexChanged: {
@@ -33,8 +32,8 @@ ModesBase {
 	
 	QtObject {
 		id: equationComponents
-		property var lhs: 1
-		property var rhs: 1
+		property var lhs: new JFraction.Fraction()
+		property var rhs: new JFraction.Fraction()
 		
 		function join() {
 			return lhs + ' = ' + rhs;

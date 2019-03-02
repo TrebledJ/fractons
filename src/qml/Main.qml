@@ -2,6 +2,7 @@ import Felgo 3.0
 import QtQuick 2.0
 
 import "common"
+import "game/singles"
 import "scenes"
 import "scenes/backdrops"
 import "scenes/menus"
@@ -39,10 +40,22 @@ GameWindow {
 //		jNotifications.notify("Greetings", "Hello there, welcome to Fractons.", 5);
 	}
 	
+	property int animationSmallerYBound: activeScene.animationSmallerYBound
+	property int animationLargerYBound: activeScene.animationLargerYBound
 	
-	state: "home"
-//	state: "achievements"
-//	state: "mode_balance"
+//	onAnimationSmallerYBoundChanged:  {
+//		console.log("State (" + state + ") -- Smaller YBound:", animationSmallerYBound);
+//	}
+	
+//	onAnimationLargerYBoundChanged:  {
+//		console.log("State (" + state + ") -- Larger YBound:", animationLargerYBound);
+//	}
+	
+	
+	
+//	state: "home"
+//	state: "lottery"
+	state: "mode_balance"
 	states: [
 		State {
 			name: "home"
@@ -97,6 +110,17 @@ GameWindow {
 		},
 		
 		State {
+			name: "lottery"
+			PropertyChanges { target: lotteryScene; /*state: "show"*/ }
+			PropertyChanges { target: gameWindow; activeScene: lotteryScene }
+		},
+		State {
+			name: "mode_token"
+			PropertyChanges { target: modeTokenScene; /*state: "show"*/ }
+			PropertyChanges { target: gameWindow; activeScene: modeTokenScene }
+		},
+		
+		State {
 			name: "achievements"
 			PropertyChanges { target: achievementsScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: achievementsScene }
@@ -136,8 +160,9 @@ GameWindow {
 	Home {
 		id: homeScene
 		
-		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
 		onStudyButtonClicked: gameWindow.state = "studyMenu"
+		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
+		onLotteryButtonClicked: gameWindow.state = "lottery"
 		onAchievementsButtonClicked: gameWindow.state = "achievements"
 		onStatisticsButtonClicked: gameWindow.state = "statistics"
 		onSettingsButtonClicked: gameWindow.state = "settings"
@@ -199,6 +224,15 @@ GameWindow {
 		onPracticeButtonClicked: gotoExercise(mode, difficulty)
 	}
 	
+	Lottery {
+		id: lotteryScene
+		onBackButtonClicked: gameWindow.state = "home"
+	}
+	
+//	Modes.TokenMode {
+//		id: modeTokenScene
+//		onBackButtonClicked: gameWindow.state = "lottery"
+//	}
 	
 	Others.Achievements {
 		id: achievementsScene
@@ -228,4 +262,38 @@ GameWindow {
 		activeScene.difficultyIndex = index;
 	}
 	
+	function pushBackgroundAnimation(text, parentObject, visibleListener, font) {
+		
+		var obj = {
+			text: text,
+			parentObject: parentObject,
+			visibleListener: visibleListener,
+			font: font,
+		};
+		
+		if (text.substr(0, 7) === "#banner")
+		{
+			obj.text = text.substr(7);
+			animationLayer.bannerQueue.push(obj);
+			return;
+		}
+
+		animationLayer.animationQueue.push(obj);
+	}
+	
+	Connections {
+		target: JFractons
+		
+		onLevelUp: {
+			pushBackgroundAnimation("#bannerLevel " + JFractons.currentLevel() + ": You've leveled up!", 0, 0, 20);
+		}
+	}
+	
+	Connections {
+		target: JGameAchievements
+		
+		onAchievementGet: {
+			pushBackgroundAnimation("#bannerYou got the achievement \"" + name + "\"!", 0, 0, 20);
+		}
+	}
 }

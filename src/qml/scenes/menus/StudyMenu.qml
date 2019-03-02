@@ -1,4 +1,3 @@
-import Felgo 3.0
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 
@@ -46,32 +45,32 @@ SceneBase {
 		focus: true
 		model: lessonModel
 		delegate: lessonDelegate
-		header: headerDelegate
+//		header: headerDelegate
 		
 		ScrollBar.vertical: ScrollBar {
 			anchors.left: lessonView.right
 			active: true
 		}
 		
-		Component {
-			id: headerDelegate
+//		Component {
+//			id: headerDelegate
 			
-			Item {
-				z: 3
-				width: lessonView.width - 10; height: 40
+//			Item {
+//				z: 3
+//				width: lessonView.width - 10; height: 40
 				
-				Rectangle {
-					anchors.fill: parent
-					color: "yellow"
+//				Rectangle {
+//					anchors.fill: parent
+//					color: "yellow"
 					
-					TextBase {
-						anchors.centerIn: parent
-						text: "Lessons"
-					}
-				}
-			}
+//					TextBase {
+//						anchors.centerIn: parent
+//						text: "Lessons"
+//					}
+//				}
+//			}
 			
-		}	//	Component: headerDelegate
+//		}	//	Component: headerDelegate
 		
 		Component {
 			id: lessonDelegate
@@ -96,8 +95,6 @@ SceneBase {
 				BubbleButton {
 					id: lessonRect
 					width: parent.width - parent.spacing - starsRect.width - 15; height: parent.height
-					color: "yellow"
-					
 					background.border.width: 3
 					
 					text: "" + role_lesson + ""

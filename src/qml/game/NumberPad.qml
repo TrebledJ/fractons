@@ -1,4 +1,3 @@
-//import Felgo 3.0
 import QtQuick 2.0
 
 import "../common"
@@ -39,9 +38,7 @@ Item {
 			model: item.keys
 			
 			BubbleButton {
-//				width: (grid.width - (grid.columns - 1)*grid.spacing) / grid.columns; height: (grid.height - (grid.rows - 1)*grid.spacing) / grid.rows
 				width: (grid.width - (grid.columns - 1)*grid.spacing) / grid.columns; height: (grid.height - (grid.rows - 1)*grid.spacing) / grid.rows
-				color: "yellow"
 				
 //				text: modelData === 'back' ? '⬅' : modelData
 				text: modelData === 'back' ? '←' : modelData

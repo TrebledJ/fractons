@@ -17,7 +17,12 @@ Scene {
 	z: -1
 	signal backButtonClicked
 	
+	property alias backgroundAnimationTimer: backgroundAnimationTimer
+	
 	property bool useDefaultBackButton: true
+	
+	property int animationSmallerYBound: 0
+	property int animationLargerYBound: height
 	
 	
 	opacity: 0
@@ -35,6 +40,7 @@ Scene {
 		},
 		State {
 			name: "hide"
+			when: gameWindow.activeScene !== scene
 			PropertyChanges { target: scene; opacity: 0 }
 		}
 	]
@@ -46,7 +52,8 @@ Scene {
 			left: parent.left
 			margins: 10
 		}
-		color: "yellow"
+		
+		z: 1
 		
 		visible: useDefaultBackButton
 		
@@ -56,4 +63,50 @@ Scene {
 	}
 	
 	
+	Timer {
+		id: backgroundAnimationTimer
+		
+		property var messageQueue: []
+		
+		property string message
+		property var parent_
+		property var visibleListener
+		property int fontSize
+		
+		//	use a timer to prevent spammy messages
+		interval: 15000
+		
+		onTriggered: {
+			if (state === "show")
+			{
+				var front = messageQueue[0];
+				messageQueue = messageQueue.slice(1);
+				pushBackgroundAnimation(front.message, front.parent, front.visibleListener, front.fontSize);	//	animate the mode name onto the background
+			}
+			
+			check();
+		}
+		
+		function check() {
+			if (messageQueue.length > 0 && !running)
+				start();
+		}
+		
+		function run(message, parent_, visibleListener, fontSize) {
+//			backgroundAnimationTimer.message = message;
+//			backgroundAnimationTimer.parent_ = parent_;
+//			backgroundAnimationTimer.visibleListener = visibleListener;
+//			backgroundAnimationTimer.fontSize = fontSize;
+			
+			messageQueue.push({
+								 message: message,
+								  parent: parent_,
+								  visibleListener: visibleListener,
+								  fontSize: fontSize
+							  });
+			
+			check();
+//			start();
+		}
+	}
 }

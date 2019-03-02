@@ -1,4 +1,3 @@
-import Felgo 3.0
 import QtQuick 2.0
 
 import "../common"
@@ -6,8 +5,8 @@ import "../js/Fraction.js" as JFraction
 
 Column {
 	id: column
-	width: Math.max(numerator.width, vinculum.width, denominator.width)
-	height: numerator.height + spacing + vinculum.height + spacing + denominator.height
+	width: Math.max(numerator.contentWidth, vinculum.width, denominator.contentWidth)
+	height: numerator.contentHeight + spacing + vinculum.height + spacing + denominator.contentHeight
 	
 	property alias font: numerator.font
 	property var fraction: new JFraction.Fraction(1, 2)

@@ -1,4 +1,3 @@
-import Felgo 3.0
 import QtQuick 2.0
 import QtQuick.Layouts 1.3
 
@@ -11,7 +10,7 @@ LessonsBase {
 	
 	lessonName: "Adding and Subtracting Fractions of Like Denominators"
 	
-	gotoMode: "standard"
+	gotoMode: "operations"
 	gotoDifficulty: "easy"
 	
 	//	TODO consider writing/parsing a script with img tags, equations, and whatnot

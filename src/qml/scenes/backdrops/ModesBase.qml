@@ -56,7 +56,6 @@
 	
 */
 
-import Felgo 3.0
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
@@ -97,6 +96,7 @@ SceneBase {
 	
 	
 	useDefaultBackButton: false
+	animationLargerYBound: numberPadVisible ? numberPad.y : textFieldColumn.y
 	
 	Component.onCompleted: {
 //		console.debug("Level", JFractons.levelAt());
@@ -148,7 +148,6 @@ SceneBase {
 			right: drawingArea.right
 			margins: 10
 		}
-		color: "yellow"
 		
 		text: "i"
 	}
@@ -195,6 +194,17 @@ SceneBase {
 			anchors.margins: 10
 			spacing: 10
 			
+			/*TextBase {
+				Layout.alignment: Qt.AlignHCenter
+				width: parent.width
+				color: "yellow"
+				text: modeName  // + "\nMode"
+				
+				horizontalAlignment: Text.AlignHCenter
+				
+				font.pointSize: 16
+			}*/
+			
 			//	this is the row of buttons at the top of the panel
 			Row {
 				width: parent.width; height: 30
@@ -204,7 +214,6 @@ SceneBase {
 					id: backButton
 					width: parent.width - parent.spacing - infoButton.width; height: parent.height
 					background.radius: 5
-					color: "yellow"
 					
 					text: "Back"
 					
@@ -215,9 +224,7 @@ SceneBase {
 					id: numberPadSwitch
 					width: height; height: parent.height
 					
-					color: "yellow"
-					
-					image.source: "qrc:/assets/icons/Calculator"
+					image.source: "qrc:/assets/icons/calculator"
 					
 					isCheckButton: true
 					checked: true
@@ -233,7 +240,6 @@ SceneBase {
 				id: difficultyButton
 				width: parent.width; height: 30
 				background.radius: 5
-				color: "yellow"
 				
 				text: difficulties.length === 0 ? "" : difficulties[difficultyIndex]
 				
@@ -259,7 +265,6 @@ SceneBase {
 				id: goButton
 				width: parent.width; height: 30
 				background.radius: 5
-				color: "yellow"
 				
 				text: "Go"
 				
@@ -475,6 +480,13 @@ SceneBase {
 	}
 	
 	
+	onStateChanged: {
+		if (state === "show")
+			backgroundAnimationTimer.run(modeName + " Mode", null, scene, 20);
+		else
+			backgroundAnimationTimer.stop();
+	}
+	
 	//	this function will create animated text floating upwards across the eventSpace
 	function logEvent(text, color, fontSize, x) {
 		text = text !== undefined ? text : "Hello world?";
@@ -484,8 +496,6 @@ SceneBase {
 		//	x is should be a real number from 0 to 1
 		if (x === undefined)
 			x = 0;
-		else if (x === "random")
-			x = JMath.randI(0, eventSpace.width);
 		else
 			x = x*eventSpace.width;
 		
@@ -506,6 +516,9 @@ SceneBase {
 		obj.font.pointSize = fontSize;
 		
 		var randY = JMath.randI(-25, -5);
+		
+		if (x === "random")
+			obj.x = JMath.randI(0, eventSpace.width - obj.width);
 		
 		var from = eventSpace.height;
 		var to = 20;
@@ -543,19 +556,19 @@ SceneBase {
 		
 		if (num % 100 == 0)
 		{
-			logEvent('Combo ' + num + ' ✨', "lightgoldenrodyellow", 16, x);
+			logEvent('Combo ' + num + ' ✨', "lightgoldenrodyellow", 16, "random");
 		}
 		else if (num % 10 == 0)
 		{
-			logEvent('Combo ' + num + ' 💫', "lightgoldenrodyellow", 12, x);
+			logEvent('Combo ' + num + ' 💫', "lightgoldenrodyellow", 12, "random");
 		}
 		else if (num % 5 == 0)
 		{
-			logEvent('Combo ' + num + ' 🌟', "lightgoldenrodyellow", 10, x);
+			logEvent('Combo ' + num + ' 🌟', "lightgoldenrodyellow", 10, "random");
 		}
 		else
 		{
-			logEvent('Combo ' + num + ' ⭐️', "yellow", 8, x);
+			logEvent('Combo ' + num + ' ⭐️', "yellow", 8, "random");
 		}
 	}
 	

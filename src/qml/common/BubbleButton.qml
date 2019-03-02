@@ -1,7 +1,6 @@
 //	ButtonBase.qml
 
 import QtQuick 2.11
-import Felgo 3.0
 
 /*
   
@@ -32,7 +31,7 @@ Item {
 	signal exited
 	
 	property string color
-	property string defaultColor: "navy"
+	property string defaultColor: "yellow"
 	property string hoverColor: "yellow"
 	property alias text: buttonText.text
 	property alias font: buttonText.font
@@ -41,17 +40,18 @@ Item {
 	property alias textObj: buttonText
 	property alias image: image
 	
+	property bool bubbleOn: true
 	property real diagonalScalar: defaultDiagonal
 	
 	//	these From-To values will be used for animation purposes
-	property real enteredFrom: 0.75
-	property real enteredTo: defaultDiagonal
+	property real enteredFrom: bubbleOn ? 0.75 : 1
+	property real enteredTo: bubbleOn ? defaultDiagonal : 1
 	
-	property real pressedFrom: 0.9
-	property real pressedTo: 1.05
+	property real pressedFrom: bubbleOn ? 0.9  : 1
+	property real pressedTo: bubbleOn ? 1.05 : 1
 	
-	property real releasedFrom: pressedTo
-	property real releasedTo: defaultDiagonal
+	property real releasedFrom: bubbleOn ? pressedTo : 1
+	property real releasedTo: bubbleOn ? defaultDiagonal : 1
 	
 	//	the diagonal is crucial in bubbling
 	property real defaultDiagonal: 1
@@ -84,7 +84,6 @@ Item {
 	Image {
 		id: image
 		anchors.fill: background
-		anchors.centerIn: background
 		anchors.margins: 5
 		
 		fillMode: Image.PreserveAspectFit
@@ -121,6 +120,9 @@ Item {
 		onExited: button.exited()
 		
 		onContainsPressChanged: {
+			if (!bubbleOn)
+				return;
+			
 			if (!containsPress)
 				animateExitPress();
 		}
@@ -143,7 +145,11 @@ Item {
 			return;
 		}
 		
+		if (!bubbleOn)
+			return;
+		
 		priv.isPressedFlag = true;	//	turns on flag
+		
 		animateScalar(pressedFrom, pressedTo);	//	animate
 	}
 	
@@ -151,10 +157,16 @@ Item {
 		if (isCheckButton)
 			checked = !checked;
 		
+		if (!bubbleOn)
+			return;
+		
 		animateExitPress();
 	}
 	
 	onEntered: {
+		if (!bubbleOn)
+			return;
+		
 		animateScalar(enteredFrom, enteredTo);
 	}
 	
