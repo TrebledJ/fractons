@@ -72,6 +72,7 @@ SceneBase {
 //	signal backButtonClicked	//	signal provided by SceneBase
 	signal goButtonClicked
 	signal difficultyChanged(int index, string difficulty)
+	signal backToLottery(bool correct, int amount, string unit)
 	
 	property var lastQuestions: ({})
 	
@@ -91,8 +92,10 @@ SceneBase {
 	property bool hasInputError: false
 	property string errorMessage
 	
-	property int xpAmount: 0
-//	property int combo: 0
+	property int rewardAmount: 0
+	property string unit	//	"fractons" or "tokens"
+	
+	property bool isFromLottery: false
 	
 	
 	useDefaultBackButton: false
@@ -217,7 +220,8 @@ SceneBase {
 					
 					text: "Back"
 					
-					onClicked: scene.backButtonClicked()
+					onClicked: isFromLottery ? scene.backToLottery(false, rewardAmount, unit) : scene.backButtonClicked()
+						
 				}
 				
 				BubbleButton {
@@ -409,7 +413,7 @@ SceneBase {
 	QtObject {
 		id: priv
 		
-		property var eventTextComponent: Qt.createComponent("../../common/TextAnimation.qml")
+		property var eventTextComponent: Qt.createComponent("../../common/EventText.qml")
 		property int eventCounter: 0
 		
 		//	ACVM : no u
@@ -459,8 +463,8 @@ SceneBase {
 			if (JStorage.combo() > JGameAchievements.getByName("sprinter i").progress)
 				JGameAchievements.addProgressByName("sprinter i", 1);
 			
-			
-			addFractons(xpAmount);
+			if (!isFromLottery)
+				addFractons(rewardAmount);	//	silence the addFractons (will be used in multiplier)
 			
 			//	ACVM : associate
 			JGameAchievements.addProgressByName("associate", 1)
@@ -474,6 +478,11 @@ SceneBase {
 		
 		JGameStatistics.incDailyAttempted();
 //		JGameStatistics.pushQuestion(modeName, difficulties[difficultyIndex], question, input, answer, isCorrect);	//	TODO uncomplete
+		
+		if (isFromLottery)
+		{
+			backToLottery(isCorrect, rewardAmount, unit);
+		}
 		
 		clearInput();
 		generateRandomQuestion();

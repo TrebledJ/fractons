@@ -54,8 +54,8 @@ GameWindow {
 	
 	
 //	state: "home"
-//	state: "lottery"
-	state: "mode_balance"
+	state: "lottery"
+//	state: "mode_balance"
 	states: [
 		State {
 			name: "home"
@@ -184,22 +184,26 @@ GameWindow {
 	
 	Modes.BalanceMode {
 		id: modeBalanceScene
-		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onBackToLottery: { var s = gameWindow.state; gameWindow.state = "lottery";   lotteryScene.loadFromExercise(s, correct, amount, unit); }
 	}
 	
 	Modes.ConversionMode {
 		id: modeConversionScene
-		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onBackToLottery: { var s = gameWindow.state; gameWindow.state = "lottery";   lotteryScene.loadFromExercise(s, correct, amount, unit); }
 	}
 	
 	Modes.TruthMode {
 		id: modeTruthScene
-		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onBackToLottery: { var s = gameWindow.state; gameWindow.state = "lottery";   lotteryScene.loadFromExercise(s, correct, amount, unit); }
 	}
 	
 	Modes.OperationsMode {
 		id: modeOperationsScene
-		onBackButtonClicked: gameWindow.state = "exerciseMenu"
+		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onBackToLottery: { var s = gameWindow.state; gameWindow.state = "lottery";   lotteryScene.loadFromExercise(s, correct, amount, unit); }
 	}
 	
 	
@@ -252,10 +256,17 @@ GameWindow {
 	function gotoExercise(mode, difficulty) {
 		console.log("Going to exercise", mode, "with a", difficulty, "difficulty.");
 		
+		
+		var fromLottery = gameWindow.state === "lottery";
+		
 		//	set state to mode
 		gameWindow.state = "mode_" + mode.toLowerCase();
 		
-		if (difficulty === "" || activeScene.difficulties.length === 0)
+		//	update isFromLottery ModesBase var
+		activeScene.isFromLottery = fromLottery;
+		
+		//	set difficulty
+		if (difficulty === "" || difficulty === undefined || activeScene.difficulties.length === 0)
 			return;
 		
 		var index = activeScene.difficulties.findIndex(function(e){ return e.toLowerCase() === difficulty.toLowerCase(); });
@@ -285,7 +296,7 @@ GameWindow {
 		target: JFractons
 		
 		onLevelUp: {
-			pushBackgroundAnimation("#bannerLevel " + JFractons.currentLevel() + ": You've leveled up!", 0, 0, 20);
+			pushBackgroundAnimation("#bannerLevel " + JFractons.currentLevel() + ": You've leveled up!", 0, 0, 25);
 		}
 	}
 	
@@ -293,7 +304,7 @@ GameWindow {
 		target: JGameAchievements
 		
 		onAchievementGet: {
-			pushBackgroundAnimation("#bannerAchievement Get: " + name + "!", 0, 0, 20);
+			pushBackgroundAnimation("#bannerAchievement Get: " + name + "!", 0, 0, 25);
 		}
 	}
 }

@@ -17,7 +17,8 @@ ModesBase {
 //	readonly property int hard: 1
 	
 	modeName: 'Balance'
-	xpAmount: 1
+	rewardAmount: 1
+	unit: "fractons"
 	
 	
 	QtObject {

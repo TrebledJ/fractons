@@ -3,7 +3,7 @@ import QtQuick 2.0
 
 TextBase
 {
-	id:  textAnimation
+	id:  eventText
 	
 	property alias animation1: positionAnimation
 	property alias animation2: fadeAnimation
@@ -14,21 +14,21 @@ TextBase
 		NumberAnimation
 		{
 			id: positionAnimation
-			target: textAnimation
+			target: eventText
 			property: 'y'
 			duration: 10000
 		}
 		NumberAnimation
 		{
 			id: fadeAnimation
-			target: textAnimation
+			target: eventText
 			property: 'opacity'
 			from: 1
 			to: 0
 			duration: 4000
 		}
 		
-		onStopped: textAnimation.destroy()
+		onStopped: eventText.destroy()
 	}
 	
 	function start()

@@ -23,7 +23,8 @@ ModesBase {
 										 })
 	
 	modeName: 'Truth'
-	xpAmount: [3, 5, 7, 10][difficultyIndex]
+	rewardAmount: [3, 5, 7, 10][difficultyIndex]
+	unit: "fractons"
 	
 	Component.onCompleted: {
 		numberPad.visible = false;

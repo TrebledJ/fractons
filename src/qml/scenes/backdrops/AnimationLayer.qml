@@ -121,7 +121,8 @@ Scene {
 			
 			var props = {
 				z: parent === scene ? 1 : -1,
-				opacity: visibleListener === scene ? 0.1 : Qt.binding(function() { return visibleListener.state === "show" ? 0.1 : 0; }),
+//				opacity: visibleListener === scene ? 0.1 : Qt.binding(function() { return visibleListener.state === "show" && opacity != 0 ? 0.1 : 0; }),
+				opacity: 0.1,
 				
 				text: text,
 				fontSize: fontSize,
@@ -143,6 +144,8 @@ Scene {
 				obj.y = JMath.randI(0, parent.height - obj.height);	//	set y after creating obj to determine height
 			
 			if (isBanner) { currentBanner = obj; bannerTimer.run(obj.duration); }
+			
+			obj.opacity = visibleListener === scene ? 0.1 : Qt.binding(function() { return visibleListener.state !== "show" || (visibleListener.state === "show" && obj.opacity !== 0.1) ? 0 : 0.1; }),
 			
 			
 			obj.start();

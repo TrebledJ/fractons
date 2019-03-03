@@ -74,7 +74,7 @@ Scene {
 		property int fontSize
 		
 		//	use a timer to prevent spammy messages
-		interval: 15000
+		interval: 5000
 		
 		onTriggered: {
 			if (state === "show")
@@ -98,7 +98,7 @@ Scene {
 //			backgroundAnimationTimer.visibleListener = visibleListener;
 //			backgroundAnimationTimer.fontSize = fontSize;
 			console.log("Pushing message:", message);
-			console.log("Queue now has size", messageQueue.length);
+//			console.log("Queue now has size", messageQueue.length);
 			messageQueue.push({
 								 message: message,
 								  parent: parent_,
@@ -113,6 +113,7 @@ Scene {
 		function cancel(message) {
 			stop();
 			
+			console.log("Cancel message:", message);
 			var index = messageQueue.map(function(item){ return item.message }).lastIndexOf(message);
 			messageQueue = messageQueue.slice(0, index).concat(messageQueue.slice(index + 1));	//	remove index "index"
 			

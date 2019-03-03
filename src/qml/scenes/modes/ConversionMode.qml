@@ -20,7 +20,8 @@ ModesBase {
 										 })
 	
 	modeName: 'Conversion'
-	xpAmount: 2
+	rewardAmount: 2
+	unit: "fractons"
 	
 	
 	onDifficultyIndexChanged: {

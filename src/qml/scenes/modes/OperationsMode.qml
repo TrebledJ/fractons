@@ -24,7 +24,8 @@ ModesBase {
 	readonly property int hard: 2
 	
 	modeName: 'Operations'
-	xpAmount: [1, 3, 5][difficultyIndex]
+	rewardAmount: [1, 3, 5][difficultyIndex]
+	unit: "fractons"
 	
 	
 	QtObject {

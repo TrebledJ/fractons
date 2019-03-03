@@ -6,11 +6,19 @@ import "../backdrops"
 import "../../common"
 import "../../game/singles"
 
+import "../../js/Math.js" as JMath
+
 SceneBase {
 	id: sceneBase
 	
 	signal tokensButtonClicked
 	signal goButtonClicked
+	
+	property int multiplier: 1
+	property int rewardFractons: 0
+	property int rewardTokens: 0
+	property alias rewardsVisible: rewardsColumn.visible
+	property bool committed: true
 	
 	property int tokens: 5
 	
@@ -64,7 +72,7 @@ SceneBase {
 		RadialGradient {
 			id: gradient
 			anchors.fill: parent
-			horizontalRadius: verticalRadius / 2
+			horizontalRadius: verticalRadius * 0.5
 			
 			gradient: Gradient {
 				GradientStop { position: 0.000; color: Qt.rgba(1, 0, 0, 1) }
@@ -79,7 +87,8 @@ SceneBase {
 					id: gradientAnimation
 					target: gradient
 					property: "angle"
-					duration: 5000
+					easing.overshoot: 2
+					duration: 3000
 					from: 0
 					to: 180
 					easing.type: Easing.OutInBack
@@ -184,19 +193,85 @@ SceneBase {
 	}
 	
 	
-	
-	Row {
-		anchors.top: slotBackground.top
+	Column {
+		id: rewardsColumn
+		width: slotBackground.width
+		anchors.top: slotBackground.bottom
 		anchors.topMargin: 30
 		anchors.left: slotBackground.left
 		
 		TextBase {
-			id: rewardText
-			text: ""
-			font.pointSize: 16
+			text: "Reward:"
+//			visible: rewardFractonsText.visible
+		}
+		
+		Row {
+			spacing: 5
+			
+			
+			TextBase {
+				text: 'Multiplier: ×'
+				font.pointSize: 16
+			}
+			
+			TextBase {
+				id: rewardMultiplierText
+				text: multiplier
+				font.pointSize: 16
+			}
+			
+			Item {
+				width: 50; height: 1
+			}
+			
+			BubbleButton {
+				id: gotoExerciseButton
+				property var exerciseList: []
+				
+				width: 100; height: 40
+				text: "Go to Exercise"
+				
+				visible: exerciseList.length !== 0
+				
+				onClicked: {
+					gotoExercise(JMath.choose(exerciseList))
+				}
+			}
+		}
+		
+		Row {
+			spacing: 10
+			
+			TextBase {
+				id: rewardFractonsText
+				text: rewardFractons
+				font.pointSize: 16
+			}
+			
+			TextBase {
+				text: ' ƒ'
+				font.pointSize: 16
+			}
+		}
+		
+		Row {
+			spacing: 10
+			
+			TextBase {
+				id: rewardTokensText
+				text: rewardTokens
+				font.pointSize: 16
+			}
+			
+			Image {
+				width: height; height: parent.height
+				source: "qrc:/assets/icons/coins"
+			}
 		}
 		
 	}
+	
+	
 	
 	onGoButtonClicked: {
 		if (slotMachine.stopping)
@@ -218,6 +293,9 @@ SceneBase {
 			if (gradientAnimation.easing.type !== Easing.OutInBack && gradientAnimation.duration !== 5000)
 				setGradientAnimation(Easing.OutInBack, 5000);
 			
+			//	silence reward texts
+			rewardsVisible = false;
+
 			//	compute sum
 			var obj = slotMachine.model.symbols;
 			var sum = Object.keys(obj).reduce(function(acc, item) { return acc + obj[item].frequency; }, 0);
@@ -228,6 +306,10 @@ SceneBase {
 		slotMachine.updateModels();
 	}
 	
+	onStateChanged: {
+		if (state === "show")
+			rewardsVisible = !committed;
+	}
 	
 	function setGradientAnimation(easingType, duration) {
 		gradientAnimation.easing.type = easingType;
@@ -240,8 +322,10 @@ SceneBase {
 	function evaluate(items) {
 		console.log("Items:", items[0].type, items[1].type, items[2].type);
 		
-		var rewardFractons = 0, rewardTokens = 0, multiplier = 1;
-		
+		rewardFractons = 0;
+		rewardTokens = 0;
+		multiplier = 1;
+		committed = false;
 		
 		if (items[0].type === items[1].type && items[1].type === items[2].type)
 		{
@@ -274,30 +358,88 @@ SceneBase {
 		else if (count.fracton === 2 && count.pi === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.e === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.i === 1) { rewardFractons = 20; }
-		else if (count.fracton === 2 && count.token === 1) { rewardTokens = 3; }
+		else if (count.fracton === 2 && count.token === 1) { rewardFractons = 10; rewardTokens = 1; }
 		else if (count.fracton === 1 && count.star === 2) { rewardFractons = 50; }
 		else if (count.fracton === 1 && count.one === 2) { rewardFractons = 25; }
-		else if (count.fracton === 1 && count.token === 2) { rewardTokens = 2; }
+		else if (count.fracton === 1 && count.token === 2) { rewardFractons = 5; rewardTokens = 2; }
 		else if (count.pi === 1 && count.e === 1 && count.i === 1) { rewardFractons = 100; }
-		else if (count.token >= 1) { rewardTokens = 1; }
+		else if (count.token === 2) { rewardTokens = 2; }
+		else if (count.token === 1) { rewardTokens = 1; }
+		
+		if (count.pi === 3) { multiplier += 3; }
+		if (count.star === 3) { multiplier += 3; }
+		if (count.star === 2) { multiplier += 2; }
+		if (count.star === 1) { multiplier += 1; }
+		
+		
+		gotoExerciseButton.exerciseList = [];
+		
+		if (count.star === 3)
+		{
+			//	random question
+			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
+		}
+		
+		if (count.star === 2 && count.pi === 1)
+		{
+			//	random pie question
+			gotoExerciseButton.exerciseList = ["Pie"];
+		}
+		
+		if (count.star === 2 && count.token === 1)
+		{
+			//	random token question
+			gotoExerciseButton.exerciseList = ["Token"];
+		}
+		
+		if (count.star === 2)
+		{
+			//	random question
+			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
+		}
+		
+		if (count.star === 1 && (count.token === 2 || count.one === 2 || count.zero === 2 || count.pi === 2 || count.e === 2 || count.i === 2))
+		{
+			//	random question
+			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
+		}
+		
+//		gotoExerciseButton.exerciseList = ["Balance"];
+		
 		
 		rewardFractons += count.one;
 		
-		//	add multiplier
-		rewardFractons *= multiplier;
-		rewardTokens *= multiplier;
-		
-		
+		//	show rewards
+		rewardsVisible = true;
+
+		//	premature commitment
+		if (gotoExerciseButton.exerciseList.length === 0)
+			commitRewards();
+	}
+	
+	
+	function loadFromExercise(exerciseName, isCorrect, fractonsEarned) {
+		if (isCorrect)
+		{
+			rewardFractons += fractonsEarned;
+			rewardsVisible = true;
+			
+			gotoExerciseButton.exerciseList = [];
+			commitRewards();
+		}
+	}
+	
+	function commitRewards() {
 		console.log("Reward:");
+		console.log("Multiplier --", multiplier);
 		console.log("Fractons --", rewardFractons);
 		console.log("Tokens --", rewardTokens);
 		
+		//	send rewards with multiplier
+		JFractons.addFractons(rewardFractons * multiplier);
+		tokens += rewardTokens * multiplier;
 		
-		//	send rewards
-		JFractons.addFractons(rewardFractons);
-		tokens += rewardTokens;
-		
+		committed = true;
 	}
-	
 	
 }
