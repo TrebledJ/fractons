@@ -26,15 +26,14 @@ Item {
 	
 	property var achievement
 	
-	property color primaryColor: achievement.isSecret ? "mediumblue" : "yellow";
-	property color secondaryColor: achievement.isSecret ? "gold" : "navy"
+	property color primaryColor: achievement.group === "secret" ? "mediumblue" : "yellow";
+	property color secondaryColor: achievement.group === "secret" ? "gold" : "navy"
 	
 	property string name: achievement.name
 	property string description: achievement.description
+	property string	hint: achievement.hint
+	property string	group: achievement.group
 	property int	reward: achievement.reward
-	property bool	isSecret: achievement.isSecret
-	property string secret: achievement.secret
-	property bool	isClassified: achievement.isClassified
 	property int	progress: achievement.progress
 	property int	maxProgress: achievement.maxProgress
 	property bool	isCollected: achievement.isCollected
@@ -66,8 +65,8 @@ Item {
 			Layout.fillWidth: true
 			color: secondaryColor
 			
-			text: achievement.description.length > 45 ? achievement.description.substr(0, 30) + '...' : achievement.description
-			font.pointSize: achievement.description.length > 30 ? 6 : 8
+			text: group === "secret" ? hint : description.length > 45 ? description.substr(0, 30) + '...' : description
+			font.pointSize: description.length > 30 ? 6 : 8
 			
 			horizontalAlignment: Text.AlignRight
 			wrapMode: Text.WordWrap
@@ -88,8 +87,8 @@ Item {
 				Layout.fillHeight: true
 				color: secondaryColor
 				
-				text: achievement === undefined ? "<name>" : achievement.name
-				font.pointSize: achievement.name.length < 8 ? 12 : 11
+				text: achievement === undefined ? "<name>" : name
+				font.pointSize: name.length < 8 ? 12 : 11
 				
 				horizontalAlignment: Text.AlignLeft
 				verticalAlignment: Text.AlignBottom
@@ -106,7 +105,7 @@ Item {
 				Layout.fillHeight: true
 				color: secondaryColor
 				
-				text: achievement === undefined || achievement.isSecret && !achievement.isCollected ? "???" : achievement.reward + 'ƒ'
+				text: achievement === undefined || (group === "secret" && !isCollected) ? "???" : reward + 'ƒ'
 				font.pointSize: 8
 				
 				verticalAlignment: Text.AlignBottom

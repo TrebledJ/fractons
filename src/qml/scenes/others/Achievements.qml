@@ -93,6 +93,12 @@ SceneBase {
 		}
 	}	
 	
+	onStateChanged: {
+		//	turn on safety when user enters scene
+		if (state === "show")
+			deleteDataButton.isSafetyOn = true;
+	}
+	
 	Popup {
 		id: infoPopup
 		width: parent.width - 2*margins; height: parent.height - 2*margins
@@ -215,11 +221,11 @@ SceneBase {
 			rewardText.color = infoPopup.achievementCard.secondaryColor;
 			
 			nameText.text = "<b>" + achievementCard.name + "</b>";
-			descriptionText.text = achievementCard.description;
-			if (achievementCard.isSecret && achievementCard.isCollected)
-				descriptionText.text += '\n\n' + achievementCard.secret;
+			descriptionText.text = achievementCard.group === "secret" ? achievementCard.hint : achievementCard.description;
+			if (achievementCard.group === "secret" && achievementCard.isCollected)
+				descriptionText.text += '\n\n' + achievementCard.hint;
 			
-			if (achievementCard.isSecret && !achievementCard.isCollected)
+			if (achievementCard.group === "secret" && !achievementCard.isCollected)
 				rewardText.text = 'Reward: ???'
 			else
 				rewardText.text = 'Reward: ' + achievementCard.reward + 'ƒ';
@@ -228,17 +234,12 @@ SceneBase {
 			progressBar.to = achievementCard.maxProgress;
 			progressBar.value = achievementCard.progress;
 			percentText.text = Math.round(achievementCard.progress / achievementCard.maxProgress * 100) + '%'
-		}
+			
+		}	//	onAchievementCardChanged
 		
 		onClosed: {
 			achievementCard = undefined;
 		}
 	}	//	Popup
 	
-	onVisibleChanged: {
-		//	turn on safety when user enters scene
-		deleteDataButton.isSafetyOn = true;
-		
-		
-	}
 }

@@ -78,10 +78,9 @@ Item {
 				var obj = {
 					name: jAchievementsManager.achievements[i].name,
 					description: jAchievementsManager.achievements[i].description,
+					hint: jAchievementsManager.achievements[i].hint,
+					group: jAchievementsManager.achievements[i].group,
 					reward: jAchievementsManager.achievements[i].reward,
-					isSecret: jAchievementsManager.achievements[i].isSecret,
-					secret: jAchievementsManager.achievements[i].secret,
-					isClassified: jAchievementsManager.achievements[i].isClassified,
 					progress: jAchievementsManager.achievements[i].progress,
 					maxProgress: jAchievementsManager.achievements[i].maxProgress,
 					isCollected: jAchievementsManager.achievements[i].isCollected,
@@ -107,19 +106,38 @@ Item {
 		//	clear previous list
 		jAchievementsManager.achievements = [];
 		
-		//	add achievements to manager
-		for (var name in achievements)
+		
+		var recursiveAdd = function(root)
 		{
-			var acvm = achievements[name];
-			console.log("[GameAchievements] Adding achievement [" + acvm.name + "]")
-			addAchievement(acvm.name, acvm.description, acvm.reward, acvm.isSecret, acvm.secret,
-						   acvm.isClassified, acvm.progress, acvm.maxProgress, acvm.isCollected);
+			for (var i in root)
+			{
+				var sub = root[i];
+				if (sub.name === undefined)
+					recursiveAdd(sub);
+				else
+				{
+					var acvm = sub;
+					console.log("[GameAchievements] Adding achievement [" + acvm.name + "]")
+					addAchievement(acvm.name, acvm.description, acvm.hint, acvm.group, acvm.reward,
+								   acvm.progress, acvm.maxProgress, acvm.isCollected);
+				}
+			}
 		}
+		
+		//	add achievements to manager
+		recursiveAdd(achievements);
+//		for (var name in achievements)
+//		{
+//			var acvm = achievements[name];
+//			console.log("[GameAchievements] Adding achievement [" + acvm.name + "]")
+//			addAchievement(acvm.name, acvm.description, acvm.hint, acvm.group, acvm.reward,
+//						   acvm.progress, acvm.maxProgress, acvm.isCollected);
+//		}
 	}
 	
 	//	creates JAchievement objects
-	function addAchievement(name, description, reward, isSecret, secret, isClassified, progress, maxProgress, isCollected) {
-		if (arguments.length !== 9)
+	function addAchievement(name, description, hint, group, reward, progress, maxProgress, isCollected) {
+		if (arguments.length !== 8)
 		{
 			console.warn("[GameAchievements] Incorrect number of arguments provided to GameAchievements.qml::addAchievement");
 			return;
@@ -131,10 +149,9 @@ import Fractons 1.0
 JAchievement {
 	name: '"+name+"';
 	description: '"+description+"';
+	hint: '"+hint+"';
+	group: '"+group+"';
 	reward: "+reward+";
-	isSecret: "+isSecret+";
-	secret: '"+secret+"';
-	isClassified: "+isClassified+";
 	progress: "+progress+";
 	maxProgress: "+maxProgress+";
 	isCollected: "+isCollected+";
@@ -167,30 +184,27 @@ JAchievement {
 	}
 	
 	function getNames(filter) {
+		//	filters should be whitespace-delimited
 		filter = filter === undefined ? filter = [] : filter.split(' ');
 		
 		var passesFilters = function(acvm)
 		{
+			//	checks filters to see if it matches an achievement
 			for (var i in filter)
 			{
 				var req = filter[i];
-				if (req === "secret" && !acvm.isSecret)
+				if (req.length === 0)
+					continue;
+				if (req[0] === '!' && req.substr(1) === acvm.class)	//	tests for a 'not'-filter
 					return false;
-				if (req === "!secret" && acvm.isSecret)
-					return false;
-				if (req === "classified" && !acvm.isClassified)
-					return false;
-				if (req === "!classified" && acvm.isClassified)
-					return false;
-				if (req === "collected" && !acvm.isCollected)
-					return false;
-				if (req === "!collected" && acvm.isCollected)
+				if (req[0] !== '!' && req !== acvm.class)	//	tests for an affirmative filter
 					return false;
 			}
 			
 			return true;
 		}
 		
+		//	iterate through achievements and collect those that pass the filters
 		var ret = [];
 		for (var i = 0; i < jAchievementsManager.achievements.length; i++)
 		{

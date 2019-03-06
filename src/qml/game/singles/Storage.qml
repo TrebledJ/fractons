@@ -41,39 +41,71 @@ Item {
 											combo: 0,
 											
 											achievements: {
-												nou: {
-													name: 'no u',
-													description: 'no u',
-													reward: 500,
-													isSecret: true,
-													secret: 'Input "no u".',
-													isClassified: false,
-													progress: 0,
-													maxProgress: 5,
-													isCollected: false
+												explorer: {
+													associate: {
+														name: 'Associate',
+														description: 'Correctly answer a question.',
+														hint: '',
+														group: 'explorer',
+														reward: 1,
+														progress: 0,
+														maxProgress: 1,
+														isCollected: false
+													},
 												},
-												associate: {
-													name: 'Associate',
-													description: 'Correctly answer a question.',
-													reward: 1,
-													isSecret: false,
-													secret: '',
-													isClassified: false,
-													progress: 0,
-													maxProgress: 1,
-													isCollected: false
+												studious: {
+													
 												},
-												sprinter1: {
-													name: 'Sprinter I',
-													description: 'Reach a combo of 3.',
-													reward: 10,
-													isSecret: false,
-													secret: '',
-													isClassified: false,
-													progress: 0,
-													maxProgress: 3,
-													isCollected:false
-												}
+												sprinter: {
+													1: {
+														name: 'Sprinter I',
+														description: 'Reach a combo of 3.',
+														hint: '',
+														group: 'sprinter',
+														reward: 10,
+														progress: 0,
+														maxProgress: 3,
+														isCollected: false
+													},
+												},
+												mastery_general: {
+													
+												},
+												leveller: {
+													
+												},
+												warrior: {
+													
+												},
+												mastery: {
+													balance: {
+														
+													},
+													conversion: {
+														
+													},
+													truth: {
+														
+													},
+													operations: {
+														
+													},
+												},
+												secret: {
+													nou: {
+														name: 'no u',
+														description: 'Input "no u".',
+														hint: 'no u',
+														group: 'secret',
+														reward: 500,
+														progress: 0,
+														maxProgress: 5,
+														isCollected: false
+													},
+												},
+												classified: {
+													
+												},
 											},
 											
 //											stats_general: {
@@ -125,7 +157,6 @@ Item {
 	
 	Component.onCompleted: {
 		console.warn("Reloading JStorage...");
-		
 		
 		//	see [1]
 		console.warn("Current platform:", Qt.platform.os);
