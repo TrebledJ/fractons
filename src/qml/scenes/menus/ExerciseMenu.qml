@@ -43,7 +43,8 @@ SceneBase {
 			leftMargin: 80; rightMargin: 10
 		}
 		
-		topMargin: 10
+		topMargin: 60
+//		topMargin: 10
 		bottomMargin: 10
 		leftMargin: 10
 		rightMargin: 10
@@ -63,7 +64,6 @@ SceneBase {
 			id: scrollbar
 			anchors.left: modeView.right
 			active: true
-
 		}
 		
 		Component {
@@ -89,9 +89,9 @@ SceneBase {
 					
 //					visible: false
 					
-//					color: "black"	//	4 DEBUG
-//					opacity: 0.6
-					color: "transparent"
+					color: "black"	//	4 DEBUG
+					opacity: 0.6
+//					color: "transparent"
 
 				}
 				
@@ -135,5 +135,10 @@ SceneBase {
 		}	//	Component: modelDelegate
 	}	//	ListView: modeView
 	
+	Rectangle {
+		width: parent.width; height: 50
+		anchors.top: parent.top
+		color: "navy"
+	}
 
 }

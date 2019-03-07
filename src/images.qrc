@@ -12,5 +12,8 @@
         <file>assets/icons/coins.png</file>
         <file>assets/icons/question-mark2.png</file>
         <file>assets/icons/padlock-closed.png</file>
+        <file>assets/icons/euler.png</file>
+        <file>assets/icons/gauss.jpg</file>
+        <file>assets/icons/newton.png</file>
     </qresource>
 </RCC>

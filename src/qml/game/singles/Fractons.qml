@@ -29,7 +29,15 @@ Item {
 	
 	onLevelUp: {
 		console.warn("Player leveled up!");
-		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 5);
+		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
+		
+		//	ACVM : leveller
+		JGameAchievements.setProgressByName("leveller i", level);
+		JGameAchievements.setProgressByName("leveller ii", level);
+		JGameAchievements.setProgressByName("leveller iii", level);
+		JGameAchievements.setProgressByName("leveller iv", level);
+		JGameAchievements.setProgressByName("leveller v", level);
+		
 	}
 	
 	function addFractons(amount) {

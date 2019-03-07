@@ -2,6 +2,7 @@ import QtQuick 2.11
 import QtQuick.Controls 2.2
 
 import "../../common"
+import "../../game/singles"
 
 SceneBase {
 	id: sceneBase
@@ -21,6 +22,14 @@ SceneBase {
 	
 	
 //	useDefaultBackButton: false
+	
+	onStateChanged: {
+		if (state === "show")
+		{
+			//	ACVM : lessons?
+			JGameAchievements.addProgressByName("lessons?", 1);
+		}
+	}
 	
 	
 	onLessonItemsChanged: {

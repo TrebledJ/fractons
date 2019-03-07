@@ -18,6 +18,14 @@ SceneBase {
 		
 	}
 	
+	onStateChanged: {
+		if (state === "show")
+		{
+			//	ACVM : stats?
+			JGameAchievements.addProgressByName("stats?", 1);
+		}
+	}
+	
 //	ChartView {
 //		id: chartView
 //		anchors.fill: parent

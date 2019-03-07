@@ -61,12 +61,17 @@ Item {
 		
 		//	description at top right
 		TextBase {
+//			id: rewardText
 			id: descriptionText
 			Layout.fillWidth: true
 			color: secondaryColor
 			
 			text: group === "secret" ? hint : description.length > 45 ? description.substr(0, 30) + '...' : description
-			font.pointSize: description.length > 30 ? 6 : 8
+//			text: achievement === undefined || (group === "secret" && !isCollected) ? "???" : reward + 'ƒ'
+//			font.pointSize: description.length > 30 ? 6 : 8
+			font.pointSize: 6
+			
+//			visible: false
 			
 			horizontalAlignment: Text.AlignRight
 			wrapMode: Text.WordWrap
@@ -77,40 +82,42 @@ Item {
 			Layout.fillHeight: true
 		}
 		
-		//	bottom ribbon
-		RowLayout {
-			width: parent.width
+		TextBase {
+			id: nameText
+			Layout.fillHeight: true
+			color: secondaryColor
 			
-			//	name at bottom left
-			TextBase {
-				id: nameText
-				Layout.fillHeight: true
-				color: secondaryColor
-				
-				text: achievement === undefined ? "<name>" : name
-				font.pointSize: name.length < 8 ? 12 : 11
-				
-				horizontalAlignment: Text.AlignLeft
-				verticalAlignment: Text.AlignBottom
-			}
+			text: achievement === undefined ? "<name>" : name
+			font.pointSize: 10
 			
-			//	filler, see [1]
-			Item {
-				Layout.fillWidth: true
-			}
-			
-			//	reward at bottom right
-			TextBase {
-				id: rewardText
-				Layout.fillHeight: true
-				color: secondaryColor
-				
-				text: achievement === undefined || (group === "secret" && !isCollected) ? "???" : reward + 'ƒ'
-				font.pointSize: 8
-				
-				verticalAlignment: Text.AlignBottom
-			}
+			horizontalAlignment: Text.AlignLeft
+			verticalAlignment: Text.AlignBottom
 		}
+		
+		//	bottom ribbon
+//		RowLayout {
+//			width: parent.width
+			
+//			//	name at bottom left
+			
+			
+//			//	filler, see [1]
+//			Item {
+//				Layout.fillWidth: true
+//			}
+			
+//			//	reward at bottom right
+////			TextBase {
+////				id: rewardText
+////				Layout.fillHeight: true
+////				color: secondaryColor
+				
+////				text: achievement === undefined || (group === "secret" && !isCollected) ? "???" : reward + 'ƒ'
+////				font.pointSize: 8
+				
+////				verticalAlignment: Text.AlignBottom
+////			}
+//		}
 
 	}
 }

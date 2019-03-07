@@ -47,5 +47,5 @@ void DesktopNotifications::sendMessage()
 	
 	m_systemTray.showMessage(msg.title, msg.message, QIcon(), msg.seconds * 1000);
 	
-	m_timer.start(msg.seconds * 1200);
+	m_timer.start((msg.seconds + 3) * 1000);
 }

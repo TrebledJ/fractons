@@ -12,43 +12,96 @@ import "../../common"
 
 import "../../game/singles"
 
+import "../../js/Utils.js" as JUtils
+
 import Fractons 1.0
 
 SceneBase {
 	id: sceneBase
 	
-	Component.onCompleted: {
-		var temp = GameAchievements.getByIndex(0);
-		if (temp === undefined)
-			return;
+	ListModel {
+		id: groupModel
+		ListElement { role_group: "explorer" }
+		ListElement { role_group: "studious" }
+		ListElement { role_group: "sprinter" }
+		ListElement { role_group: "leveller" }
+		ListElement { role_group: "adventurer" }
+		ListElement { role_group: "seasoned" }
+		
+		ListElement { role_group: "balance" }
+		ListElement { role_group: "conversion" }
+		ListElement { role_group: "truth" }
+		ListElement { role_group: "operations" }
+		ListElement { role_group: "pie" }
+		ListElement { role_group: "token" }
+		
+		ListElement { role_group: "secret" }
+		ListElement { role_group: "classified" }
 	}
 	
-	Grid {
-		anchors.centerIn: parent
-		spacing: 10
-		columns: 4
+	ListView {
+		id: groupList
+		anchors.top: banner.bottom
+		anchors.bottom: parent.bottom
+		width: parent.width
 		
-		Repeater {
-			id: achievementRepeater
-			model: JGameAchievements.getNames("!classified")
-			
-			AchievementCard {
-				width: 80; height: 50
-				opacity: isCollected ? 1 : 0.5
+		topMargin: 10
+		leftMargin: 20
+		rightMargin: 20
+		
+		ScrollBar.vertical: ScrollBar {
+			id: scrollbar
+			active: true
+		}
+		
+		model: groupModel
+		delegate: Item {
+			height: 100
+			Column {
+				id: column
 				
-				achievement: JGameAchievements.getByName(modelData)
+				spacing: 5
+				TextBase {
+					text: JUtils.toTitleCase(role_group)
+					font.pointSize: 24
+				}
 				
-				onClicked: {
-					console.debug("[Achievements.qml]", "Achievement", modelData, "at index", index, "was clicked!");
+				Row {
+					spacing: 10
 					
-					infoPopup.achievementCard = achievementRepeater.itemAt(index);	//	set property to this item
-					infoPopup.open();
+					Repeater {
+						id: repeater
+						
+						model: JGameAchievements.getNames(role_group)
+
+						AchievementCard {
+							id: card
+							width: 80; height: 50
+							opacity: isCollected ? 1 : 0.6
+							visible: group === "classified" ? isCollected ? 1 : 0 : 1
+							
+							achievement: JGameAchievements.getByName(modelData);
+							
+							onClicked: {
+								infoPopup.achievementCard = card;	//	set property to this item
+								infoPopup.open();
+							}
+						}
+					}
 				}
 			}
+
 			
 		}
 	}
-
+	
+	Rectangle {
+		id: banner
+		width: parent.width; height: 50
+		anchors.top: parent.top
+		color: "navy"
+	}
+	
 	BubbleButton {
 		id: deleteDataButton
 		/*
@@ -96,7 +149,12 @@ SceneBase {
 	onStateChanged: {
 		//	turn on safety when user enters scene
 		if (state === "show")
+		{
+			//	ACVM : achievements?
+			JGameAchievements.addProgressByName("achievements?", 1);
+			
 			deleteDataButton.isSafetyOn = true;
+		}
 	}
 	
 	Popup {
@@ -152,7 +210,9 @@ SceneBase {
 			//	TODO add a banner (maybe slanted on a corner) showing that an achievement is secret
 			TextBase {
 				id: descriptionText
+				width: parent.width
 				font.pixelSize: 20
+				wrapMode: Text.WordWrap
 			}
 			
 			Item {
@@ -223,7 +283,8 @@ SceneBase {
 			nameText.text = "<b>" + achievementCard.name + "</b>";
 			descriptionText.text = achievementCard.group === "secret" ? achievementCard.hint : achievementCard.description;
 			if (achievementCard.group === "secret" && achievementCard.isCollected)
-				descriptionText.text += '\n\n' + achievementCard.hint;
+				descriptionText.text += '\n\n' + achievementCard.description;
+//				descriptionText.text += achievementCard.description;
 			
 			if (achievementCard.group === "secret" && !achievementCard.isCollected)
 				rewardText.text = 'Reward: ???'

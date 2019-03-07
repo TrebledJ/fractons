@@ -71,7 +71,7 @@ SceneBase {
 			textObj.verticalAlignment: Text.AlignBottom
 			
 			enabled: true
-//			enabled: JFractons.currentLevel() >= 15
+//			enabled: JFractons.currentLevel() >= 15		//	TODO uncomment this
 			opacity: enabled ? 1 : 0.6
 			
 			image.source: enabled ? "qrc:/assets/icons/slot" : "qrc:/assets/icons/question-mark2"

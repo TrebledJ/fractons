@@ -3,6 +3,7 @@ import QtQuick 2.0
 import "../backdrops"
 import "../../common"
 import "../../graphicmath/"
+import "../../game/singles"
 
 import "../../js/Fraction.js" as JFraction
 import "../../js/Math.js" as JMath
@@ -140,11 +141,17 @@ ModesBase {
 					operation === division ? equationComponents.lhsFractionA.div(equationComponents.lhsFractionB) :
 											 equationComponents.lhsFractionA);
 		
-		var res = lhs.equals(rhs.toNumericFraction());
+		var isCorrect = lhs.equals(rhs.toNumericFraction());
 		console.debug("Question:", equationComponents.join());
-		console.debug("Answer:", "'" + lhs + "'", "(or", lhs.simplified(), ")", "versus", "'" + rhs + "'", ':', res);
+		console.debug("Answer:", "'" + lhs + "'", "(or", lhs.simplified(), ")", "versus", "'" + rhs + "'", ':', isCorrect);
 		
-		return res;
+		if (isCorrect)
+		{
+			if (rhs.d > 1000)
+				JGameAchievements.addProgressByName("troublemaker", 1);
+		}
+		
+		return isCorrect;
 	}
 	
 	//	updates equationComponents with new values ('new' is not guaranteed)

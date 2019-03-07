@@ -20,6 +20,8 @@ BubbleButton {
 
 */
 
+import "../game/singles"
+
 Item {
 	id: button
 	
@@ -154,6 +156,10 @@ Item {
 	}
 	
 	onReleased: {
+		//	ACVM : buttons?
+		JGameAchievements.addProgressByName("buttons?", 1);
+		
+		
 		if (isCheckButton)
 			checked = !checked;
 		

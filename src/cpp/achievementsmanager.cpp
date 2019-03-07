@@ -37,7 +37,7 @@ void AchievementsManager::appendAchievements(QQmlListProperty<Achievement>* list
 			QString msg = QString("You just got %1 and earned %2 Fractons!").arg(e->m_name).arg(e->m_reward);
 			
 			emit manager->achievementGet(e->m_name, e->m_reward);
-			emit manager->sendNotification("Achievment Get!", msg, 8);
+			emit manager->sendNotification("Achievment Get!", msg, 3);	//	8 seconds
 		});
 	}
 }

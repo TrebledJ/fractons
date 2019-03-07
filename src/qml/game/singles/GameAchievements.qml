@@ -55,7 +55,7 @@ Item {
 //			jAchievementsManager.achievementsChanged.disconnect(listener);
 //		});
 		
-		
+//		console.log("[GameAchievements] Loading achievements...");
 		loadAchievements();
 		
 		//	for testing purposes
@@ -96,7 +96,8 @@ Item {
 	
 	function loadAchievements() {
 		//	retrieve achievements from storage
-		var achievements = JStorage.getValue("achievements")
+		var achievements = JStorage.getValue("achievements");
+//		console.log("[GameAchievements] Loading gave", JSON.stringify(achievements));
 		if (achievements === undefined)
 		{
 			console.error("[GameAchievments] Key: 'achievements' returned undefined from storage.")
@@ -109,6 +110,7 @@ Item {
 		
 		var recursiveAdd = function(root)
 		{
+//			console.log("Adding root:", JSON.stringify(root));
 			for (var i in root)
 			{
 				var sub = root[i];
@@ -117,6 +119,7 @@ Item {
 				else
 				{
 					var acvm = sub;
+					console.warn("Found achievement", acvm.name, "... Adding...");
 					console.log("[GameAchievements] Adding achievement [" + acvm.name + "]")
 					addAchievement(acvm.name, acvm.description, acvm.hint, acvm.group, acvm.reward,
 								   acvm.progress, acvm.maxProgress, acvm.isCollected);
@@ -195,9 +198,9 @@ JAchievement {
 				var req = filter[i];
 				if (req.length === 0)
 					continue;
-				if (req[0] === '!' && req.substr(1) === acvm.class)	//	tests for a 'not'-filter
+				if (req[0] === '!' && req.substr(1) === acvm.group)	//	tests for a 'not'-filter
 					return false;
-				if (req[0] !== '!' && req !== acvm.class)	//	tests for an affirmative filter
+				if (req[0] !== '!' && req !== acvm.group)	//	tests for an affirmative filter
 					return false;
 			}
 			
@@ -224,7 +227,41 @@ JAchievement {
 		addProgress(getByName(name), amount);
 	}
 	
+	function setProgressByIndex(i, amount) {
+		setProgress(getByIndex(i), amount);
+	}
+	
+	function setProgressByName(name, amount) {
+		setProgress(getByName(name), amount);
+	}
+	
 	function addProgress(acvm, amount) {
+//		//	error-checking
+//		if (acvm === undefined)
+//			return;
+//		if (amount === undefined)
+//			amount = 1;
+//		if (acvm.progress >= acvm.maxProgress)
+//			return;
+		
+//		//	add the amount
+//		acvm.progress += amount;
+		
+//		if (acvm.progress >= acvm.maxProgress && !acvm.isCollected)
+//		{
+//			//	set progress to maxProgress as maximum
+//			acvm.progress = acvm.maxProgress;
+			
+//			//	emit the achievementGet signal
+//			acvm.achievementGet();
+			
+//			//	add the reward
+//			JFractons.addFractons(acvm.reward);
+//		}
+		setProgress(acvm, acvm.progress + amount);
+	}
+	
+	function setProgress(acvm, amount) {
 		//	error-checking
 		if (acvm === undefined)
 			return;
@@ -234,7 +271,7 @@ JAchievement {
 			return;
 		
 		//	add the amount
-		acvm.progress += amount;
+		acvm.progress = amount;
 		
 		if (acvm.progress >= acvm.maxProgress && !acvm.isCollected)
 		{

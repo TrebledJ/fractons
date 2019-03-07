@@ -73,6 +73,7 @@ SceneBase {
 	signal goButtonClicked
 	signal difficultyChanged(int index, string difficulty)
 	signal backToLottery(bool correct, int amount, string unit)
+	signal correctAnswer
 	
 	property var lastQuestions: ({})
 	
@@ -115,12 +116,6 @@ SceneBase {
 //		{
 //			console.debug("XP", i * 10, "has level", JFractons.levelAt(i*10));
 //		}
-		
-		
-		//	ACVM : no u
-		priv.nou = JGameAchievements.getByName("no u").progress;
-//		console.debug("[ModesBase] Got nou progress:", priv.nou)
-		
 		
 		//	check if platform is mobile
 		if (JStorage.isMobile)
@@ -287,7 +282,7 @@ SceneBase {
 				
 				text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fCurrent + '/' + JFractons.fNextThresh() + " ƒ"
 				
-				font.pointSize: 10
+				font.pointSize: 8
 				
 				horizontalAlignment: Text.AlignHCenter
 				verticalAlignment: Text.AlignBottom
@@ -415,9 +410,6 @@ SceneBase {
 		
 		property var eventTextComponent: Qt.createComponent("../../common/EventText.qml")
 		property int eventCounter: 0
-		
-		//	ACVM : no u
-		property int nou: 0
 	}
 	
 	onDifficultyIndexChanged: {
@@ -441,12 +433,26 @@ SceneBase {
 		var text = answerField.text;
 		
 		//	ACVM : no u
-		if (text === "no u")
+		if (text.toLowerCase() === "no u")
 		{
 			console.warn("NO U!");
-			priv.nou++;
-			
 			JGameAchievements.addProgressByName("no u", 1);
+		}
+		//	ACVM : pseudonym
+		if (text === "Technist")
+		{
+			console.warn("Pseudonym I!");
+			JGameAchievements.addProgressByName("pseudonym i", 1);
+		}
+		if (text === "Trebuchet MS")
+		{
+			console.warn("Pseudonym II!");
+			JGameAchievements.addProgressByName("pseudonym ii", 1);
+		}
+		if (text === "Tin Man")
+		{
+			console.warn("Pseudonym III!");
+			JGameAchievements.addProgressByName("pseudonym iii", 1);
 		}
 		
 		//	back to logic-processing
@@ -457,19 +463,7 @@ SceneBase {
 		var isCorrect = checkAnswer(text);
 		if (isCorrect)
 		{
-			addCombo();
-			
-			//	ACVM : sprinter1
-			if (JStorage.combo() > JGameAchievements.getByName("sprinter i").progress)
-				JGameAchievements.addProgressByName("sprinter i", 1);
-			
-			if (!isFromLottery)
-				addFractons(rewardAmount);	//	silence the addFractons (will be used in multiplier)
-			
-			//	ACVM : associate
-			JGameAchievements.addProgressByName("associate", 1)
-//			if ()
-			JGameStatistics.incDailyCorrect();
+			correctAnswer();	//	emit a signal
 		}
 		else
 		{
@@ -486,6 +480,39 @@ SceneBase {
 		
 		clearInput();
 		generateRandomQuestion();
+	}
+	
+	onCorrectAnswer: {
+		addCombo();	//	increment the combo
+		
+		//	silence the addFractons if from lottery (will be used in multiplier)
+		if (!isFromLottery)
+			addFractons(rewardAmount);	//	give reward in fractons
+		
+		//	ACVM : studious
+		JGameAchievements.addProgressByName("studious i", 1);
+		JGameAchievements.addProgressByName("studious ii", 1);
+		JGameAchievements.addProgressByName("studious iii", 1);
+		JGameAchievements.addProgressByName("studious iv", 1);
+		JGameAchievements.addProgressByName("studious v", 1);
+		
+		//	ACVM : sprinter
+		if (JStorage.combo() > JGameAchievements.getByName("sprinter i").progress)
+			JGameAchievements.addProgressByName("sprinter i", 1);
+		if (JStorage.combo() > JGameAchievements.getByName("sprinter ii").progress)
+			JGameAchievements.addProgressByName("sprinter ii", 1);
+		if (JStorage.combo() > JGameAchievements.getByName("sprinter iii").progress)
+			JGameAchievements.addProgressByName("sprinter iii", 1);
+		if (JStorage.combo() > JGameAchievements.getByName("sprinter iv").progress)
+			JGameAchievements.addProgressByName("sprinter iv", 1);
+		if (JStorage.combo() > JGameAchievements.getByName("sprinter v").progress)
+			JGameAchievements.addProgressByName("sprinter v", 1);
+		
+		//	ACVM : associate
+		JGameAchievements.addProgressByName("associate", 1)
+		
+		//	add to statistics
+		JGameStatistics.incDailyCorrect();
 	}
 	
 	

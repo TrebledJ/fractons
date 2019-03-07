@@ -1,6 +1,7 @@
 import Felgo 3.0
 import QtQuick 2.0
 
+import "../../game/singles"
 import "../../js/Math.js" as JMath
 
 Scene {
@@ -26,6 +27,7 @@ Scene {
 		
 		property var mathComponent: Qt.createComponent("../../common/AnimatedMath.qml")
 		property var textComponent: Qt.createComponent("../../common/AnimatedText.qml")
+		property var buttonComponent: Qt.createComponent("../../common/AnimatedButton.qml")
 		property int counter: 0
 		
 		interval: 10000
@@ -54,6 +56,7 @@ Scene {
 			var isBanner = false;
 			var isText = false;
 			
+			//	choose animations from the banner queue
 			if (bannerQueue.length > 0)
 			{
 				var bannerQueueObj = bannerQueue[0];
@@ -73,6 +76,7 @@ Scene {
 				}
 			}
 			
+			//	choose animations from the animation queue
 			if (!readySpawn && animationQueue.length > 0)
 			{
 				var queueObj = animationQueue[0];
@@ -98,23 +102,38 @@ Scene {
 					
 			}
 			
+			//	default animations
 			if (!readySpawn)
 			{
-				component = mathComponent;
+				var mathOrImage = (JMath.oneIn(1000) ? "image" : "math");
+				
 				parent = scene;
 				visibleListener = scene;
-				fontSize = counter % 2 == 0 ? 60 : 30;
 				readySpawn = true;
 				
-				if (counter % 2 == 0)
+				if (mathOrImage === "math")
 				{
-					text = JMath.choose(['+', '-', '*', '/']);
+					component = mathComponent;
+					fontSize = counter % 2 == 0 ? 60 : 30;
+					
+					if (counter % 2 == 0)
+					{
+						text = JMath.choose(['+', '-', '*', '/']);
+					}
+					else
+					{
+						var d = JMath.randI(2, 10);
+						text = JMath.randI(1, d) + '/' + d;
+					}
+					
+					counter++;
 				}
-				else
+				else if (mathOrImage === "image")
 				{
-					var d = JMath.randI(2, 10);
-					text = JMath.randI(1, d) + '/' + d;
+					component = buttonComponent;
 				}
+
+				
 			}
 				
 			
@@ -145,12 +164,24 @@ Scene {
 			
 			if (isBanner) { currentBanner = obj; bannerTimer.run(obj.duration); }
 			
-			obj.opacity = visibleListener === scene ? 0.1 : Qt.binding(function() { return visibleListener.state !== "show" || (visibleListener.state === "show" && obj.opacity !== 0.1) ? 0 : 0.1; }),
+			obj.opacity = visibleListener === scene ? 0.1 : Qt.binding(function() { return visibleListener.state !== "show" || (visibleListener.state === "show" && obj.opacity !== 0.1) ? 0 : 0.1; });
 			
-			
+			if (component === buttonComponent)
+			{
+				var person = JMath.choose(["euler", "newton", "gauss"])
+				
+				var imageSource = "qrc:/assets/icons/" + person;
+				obj.button.image.source = imageSource;
+				
+//				obj.button.entered.connect(function(){console.log("Image entered!");});
+				obj.button.entered.connect(function()
+				{
+					console.log("Image of", person, "entered!");
+					JGameAchievements.addProgressByName(person, 1);
+				});
+			}
+													  
 			obj.start();
-			
-			counter++;
 			
 			//	reset timer interval to a random time
 			spawnTimer.interval = JMath.randI(6000, 8000);

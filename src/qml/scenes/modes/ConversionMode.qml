@@ -2,6 +2,7 @@ import QtQuick 2.0
 
 import "../backdrops"
 import "../../graphicmath"
+import "../../game/singles"
 
 import "../../js/Fraction.js" as JFraction
 import "../../js/Math.js" as JMath
@@ -55,21 +56,6 @@ ModesBase {
 				var frac = JFraction.parse(input);
 				
 				return frac;
-				
-//				//	fractional inputs should be rejected since there is only one "?" 
-//				var token = (frac.isInteger() ? frac.toInteger() : "??");
-				
-//				//	convert rhs fraction to a string so that we can find & replace "?"
-//				var rhs_s = rhs.toString();
-				
-//				//	find "?" and...
-//				var i = rhs_s.indexOf('?');
-				
-//				//	...	replace
-//				rhs_s = rhs_s.substring(0, i) + token + rhs_s.substring(i + 1);
-				
-//				//	return as fraction
-//				return JFraction.parse(rhs_s);
 			}
 			
 		}
@@ -136,11 +122,17 @@ ModesBase {
 		var lhs = equationComponents.lhs;
 		var rhs = equationComponents.reparseRhs(text);
 		
-		var res = difficultyIndex === toDecimal ? lhs.equalsValue(rhs) : rhs.equalsValue(lhs);
+		var isCorrect = difficultyIndex === toDecimal ? lhs.equalsValue(rhs) : rhs.equalsValue(lhs);
 		console.debug("Question:", equationComponents.join());
-		console.debug("Answer:", "'" + lhs + "'", "versus", "User Answer: '" + rhs + "'", ':', res);
+		console.debug("Answer:", "'" + lhs + "'", "versus", "User Answer: '" + rhs + "'", ':', isCorrect);
 		
-		return res;
+		if (isCorrect && difficultyIndex === toFraction)
+		{
+			if (rhs.d > 1000)
+				JGameAchievements.addProgressByName("troublemaker", 1);
+		}
+		
+		return isCorrect;
 	}
 	
 	//	generates a new, random question

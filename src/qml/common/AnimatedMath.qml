@@ -13,6 +13,7 @@ Item {
 	property alias to: animation.to
 	property alias property: animation.property
 	property real speed: 30
+	readonly property alias duration: animation.duration
 	
 	Equation {
 		id: math

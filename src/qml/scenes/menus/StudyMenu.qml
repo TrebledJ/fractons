@@ -12,15 +12,19 @@ SceneBase {
 	ListModel {
 		id: lessonModel
 		
-		ListElement { role_stars: 0; role_shorthand: "zero"; role_lesson: "Introduction to Fractions" }
-		ListElement { role_stars: 0; role_shorthand: "one"; role_lesson: "Adding and Subtracting Fractions of Like Denominators" }
-//		ListElement { role_stars: 0; role_shorthand: "two"; role_lesson: "Multiplying and Dividing Fractions" }
-//		ListElement { role_stars: 0; role_shorthand: "three"; role_lesson: "Adding and Subtracting Fractions of Unlike Denominators" }
-//		ListElement { role_stars: 0; role_shorthand: "four"; role_lesson: "Converting from Fractions to Decimals" }
-//		ListElement { role_stars: 0; role_shorthand: "five"; role_lesson: "Converting from Decimals to Fractions" }
-//		ListElement { role_stars: 0; role_shorthand: "six"; role_lesson: "Balancing Equations" }
-//		ListElement { role_stars: 0; role_shorthand: "seven"; role_lesson: "Checking the Equality of Fractions" }
-//		ListElement { role_stars: 0; role_shorthand: "eight"; role_lesson: "Comparing Fractions" }
+		ListElement { role_stars: 0; role_shorthand: "intro"; role_lesson: "Introduction to Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "parts-of-a-whole"; role_lesson: "Fractions as Parts of a Whole" }
+//		ListElement { role_stars: 0; role_shorthand: "balancing"; role_lesson: "Balancing Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "simplify-gcd"; role_lesson: "Simplifying Fractions by the GCD" }
+//		ListElement { role_stars: 0; role_shorthand: "div-by-zero"; role_lesson: "Division by Zero" }
+//		ListElement { role_stars: 0; role_shorthand: "improper"; role_lesson: "Improper Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "fractions-to-decimals"; role_lesson: "Converting from Fractions to Decimals" }
+//		ListElement { role_stars: 0; role_shorthand: "decimals-to-fractions"; role_lesson: "Converting from Decimals to Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "checking-equality"; role_lesson: "Checking the Equality of Fractions" }
+		ListElement { role_stars: 0; role_shorthand: "adding-subtracting-like"; role_lesson: "Adding and Subtracting Fractions of Like Denominators" }
+//		ListElement { role_stars: 0; role_shorthand: "multiplying-dividing"; role_lesson: "Multiplying and Dividing Fractions" }
+//		ListElement { role_stars: 0; role_shorthand: "adding-subtracting-unlike"; role_lesson: "Adding and Subtracting Fractions of Unlike Denominators" }
+//		ListElement { role_stars: 0; role_shorthand: "probability"; role_lesson: "Basic Probabilty" }
 	}
 	
 	ListView {

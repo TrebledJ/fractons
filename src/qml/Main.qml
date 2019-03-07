@@ -53,8 +53,8 @@ GameWindow {
 	
 	
 	
-	state: "home"
-//	state: "lottery"
+//	state: "home"
+	state: "achievements"
 //	state: "mode_balance"
 	states: [
 		State {
@@ -99,14 +99,14 @@ GameWindow {
 			PropertyChanges { target: gameWindow; activeScene: studyMenuScene }
 		},
 		State {
-			name: "lesson_zero"
-			PropertyChanges { target: lessonZeroScene; /*state: "show"*/ }
-			PropertyChanges { target: gameWindow; activeScene: lessonZeroScene }
+			name: "lesson_intro"
+			PropertyChanges { target: lessonIntroductionScene; /*state: "show"*/ }
+			PropertyChanges { target: gameWindow; activeScene: lessonIntroductionScene }
 		},
 		State {
-			name: "lesson_one"
-			PropertyChanges { target: lessonOneScene; /*state: "show"*/ }
-			PropertyChanges { target: gameWindow; activeScene: lessonOneScene }
+			name: "lesson_adding-subtracting-like"
+			PropertyChanges { target: lessonAdditionSubtractionLikeScene; /*state: "show"*/ }
+			PropertyChanges { target: gameWindow; activeScene: lessonAdditionSubtractionLikeScene }
 		},
 		
 		State {
@@ -217,13 +217,13 @@ GameWindow {
 		}
 	}
 	
-	Lessons.Zero {
-		id: lessonZeroScene
+	Lessons.Introduction {
+		id: lessonIntroductionScene
 		onBackButtonClicked: gameWindow.state = "studyMenu"
 	}
 	
-	Lessons.One {
-		id: lessonOneScene
+	Lessons.AdditionSubtractionLike {
+		id: lessonAdditionSubtractionLikeScene
 		onBackButtonClicked: gameWindow.state = "studyMenu"
 		onPracticeButtonClicked: gotoExercise(mode, difficulty)
 	}
@@ -296,7 +296,7 @@ GameWindow {
 		target: JFractons
 		
 		onLevelUp: {
-			pushBackgroundAnimation("#bannerLevel " + JFractons.currentLevel() + ": You've leveled up!", 0, 0, 25);
+//			pushBackgroundAnimation("#bannerLevel " + JFractons.currentLevel() + ": You've leveled up!", 0, 0, 25);
 		}
 	}
 	
@@ -304,7 +304,7 @@ GameWindow {
 		target: JGameAchievements
 		
 		onAchievementGet: {
-			pushBackgroundAnimation("#bannerAchievement Get: " + name + "!", 0, 0, 25);
+//			pushBackgroundAnimation("#bannerAchievement Get: " + name + "!", 0, 0, 25);
 		}
 	}
 }
