@@ -2,3 +2,4 @@ singleton JStorage 1.0 Storage.qml
 singleton JGameAchievements 1.0 GameAchievements.qml
 singleton JFractons 1.0 Fractons.qml
 singleton JGameStatistics 1.0 GameStatistics.qml
+singleton JQuests 1.0 Quests.qml

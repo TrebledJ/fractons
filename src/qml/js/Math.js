@@ -1,5 +1,7 @@
 .pragma library
 
+Qt.include(Qt.resolvedUrl("Utils.js"));
+
 /*
   gcd example
   120, 45
@@ -53,8 +55,45 @@ function randI(low, high) {
 }
 
 //	chooses a random element in an Array or String
-function choose(arr) {
-	return arr[randI(arr.length - 1)];
+function choose(arr, n, replace) {
+	if (n === undefined) n = 1;
+	if (replace === undefined) replace = false;
+	
+	if (n >= arr.length)
+		return arr;
+	
+	if (n <= 0)
+		return [];
+	
+	var ret = [];
+	if (!replace)
+	{
+		var remainingIndices = [];
+		for (var i = 0; i < arr.length; i++) remainingIndices.push(i);
+		for (var _ = 0; _ < n; _++)
+		{
+			var indexOfIndex = randI(remainingIndices.length - 1);	//	choose a the secondaryIndex
+			var index = remainingIndices[indexOfIndex];	//	grab the arrIndex
+			
+			remainingIndices = popArray(remainingIndices, indexOfIndex);	//	pop the array
+			
+			ret.push(arr[index]);	//	push the item into the returning container
+			
+		}
+	}
+	else /* replace */
+	{
+		for (var _ = 0; _ < n; _++)
+		{
+			ret.push(arr[randI(arr.length - 1)]);
+		}
+	}
+	
+	if (n === 1)
+		return ret[0];
+	
+	return ret;
+//	return arr[randI(arr.length - 1)];
 }
 
 //	returns a 50-50% probability

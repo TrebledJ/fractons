@@ -11,6 +11,7 @@
 #include "achievement.h"
 #include "achievementsmanager.h"
 #include "desktopnotifications.h"
+#include "questengine.h"
 
 int main(int argc, char *argv[])
 {
@@ -48,12 +49,15 @@ int main(int argc, char *argv[])
 	AchievementsManager manager;
 	engine.rootContext()->setContextProperty("jAchievementsManager", &manager);
 	
-	DesktopNotifications notifications;
-	engine.rootContext()->setContextProperty("jNotifications", &notifications);
+//	DesktopNotifications notifications;
+//	engine.rootContext()->setContextProperty("jNotifications", &notifications);
 	
 	//	connect notifications sender from AchievementsManager to DesktopNotifications object
-	QObject::connect(&manager, &AchievementsManager::sendNotification, &notifications, 
-					 &DesktopNotifications::notify);
+//	QObject::connect(&manager, &AchievementsManager::sendNotification, &notifications, 
+//					 &DesktopNotifications::notify);
+	
+	QuestEngine questEngine;
+	engine.rootContext()->setContextProperty("jQuestEngine", &questEngine);
 	
 	
 //	engine.load(QUrl(felgo.mainQmlFileName()));	// uncomment for publishing

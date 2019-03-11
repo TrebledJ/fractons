@@ -15,5 +15,7 @@
         <file>assets/icons/euler.png</file>
         <file>assets/icons/gauss.jpg</file>
         <file>assets/icons/newton.png</file>
+        <file>assets/icons/cowboy-hat.png</file>
+        <file>assets/icons/cowboy-hat-tick.png</file>
     </qresource>
 </RCC>

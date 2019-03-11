@@ -17,6 +17,7 @@ SceneBase {
 	signal lotteryButtonClicked
 	signal achievementsButtonClicked
 	signal statisticsButtonClicked
+	signal questsButtonClicked
 	signal settingsButtonClicked
 	
 	useDefaultBackButton: false
@@ -167,6 +168,79 @@ SceneBase {
 			onClicked: statisticsButtonClicked();
 		}
 		
+	}
+	
+	Column {
+		id: questColumn
+		spacing: 10
+		
+		anchors {
+			left: parent.left; leftMargin: 10
+			verticalCenter: parent.verticalCenter
+		}
+		
+		visible: JFractons.currentLevel() >= 5
+		
+		/**
+		  Quest Ideas
+		  
+		  * Earn X Fractons
+		  * Level Up (or) Gain 1 Level
+		  * Solve X Exercises
+		  * Solve X Questions in Y Mode
+		  * Unlock/Earn 1 Achievement
+		  * Spin the Lottery [Wheel] X Times
+		  
+		  
+		  */
+		
+		QuestButton {
+			id: questButton1
+			completed: true
+			quest: JQuests.getQuestByIndex(0)
+		}
+		
+		QuestButton {
+			id: questButton2
+			quest: JQuests.getQuestByIndex(1)
+		}
+		
+		QuestButton {
+			id: questButton3
+			quest: JQuests.getQuestByIndex(2)
+		}
+		
+		
+		//	temporary
+		BubbleButton {
+			width: height; height: 40
+			onClicked: {
+				JQuests.debug();
+//				JQuests.loadNewQuests()
+			}
+			text: "+"
+//			visible: false
+		}
+		
+	}
+	
+	TextBase {
+		anchors.bottom: ribbonBackground.top
+		anchors.left: parent.left
+		anchors.margins: 1
+		
+		font.pointSize: 8
+//		text: 'New quests will arrive in ' + jQuestEngine.getRemainingTime()
+		
+		visible: questButton1.isPressed || questButton2.isPressed || questButton3.isPressed
+		
+		Timer {
+			running: true
+			triggeredOnStart: true
+			interval: 60000
+			repeat: true
+			onTriggered: parent.text = 'New quests arrive in ' + jQuestEngine.getRemainingTime() + '.'
+		}
 	}
 	
 	BubbleButton {

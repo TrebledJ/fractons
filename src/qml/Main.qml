@@ -53,8 +53,8 @@ GameWindow {
 	
 	
 	
-//	state: "home"
-	state: "achievements"
+	state: "home"
+//	state: "achievements"
 //	state: "mode_balance"
 	states: [
 		State {
@@ -108,6 +108,11 @@ GameWindow {
 			PropertyChanges { target: lessonAdditionSubtractionLikeScene; /*state: "show"*/ }
 			PropertyChanges { target: gameWindow; activeScene: lessonAdditionSubtractionLikeScene }
 		},
+		State {
+			name: "lesson_balancing"
+			PropertyChanges { target: lessonBalancingScene; /*state: "show"*/ }
+			PropertyChanges { target: gameWindow; activeScene: lessonBalancingScene }
+		},
 		
 		State {
 			name: "lottery"
@@ -152,8 +157,8 @@ GameWindow {
 //		}
 //	]
 	
-	AnimationLayer {
-		id: animationLayer
+	BackgroundLayer {
+		id: backgroundLayer
 		z: -100
 	}
 	
@@ -225,7 +230,11 @@ GameWindow {
 	Lessons.AdditionSubtractionLike {
 		id: lessonAdditionSubtractionLikeScene
 		onBackButtonClicked: gameWindow.state = "studyMenu"
-		onPracticeButtonClicked: gotoExercise(mode, difficulty)
+	}
+	
+	Lessons.Balancing {
+		id: lessonBalancingScene
+		onBackButtonClicked: gameWindow.state = "studyMenu"
 	}
 	
 	Lottery {
@@ -270,6 +279,9 @@ GameWindow {
 			return;
 		
 		var index = activeScene.difficulties.findIndex(function(e){ return e.toLowerCase() === difficulty.toLowerCase(); });
+		if (index === -1)
+			index = 0;	//	default to 0 index if not found
+		
 		activeScene.difficultyIndex = index;
 	}
 	
@@ -285,11 +297,11 @@ GameWindow {
 		if (text.substr(0, 7) === "#banner")
 		{
 			obj.text = text.substr(7);
-			animationLayer.bannerQueue.push(obj);
+			backgroundLayer.bannerQueue.push(obj);
 			return;
 		}
 
-		animationLayer.animationQueue.push(obj);
+		backgroundLayer.animationQueue.push(obj);
 	}
 	
 	Connections {

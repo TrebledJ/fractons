@@ -340,6 +340,58 @@
 				
 			}
 		},
+		"lottery": {
+			"binary": {
+				"name": "Binary",
+				"description": "Get all 1s or 0s in one spin.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 10,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"magic": {
+				"name": "Magic Numbers",
+				"description": "Get e, π, and i all in one spin.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"multiplier": {
+				"name": "Big Multiplier",
+				"description": "Get a multiplier of 5.",
+				"hint": "Only possible in a spin with 3 stars or 3 πs.",
+				"group": "lottery",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"lucky": {
+				"name": "Lucky",
+				"description": "Earn 1000 or more fractons in the Lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 120,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"jackpot": {
+				"name": "Jackpot",
+				"description": "Get 3 ƒs in one spin.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			}
+		},
 		"secret": {
 			"troublemaker": {
 				"name": "Troublemaker",
@@ -432,5 +484,40 @@
 	},
 	"stats_questions": [
 		
-	]
+	],
+	"quests": {
+		"fractons": {
+			"name": "Earn %1 fractons.",
+			"progress": 0,
+			"maxProgress": "dependent",
+			"isCollected": false
+		},
+		"level": {
+			"name": "Level up once.",
+			"progress": 0,
+			"maxProgress": 1,
+			"isCollected": false
+		},
+		"questions": {
+			"name": "Correctly answer %1 questions in %2 mode.",
+			"progress": 0,
+			"maxProgress": "dependent",
+			"isCollected": false
+		},
+		"achievement": {
+			"name": "Earn 1 achievement.",
+			"progress": 0,
+			"maxProgress": 1,
+			"isCollected": false
+		},
+		"lottery": {
+			"name": "Spin the lottery wheel %1 times.",
+			"progress": 0,
+			"maxProgress": "dependent",
+			"isCollected": false
+		}
+	},
+	"todays_quests": {
+		
+	}
 }

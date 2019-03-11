@@ -236,37 +236,21 @@ JAchievement {
 	}
 	
 	function addProgress(acvm, amount) {
-//		//	error-checking
-//		if (acvm === undefined)
-//			return;
-//		if (amount === undefined)
-//			amount = 1;
-//		if (acvm.progress >= acvm.maxProgress)
-//			return;
-		
-//		//	add the amount
-//		acvm.progress += amount;
-		
-//		if (acvm.progress >= acvm.maxProgress && !acvm.isCollected)
-//		{
-//			//	set progress to maxProgress as maximum
-//			acvm.progress = acvm.maxProgress;
-			
-//			//	emit the achievementGet signal
-//			acvm.achievementGet();
-			
-//			//	add the reward
-//			JFractons.addFractons(acvm.reward);
-//		}
 		setProgress(acvm, acvm.progress + amount);
 	}
 	
 	function setProgress(acvm, amount) {
 		//	error-checking
 		if (acvm === undefined)
+		{
+			console.error("Expected key in GameAchievements::setProgress but got undefined.");
 			return;
+		}
 		if (amount === undefined)
-			amount = 1;
+		{
+			console.error("Expected amount in GameAchievements::setProgress but got undefined.");
+			return;
+		}
 		if (acvm.progress >= acvm.maxProgress)
 			return;
 		

@@ -29,7 +29,7 @@ Item {
 	
 	onLevelUp: {
 		console.warn("Player leveled up!");
-		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
+//		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
 		
 		//	ACVM : leveller
 		JGameAchievements.setProgressByName("leveller i", level);

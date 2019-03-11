@@ -35,8 +35,10 @@ SceneBase {
 		ListElement { role_group: "pie" }
 		ListElement { role_group: "token" }
 		
+		ListElement { role_group: "lottery" }
+		
 		ListElement { role_group: "secret" }
-		ListElement { role_group: "classified" }
+//		ListElement { role_group: "classified" }
 	}
 	
 	ListView {
@@ -238,7 +240,7 @@ SceneBase {
 					background: Rectangle {
 						radius: 5
 //						color: Qt.lighter(progressBar.contentItem.color, 3)
-						color: "white"
+						color: "lightgoldenrodyellow"
 					}
 					
 					contentItem: Rectangle {

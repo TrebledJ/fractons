@@ -132,7 +132,10 @@ Scene {
 				{
 					component = buttonComponent;
 				}
-
+				else 
+				{
+					console.error("Unknown animation format:", mathOrImage);
+				}
 				
 			}
 				
@@ -159,7 +162,8 @@ Scene {
 				obj.y = animationLargerYBound - obj.height;	//	fixed for banners
 			else if (isText)
 				obj.y = JMath.randI(animationSmallerYBound, animationLargerYBound - obj.height - (currentBanner ? 40 : 0));
-			else if (!isText && !isBanner)
+//			else if (!isText && !isBanner)
+			else
 				obj.y = JMath.randI(0, parent.height - obj.height);	//	set y after creating obj to determine height
 			
 			if (isBanner) { currentBanner = obj; bannerTimer.run(obj.duration); }
@@ -168,12 +172,12 @@ Scene {
 			
 			if (component === buttonComponent)
 			{
+				//  ACVM : euler, newton, gauss (secret)
 				var person = JMath.choose(["euler", "newton", "gauss"])
 				
 				var imageSource = "qrc:/assets/icons/" + person;
 				obj.button.image.source = imageSource;
 				
-//				obj.button.entered.connect(function(){console.log("Image entered!");});
 				obj.button.entered.connect(function()
 				{
 					console.log("Image of", person, "entered!");
@@ -185,8 +189,6 @@ Scene {
 			
 			//	reset timer interval to a random time
 			spawnTimer.interval = JMath.randI(6000, 8000);
-			
-			//	TODO add secret achievement: when player click an animation (euler?)
 		}
 	}
 	

@@ -60,12 +60,8 @@ LessonsBase {
 		
 		//	TODO have 1/2 pizzas (halves, not fifths)
 		
-//		ParagraphText {
-//			text: "Each fraction has two parts: the numerator and the denominator."
-//		}
 		
 		Row {
-//			width: parent.width
 			anchors.horizontalCenter: parent.horizontalCenter
 			spacing: 20
 			

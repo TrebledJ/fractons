@@ -13,18 +13,18 @@ SceneBase {
 		id: lessonModel
 		
 		ListElement { role_stars: 0; role_shorthand: "intro"; role_lesson: "Introduction to Fractions" }
-//		ListElement { role_stars: 0; role_shorthand: "parts-of-a-whole"; role_lesson: "Fractions as Parts of a Whole" }
-//		ListElement { role_stars: 0; role_shorthand: "balancing"; role_lesson: "Balancing Fractions" }
-//		ListElement { role_stars: 0; role_shorthand: "simplify-gcd"; role_lesson: "Simplifying Fractions by the GCD" }
-//		ListElement { role_stars: 0; role_shorthand: "div-by-zero"; role_lesson: "Division by Zero" }
-//		ListElement { role_stars: 0; role_shorthand: "improper"; role_lesson: "Improper Fractions" }
-//		ListElement { role_stars: 0; role_shorthand: "fractions-to-decimals"; role_lesson: "Converting from Fractions to Decimals" }
+//		ListElement { role_stars: 0; role_shorthand: "parts-of-a-whole"; role_lesson: "Fractions as Parts of a Whole" }	//	introduce more fractions, images of blocks and parts of whole
+		ListElement { role_stars: 0; role_shorthand: "balancing"; role_lesson: "Balancing Fractions" }			//	introduce to balancing fractions, what we do to one side must also be done to the other
+//		ListElement { role_stars: 0; role_shorthand: "simplify-gcd"; role_lesson: "Simplifying Fractions by the GCD" }  // introduce the gcd and using it to simplify fractions
+//		ListElement { role_stars: 0; role_shorthand: "div-by-zero"; role_lesson: "Division by Zero" }	//	discuss the caveats of division by 0
+//		ListElement { role_stars: 0; role_shorthand: "improper"; role_lesson: "Improper Fractions" }		//	discuss improper fractions (numerator > denominator)
+//		ListElement { role_stars: 0; role_shorthand: "fractions-to-decimals"; role_lesson: "Converting from Fractions to Decimals" }	//	connect fractions with decimals and discuss conversion
 //		ListElement { role_stars: 0; role_shorthand: "decimals-to-fractions"; role_lesson: "Converting from Decimals to Fractions" }
 //		ListElement { role_stars: 0; role_shorthand: "checking-equality"; role_lesson: "Checking the Equality of Fractions" }
-		ListElement { role_stars: 0; role_shorthand: "adding-subtracting-like"; role_lesson: "Adding and Subtracting Fractions of Like Denominators" }
-//		ListElement { role_stars: 0; role_shorthand: "multiplying-dividing"; role_lesson: "Multiplying and Dividing Fractions" }
-//		ListElement { role_stars: 0; role_shorthand: "adding-subtracting-unlike"; role_lesson: "Adding and Subtracting Fractions of Unlike Denominators" }
-//		ListElement { role_stars: 0; role_shorthand: "probability"; role_lesson: "Basic Probabilty" }
+		ListElement { role_stars: 0; role_shorthand: "adding-subtracting-like"; role_lesson: "Adding and Subtracting Fractions of Like Denominators" }	//	introduce operations (addition/subtraction) with fractions
+//		ListElement { role_stars: 0; role_shorthand: "multiplying-dividing"; role_lesson: "Multiplying and Dividing Fractions" }	//	introduce multiplication and division with fractions
+//		ListElement { role_stars: 0; role_shorthand: "adding-subtracting-unlike"; role_lesson: "Adding and Subtracting Fractions of Unlike Denominators" }	//	introduce addition/subtraction with fractions
+//		ListElement { role_stars: 0; role_shorthand: "probability"; role_lesson: "Basic Probabilty" }	//	introduce probability
 	}
 	
 	ListView {

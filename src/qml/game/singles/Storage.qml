@@ -286,6 +286,7 @@ Item {
 		JFractons.loadFractons();
 		JGameAchievements.loadAchievements();
 		JGameStatistics.loadStatistics();
+		JQuests.loadNewQuests();
 	}
 	
 }

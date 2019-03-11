@@ -4,6 +4,55 @@ import QtQuick.Controls 2.2
 import "../../common"
 import "../../game/singles"
 
+
+import QtQuick 2.0
+import QtQuick.Layouts 1.3
+
+import "../backdrops"
+import "../../common"
+import "../../graphicmath"
+
+import "../../js/Fraction.js" as JFraction
+
+/*
+Template for Lessons:
+
+import QtQuick 2.0
+import QtQuick.Layouts 1.3
+
+import "../backdrops"
+import "../../common"
+import "../../graphicmath"
+
+import "../../js/Fraction.js" as JFraction
+
+LessonsBase {
+	id: lessonsBase
+	
+	lessonName: "<lesson-name-here>"
+	gotoMode: "<practice-mode-here>"
+	gotoDifficulty: "<practice-difficulty-here>"
+	
+	Column {
+		id: lessonContents
+		width: parent.width
+		spacing: 10
+		
+		ParagraphText {
+			text: "The <b>numerator</b> represents the number of equal parts of a whole. The <b>denominator</b> represents the <i>total</i> number of equal parts in a whole. Together, the numerator and denominator make up a <b>fraction</b>, which represents a part of the whole."
+		}
+		
+		Fraction {
+			fraction: new JFraction.Fraction(2, 5)
+		}
+		
+		
+	}	//	Column
+	
+}
+*/
+
+
 SceneBase {
 	id: sceneBase
 	
@@ -20,9 +69,6 @@ SceneBase {
 	
 	property bool useDefaultPracticeButton: true
 	
-	
-//	useDefaultBackButton: false
-	
 	onStateChanged: {
 		if (state === "show")
 		{
@@ -36,6 +82,8 @@ SceneBase {
 		if (lessonItems[1] !== undefined)
 			lessonItems[1].parent = flickable.contentItem;
 	}
+	
+	onPracticeButtonClicked: gotoExercise(mode, difficulty)
 	
 	Flickable  {
 		id: flickable

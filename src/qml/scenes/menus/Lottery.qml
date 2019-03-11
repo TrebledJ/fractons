@@ -124,15 +124,19 @@ SceneBase {
 			
 			model: SlotMachineModel {
 				symbols: {
+//					'fracton':	{ frequency: 1, data: { source: '', alt: 'ƒ' } },
+//					'token':	{ frequency: 1, data: { source: 'qrc:/assets/icons/coins', alt: 'T' } },
+//					'star':		{ frequency: 1, data: { source: 'qrc:/assets/icons/star', alt: 's' } },
+//					'one':		{ frequency: 3, data: { source: '', alt: '1' } },
+//					'zero':		{ frequency: 3, data: { source: '', alt: '0' } },
+//					'pi':		{ frequency: 2, data: { source: '', alt: 'π' } },
+//					'e':		{ frequency: 2, data: { source: '', alt: 'e' } },
+//					'i':		{ frequency: 2, data: { source: '', alt: 'i' } },
 					'fracton':	{ frequency: 1, data: { source: '', alt: 'ƒ' } },
-					'token':	{ frequency: 1, data: { source: 'qrc:/assets/icons/coins', alt: 'T' } },
-					'star':		{ frequency: 1, data: { source: 'qrc:/assets/icons/star', alt: 's' } },
-					'one':		{ frequency: 3, data: { source: '', alt: '1' } },
-					'zero':		{ frequency: 3, data: { source: '', alt: '0' } },
-	//				'plus':		{ frequency: 2, data: { source: '', alt: '+' } },
-	//				'minus':	{ frequency: 2, data: { source: '', alt: '–' } },
-	//				'times':	{ frequency: 2, data: { source: '', alt: '×' } },
-	//				'divide':	{ frequency: 2, data: { source: '', alt: '÷' } },
+					'token':	{ frequency: 2, data: { source: 'qrc:/assets/icons/coins', alt: 'T' } },
+//					'star':		{ frequency: 2, data: { source: 'qrc:/assets/icons/star', alt: 's' } },
+					'one':		{ frequency: 4, data: { source: '', alt: '1' } },
+					'zero':		{ frequency: 4, data: { source: '', alt: '0' } },
 					'pi':		{ frequency: 2, data: { source: '', alt: 'π' } },
 					'e':		{ frequency: 2, data: { source: '', alt: 'e' } },
 					'i':		{ frequency: 2, data: { source: '', alt: 'i' } },
@@ -338,7 +342,7 @@ SceneBase {
 		var count = {
 			fracton: 0,
 			token: 0,
-			star: 0,
+//			star: 0,
 			one: 0,
 			zero: 0,
 			pi: 0,
@@ -353,13 +357,14 @@ SceneBase {
 		if (count.fracton === 3) { rewardFractons = 300; }
 		else if (count.token === 3) { rewardTokens = 5; }
 		else if (count.i === 3) { rewardFractons = 10; rewardTokens = 1; }
-		else if (count.fracton === 2 && count.star === 1) { rewardFractons = 200; }
+//		else if (count.one === 3) { rewardFractons = 1; }
+//		else if (count.fracton === 2 && count.star === 1) { rewardFractons = 200; }
 		else if (count.fracton === 2 && count.one === 1) { rewardFractons = 50; }
 		else if (count.fracton === 2 && count.pi === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.e === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.i === 1) { rewardFractons = 20; }
-		else if (count.fracton === 2 && count.token === 1) { rewardFractons = 10; rewardTokens = 1; }
-		else if (count.fracton === 1 && count.star === 2) { rewardFractons = 50; }
+		else if (count.fracton === 2 && count.token === 1) { rewardFractons = 20; rewardTokens = 1; }
+//		else if (count.fracton === 1 && count.star === 2) { rewardFractons = 50; }
 		else if (count.fracton === 1 && count.one === 2) { rewardFractons = 25; }
 		else if (count.fracton === 1 && count.token === 2) { rewardFractons = 5; rewardTokens = 2; }
 		else if (count.pi === 1 && count.e === 1 && count.i === 1) { rewardFractons = 100; }
@@ -367,51 +372,68 @@ SceneBase {
 		else if (count.token === 1) { rewardTokens = 1; }
 		
 		if (count.pi === 3) { multiplier += 3; }
-		if (count.star === 3) { multiplier += 3; }
-		if (count.star === 2) { multiplier += 2; }
-		if (count.star === 1) { multiplier += 1; }
+//		multiplier += count.star;
 		
+		rewardFractons += count.one;	// +1 fracton for each 1
 		
-		gotoExerciseButton.exerciseList = [];
+//		gotoExerciseButton.exerciseList = [];
 		
-		if (count.star === 3)
-		{
-			//	random question
-			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
-		}
+//		if (count.star === 3)
+//		{
+//			//	random question
+//			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
+//		}
 		
-		if (count.star === 2 && count.pi === 1)
-		{
-			//	random pie question
-			gotoExerciseButton.exerciseList = ["Pie"];
-		}
+//		if (count.star === 2 && count.pi === 1)
+//		{
+//			//	random pie question
+//			gotoExerciseButton.exerciseList = ["Pie"];
+//		}
 		
-		if (count.star === 2 && count.token === 1)
-		{
-			//	random token question
-			gotoExerciseButton.exerciseList = ["Token"];
-		}
+//		if (count.star === 2 && count.token === 1)
+//		{
+//			//	random token question
+//			gotoExerciseButton.exerciseList = ["Token"];
+//		}
 		
-		if (count.star === 2)
-		{
-			//	random question
-			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
-		}
+//		if (count.star === 2)
+//		{
+//			//	random question
+//			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
+//		}
 		
-		if (count.star === 1 && (count.token === 2 || count.one === 2 || count.zero === 2 || count.pi === 2 || count.e === 2 || count.i === 2))
-		{
-			//	random question
-			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
-		}
+//		if (count.star === 1 && (count.token === 2 || count.one === 2 || count.zero === 2 || count.pi === 2 || count.e === 2 || count.i === 2))
+//		{
+//			//	random question
+//			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
+//		}
 		
 //		gotoExerciseButton.exerciseList = ["Balance"];
 		
 		
-		rewardFractons += count.one;
-		
 		//	show rewards
 		rewardsVisible = true;
 
+		
+		//	ACVM : binary
+		if (count.zero + count.one === 3)
+			JGameAchievements.addProgressByName("binary", 1);
+		
+		//	ACVM : magic numbers
+		if (count.e === 1 && count.pi === 1 && count.i === 1)
+			JGameAchievements.addProgressByName("magic numbers", 1);
+		
+		//	ACVM : multiplier
+		if (multiplier >= 5)
+			JGameAchievements.addProgressByName("multiplier", 1);
+		
+		//	TODO implement LUCKY achievement (earn 1000 fractons from the lottery)
+		
+		//	ACVM : jackpot
+		if (count.fractons === 3)
+			JGameAchievements.addProgressByName("jackpot", 1);
+		
+		
 		//	premature commitment
 		if (gotoExerciseButton.exerciseList.length === 0)
 			commitRewards();
