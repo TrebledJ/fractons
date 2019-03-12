@@ -126,12 +126,12 @@ Item {
 		//	error-checking
 		if (key === undefined)
 		{
-			console.error("Expected key in Quests::addQuestProgresByKey but got undefined.");
+			console.error("Expected key in Quests::addQuestProgressByKey but got undefined.");
 			return;
 		}
 		if (amount === undefined)
 		{
-			console.error("Expected amount in Quests::addQuestProgresByKey but got undefined.");
+			console.error("Expected amount in Quests::addQuestProgressByKey but got undefined.");
 			return;
 		}
 		if (quests[key].progress >= quests[key].maxProgress)
@@ -148,8 +148,10 @@ Item {
 			//	set progress to maxProgress as maximum
 			quests[key].progress = quests[key].maxProgress;
 			
+			quests[key].isCollected = true;
+			
 			//	add the reward
-			JFractons.addFractons(20);	//	HARDCODE 20 fractons reward
+			JFractons.addFractons(25);	//	HARDCODE 25 fractons reward
 		}
 	}
 	
