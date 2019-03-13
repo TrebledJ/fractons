@@ -20,6 +20,8 @@ SceneBase {
 	signal questsButtonClicked
 	signal settingsButtonClicked
 	
+	property var hoveredQuest
+	
 	useDefaultBackButton: false
 	
 	TextBase {
@@ -179,7 +181,7 @@ SceneBase {
 			verticalCenter: parent.verticalCenter
 		}
 		
-		visible: JFractons.currentLevel() >= 5
+		visible: JFractons.currentLevel() >= 5	//	quests begin from level 5
 		
 		/**
 		  Quest Ideas
@@ -196,18 +198,30 @@ SceneBase {
 		
 		QuestButton {
 			id: questButton1
-			completed: true
+//			completed: true
 			quest: JQuests.getQuestByIndex(0)
+			onEntered: {
+//				questText.text = quest.name;
+				hoveredQuest = quest;
+			}
 		}
 		
 		QuestButton {
 			id: questButton2
 			quest: JQuests.getQuestByIndex(1)
+			onEntered: {
+//				questText.text = quest.name;
+				hoveredQuest = quest;
+			}
 		}
 		
 		QuestButton {
 			id: questButton3
 			quest: JQuests.getQuestByIndex(2)
+			onEntered: {
+//				questText.text = quest.name;
+				hoveredQuest = quest;
+			}
 		}
 		
 		
@@ -215,24 +229,122 @@ SceneBase {
 		BubbleButton {
 			width: height; height: 40
 			onClicked: {
-				JQuests.debug();
-//				JQuests.loadNewQuests()
+//				JQuests.debug();
+				JQuests.loadNewQuests();
 			}
 			text: "+"
-//			visible: false
+			visible: false
+		}
+		
+		Connections {
+			target: JQuests
+			onQuestsModified: {
+				//	automatically update quests when modified
+				questButton1.quest = JQuests.getQuestByIndex(0);
+				questButton2.quest = JQuests.getQuestByIndex(1);
+				questButton3.quest = JQuests.getQuestByIndex(2);
+			}
 		}
 		
 	}
 	
+	//	holds the quest box, quest text, and corresponding progress bar and text
+	Rectangle {
+		id: questBox
+		width: questText.contentWidth + 10; height: 35
+		radius: 5
+		
+		anchors {
+			//	anchor to the left and vary margin depending on whether quest buttons have been entered
+			left: parent.left; leftMargin: questButton1.isEntered || questButton2.isEntered || questButton3.isEntered ? 0 + 5 : -width
+			bottom: newQuestsInfo.top; bottomMargin: 5
+			margins: 2
+		}
+		
+		visible: anchors.leftMargin > -width	//	semi-hardcoded
+		
+		color: "navy"
+		
+		//	animate changes to anchors.leftMargin by a quadratic
+		Behavior on anchors.leftMargin {
+			NumberAnimation {
+				duration: 400
+				easing.type: Easing.InOutQuad
+			}
+		}
+		
+		Column {
+			anchors.fill: parent
+			anchors.margins: 5
+			spacing: 2
+			
+			//	displays the quest as text
+			TextBase {
+				id: questText
+				
+				font.pixelSize: 10
+				color: "yellow"
+				
+				text: hoveredQuest === undefined ? "" : hoveredQuest.name
+			}
+			
+			//	holds the progress bar and progress text
+			Row {
+				id: progressRow
+				
+				width: parent.width; height: 8
+				spacing: 1
+				
+				property int progress: hoveredQuest === undefined ? 0 : hoveredQuest.progress
+				property int maxProgress: hoveredQuest === undefined ? 1 : hoveredQuest.maxProgress
+				
+				Rectangle {
+					width: parent.width * 0.75; height: parent.height
+					radius: 4
+					color: "lightgoldenrodyellow"
+					
+					Rectangle {
+//						width: (parent.width - 4) * quest.progress / quest.maxProgress; height: 4
+						width: (parent.width - 4) * progressRow.progress/progressRow.maxProgress; height: 4
+						radius: 2
+						
+						anchors.left: parent.left
+						anchors.top: parent.top
+						anchors.margins: 2
+						
+						
+						color: "navy"
+					}
+				}
+				
+				TextBase {
+					id: progressText
+					width: parent.width * 0.25; height: parent.height
+					
+					font.pointSize: 6
+					text: progressRow.progress + '/' + progressRow.maxProgress
+					color: "yellow"
+					
+					horizontalAlignment: Text.AlignHCenter
+					verticalAlignment: Text.AlignVCenter
+				}
+			}
+		}
+	}
+
+	
+	
 	TextBase {
-		anchors.bottom: ribbonBackground.top
-		anchors.left: parent.left
-		anchors.margins: 1
+		id: newQuestsInfo
+		
+		//	anchor to bottom left above ribbon
+		anchors {
+			left: parent.left
+			bottom: ribbonBackground.top
+			margins: 1
+		}
 		
 		font.pointSize: 8
-//		text: 'New quests will arrive in ' + jQuestEngine.getRemainingTime()
-		
-		visible: questButton1.isPressed || questButton2.isPressed || questButton3.isPressed
 		
 		Timer {
 			running: true

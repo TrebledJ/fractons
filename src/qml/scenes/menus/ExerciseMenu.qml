@@ -39,12 +39,15 @@ SceneBase {
 		id: modeView
 		
 		anchors {
-			fill: parent
+//			fill: parent
+			top: banner.bottom
+			bottom: parent.bottom
+			left: parent.left; right: parent.right
 			leftMargin: 80; rightMargin: 10
 		}
 		
-		topMargin: 60
-//		topMargin: 10
+//		topMargin: 60
+		topMargin: 10
 		bottomMargin: 10
 		leftMargin: 10
 		rightMargin: 10
@@ -136,6 +139,7 @@ SceneBase {
 	}	//	ListView: modeView
 	
 	Rectangle {
+		id: banner
 		width: parent.width; height: 50
 		anchors.top: parent.top
 		color: "navy"

@@ -21,24 +21,25 @@ SceneBase {
 	
 	ListModel {
 		id: groupModel
-		ListElement { role_group: "explorer" }
-		ListElement { role_group: "studious" }
-		ListElement { role_group: "sprinter" }
-		ListElement { role_group: "leveller" }
-		ListElement { role_group: "adventurer" }
-		ListElement { role_group: "seasoned" }
+		ListElement { role_group: "explorer" }	//	all implemented
+		ListElement { role_group: "studious" }	//	all implemented
+		ListElement { role_group: "sprinter" }	//	all implemented
+		ListElement { role_group: "leveller" }	//	all implemented
+		ListElement { role_group: "adventurer" }	//	TODO not yet implemented
+		ListElement { role_group: "seasoned" }	//	TODO not yet implemented
 		
-		ListElement { role_group: "balance" }
+		//	TODO all mastery not yet implemented
+		ListElement { role_group: "balance" }	
 		ListElement { role_group: "conversion" }
 		ListElement { role_group: "truth" }
 		ListElement { role_group: "operations" }
 		ListElement { role_group: "pie" }
 		ListElement { role_group: "token" }
 		
-		ListElement { role_group: "lottery" }
+		ListElement { role_group: "lottery" }	//	all implemented EXCEPT lucky ( TODO )
 		
-		ListElement { role_group: "secret" }
-//		ListElement { role_group: "classified" }
+		ListElement { role_group: "secret" }	//	all implemented
+//		ListElement { role_group: "classified" }	//	all implemented
 	}
 	
 	ListView {

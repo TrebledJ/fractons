@@ -291,6 +291,9 @@ SceneBase {
 				return;
 			}
 			
+			//	QUEST : key = lottery
+			JQuests.addQuestProgressByKey("lottery", 1);
+			
 			tokens -= 1;	//	deduct one token
 			
 			//	run normal animation
@@ -304,6 +307,7 @@ SceneBase {
 			var obj = slotMachine.model.symbols;
 			var sum = Object.keys(obj).reduce(function(acc, item) { return acc + obj[item].frequency; }, 0);
 			console.log("Spinning wheel with", sum, "items in reel.")
+			
 			slotMachine.spin(10000);		//	defaults to stopping after 10 seconds
 		}
 		

@@ -138,8 +138,6 @@ Scene {
 				}
 				
 			}
-				
-			
 			
 			var props = {
 				z: parent === scene ? 1 : -1,

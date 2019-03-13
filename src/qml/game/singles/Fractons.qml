@@ -31,6 +31,9 @@ Item {
 		console.warn("Player leveled up!");
 //		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
 		
+		//	QUEST : key = level
+		JQuests.addQuestProgressByKey("level", 1);
+		
 		//	ACVM : leveller
 		JGameAchievements.setProgressByName("leveller i", level);
 		JGameAchievements.setProgressByName("leveller ii", level);

@@ -489,6 +489,12 @@ SceneBase {
 		if (!isFromLottery)
 			addFractons(rewardAmount);	//	give reward in fractons
 		
+		//	QUEST : key = fractons
+		JQuests.addQuestProgressByKey("fractons", rewardAmount);
+		
+		//	QUEST : key = questions
+		JQuests.addQuestProgressByKey("questions", 1, modeName);
+		
 		//	ACVM : studious
 		JGameAchievements.addProgressByName("studious i", 1);
 		JGameAchievements.addProgressByName("studious ii", 1);
@@ -513,6 +519,7 @@ SceneBase {
 		
 		//	add to statistics
 		JGameStatistics.incDailyCorrect();
+		
 	}
 	
 	

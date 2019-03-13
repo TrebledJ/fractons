@@ -6,11 +6,23 @@ import "../../js/Utils.js" as JUtils
 
 //	N.B. all quests reward 25 fractons
 //	daily quests unlock from level 5
+
+/**
+  The quest keys are given by
+  
+  * fractons	//	increment implemented
+  * level		//	increment implemented
+  * questions	//	TODO problem
+  * achievement	//	increment implemented
+  * lottery		//	increment implemented
+  
+  */
+
 Item {
 	id: item
 	
-	signal questsModified
-	signal updateQuests
+	signal questsModified	//	when inner elements of each quest have been changed
+	signal updateQuests		//	when entire quest objects have been changed
 	
 	/**
 	  Quests Storage Container:
@@ -86,21 +98,21 @@ Item {
 		
 		//	get-one achievements quest
 		//	TODO check that at least one (5 or 10 mb?) achievements are still uncollected
-//		questObj.achievement
+		//	questObj.achievement
 		values.push("achievement");
 		
 		//	only allow the lottery beginning at a certain level
 		if (JFractons.currentLevel() >= 15)
 		{
-			questObj.questions.maxProgress = JMath.randI(5, 10);
-			questObj.lottery.name = questObj.lottery.name.arg(questObj.questions.maxProgress);
+			questObj.lottery.maxProgress = JMath.randI(5, 10);
+			questObj.lottery.name = questObj.lottery.name.arg(questObj.lottery.maxProgress);
 			values.push("lottery");
 		}
 		
 		//	allow the levelling quest up to a certain level
 		if (JFractons.currentLevel() < 25)
 		{
-//			questObj.level
+			//	questObj.level
 			values.push("level");
 		}
 		
@@ -122,7 +134,7 @@ Item {
 		return quests[Object.keys(quests)[index]];
 	}
 	
-	function addQuestProgressByKey(key, amount) {
+	function addQuestProgressByKey(key, amount, param) {
 		//	error-checking
 		if (key === undefined)
 		{
@@ -134,6 +146,21 @@ Item {
 			console.error("Expected amount in Quests::addQuestProgressByKey but got undefined.");
 			return;
 		}
+		if (quests[key] === undefined)
+		{
+			console.warn("Key", key, "was not found in quests.");
+			return;
+		}
+		
+//		if (key === "questions")
+//		{
+//			var modeName = param;
+//			if (modeName === "")
+//		}
+		
+		
+		
+		//	check progress hasn't been exceeded
 		if (quests[key].progress >= quests[key].maxProgress)
 			return;
 		

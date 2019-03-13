@@ -64,7 +64,13 @@ Item {
 	
 	Connections {
 		target: jAchievementsManager
-		onAchievementGet: achievementGet(name, reward);
+		onAchievementGet: {
+			//	QUEST : key = achievement
+			JQuests.addQuestProgressByKey("achievement", 1);
+			
+			//	emit signal
+			achievementGet(name, reward);
+		}
 	}
 	
 	QtObject {
