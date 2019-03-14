@@ -22,3 +22,9 @@ function popArray(array, index) {
 	
 	return array.slice(0, index).concat(array.slice(index+1));
 }
+
+function nounify(n, noun, suffix) {
+	if (suffix === undefined) suffix = 's';
+	
+	return n === 1 ? noun : noun + suffix;
+}

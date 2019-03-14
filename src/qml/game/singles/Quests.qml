@@ -22,7 +22,11 @@ Item {
 	id: item
 	
 	signal questsModified	//	when inner elements of each quest have been changed
-	signal updateQuests		//	when entire quest objects have been changed
+	signal questsPurged		//	when entire quest objects have been changed
+	
+	signal questCompleted(string text, int reward)
+	
+	readonly property int questReward: 25	//	constant
 	
 	/**
 	  Quests Storage Container:
@@ -47,12 +51,19 @@ Item {
 		console.warn("Reloading JQuests...");
 		
 		var today = JStorage.getValue("todays_quests");
+		
 		//	check if no quests were saught
 		if (Object.keys(today).length === 0)
 		{
+			console.log("[Quests] Found 'today' to be an empty object. Loading new quests...")
 			loadNewQuests();
 			return;
 		}
+		
+		var lastPurge = JStorage.getValue("last_quest_purge");
+		if (lastPurge === undefined)
+			console.error("[Quests] lastPurge is undefined...");
+		jQuestEngine.checkLastPurge(lastPurge);
 		
 		//	else, unpack quests
 		quests = today;
@@ -63,14 +74,31 @@ Item {
 	Connections {
 		target: jQuestEngine
 		
-		onLoadNewQuests: loadNewQuests();
+		onLoadNewQuests: {
+			loadNewQuests();
+		}
 	}
 	
 	onQuestsModified: {
-		console.log("Quests Modified:");
-		debug();
+		console.log("Quests Modified");
+//		debug();
+		console.warn("Modified Quests:", JSON.stringify(quests));
 		
 		JStorage.setValue("todays_quests", quests);
+	}
+	
+	onQuestsPurged: {
+		console.log("Quests Purged");
+		
+		var lastPurge = jQuestEngine.getLastPurge();
+		console.log("[Quests] Setting last quest purge to", lastPurge);
+		JStorage.setValue("last_quest_purge", lastPurge);
+	}
+	
+	onQuestCompleted: /*string text, int reward*/ {
+		JGameNotifications.sendMessage('Quest Completed!',
+									   'You just completed a quest and got ' + reward + ' ' + JUtils.nounify(reward, 'fracton') + '!',
+									   5);
 	}
 	
 	function debug() {
@@ -78,7 +106,7 @@ Item {
 	}
 	
 	function loadNewQuests() {
-		console.log("Loading new quests...");
+		console.log("[Quests.loadNewQuests] Loading new quests...");
 		
 		var questObj = JStorage.getValue("quests");
 		
@@ -124,10 +152,14 @@ Item {
 		{
 			quests[keys[i]] = questObj[keys[i]];
 		}
+		
+		console.warn("New Quests:", JSON.stringify(quests));
+		
+		jQuestEngine.setLastPurge(new Date());
 
 		//	emit signals
 		questsModified();
-		updateQuests();
+		questsPurged();
 	}
 	
 	function getQuestByIndex(index) {
@@ -167,19 +199,20 @@ Item {
 		//	add the amount
 		quests[key].progress += amount;
 		
-		//	notify by signal
-		questsModified();
-		
 		if (quests[key].progress >= quests[key].maxProgress && !quests[key].isCollected)
 		{
 			//	set progress to maxProgress as maximum
 			quests[key].progress = quests[key].maxProgress;
-			
 			quests[key].isCollected = true;
 			
+			questCompleted(quests[key].name, questReward);
+			
 			//	add the reward
-			JFractons.addFractons(25);	//	HARDCODE 25 fractons reward
+			JFractons.addFractons(questReward);	//	HARDCODE 25 fractons reward
 		}
+		
+		//	notify by signal
+		questsModified();
 	}
 	
 }

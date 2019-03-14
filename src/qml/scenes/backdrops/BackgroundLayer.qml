@@ -11,9 +11,7 @@ Scene {
 	width: 480
 	height: 320
 	
-	property var bannerQueue: []
 	property var animationQueue: []
-	property var currentBanner
 	
 	Rectangle {
 		id: background
@@ -53,28 +51,7 @@ Scene {
 			var readySpawn = false;
 			var text, fontSize = 10;
 			var component, parent, visibleListener;
-			var isBanner = false;
 			var isText = false;
-			
-			//	choose animations from the banner queue
-			if (bannerQueue.length > 0)
-			{
-				var bannerQueueObj = bannerQueue[0];
-				
-				if (!currentBanner)
-				{
-					bannerQueue = bannerQueue.slice(1);
-					
-					text = bannerQueueObj.text;
-					parent = bannerQueueObj.parentObject ? bannerQueueObj.parentObject : scene;
-					visibleListener = bannerQueueObj.visibleListener ? bannerQueueObj.visibleListener : scene;
-					fontSize = bannerQueueObj.fontSize ? bannerQueueObj.fontSize : 40;
-					component = textComponent;
-					
-					isBanner = true;
-					readySpawn = true;
-				}
-			}
 			
 			//	choose animations from the animation queue
 			if (!readySpawn && animationQueue.length > 0)
@@ -105,7 +82,7 @@ Scene {
 			//	default animations
 			if (!readySpawn)
 			{
-				var mathOrImage = (JMath.oneIn(1000) ? "image" : "math");
+				var mathOrImage = (JMath.oneIn(100) ? "image" : "math");
 				
 				parent = scene;
 				visibleListener = scene;
@@ -156,15 +133,10 @@ Scene {
 			obj.to = -obj.width;	//	set to after creating obj to determine width
 			
 			//	set a random y position
-			if (isBanner)
-				obj.y = animationLargerYBound - obj.height;	//	fixed for banners
-			else if (isText)
-				obj.y = JMath.randI(animationSmallerYBound, animationLargerYBound - obj.height - (currentBanner ? 40 : 0));
-//			else if (!isText && !isBanner)
-			else
+			if (isText)
+				obj.y = JMath.randI(animationSmallerYBound, animationLargerYBound - obj.height);
+			else /* !isText */
 				obj.y = JMath.randI(0, parent.height - obj.height);	//	set y after creating obj to determine height
-			
-			if (isBanner) { currentBanner = obj; bannerTimer.run(obj.duration); }
 			
 			obj.opacity = visibleListener === scene ? 0.1 : Qt.binding(function() { return visibleListener.state !== "show" || (visibleListener.state === "show" && obj.opacity !== 0.1) ? 0 : 0.1; });
 			
@@ -190,17 +162,4 @@ Scene {
 		}
 	}
 	
-	Timer {
-		id: bannerTimer
-		
-		
-		function run(duration) {
-			interval = duration;
-			start();
-		}
-		
-		onTriggered: {
-			currentBanner = undefined;
-		}
-	}
 }

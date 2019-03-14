@@ -7,7 +7,7 @@ import QtQuick 2.0
 import Fractons 1.0
 
 import "../../common"
-
+import "../../js/Utils.js" as JUtils
 
 /**
   
@@ -98,6 +98,13 @@ Item {
 			return ret;
 		}
 		
+	}
+	
+	onAchievementGet: /*string name, int reward*/ {
+		JGameNotifications.sendMessage('Achievement Get!', 
+									   'You just got the achievement <i>' + name + '</i> ' +
+									   'and earned ' + reward + ' ' + JUtils.nounify(reward, 'fracton') + '!', 
+									   5);
 	}
 	
 	function loadAchievements() {

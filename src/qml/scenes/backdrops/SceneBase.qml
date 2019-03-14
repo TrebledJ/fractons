@@ -74,7 +74,7 @@ Scene {
 		property int fontSize
 		
 		//	use a timer to prevent spammy messages
-		interval: 5000
+		interval: 1000
 		
 		onTriggered: {
 			if (state === "show")

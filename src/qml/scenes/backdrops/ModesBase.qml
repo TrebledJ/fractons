@@ -489,9 +489,6 @@ SceneBase {
 		if (!isFromLottery)
 			addFractons(rewardAmount);	//	give reward in fractons
 		
-		//	QUEST : key = fractons
-		JQuests.addQuestProgressByKey("fractons", rewardAmount);
-		
 		//	QUEST : key = questions
 		JQuests.addQuestProgressByKey("questions", 1, modeName);
 		

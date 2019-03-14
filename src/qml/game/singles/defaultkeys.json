@@ -343,7 +343,7 @@
 		"lottery": {
 			"binary": {
 				"name": "Binary",
-				"description": "Get all 1s or 0s in one spin.",
+				"description": "Get a combination of 1s or 0s in the Lottery.",
 				"hint": "",
 				"group": "lottery",
 				"reward": 10,
@@ -353,7 +353,7 @@
 			},
 			"magic": {
 				"name": "Magic Numbers",
-				"description": "Get e, π, and i all in one spin.",
+				"description": "Get a combination of e, π, and i in the Lottery.",
 				"hint": "",
 				"group": "lottery",
 				"reward": 30,
@@ -363,7 +363,7 @@
 			},
 			"multiplier": {
 				"name": "Big Multiplier",
-				"description": "Get a multiplier of 5.",
+				"description": "Get a multiplier of 5 in the Lottery.",
 				"hint": "Only possible in a spin with 3 stars or 3 πs.",
 				"group": "lottery",
 				"reward": 60,
@@ -373,7 +373,7 @@
 			},
 			"lucky": {
 				"name": "Lucky",
-				"description": "Earn 1000 or more fractons in the Lottery.",
+				"description": "Earn 1,000 or more fractons in the Lottery.",
 				"hint": "",
 				"group": "lottery",
 				"reward": 120,
@@ -383,7 +383,7 @@
 			},
 			"jackpot": {
 				"name": "Jackpot",
-				"description": "Get 3 ƒs in one spin.",
+				"description": "Get a combination of 3 ƒs in the Lottery.",
 				"hint": "",
 				"group": "lottery",
 				"reward": 250,
@@ -519,5 +519,6 @@
 	},
 	"todays_quests": {
 		
-	}
+	},
+	"last_quest_purge": "1970-01-01 00:00:00"
 }

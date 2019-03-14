@@ -181,7 +181,8 @@ SceneBase {
 			verticalCenter: parent.verticalCenter
 		}
 		
-		visible: JFractons.currentLevel() >= 5	//	quests begin from level 5
+		//	TODO uncomment
+//		visible: JFractons.currentLevel() >= 5	//	quests begin from level 5
 		
 		/**
 		  Quest Ideas
@@ -373,7 +374,8 @@ SceneBase {
 	//	useful for pinpointing coordinates
 //	MouseArea {
 //		anchors.fill: parent
-//		onClicked: console.debug("Clicked:", mouseX, mouseY)
+////		onClicked: console.debug("Clicked:", mouseX, mouseY)
+//		onClicked: JGameNotifications.sendMessage("Hi", "Hullo", 10)
 //	}
 	
 }

@@ -262,6 +262,10 @@ GameWindow {
 		onBackButtonClicked: gameWindow.state = "home"
 	}
 	
+	NotificationsLayer {
+		
+	}
+	
 	function gotoExercise(mode, difficulty) {
 		console.log("Going to exercise", mode, "with a", difficulty, "difficulty.");
 		
@@ -304,19 +308,24 @@ GameWindow {
 		backgroundLayer.animationQueue.push(obj);
 	}
 	
-	Connections {
-		target: JFractons
+//	Connections {
+//		target: JFractons
 		
-		onLevelUp: {
-//			pushBackgroundAnimation("#bannerLevel " + JFractons.currentLevel() + ": You've leveled up!", 0, 0, 25);
-		}
-	}
+//		onLevelUp: /*int level*/ {
+//			JGameNotifications.sendMessage('Level Up!',
+//										   "Congratulations, you've levelled up to Level " + level + '!',
+//										   5);
+//		}
+//	}
 	
-	Connections {
-		target: JGameAchievements
+//	Connections {
+//		target: JGameAchievements
 		
-		onAchievementGet: {
-//			pushBackgroundAnimation("#bannerAchievement Get: " + name + "!", 0, 0, 25);
-		}
-	}
+//		onAchievementGet: /*string name, int reward*/ {
+//			JGameNotifications.sendMessage('Achievement Get!', 
+//										   'You just got the achievement <i>' + name + '</i> ' +
+//										   'and earned ' + reward + ' ' + (reward == 1 ? 'fracton' : 'fractons') + '!', 
+//										   5)
+//		}
+//	}
 }

@@ -27,7 +27,7 @@ Item {
 		//	JStorage.setValue("fLevelingConstant", fLevelingConstant);
 	}
 	
-	onLevelUp: {
+	onLevelUp: /*int level*/ {
 		console.warn("Player leveled up!");
 //		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
 		
@@ -41,6 +41,10 @@ Item {
 		JGameAchievements.setProgressByName("leveller iv", level);
 		JGameAchievements.setProgressByName("leveller v", level);
 		
+		//	push a notification
+		JGameNotifications.sendMessage('Level Up!',
+									   "Congratulations, you've levelled up to Level " + level + '!',
+									   5);
 	}
 	
 	function addFractons(amount) {
@@ -52,7 +56,13 @@ Item {
 		
 		//	add amount
 		fCurrent += amount;
+		
+		//	STATS : add daily fractons
 		JGameStatistics.addDailyFractons(amount);
+		
+		//	QUEST : key = fractons
+		JQuests.addQuestProgressByKey("fractons", amount);
+		
 		
 		//	check if difference caused level-up
 		if (levelAt(fCurrent - amount) < levelAt(fCurrent))
