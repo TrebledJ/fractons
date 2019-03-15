@@ -26,15 +26,15 @@ SceneBase {
 		ListElement { role_group: "sprinter" }	//	all implemented
 		ListElement { role_group: "leveller" }	//	all implemented
 		ListElement { role_group: "adventurer" }	//	TODO not yet implemented
-		ListElement { role_group: "seasoned" }	//	TODO not yet implemented
+//		ListElement { role_group: "seasoned" }	//	TODO not yet implemented
 		
 		//	TODO all mastery not yet implemented
-		ListElement { role_group: "balance" }	
-		ListElement { role_group: "conversion" }
-		ListElement { role_group: "truth" }
-		ListElement { role_group: "operations" }
-		ListElement { role_group: "pie" }
-		ListElement { role_group: "token" }
+//		ListElement { role_group: "balance" }	
+//		ListElement { role_group: "conversion" }
+//		ListElement { role_group: "truth" }
+//		ListElement { role_group: "operations" }
+//		ListElement { role_group: "pie" }
+//		ListElement { role_group: "token" }
 		
 		ListElement { role_group: "lottery" }	//	all implemented EXCEPT lucky ( TODO )
 		
@@ -233,7 +233,7 @@ SceneBase {
 				
 				ProgressBar {
 					id: progressBar
-					width: 200; height: 10
+					width: 150; height: 10
 					anchors.verticalCenter: parent.verticalCenter
 					from: 0
 					value: 0
@@ -297,7 +297,8 @@ SceneBase {
 			
 			progressBar.to = achievementCard.maxProgress;
 			progressBar.value = achievementCard.progress;
-			percentText.text = Math.round(achievementCard.progress / achievementCard.maxProgress * 100) + '%'
+			percentText.text = achievementCard.progress + '/' + achievementCard.maxProgress +
+					' (' + Math.round(achievementCard.progress / achievementCard.maxProgress * 100) + '%)'
 			
 		}	//	onAchievementCardChanged
 		

@@ -1,6 +1,7 @@
 {
-	"fCurrent": 0,
-	"fLevelingConstant": 25,
+	"fractons": 0,
+	"tokens": 0,
+	"leveling_constant": 25,
 	"combo": 0,
 	"achievements": {
 		"explorer": {
@@ -343,7 +344,7 @@
 		"lottery": {
 			"binary": {
 				"name": "Binary",
-				"description": "Get a combination of 1s or 0s in the Lottery.",
+				"description": "Get a combination of 1s and/or 0s in a spin.",
 				"hint": "",
 				"group": "lottery",
 				"reward": 10,
@@ -353,7 +354,7 @@
 			},
 			"magic": {
 				"name": "Magic Numbers",
-				"description": "Get a combination of e, π, and i in the Lottery.",
+				"description": "Get a combination of e, π, and i in a spin.",
 				"hint": "",
 				"group": "lottery",
 				"reward": 30,
@@ -363,7 +364,7 @@
 			},
 			"multiplier": {
 				"name": "Big Multiplier",
-				"description": "Get a multiplier of 5 in the Lottery.",
+				"description": "Get a multiplier of 5 in a spin.",
 				"hint": "Only possible in a spin with 3 stars or 3 πs.",
 				"group": "lottery",
 				"reward": 60,
@@ -373,7 +374,7 @@
 			},
 			"lucky": {
 				"name": "Lucky",
-				"description": "Earn 1,000 or more fractons in the Lottery.",
+				"description": "Earn 100 or more fractons in a spin.",
 				"hint": "",
 				"group": "lottery",
 				"reward": 120,
@@ -383,7 +384,7 @@
 			},
 			"jackpot": {
 				"name": "Jackpot",
-				"description": "Get a combination of 3 ƒs in the Lottery.",
+				"description": "Get 3 ƒs in a spin.",
 				"hint": "",
 				"group": "lottery",
 				"reward": 250,

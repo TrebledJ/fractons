@@ -127,6 +127,7 @@ Scene {
 			return;
 		
 		var obj = queue[0];
+		queue = queue.slice(1);	//	pop the front of the queue
 		
 		notification.title = obj.title;
 		notification.message = obj.message;
@@ -137,8 +138,7 @@ Scene {
 		
 		readyNotify = false;
 		
-		//	pop the front of the queue and emit a signal
-		queue = queue.slice(1);
+		//	emit a signal
 		queueModified();
 	}
 	

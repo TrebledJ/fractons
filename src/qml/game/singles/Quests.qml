@@ -183,6 +183,8 @@ Item {
 			console.warn("Key", key, "was not found in quests.");
 			return;
 		}
+		if (amount === 0)
+			return;
 		
 //		if (key === "questions")
 //		{
@@ -206,6 +208,13 @@ Item {
 			quests[key].isCollected = true;
 			
 			questCompleted(quests[key].name, questReward);
+			
+			//	ACVM : adventurer
+			JGameAchievements.addProgressByName("adventurer i", 1);
+			JGameAchievements.addProgressByName("adventurer ii", 1);
+			JGameAchievements.addProgressByName("adventurer iii", 1);
+			JGameAchievements.addProgressByName("adventurer iv", 1);
+			JGameAchievements.addProgressByName("adventurer v", 1);
 			
 			//	add the reward
 			JFractons.addFractons(questReward);	//	HARDCODE 25 fractons reward

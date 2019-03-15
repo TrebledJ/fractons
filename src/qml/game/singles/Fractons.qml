@@ -8,21 +8,21 @@ Item {
 	
 	signal levelUp(int level)
 	
-	property int fCurrent: -1
-	property int fLevelingConstant: -1	//	also the fractons threshold for Level 1
+	property int fractons: -1
+	property int levelingConstant: -1	//	also the fractons threshold for Level 1
 	
 	Component.onCompleted: {
 		//	basic setup and data retrieval
 		console.warn("Reloading JFractons...");
-		
 		loadFractons();
+		debug();
 	}
 	
-	onFCurrentChanged: {
-		setFractons(fCurrent);
+	onFractonsChanged: {
+		setFractons(fractons);
 	}
 	
-	onFLevelingConstantChanged: {
+	onLevelingConstantChanged: {
 		//	should need this
 		//	JStorage.setValue("fLevelingConstant", fLevelingConstant);
 	}
@@ -55,7 +55,7 @@ Item {
 		}
 		
 		//	add amount
-		fCurrent += amount;
+		fractons += amount;
 		
 		//	STATS : add daily fractons
 		JGameStatistics.addDailyFractons(amount);
@@ -65,14 +65,14 @@ Item {
 		
 		
 		//	check if difference caused level-up
-		if (levelAt(fCurrent - amount) < levelAt(fCurrent))
-			levelUp(levelAt(fCurrent));	//	emit the level up signal
+		if (levelAt(fractons - amount) < levelAt(fractons))
+			levelUp(levelAt(fractons));	//	emit the level up signal
 		
 	}
 	
-	function levelAt(fractons) {
-		if (fractons === '' || isNaN(fractons))
-			fractons = fCurrent;
+	function levelAt(f) {
+		if (f === '' || isNaN(f))
+			f = fractons;
 		
 		/*
 		  XP Polynomial Equation:
@@ -92,59 +92,56 @@ Item {
 		  */
 		
 		//	implements quadratic formula from equation above. +1 for a 1-based index
-		return Math.floor(-0.5 + Math.sqrt(0.25 + 2 *fractons / fLevelingConstant)) + 1;
+		return Math.floor(-0.5 + Math.sqrt(0.25 + 2 * f / levelingConstant)) + 1;
 	}
 	
 	function currentLevel() {
 		return levelAt();
 	}
 	
-	function fCurrentThresh() {
-		return fThresh(currentLevel());
+	function currentThresh() {
+		return thresh(currentLevel());
 	}
 	
-	function fNextThresh() {
-		return fThresh(currentLevel() + 1);
+	function nextThresh() {
+		return thresh(currentLevel() + 1);
 	}
 	
-	function fProgress() {
-		var fThreshAbove = fNextThresh();
-		var fThreshBelow = fCurrentThresh();
-		return 1 - (fThreshAbove - fCurrent) / (fThreshAbove - fThreshBelow);
+	function progress() {
+		var fThreshAbove = nextThresh();
+		var fThreshBelow = currentThresh();
+		return 1 - (fThreshAbove - fractons) / (fThreshAbove - fThreshBelow);
 	}
 	
-	function fThresh(lvl) {
+	function thresh(lvl) {
 		//	y = I*x*(x + 1)/2
-		return (fLevelingConstant * (lvl - 1) * lvl / 2);
+		return (levelingConstant * (lvl - 1) * lvl / 2);
 	}
 	
 	function loadFractons() {
-		var fC = JStorage.getValue("fCurrent");
-		if (fC === undefined) console.error("[Fractons] Key: 'fCurrent' returned undefined from storage.");
-		fCurrent = fC !== undefined ? fC : 0;
+		var fC = JStorage.getValue("fractons");
+		if (fC === undefined) console.error("[Fractons] Key: 'fractons' returned undefined from storage.");
+		fractons = fC !== undefined ? fC : 0;
 		
-		var fLC = JStorage.getValue("fLevelingConstant");
-		if (fLC === undefined) console.error("[Fractons] Key: 'fLevelingConstant' returned undefined from storage.");
-		fLevelingConstant = fLC !== undefined ? fLC : 25;
+		var fLC = JStorage.getValue("leveling_constant");
+		if (fLC === undefined) console.error("[Fractons] Key: 'leveling_constant' returned undefined from storage.");
+		levelingConstant = fLC !== undefined ? fLC : 25;
 	}
 	
 	//	centralised function, don't need to bother with remembering the key (i.e. fCurrent)
-	function setFractons(ftn) {
-		JStorage.setValue("fCurrent", ftn);
+	function setFractons(f) {
+		JStorage.setValue("fractons", f);
 	}
-	
-	
-	
 	
 	//	========================  //
 	
 	function debug() {
 		console.debug("State of Fractons:");
-		console.debug(" • Current Amount [fCurrent]:", fCurrent);
-		console.debug(" • Current Threshold [fCurrentThresh()]:", fCurrentThresh());
-		console.debug(" • Next Threshold [fNextThresh()]:", fNextThresh());
+		console.debug(" • Current Fractons [fractons]:", fractons);
+		console.debug(" • Current Threshold [currentThresh()]:", currentThresh());
+		console.debug(" • Next Threshold [nextThresh()]:", nextThresh());
 		console.debug(" • Current Level [currentLevel()]:", currentLevel());
-		console.debug(" • Current Progress [fProgress()]:", fProgress());
+		console.debug(" • Current Progress [progress()]:", progress());
 		
 		
 	}

@@ -280,7 +280,7 @@ SceneBase {
 				
 				color: "yellow"
 				
-				text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fCurrent + '/' + JFractons.fNextThresh() + " ƒ"
+				text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fractons + '/' + JFractons.nextThresh() + " ƒ"
 				
 				font.pointSize: 8
 				
@@ -298,7 +298,7 @@ SceneBase {
 				
 				Rectangle {
 					id: xpMeter
-					width: (parent.width - 6) * JFractons.fProgress() + 2; height: parent.height - 4
+					width: (parent.width - 6) * JFractons.progress() + 2; height: parent.height - 4
 					radius: 5
 					anchors {
 						left: parent.left
@@ -485,6 +485,15 @@ SceneBase {
 	onCorrectAnswer: {
 		addCombo();	//	increment the combo
 		
+		var combo = JStorage.combo();
+		
+		//	TOKENS
+		if (combo > 0 && combo % 10 == 0)	//	check that combo is a multiple of 10 greater than 0
+		{
+			JStorage.addTokens(1);
+			logEvent("+1 Token", "yellow", 10, "random");
+		}
+		
 		//	silence the addFractons if from lottery (will be used in multiplier)
 		if (!isFromLottery)
 			addFractons(rewardAmount);	//	give reward in fractons
@@ -500,15 +509,15 @@ SceneBase {
 		JGameAchievements.addProgressByName("studious v", 1);
 		
 		//	ACVM : sprinter
-		if (JStorage.combo() > JGameAchievements.getByName("sprinter i").progress)
+		if (combo > JGameAchievements.getByName("sprinter i").progress)
 			JGameAchievements.addProgressByName("sprinter i", 1);
-		if (JStorage.combo() > JGameAchievements.getByName("sprinter ii").progress)
+		if (combo > JGameAchievements.getByName("sprinter ii").progress)
 			JGameAchievements.addProgressByName("sprinter ii", 1);
-		if (JStorage.combo() > JGameAchievements.getByName("sprinter iii").progress)
+		if (combo > JGameAchievements.getByName("sprinter iii").progress)
 			JGameAchievements.addProgressByName("sprinter iii", 1);
-		if (JStorage.combo() > JGameAchievements.getByName("sprinter iv").progress)
+		if (combo > JGameAchievements.getByName("sprinter iv").progress)
 			JGameAchievements.addProgressByName("sprinter iv", 1);
-		if (JStorage.combo() > JGameAchievements.getByName("sprinter v").progress)
+		if (combo > JGameAchievements.getByName("sprinter v").progress)
 			JGameAchievements.addProgressByName("sprinter v", 1);
 		
 		//	ACVM : associate

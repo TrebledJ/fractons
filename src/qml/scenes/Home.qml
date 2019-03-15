@@ -108,7 +108,7 @@ SceneBase {
 			id: fractonDisplay
 			width: contentWidth + 10; height: parent.height
 			color: "yellow"
-			text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fCurrent + '/' + JFractons.fNextThresh() + " ƒ"
+			text: 'Level ' + JFractons.currentLevel() + '   ' + JFractons.fractons + '/' + JFractons.nextThresh() + " ƒ"
 			verticalAlignment: Text.AlignVCenter
 		}
 		
@@ -122,7 +122,7 @@ SceneBase {
 			
 			Rectangle {
 				id: xpMeter
-				width: (parent.width - 6) * JFractons.fProgress() + 2; height: parent.height - 4
+				width: (parent.width - 6) * JFractons.progress() + 2; height: parent.height - 4
 				radius: 5
 				anchors {
 					left: parent.left
@@ -300,7 +300,7 @@ SceneBase {
 				property int maxProgress: hoveredQuest === undefined ? 1 : hoveredQuest.maxProgress
 				
 				Rectangle {
-					width: parent.width * 0.75; height: parent.height
+					width: parent.width - progressText.width - progressRow.spacing; height: parent.height
 					radius: 4
 					color: "lightgoldenrodyellow"
 					
@@ -320,7 +320,7 @@ SceneBase {
 				
 				TextBase {
 					id: progressText
-					width: parent.width * 0.25; height: parent.height
+					width: contentWidth + 10; height: parent.height
 					
 					font.pointSize: 6
 					text: progressRow.progress + '/' + progressRow.maxProgress

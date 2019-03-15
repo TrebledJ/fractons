@@ -277,6 +277,24 @@ Item {
 		setValue("combo", amount);
 	}
 	
+	function tokens() {
+		return getValue("tokens");
+	}
+	
+	function addTokens(amount) {
+		if (amount === "" || isNaN(amount))
+			return;
+		
+		setValue("tokens", tokens() + amount);
+	}
+	
+	function setTokens(amount) {
+		if (amount === "" || isNaN(amount))
+			return;
+		
+		setValue("tokens", amount);
+	}
+	
 	function clearData() {
 		console.warn("Clearing data!");
 		storage.clearAll();

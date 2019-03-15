@@ -20,10 +20,14 @@ SceneBase {
 	property alias rewardsVisible: rewardsColumn.visible
 	property bool committed: true
 	
-	property int tokens: 5
+//	property int tokens
+	property int tokens: JFractons.tokens
 	
 	animationSmallerYBound: slotBackground.y + slotBackground.height
 	animationLargerYBound: height
+	
+	
+	onTokensChanged: JStorage.setTokens(tokens)
 	
 	Rectangle {
 		id: panel
@@ -316,7 +320,13 @@ SceneBase {
 	
 	onStateChanged: {
 		if (state === "show")
-			rewardsVisible = !committed;
+		{
+			//	set visibility to whether rewards have been committed
+			rewardsVisible = !committed;	//	TODO deprecate committment. Commit immediately
+			
+			//	refresh tokens
+			tokens = JStorage.tokens();
+		}
 	}
 	
 	function setGradientAnimation(easingType, duration) {
@@ -464,6 +474,10 @@ SceneBase {
 		//	send rewards with multiplier
 		JFractons.addFractons(rewardFractons * multiplier);
 		tokens += rewardTokens * multiplier;
+		
+		//	ACVM : lucky
+		if (rewardFractons * multiplier >= 100)
+			JGameAchievements.addProgressByName("lucky", 1);
 		
 		committed = true;
 	}

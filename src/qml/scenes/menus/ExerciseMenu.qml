@@ -26,10 +26,10 @@ SceneBase {
 		ListElement { role_stars: 0; role_min_level: 7; role_mode: "Operations" }	//	Standard equation solving, given two fractions on the lhs and an operation
 		
 		//	TODO implement these other modes
-		ListElement { role_stars: 0; role_min_level: 9; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
+//		ListElement { role_stars: 0; role_min_level: 9; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
 		
-		ListElement { role_stars: 0; role_min_level: 12; role_mode: "Fill" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
-		ListElement { role_stars: 0; role_min_level: 15; role_mode: "Token" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
+//		ListElement { role_stars: 0; role_min_level: 12; role_mode: "Fill" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
+//		ListElement { role_stars: 0; role_min_level: 15; role_mode: "Token" }		//	create a grid of tiles and highlight tiles to create a fraction out of the whole
 //		ListElement { role_stars: 0; role_min_level: 15; role_mode: "Rush" }		//	timed ... what exercise?
 		
 //		ListElement { role_stars: 0; role_min_level: -1; role_mode: "Pie" }		//	hidden mode, accessible from lottery but not from menu
