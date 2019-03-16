@@ -6,7 +6,7 @@ import QtQuick 2.0
 Item {
 //	id: item
 	
-	signal levelUp(int level)
+	signal levelUp(int level, int previous)
 	
 	property int fractons: -1
 	property int levelingConstant: -1	//	also the fractons threshold for Level 1
@@ -27,7 +27,7 @@ Item {
 		//	JStorage.setValue("fLevelingConstant", fLevelingConstant);
 	}
 	
-	onLevelUp: /*int level*/ {
+	onLevelUp: /*int level, int previous*/ {
 		console.warn("Player leveled up!");
 //		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
 		
@@ -45,6 +45,11 @@ Item {
 		JGameNotifications.sendMessage('Level Up!',
 									   "Congratulations, you've levelled up to Level " + level + '!',
 									   5);
+		
+		//	add tokens for each level surpassed
+		for (var l = previous + 1; l <= level; l++)
+			JStorage.addTokens(l);
+		
 	}
 	
 	function addFractons(amount) {
@@ -65,8 +70,10 @@ Item {
 		
 		
 		//	check if difference caused level-up
-		if (levelAt(fractons - amount) < levelAt(fractons))
-			levelUp(levelAt(fractons));	//	emit the level up signal
+		var previous = levelAt(fractons - amount);
+		var current = currentLevel();
+		if (previous < current)
+			levelUp(current, previous);	//	emit the level up signal
 		
 	}
 	

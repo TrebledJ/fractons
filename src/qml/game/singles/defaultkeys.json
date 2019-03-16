@@ -365,7 +365,7 @@
 			"multiplier": {
 				"name": "Big Multiplier",
 				"description": "Get a multiplier of 5 in a spin.",
-				"hint": "Only possible in a spin with 3 stars or 3 πs.",
+				"hint": "Only possible in a spin with 3es, 3is, or 3 πs.",
 				"group": "lottery",
 				"reward": 60,
 				"progress": 0,

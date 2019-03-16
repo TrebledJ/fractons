@@ -370,7 +370,9 @@ SceneBase {
 		
 		if (count.fracton === 3) { rewardFractons = 300; }
 		else if (count.token === 3) { rewardTokens = 5; }
-		else if (count.i === 3) { rewardFractons = 10; rewardTokens = 1; }
+		else if (count.i === 3) { rewardFractons = 10; rewardTokens = 1; multiplier += 3; }
+		else if (count.e === 3) { rewardFractons = 27; multiplier += 3; }
+		else if (count.pi === 3) { rewardFractons = 31; multiplier += 3; }
 //		else if (count.one === 3) { rewardFractons = 1; }
 //		else if (count.fracton === 2 && count.star === 1) { rewardFractons = 200; }
 		else if (count.fracton === 2 && count.one === 1) { rewardFractons = 50; }
@@ -385,7 +387,6 @@ SceneBase {
 		else if (count.token === 2) { rewardTokens = 2; }
 		else if (count.token === 1) { rewardTokens = 1; }
 		
-		if (count.pi === 3) { multiplier += 3; }
 //		multiplier += count.star;
 		
 		rewardFractons += count.one;	// +1 fracton for each 1
