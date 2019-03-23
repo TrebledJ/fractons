@@ -20,14 +20,17 @@ SceneBase {
 	property alias rewardsVisible: rewardsColumn.visible
 	property bool committed: true
 	
-//	property int tokens
-	property int tokens: JFractons.tokens
+	property int tokens
 	
 	animationSmallerYBound: slotBackground.y + slotBackground.height
 	animationLargerYBound: height
 	
 	
 	onTokensChanged: JStorage.setTokens(tokens)
+	
+	Component.onCompleted: {
+		tokens = JStorage.tokens();
+	}
 	
 	Rectangle {
 		id: panel

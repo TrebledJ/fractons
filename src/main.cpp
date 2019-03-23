@@ -56,8 +56,8 @@ int main(int argc, char *argv[])
 //	QObject::connect(&manager, &AchievementsManager::sendNotification, &notifications, 
 //					 &DesktopNotifications::notify);
 	
-	QuestEngine questEngine;
-	engine.rootContext()->setContextProperty("jQuestEngine", &questEngine);
+//	QuestEngine questEngine;
+//	engine.rootContext()->setContextProperty("jQuestEngine", &questEngine);
 	
 	
 //	engine.load(QUrl(felgo.mainQmlFileName()));	// uncomment for publishing

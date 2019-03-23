@@ -10,11 +10,11 @@ import "../../js/Utils.js" as JUtils
 /**
   The quest keys are given by
   
-  * fractons	//	increment implemented
-  * level		//	increment implemented
-  * questions	//	TODO problem
-  * achievement	//	increment implemented
-  * lottery		//	increment implemented
+  * fractons
+  * level
+  * questions
+  * achievement
+  * lottery
   
   */
 
@@ -22,7 +22,7 @@ Item {
 	id: item
 	
 	signal questsModified	//	when inner elements of each quest have been changed
-	signal questsPurged		//	when entire quest objects have been changed
+//	signal questsPurged		//	when entire quest objects have been changed
 	
 	signal questCompleted(string text, int reward)
 	
@@ -50,49 +50,61 @@ Item {
 	Component.onCompleted: {
 		console.warn("Reloading JQuests...");
 		
-		var today = JStorage.getValue("todays_quests");
-		
-		//	check if no quests were saught
-		if (Object.keys(today).length === 0)
+		/*
+		//	retrieve LPT
+			if LPT is less than most recent midnight:
+				-> purge quests
+					-> choose 3 random quests
+					-> store quests
+					-> update quests into local property
+				
+				-> calculate time remaining
+				-> update time remaining into local property
+			
+		*/
+		var lpt = JStorage.getValue("quests/last_purge_time");
+		console.warn("Last Purge Time:", lpt);
+		if (lpt === undefined)
 		{
-			console.log("[Quests] Found 'today' to be an empty object. Loading new quests...")
-			loadNewQuests();
+			console.error("[Quests] quests/last_purge_time returned undefined from storage.");
 			return;
 		}
 		
-		var lastPurge = JStorage.getValue("last_quest_purge");
-		if (lastPurge === undefined)
-			console.error("[Quests] lastPurge is undefined...");
-		jQuestEngine.checkLastPurge(lastPurge);
+		lpt = new Date(lpt);
 		
-		//	else, unpack quests
-		quests = today;
+		var midnight = toMidnight(new Date());
+
+		//	check lpt is before midnight
+		if (lpt < midnight)
+		{
+			//	1. purge quests
+			purgeQuests();
+			
+			//	a. choose 3 random quests
+			//	b. store new quests
+			//	c. update quests into local property
+		}
+		else
+		{
+			//	retrieve quests from storage
+			quests = JStorage.getValue("quests/current");
+		}
 		
-		questsModified();
+		//	2. calculate time remaining
+		//	3. update remaining time into local property and store
+		
 	}
 	
-	Connections {
-		target: jQuestEngine
-		
-		onLoadNewQuests: {
-			loadNewQuests();
-		}
+	onQuestsChanged: {
+		console.log("Quests Changed");
+		debug();
 	}
 	
 	onQuestsModified: {
 		console.log("Quests Modified");
-//		debug();
-		console.warn("Modified Quests:", JSON.stringify(quests));
+		debug();
 		
-		JStorage.setValue("todays_quests", quests);
-	}
-	
-	onQuestsPurged: {
-		console.log("Quests Purged");
-		
-		var lastPurge = jQuestEngine.getLastPurge();
-		console.log("[Quests] Setting last quest purge to", lastPurge);
-		JStorage.setValue("last_quest_purge", lastPurge);
+		JStorage.setValue("quests/current", quests);
 	}
 	
 	onQuestCompleted: /*string text, int reward*/ {
@@ -105,23 +117,30 @@ Item {
 		console.log("Quests:", JSON.stringify(quests));
 	}
 	
-	function loadNewQuests() {
-		console.log("[Quests.loadNewQuests] Loading new quests...");
+	function toMidnight(date) {
+		date.setHours(0); date.setMinutes(0); date.setSeconds(0); date.setMilliseconds(0);
 		
-		var questObj = JStorage.getValue("quests");
+		return date;
+	}
+	
+	function purgeQuests() {
+		console.warn("Purging Quests");
+		
+		//	i. retrieve all quests from storage
+		var questObj = JStorage.getValue("quests/all");
 		
 		var values = [];
 		
 		//	fractons quest
 		questObj.fractons.maxProgress = 5*JMath.randI(12, 20);
-		questObj.fractons.name = questObj.fractons.name.arg(questObj.fractons.maxProgress);
+		questObj.fractons.text = questObj.fractons.text.arg(questObj.fractons.maxProgress);
 		values.push("fractons");
 
 		//	questions quest
-//		var randomMode = JMath.choose(["any", "balance", "conversion", "truth", "operations"]);	//	TODO implement other modes
-//		values.push(questObj.questions.arg(5*JMath.randI(3,5)).arg(randomMode));
+		//	var randomMode = JMath.choose(["any", "balance", "conversion", "truth", "operations"]);	//	TODO implement other modes
+		//	values.push(questObj.questions.arg(5*JMath.randI(3,5)).arg(randomMode));
 		questObj.questions.maxProgress = 5*JMath.randI(5, 10);
-		questObj.questions.name = questObj.questions.name.arg(questObj.questions.maxProgress).arg("any");
+		questObj.questions.text = questObj.questions.text.arg(questObj.questions.maxProgress).arg("any");
 		values.push("questions");
 		
 		//	get-one achievements quest
@@ -133,7 +152,7 @@ Item {
 		if (JFractons.currentLevel() >= 15)
 		{
 			questObj.lottery.maxProgress = JMath.randI(5, 10);
-			questObj.lottery.name = questObj.lottery.name.arg(questObj.lottery.maxProgress);
+			questObj.lottery.text = questObj.lottery.text.arg(questObj.lottery.maxProgress);
 			values.push("lottery");
 		}
 		
@@ -144,22 +163,56 @@ Item {
 			values.push("level");
 		}
 		
+		//	A. choose 3 random quests
 		//	map to a list of pairs of keys and values
 		var keys = JMath.choose(values, 3);
 		
-		quests = {};	//	clear previous quests
+		var temp = {};	//	clear previous quests
 		for (var i in keys)
 		{
-			quests[keys[i]] = questObj[keys[i]];
+			temp[keys[i]] = questObj[keys[i]];
 		}
+		
+		//	B. store new quests
+		JStorage.setValue("quests/current", temp);
+		
+		JStorage.setValue("quests/last_purge_time", new Date().toISOString());
+		
+		//	C. update quests into local property
+		quests = temp;
 		
 		console.warn("New Quests:", JSON.stringify(quests));
 		
-		jQuestEngine.setLastPurge(new Date());
+	}
+	
+	function timeToPurge() {
+		//	2. calculate time remaining
+		//	3. update remaining time into local property and store
+		var midnight = toMidnight(new Date());
+		var nextMidnight = midnight.setDate(midnight.getDate() + 1);
+		var currentTime = new Date();
+		
+		var interval = new Date(nextMidnight - currentTime);
+		
+		var h = interval.getUTCHours();
+		var m = interval.getUTCMinutes();
+		var ret = '';
+		
+		if (h != 0)
+		{
+			ret += h + ' hour';
+			if (h != 1)
+				ret += 's';
+		}
 
-		//	emit signals
-		questsModified();
-		questsPurged();
+		if (m != 0)
+		{
+			ret += ' ' + m + ' minute';
+			if (m != 1)
+				ret += 's';
+		}
+
+		return ret;
 	}
 	
 	function getQuestByIndex(index) {
@@ -185,14 +238,6 @@ Item {
 		}
 		if (amount === 0)
 			return;
-		
-//		if (key === "questions")
-//		{
-//			var modeName = param;
-//			if (modeName === "")
-//		}
-		
-		
 		
 		//	check progress hasn't been exceeded
 		if (quests[key].progress >= quests[key].maxProgress)

@@ -486,40 +486,40 @@
 	"stats_questions": [
 		
 	],
-	"quests": {
+	"quests/all": {
 		"fractons": {
-			"name": "Earn %1 fractons.",
+			"text": "Earn %1 fractons.",
 			"progress": 0,
 			"maxProgress": "dependent",
 			"isCollected": false
 		},
 		"level": {
-			"name": "Level up once.",
+			"text": "Level up once.",
 			"progress": 0,
 			"maxProgress": 1,
 			"isCollected": false
 		},
 		"questions": {
-			"name": "Correctly answer %1 questions in %2 mode.",
+			"text": "Correctly answer %1 questions in %2 mode.",
 			"progress": 0,
 			"maxProgress": "dependent",
 			"isCollected": false
 		},
 		"achievement": {
-			"name": "Earn 1 achievement.",
+			"text": "Earn 1 achievement.",
 			"progress": 0,
 			"maxProgress": 1,
 			"isCollected": false
 		},
 		"lottery": {
-			"name": "Spin the lottery wheel %1 times.",
+			"text": "Spin the lottery wheel %1 times.",
 			"progress": 0,
 			"maxProgress": "dependent",
 			"isCollected": false
 		}
 	},
-	"todays_quests": {
+	"quests/current": {
 		
 	},
-	"last_quest_purge": "1970-01-01 00:00:00"
+	"quests/last_purge_time": "1970-01-01T00:00:00Z"
 }

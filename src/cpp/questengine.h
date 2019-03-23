@@ -5,6 +5,17 @@
 #include <QTimer>
 #include <QDateTime>
 
+/**
+ * @brief The QuestEngine class
+ * 
+ * How Quests Work
+ * + All possible are stored in storage (via QML).
+ * + The selected daily quests are stored in storage.
+ * + The datetime of the last quest purge is stored in storage.
+ * + 
+ * + 
+ */
+
 class QuestEngine : public QObject
 {
 	Q_OBJECT

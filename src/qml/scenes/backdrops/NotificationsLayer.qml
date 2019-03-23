@@ -32,7 +32,7 @@ Scene {
 		property int seconds
 		property bool hide: true
 		
-		border.width: 5
+		border.width: 3
 		border.color: "lightgoldenrodyellow"
 		
 		color: "navy"

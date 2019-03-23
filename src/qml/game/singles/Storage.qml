@@ -304,7 +304,7 @@ Item {
 		JFractons.loadFractons();
 		JGameAchievements.loadAchievements();
 		JGameStatistics.loadStatistics();
-		JQuests.loadNewQuests();
+		JQuests.purgeQuests();
 	}
 	
 }

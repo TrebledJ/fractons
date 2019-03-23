@@ -36,12 +36,12 @@ Item {
 		
 	Component.onCompleted: {
 		//	basic setup and data retrieval
-		console.warn("Reloading GameAchievements...");
+		console.warn("Reloading JGameAchievements...");
 		
 		//	connect onChanged signal after setting achievements
 		//	whenever achievements changes, update storage
 		var listener = function() {
-			console.warn("[GameAchievements] Achievements changed!");
+//			console.warn("[GameAchievements] Achievements changed!");
 			
 			var encoded = priv.encodeAchievements();
 //			console.debug(JSON.stringify(encoded));
@@ -132,8 +132,8 @@ Item {
 				else
 				{
 					var acvm = sub;
-					console.warn("Found achievement", acvm.name, "... Adding...");
-					console.log("[GameAchievements] Adding achievement [" + acvm.name + "]")
+//					console.warn("Found achievement", acvm.name, "... Adding...");
+//					console.log("[GameAchievements] Adding achievement [" + acvm.name + "] to manager.")
 					addAchievement(acvm.name, acvm.description, acvm.hint, acvm.group, acvm.reward,
 								   acvm.progress, acvm.maxProgress, acvm.isCollected);
 				}

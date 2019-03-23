@@ -199,10 +199,8 @@ SceneBase {
 		
 		QuestButton {
 			id: questButton1
-//			completed: true
 			quest: JQuests.getQuestByIndex(0)
 			onEntered: {
-//				questText.text = quest.name;
 				hoveredQuest = quest;
 			}
 		}
@@ -211,7 +209,6 @@ SceneBase {
 			id: questButton2
 			quest: JQuests.getQuestByIndex(1)
 			onEntered: {
-//				questText.text = quest.name;
 				hoveredQuest = quest;
 			}
 		}
@@ -220,18 +217,15 @@ SceneBase {
 			id: questButton3
 			quest: JQuests.getQuestByIndex(2)
 			onEntered: {
-//				questText.text = quest.name;
 				hoveredQuest = quest;
 			}
 		}
 		
-		
-		//	temporary
+		//	temporary TODO remove
 		BubbleButton {
 			width: height; height: 40
 			onClicked: {
-//				JQuests.debug();
-				JQuests.loadNewQuests();
+				JQuests.debug();
 			}
 			text: "+"
 			visible: false
@@ -239,8 +233,15 @@ SceneBase {
 		
 		Connections {
 			target: JQuests
-			onQuestsModified: {
+			
+			onQuestsChanged: {
 				//	automatically update quests when modified
+				questButton1.quest = JQuests.getQuestByIndex(0);
+				questButton2.quest = JQuests.getQuestByIndex(1);
+				questButton3.quest = JQuests.getQuestByIndex(2);
+			}
+			
+			onQuestsModified: {
 				questButton1.quest = JQuests.getQuestByIndex(0);
 				questButton2.quest = JQuests.getQuestByIndex(1);
 				questButton3.quest = JQuests.getQuestByIndex(2);
@@ -286,7 +287,7 @@ SceneBase {
 				font.pixelSize: 10
 				color: "yellow"
 				
-				text: hoveredQuest === undefined ? "" : hoveredQuest.name
+				text: hoveredQuest === undefined ? "" : hoveredQuest.text
 			}
 			
 			//	holds the progress bar and progress text
@@ -347,12 +348,13 @@ SceneBase {
 		
 		font.pointSize: 8
 		
+		//	updates text every minute
 		Timer {
 			running: true
 			triggeredOnStart: true
 			interval: 60000
 			repeat: true
-			onTriggered: parent.text = 'New quests arrive in ' + jQuestEngine.getRemainingTime() + '.'
+			onTriggered: parent.text = 'New quests arrive in ' + JQuests.timeToPurge() + '.'
 		}
 	}
 	
