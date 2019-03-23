@@ -190,25 +190,21 @@ GameWindow {
 	Modes.BalanceMode {
 		id: modeBalanceScene
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
-		onBackToLottery: { var s = gameWindow.state; gameWindow.state = "lottery";   lotteryScene.loadFromExercise(s, correct, amount, unit); }
 	}
 	
 	Modes.ConversionMode {
 		id: modeConversionScene
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
-		onBackToLottery: { var s = gameWindow.state; gameWindow.state = "lottery";   lotteryScene.loadFromExercise(s, correct, amount, unit); }
 	}
 	
 	Modes.TruthMode {
 		id: modeTruthScene
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
-		onBackToLottery: { var s = gameWindow.state; gameWindow.state = "lottery";   lotteryScene.loadFromExercise(s, correct, amount, unit); }
 	}
 	
 	Modes.OperationsMode {
 		id: modeOperationsScene
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
-		onBackToLottery: { var s = gameWindow.state; gameWindow.state = "lottery";   lotteryScene.loadFromExercise(s, correct, amount, unit); }
 	}
 	
 	
@@ -270,13 +266,8 @@ GameWindow {
 		console.log("Going to exercise", mode, "with a", difficulty, "difficulty.");
 		
 		
-		var fromLottery = gameWindow.state === "lottery";
-		
 		//	set state to mode
 		gameWindow.state = "mode_" + mode.toLowerCase();
-		
-		//	update isFromLottery ModesBase var
-		activeScene.isFromLottery = fromLottery;
 		
 		//	set difficulty
 		if (difficulty === "" || difficulty === undefined || activeScene.difficulties.length === 0)
@@ -298,13 +289,6 @@ GameWindow {
 			fontSize: fontSize,
 		};
 		
-		if (text.substr(0, 7) === "#banner")
-		{
-			obj.text = text.substr(7);
-			backgroundLayer.bannerQueue.push(obj);
-			return;
-		}
-
 		backgroundLayer.animationQueue.push(obj);
 	}
 	

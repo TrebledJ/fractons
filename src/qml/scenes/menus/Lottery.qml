@@ -18,7 +18,6 @@ SceneBase {
 	property int rewardFractons: 0
 	property int rewardTokens: 0
 	property alias rewardsVisible: rewardsColumn.visible
-	property bool committed: true
 	
 	property int tokens
 	
@@ -211,10 +210,10 @@ SceneBase {
 		anchors.topMargin: 30
 		anchors.left: slotBackground.left
 		
-		TextBase {
-			text: "Reward:"
+//		TextBase {
+//			text: "Reward:"
 //			visible: rewardFractonsText.visible
-		}
+//		}
 		
 		Row {
 			spacing: 5
@@ -229,24 +228,6 @@ SceneBase {
 				id: rewardMultiplierText
 				text: multiplier
 				font.pointSize: 16
-			}
-			
-			Item {
-				width: 50; height: 1
-			}
-			
-			BubbleButton {
-				id: gotoExerciseButton
-				property var exerciseList: []
-				
-				width: 100; height: 40
-				text: "Go to Exercise"
-				
-				visible: exerciseList.length !== 0
-				
-				onClicked: {
-					gotoExercise(JMath.choose(exerciseList))
-				}
 			}
 		}
 		
@@ -324,9 +305,6 @@ SceneBase {
 	onStateChanged: {
 		if (state === "show")
 		{
-			//	set visibility to whether rewards have been committed
-			rewardsVisible = !committed;	//	TODO deprecate committment. Commit immediately
-			
 			//	refresh tokens
 			tokens = JStorage.tokens();
 		}
@@ -346,7 +324,6 @@ SceneBase {
 		rewardFractons = 0;
 		rewardTokens = 0;
 		multiplier = 1;
-		committed = false;
 		
 		if (items[0].type === items[1].type && items[1].type === items[2].type)
 		{
@@ -394,40 +371,6 @@ SceneBase {
 		
 		rewardFractons += count.one;	// +1 fracton for each 1
 		
-//		gotoExerciseButton.exerciseList = [];
-		
-//		if (count.star === 3)
-//		{
-//			//	random question
-//			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
-//		}
-		
-//		if (count.star === 2 && count.pi === 1)
-//		{
-//			//	random pie question
-//			gotoExerciseButton.exerciseList = ["Pie"];
-//		}
-		
-//		if (count.star === 2 && count.token === 1)
-//		{
-//			//	random token question
-//			gotoExerciseButton.exerciseList = ["Token"];
-//		}
-		
-//		if (count.star === 2)
-//		{
-//			//	random question
-//			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
-//		}
-		
-//		if (count.star === 1 && (count.token === 2 || count.one === 2 || count.zero === 2 || count.pi === 2 || count.e === 2 || count.i === 2))
-//		{
-//			//	random question
-//			gotoExerciseButton.exerciseList = ["Balance", "Conversion", "Operations", "Truth"];
-//		}
-		
-//		gotoExerciseButton.exerciseList = ["Balance"];
-		
 		
 		//	show rewards
 		rewardsVisible = true;
@@ -445,31 +388,10 @@ SceneBase {
 		if (multiplier >= 5)
 			JGameAchievements.addProgressByName("multiplier", 1);
 		
-		//	TODO implement LUCKY achievement (earn 1000 fractons from the lottery)
-		
 		//	ACVM : jackpot
 		if (count.fractons === 3)
 			JGameAchievements.addProgressByName("jackpot", 1);
 		
-		
-		//	premature commitment
-		if (gotoExerciseButton.exerciseList.length === 0)
-			commitRewards();
-	}
-	
-	
-	function loadFromExercise(exerciseName, isCorrect, fractonsEarned) {
-		if (isCorrect)
-		{
-			rewardFractons += fractonsEarned;
-			rewardsVisible = true;
-			
-			gotoExerciseButton.exerciseList = [];
-			commitRewards();
-		}
-	}
-	
-	function commitRewards() {
 		console.log("Reward:");
 		console.log("Multiplier --", multiplier);
 		console.log("Fractons --", rewardFractons);
@@ -483,7 +405,6 @@ SceneBase {
 		if (rewardFractons * multiplier >= 100)
 			JGameAchievements.addProgressByName("lucky", 1);
 		
-		committed = true;
 	}
 	
 }

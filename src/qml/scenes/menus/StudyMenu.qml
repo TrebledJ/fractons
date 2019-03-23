@@ -31,8 +31,9 @@ SceneBase {
 		id: lessonView
 		
 		anchors {
-			fill: parent
-			leftMargin: 80; rightMargin: 10
+			top: banner.bottom; bottom: parent.bottom
+			left: parent.left; leftMargin: 80
+			right: parent.right; rightMargin: 10
 		}
 		
 		topMargin: 10
@@ -49,32 +50,11 @@ SceneBase {
 		focus: true
 		model: lessonModel
 		delegate: lessonDelegate
-//		header: headerDelegate
 		
 		ScrollBar.vertical: ScrollBar {
 			anchors.left: lessonView.right
 			active: true
 		}
-		
-//		Component {
-//			id: headerDelegate
-			
-//			Item {
-//				z: 3
-//				width: lessonView.width - 10; height: 40
-				
-//				Rectangle {
-//					anchors.fill: parent
-//					color: "yellow"
-					
-//					TextBase {
-//						anchors.centerIn: parent
-//						text: "Lessons"
-//					}
-//				}
-//			}
-			
-//		}	//	Component: headerDelegate
 		
 		Component {
 			id: lessonDelegate
@@ -130,4 +110,13 @@ SceneBase {
 			}	//	Row: row
 		}	//	Component: lessonDelegate
 	}	//	ListView: lessonView
+	
+	
+	Rectangle {
+		id: banner
+		width: parent.width; height: 50
+		anchors.top: parent.top
+		color: "navy"
+	}
+	
 }

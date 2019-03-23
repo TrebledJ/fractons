@@ -72,7 +72,6 @@ SceneBase {
 //	signal backButtonClicked	//	signal provided by SceneBase
 	signal goButtonClicked
 	signal difficultyChanged(int index, string difficulty)
-	signal backToLottery(bool correct, int amount, string unit)
 	signal correctAnswer
 	
 	property var lastQuestions: ({})
@@ -95,8 +94,6 @@ SceneBase {
 	
 	property int rewardAmount: 0
 	property string unit	//	"fractons" or "tokens"
-	
-	property bool isFromLottery: false
 	
 	
 	useDefaultBackButton: false
@@ -215,7 +212,7 @@ SceneBase {
 					
 					text: "Back"
 					
-					onClicked: isFromLottery ? scene.backToLottery(false, rewardAmount, unit) : scene.backButtonClicked()
+					onClicked: scene.backButtonClicked()
 						
 				}
 				
@@ -473,11 +470,6 @@ SceneBase {
 		JGameStatistics.incDailyAttempted();
 //		JGameStatistics.pushQuestion(modeName, difficulties[difficultyIndex], question, input, answer, isCorrect);	//	TODO uncomplete
 		
-		if (isFromLottery)
-		{
-			backToLottery(isCorrect, rewardAmount, unit);
-		}
-		
 		clearInput();
 		generateRandomQuestion();
 	}
@@ -494,9 +486,7 @@ SceneBase {
 			logEvent("+1 Token", "yellow", 10, "random");
 		}
 		
-		//	silence the addFractons if from lottery (will be used in multiplier)
-		if (!isFromLottery)
-			addFractons(rewardAmount);	//	give reward in fractons
+		addFractons(rewardAmount);	//	give reward in fractons
 		
 		//	QUEST : key = questions
 		JQuests.addQuestProgressByKey("questions", 1, modeName);
