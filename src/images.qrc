@@ -17,5 +17,7 @@
         <file>assets/icons/newton.png</file>
         <file>assets/icons/cowboy-hat.png</file>
         <file>assets/icons/cowboy-hat-tick.png</file>
+        <file>assets/img/right-arrow.png</file>
+        <file>assets/img/right-arrow-navy.png</file>
     </qresource>
 </RCC>

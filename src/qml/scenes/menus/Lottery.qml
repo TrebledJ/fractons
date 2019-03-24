@@ -1,5 +1,5 @@
 import Felgo 3.0
-import QtQuick 2.0
+import QtQuick 2.11
 import QtGraphicalEffects 1.0
 
 import "../backdrops"
@@ -17,7 +17,6 @@ SceneBase {
 	property int multiplier: 1
 	property int rewardFractons: 0
 	property int rewardTokens: 0
-	property alias rewardsVisible: rewardsColumn.visible
 	
 	property int tokens
 	
@@ -118,7 +117,6 @@ SceneBase {
 			anchors.fill: slotBackground
 			height: defaultItemHeight + 20
 			reelsAnchors.margins: 30
-	//		visible: false
 			
 			property int itemSize: 60
 			
@@ -130,19 +128,10 @@ SceneBase {
 			
 			model: SlotMachineModel {
 				symbols: {
-//					'fracton':	{ frequency: 1, data: { source: '', alt: 'ƒ' } },
-//					'token':	{ frequency: 1, data: { source: 'qrc:/assets/icons/coins', alt: 'T' } },
-//					'star':		{ frequency: 1, data: { source: 'qrc:/assets/icons/star', alt: 's' } },
-//					'one':		{ frequency: 3, data: { source: '', alt: '1' } },
-//					'zero':		{ frequency: 3, data: { source: '', alt: '0' } },
-//					'pi':		{ frequency: 2, data: { source: '', alt: 'π' } },
-//					'e':		{ frequency: 2, data: { source: '', alt: 'e' } },
-//					'i':		{ frequency: 2, data: { source: '', alt: 'i' } },
 					'fracton':	{ frequency: 1, data: { source: '', alt: 'ƒ' } },
 					'token':	{ frequency: 2, data: { source: 'qrc:/assets/icons/coins', alt: 'T' } },
-//					'star':		{ frequency: 2, data: { source: 'qrc:/assets/icons/star', alt: 's' } },
-					'one':		{ frequency: 4, data: { source: '', alt: '1' } },
-					'zero':		{ frequency: 4, data: { source: '', alt: '0' } },
+					'one':		{ frequency: 3, data: { source: '', alt: '1' } },
+					'zero':		{ frequency: 3, data: { source: '', alt: '0' } },
 					'pi':		{ frequency: 2, data: { source: '', alt: 'π' } },
 					'e':		{ frequency: 2, data: { source: '', alt: 'e' } },
 					'i':		{ frequency: 2, data: { source: '', alt: 'i' } },
@@ -203,67 +192,98 @@ SceneBase {
 	}
 	
 	
-	Column {
-		id: rewardsColumn
-		width: slotBackground.width
-		anchors.top: slotBackground.bottom
-		anchors.topMargin: 30
-		anchors.left: slotBackground.left
-		
-//		TextBase {
-//			text: "Reward:"
-//			visible: rewardFractonsText.visible
-//		}
-		
-		Row {
-			spacing: 5
-			
-			
-			TextBase {
-				text: 'Multiplier: ×'
-				font.pointSize: 16
-			}
-			
-			TextBase {
-				id: rewardMultiplierText
-				text: multiplier
-				font.pointSize: 16
-			}
-		}
-		
-		Row {
-			spacing: 10
-			
-			TextBase {
-				id: rewardFractonsText
-				text: rewardFractons
-				font.pointSize: 16
-			}
-			
-			TextBase {
-				text: ' ƒ'
-				font.pointSize: 16
-			}
-		}
-		
-		Row {
-			spacing: 10
-			
-			TextBase {
-				id: rewardTokensText
-				text: rewardTokens
-				font.pointSize: 16
-			}
-			
-			Image {
-				width: height; height: parent.height
-				source: "qrc:/assets/icons/coins"
-			}
-		}
-		
+	TextBase {
+		id: displayText
+		anchors.centerIn: displayWidget
+		color: "navy"
+		visible: !displayWidget.visible && text != ""
 	}
 	
-	
+	Rectangle {
+		id: displayWidget
+		
+		width: slotBackground.width + 60; height: 80
+		anchors {
+			top: slotBackground.bottom; topMargin: 10
+			horizontalCenter: slotBackground.horizontalCenter
+		}
+		radius: 5
+		
+		color: "transparent"
+		visible: !slotMachine.spinning && (rewardFractons || rewardTokens)
+		
+		property color textColor: "navy"
+		
+		Row {
+			anchors.centerIn: parent
+			spacing: 30
+			
+			Column {
+				TextBase {
+					text: rewardFractons + '   ƒ'
+					font.pointSize: 18
+					color: "navy"
+					visible: rewardFractons
+				}
+				
+				Row {
+					spacing: 10
+					TextBase {
+						text: rewardTokens
+						font.pointSize: 18
+						color: "navy"
+						visible: rewardTokens
+					}
+					Image {
+						width: height; height: parent.height
+						source: "qrc:/assets/icons/coins"
+					}
+				}
+				
+			}
+			
+			Column {
+				spacing: -15
+				
+				TextBase {
+					anchors.horizontalCenter: parent.horizontalCenter
+					text: '×' + multiplier
+					font.italic: true
+				}
+				
+				Image {
+					width: 80; height: 30
+					mipmap: true
+					source: 'qrc:/assets/img/right-arrow-navy.png'
+				}
+				
+				
+			}
+
+			Column {
+				TextBase {
+					text: rewardFractons * multiplier + '   ƒ'
+					font.pointSize: 18
+					color: "navy"
+					visible: rewardFractons
+				}
+				
+				Row {
+					spacing: 10
+					TextBase {
+						text: rewardTokens * multiplier
+						font.pointSize: 18
+						color: "navy"
+						visible: rewardTokens
+					}
+					Image {
+						width: height; height: parent.height
+						source: "qrc:/assets/icons/coins"
+					}
+				}
+			}
+		}
+	}
 	
 	onGoButtonClicked: {
 		if (slotMachine.stopping)
@@ -275,7 +295,7 @@ SceneBase {
 		{
 			if (tokens <= 0)
 			{
-				console.warn("Not enough tokens.");
+				displayText.text = "Not enough tokens.";
 				return;
 			}
 			
@@ -289,7 +309,7 @@ SceneBase {
 				setGradientAnimation(Easing.OutInBack, 5000);
 			
 			//	silence reward texts
-			rewardsVisible = false;
+			displayText.text = "";
 
 			//	compute sum
 			var obj = slotMachine.model.symbols;
@@ -336,7 +356,6 @@ SceneBase {
 		var count = {
 			fracton: 0,
 			token: 0,
-//			star: 0,
 			one: 0,
 			zero: 0,
 			pi: 0,
@@ -349,32 +368,20 @@ SceneBase {
 		count[items[2].type]++;
 		
 		if (count.fracton === 3) { rewardFractons = 300; }
-		else if (count.token === 3) { rewardTokens = 5; }
-		else if (count.i === 3) { rewardFractons = 10; rewardTokens = 1; multiplier += 3; }
-		else if (count.e === 3) { rewardFractons = 27; multiplier += 3; }
-		else if (count.pi === 3) { rewardFractons = 31; multiplier += 3; }
-//		else if (count.one === 3) { rewardFractons = 1; }
-//		else if (count.fracton === 2 && count.star === 1) { rewardFractons = 200; }
+		else if (count.token === 3) { rewardTokens = 3; }
+		else if (count.i === 3) { rewardFractons = 15; multiplier += 3; }
+		else if (count.e === 3) { rewardFractons = 10; rewardTokens = 1; multiplier += 3; }
+		else if (count.pi === 3) { rewardFractons = 5; rewardTokens = 2; multiplier += 3; }
+		else if (count.one === 3) { rewardFractons = 3; }
+		else if (count.zero === 3) { rewardFractons = 1; }
 		else if (count.fracton === 2 && count.one === 1) { rewardFractons = 50; }
 		else if (count.fracton === 2 && count.pi === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.e === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.i === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.token === 1) { rewardFractons = 20; rewardTokens = 1; }
-//		else if (count.fracton === 1 && count.star === 2) { rewardFractons = 50; }
 		else if (count.fracton === 1 && count.one === 2) { rewardFractons = 25; }
 		else if (count.fracton === 1 && count.token === 2) { rewardFractons = 5; rewardTokens = 2; }
 		else if (count.pi === 1 && count.e === 1 && count.i === 1) { rewardFractons = 100; }
-		else if (count.token === 2) { rewardTokens = 2; }
-		else if (count.token === 1) { rewardTokens = 1; }
-		
-//		multiplier += count.star;
-		
-		rewardFractons += count.one;	// +1 fracton for each 1
-		
-		
-		//	show rewards
-		rewardsVisible = true;
-
 		
 		//	ACVM : binary
 		if (count.zero + count.one === 3)
@@ -392,14 +399,14 @@ SceneBase {
 		if (count.fractons === 3)
 			JGameAchievements.addProgressByName("jackpot", 1);
 		
-		console.log("Reward:");
-		console.log("Multiplier --", multiplier);
-		console.log("Fractons --", rewardFractons);
-		console.log("Tokens --", rewardTokens);
-		
 		//	send rewards with multiplier
 		JFractons.addFractons(rewardFractons * multiplier);
 		tokens += rewardTokens * multiplier;
+		
+		if (rewardFractons || rewardTokens)
+			setGradientAnimation(Easing.Linear, 300);
+		else
+			displayText.text = 'Sorry, try again.';
 		
 		//	ACVM : lucky
 		if (rewardFractons * multiplier >= 100)
