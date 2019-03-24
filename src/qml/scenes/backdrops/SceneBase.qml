@@ -8,8 +8,6 @@ import "../../js/Math.js" as JMath
 
 Scene {
 	id: scene
-	//	TODO add background animation
-	//	TODO find/create math symbols for background animation
 	
 	//	"logical size"
 	width: 480
@@ -26,11 +24,13 @@ Scene {
 	
 	
 	opacity: 0
-//	opacity: 1
 	visible: opacity != 0
 	enabled: visible
 	
-//	state: visible ? "in" : "out"
+	Behavior on opacity {
+		NumberAnimation { easing.type: Easing.OutQuad; duration: 1000 }
+	}
+	
 	state: "hide"
 	states: [
 		State {
@@ -44,6 +44,10 @@ Scene {
 			PropertyChanges { target: scene; opacity: 0 }
 		}
 	]
+	
+	onStateChanged: {
+		console.log("State:", state);
+	}
 	
 	BubbleButton {
 		width: 60; height: 30
@@ -93,12 +97,7 @@ Scene {
 		}
 		
 		function run(message, parent_, visibleListener, fontSize) {
-//			backgroundAnimationTimer.message = message;
-//			backgroundAnimationTimer.parent_ = parent_;
-//			backgroundAnimationTimer.visibleListener = visibleListener;
-//			backgroundAnimationTimer.fontSize = fontSize;
 			console.log("Pushing message:", message);
-//			console.log("Queue now has size", messageQueue.length);
 			messageQueue.push({
 								 message: message,
 								  parent: parent_,
@@ -107,7 +106,6 @@ Scene {
 							  });
 			
 			check();
-//			start();
 		}
 		
 		function cancel(message) {

@@ -21,22 +21,22 @@ Item {
 	
 	onDailyDataModified: {
 		console.log("Daily data changed!");
-		JStorage.setValue('stats_general', dailyData);
+		JStorage.setValue('stats/general', dailyData);
 	}
 	
 	onPastQuestionsModified: {
 		console.log("Past questions changed!");
-		JStorage.setValue('stats_questions', pastQuestions);
+		JStorage.setValue('stats/questions', pastQuestions);
 	}
 	
 	function loadStatistics() {
 		
-		var tempData = JStorage.getValue('stats_general');
-		if (tempData === undefined) console.error("[Fractons] Key: 'tempData' returned undefined from storage.");
+		var tempData = JStorage.getValue('stats/general');
+		if (tempData === undefined) console.error("[Fractons] Key: 'stats/general' returned undefined from storage.");
 		dailyData = tempData !== undefined ? tempData : {};
 		
-		var tempQuestions = JStorage.getValue('stats_questions');
-		if (tempQuestions === undefined) console.error("[Fractons] Key: 'tempQuestions' returned undefined from storage.");
+		var tempQuestions = JStorage.getValue('stats/questions');
+		if (tempQuestions === undefined) console.error("[Fractons] Key: 'stats/questions' returned undefined from storage.");
 		pastQuestions = tempQuestions !== undefined ? tempQuestions : [];
 		
 	}

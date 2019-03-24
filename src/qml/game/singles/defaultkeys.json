@@ -480,10 +480,10 @@
 			}
 		}
 	},
-	"stats_general": {
+	"stats/general": {
 		
 	},
-	"stats_questions": [
+	"stats/questions": [
 		
 	],
 	"quests/all": {
