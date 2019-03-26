@@ -226,7 +226,7 @@ ModesBase {
 				
 				leftN = JMath.randI(1, leftD);
 				
-				rightD = JMath.randI(0, 12);
+				rightD = JMath.randI(2, 12);
 				
 				//	check if true version of rightN is integer
 				temp = new JFraction.Fraction(leftN*rightD, leftD);

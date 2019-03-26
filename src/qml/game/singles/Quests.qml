@@ -4,8 +4,10 @@ import QtQuick 2.0
 import "../../js/Math.js" as JMath
 import "../../js/Utils.js" as JUtils
 
-//	N.B. all quests reward 25 fractons
+//	N.B. all quests reward 20 fractons
 //	daily quests unlock from level 5
+
+//	TODO consider quests to complete EXPLORER achievement set
 
 /**
   The quest keys are given by
@@ -26,7 +28,7 @@ Item {
 	
 	signal questCompleted(string text, int reward)
 	
-	readonly property int questReward: 25	//	constant
+	readonly property int questReward: 20	//	constant
 	
 	/**
 	  Quests Storage Container:
@@ -260,6 +262,11 @@ Item {
 			JGameAchievements.addProgressByName("adventurer iii", 1);
 			JGameAchievements.addProgressByName("adventurer iv", 1);
 			JGameAchievements.addProgressByName("adventurer v", 1);
+			
+			//	TODO uncomment
+//			if (JFractons.currentLevel() < 5)
+//				return;
+				
 			
 			//	add the reward
 			JFractons.addFractons(questReward);	//	HARDCODE 25 fractons reward

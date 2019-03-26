@@ -69,42 +69,42 @@
 			},
 			"2": {
 				"name": "Studious II",
-				"description": "Correctly answer 25 questions.",
+				"description": "Correctly answer 50 questions.",
 				"hint": "",
 				"group": "studious",
 				"reward": 30,
 				"progress": 0,
-				"maxProgress": 25,
+				"maxProgress": 50,
 				"isCollected": false
 			},
 			"3": {
 				"name": "Studious III",
-				"description": "Correctly answer 100 questions.",
+				"description": "Correctly answer 200 questions.",
 				"hint": "",
 				"group": "studious",
 				"reward": 60,
 				"progress": 0,
-				"maxProgress": 100,
+				"maxProgress": 200,
 				"isCollected": false
 			},
 			"4": {
 				"name": "Studious IV",
-				"description": "Correctly answer 500 questions.",
+				"description": "Correctly answer 1000 questions.",
 				"hint": "",
 				"group": "studious",
 				"reward": 120,
 				"progress": 0,
-				"maxProgress": 500,
+				"maxProgress": 1000,
 				"isCollected": false
 			},
 			"5": {
 				"name": "Studious V",
-				"description": "Correctly answer 3000 questions.",
+				"description": "Correctly answer 5000 questions.",
 				"hint": "",
 				"group": "studious",
 				"reward": 250,
 				"progress": 0,
-				"maxProgress": 3000,
+				"maxProgress": 5000,
 				"isCollected": false
 			}
 		},
@@ -121,42 +121,42 @@
 			},
 			"2": {
 				"name": "Sprinter II",
-				"description": "Reach a combo of 10.",
+				"description": "Reach a combo of 15.",
 				"hint": "",
 				"group": "sprinter",
 				"reward": 30,
 				"progress": 0,
-				"maxProgress": 10,
+				"maxProgress": 15,
 				"isCollected": false
 			},
 			"3": {
 				"name": "Sprinter III",
-				"description": "Reach a combo of 30.",
+				"description": "Reach a combo of 50.",
 				"hint": "",
 				"group": "sprinter",
 				"reward": 60,
 				"progress": 0,
-				"maxProgress": 30,
+				"maxProgress": 50,
 				"isCollected": false
 			},
 			"4": {
 				"name": "Sprinter IV",
-				"description": "Reach a combo of 60.",
+				"description": "Reach a combo of 100.",
 				"hint": "",
 				"group": "sprinter",
 				"reward": 120,
 				"progress": 0,
-				"maxProgress": 60,
+				"maxProgress": 100,
 				"isCollected": false
 			},
 			"5": {
 				"name": "Sprinter V",
-				"description": "Reach a combo of 120.",
+				"description": "Reach a combo of 250.",
 				"hint": "",
 				"group": "sprinter",
 				"reward": 250,
 				"progress": 0,
-				"maxProgress": 120,
+				"maxProgress": 250,
 				"isCollected": false
 			}
 		},
@@ -225,42 +225,42 @@
 			},
 			"2": {
 				"name": "Adventurer II",
-				"description": "Complete 10 daily quests.",
+				"description": "Complete 15 daily quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 30,
 				"progress": 0,
-				"maxProgress": 10,
+				"maxProgress": 15,
 				"isCollected": false
 			},
 			"3": {
 				"name": "Adventurer III",
-				"description": "Complete 30 daily quests.",
+				"description": "Complete 50 daily quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 60,
 				"progress": 0,
-				"maxProgress": 30,
+				"maxProgress": 50,
 				"isCollected": false
 			},
 			"4": {
 				"name": "Adventurer IV",
-				"description": "Complete 60 daily quests.",
+				"description": "Complete 100 daily quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 120,
 				"progress": 0,
-				"maxProgress": 60,
+				"maxProgress": 100,
 				"isCollected": false
 			},
 			"5": {
 				"name": "Adventurer V",
-				"description": "Complete 120 daily quests.",
+				"description": "Complete 200 daily quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 250,
 				"progress": 0,
-				"maxProgress": 120,
+				"maxProgress": 200,
 				"isCollected": false
 			}
 		},
@@ -367,7 +367,7 @@
 				"description": "Get a multiplier of 5 in a spin.",
 				"hint": "Only possible in a spin with 3es, 3is, or 3 πs.",
 				"group": "lottery",
-				"reward": 60,
+				"reward": 30,
 				"progress": 0,
 				"maxProgress": 1,
 				"isCollected": false
@@ -377,7 +377,7 @@
 				"description": "Earn 100 or more fractons in a spin.",
 				"hint": "",
 				"group": "lottery",
-				"reward": 120,
+				"reward": 30,
 				"progress": 0,
 				"maxProgress": 1,
 				"isCollected": false
@@ -387,7 +387,7 @@
 				"description": "Get 3 ƒs in a spin.",
 				"hint": "",
 				"group": "lottery",
-				"reward": 250,
+				"reward": 60,
 				"progress": 0,
 				"maxProgress": 1,
 				"isCollected": false
