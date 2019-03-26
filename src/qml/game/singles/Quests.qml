@@ -97,12 +97,12 @@ Item {
 	
 	onQuestsChanged: {
 		console.log("Quests Changed");
-		debug();
+//		debug();
 	}
 	
 	onQuestsModified: {
 		console.log("Quests Modified");
-		debug();
+//		debug();
 		
 		JStorage.setValue("quests/current", quests);
 	}

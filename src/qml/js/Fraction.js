@@ -127,12 +127,19 @@ function Fraction(n, d) {
 	}
 	
 	//	checks equity with a numeric value
-	this.equalsValue = function(other) {
+	this.equalsValue = function(value) {
 		var frac = this.toNumericFraction();
-		return frac.n / frac.d === other;
+		return frac.n / frac.d === value;
+	}
+	
+	this.approximatesTo = function(value, decimal_places) {
+		var frac = this.toNumericFraction();
+		var magnitude = Math.pow(10, decimal_places);
+		return Math.floor(Math.round(frac.n / frac.d * magnitude)) / magnitude === value;
 	}
 	
 	this.isValid = function() {
+		//	allow type coercion in `this.d != 0`
 		return this.d != 0 && !isNaN(this.n) && !isNaN(this.d);
 	}
 	

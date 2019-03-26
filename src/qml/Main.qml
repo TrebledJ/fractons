@@ -53,8 +53,8 @@ GameWindow {
 	
 	
 	
-//	state: "home"
-	state: "lottery"
+	state: "home"
+//	state: "lottery"
 //	state: "mode_balance"
 	states: [
 		State {

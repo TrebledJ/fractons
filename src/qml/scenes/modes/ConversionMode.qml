@@ -10,9 +10,9 @@ import "../../js/Math.js" as JMath
 ModesBase {
 	id: modesBase
 	
-	difficulties: ["Fraction", "Decimal"]
-	readonly property int toFraction: 0
-	readonly property int toDecimal: 1
+	difficulties: ["Decimal", "Fraction"]
+	readonly property int toDecimal: 0
+	readonly property int toFraction: 1
 	
 	readonly property var parsingError: ({
 											 0: "",
@@ -36,9 +36,10 @@ ModesBase {
 		id: equationComponents
 		property var lhs: new JFraction.Fraction()
 		property var rhs: new JFraction.Fraction()
+		property bool isApprox: false
 		
 		function join() {
-			return lhs + ' = ' + rhs;
+			return lhs + (isApprox ? ' ≈ ' : ' = ') + rhs;
 		}
 		
 		//	substitutes arguments in place of question marks, no error checking is done
@@ -62,7 +63,7 @@ ModesBase {
 		
 		//	joins with input in rhs
 		function dynamicJoin() {
-			return lhs + ' = ' + reparseRhs(answerField.text);
+			return lhs + (isApprox ? ' ≈ ' : ' = ') + reparseRhs(answerField.text);
 		}
 	}
 	
@@ -122,7 +123,8 @@ ModesBase {
 		var lhs = equationComponents.lhs;
 		var rhs = equationComponents.reparseRhs(text);
 		
-		var isCorrect = difficultyIndex === toDecimal ? lhs.equalsValue(rhs) : rhs.equalsValue(lhs);
+//		var isCorrect = difficultyIndex === toDecimal ? lhs.equalsValue(rhs) : rhs.equalsValue(lhs);
+		var isCorrect = difficultyIndex === toDecimal ? lhs.approximatesTo(rhs, 2) || lhs.equalsValue(rhs) : rhs.equalsValue(lhs);
 		console.debug("Question:", equationComponents.join());
 		console.debug("Answer:", "'" + lhs + "'", "versus", "User Answer: '" + rhs + "'", ':', isCorrect);
 		
@@ -140,16 +142,10 @@ ModesBase {
 		
 		if (difficultyIndex === toDecimal)
 		{
-			var denominators = [
-						2,
-						4,
-						5,
-						8,
-						10
-					];
+			var d = JMath.randI(2, 10);
+			var n = JMath.randI(1, d-1);
 			
-			var d = JMath.choose(denominators);
-			var n = JMath.randI(0, d);
+			equationComponents.isApprox = !("2,4,5,8,10".includes(d));
 			
 			equationComponents.lhs = new JFraction.Fraction(n, d);
 			equationComponents.rhs = '?';
@@ -175,6 +171,8 @@ ModesBase {
 			
 			equationComponents.lhs = JMath.choose(values);
 			equationComponents.rhs = new JFraction.Fraction('?', '?');
+			
+			equationComponents.isApprox = true;
 		}
 		
 	}

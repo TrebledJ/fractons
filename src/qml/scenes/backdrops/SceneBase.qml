@@ -45,10 +45,6 @@ Scene {
 		}
 	]
 	
-	onStateChanged: {
-		console.log("State:", state);
-	}
-	
 	BubbleButton {
 		width: 60; height: 30
 		anchors {
