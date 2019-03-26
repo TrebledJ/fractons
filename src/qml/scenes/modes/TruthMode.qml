@@ -25,7 +25,7 @@ ModesBase {
 										 })
 	
 	modeName: 'Truth'
-	rewardAmount: [3, 5, 7, 10][difficultyIndex]
+	rewardAmount: [1, 2, 3, 5][difficultyIndex]
 	unit: "fractons"
 	
 	Component.onCompleted: {
@@ -157,7 +157,7 @@ ModesBase {
 		
 		var equityOperandArray = [
 					"=",
-					"=≠",
+					"=≠",				//	TODO simplify into 3 modes and merge =≠ into top =
 					"=≠<>",
 					"=≠<>≤≥"
 				][difficultyIndex];
@@ -167,19 +167,19 @@ ModesBase {
 		
 		var operandArray = [
 					"",
-					"+-",
-					"+-*",
+					"+-",				
+					"+-*",				//	TODO deprecate +-* group
 					"+-*/"
 				][difficultyIndex];
 		
 		var forceTrue = JMath.coin();	//	determine with 50% chance to force the question into a True answer or a False answer
 		var forceFalse = !forceTrue;
 		
-		var i;
-		for (i = 0; i < lhsNumExpressions; i++)
-		{
+//		var i;
+//		for (i = 0; i < lhsNumExpressions; i++)
+//		{
 			
-		}
+//		}
 		
 		var leftN, leftD, rightN, rightD;
 		var temp;
