@@ -147,6 +147,12 @@ function Fraction(n, d) {
 		return new Fraction(this.n, this.d);
 	}
 	
+	this.swap = function(other) {
+		var temp;
+		temp = this.n; this.n = other.n; other.n = temp;
+		temp = this.d; this.d = other.d; other.d = temp;
+	}
+	
 	this.toString = function() {
 		return this.n + '/' + this.d;
 	}

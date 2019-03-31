@@ -12,6 +12,13 @@ Item {
 	property real speed: 30
 	readonly property alias duration: animation.duration
 	
+	Behavior on opacity {
+		NumberAnimation {
+			easing.type: Easing.InSine
+			duration: 1000
+		}
+	}
+	
 	BubbleButton {
 		id: button
 		anchors.fill: parent

@@ -480,7 +480,7 @@ SceneBase {
 		var combo = JStorage.combo();
 		
 		//	TOKENS
-		if (combo > 0 && combo % 10 == 0)	//	check that combo is a multiple of 10 greater than 0
+		if (combo > 0 && combo % 25 == 0)	//	check that combo is a multiple of 25 greater than 0
 		{
 			JStorage.addTokens(1);
 			logEvent("+1 Token", "yellow", 10, "random");

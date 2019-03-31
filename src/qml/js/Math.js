@@ -60,7 +60,11 @@ function choose(arr, n, replace) {
 	if (replace === undefined) replace = false;
 	
 	if (n >= arr.length)
+	{
+		if (arr.length === 1)
+			return arr[0];
 		return arr;
+	}
 	
 	if (n <= 0)
 		return [];
@@ -106,6 +110,7 @@ function oneIn(n) {
 	return Math.random() < 1/n;
 }
 
+//	returns a list of numbers in the range [start, end)
 function range(start, end) {
 	var ret = [];
 	for (var i = start; i < end; i++)
@@ -135,7 +140,7 @@ function primeFactors(n) {
 	return ret;
 }
 
-//	finds all numbers divide n (including 1 and n)
+//	finds all numbers between 1 and n inclusive which divide n
 function factors(n) {
 	var ret = [];
 	for (var i = 1; i <= n; i++)

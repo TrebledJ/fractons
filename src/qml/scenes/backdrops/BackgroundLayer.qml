@@ -152,6 +152,7 @@ Scene {
 				obj.button.entered.connect(function()
 				{
 					console.log("Image of", person, "entered!");
+					obj.opacity = 1;
 					JGameAchievements.addProgressByName(person, 1);
 				});
 			}
