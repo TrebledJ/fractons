@@ -204,92 +204,29 @@ ModesBase {
 	
 	function generateRandomQuestion() {
 		
-		//	generate lhs fraction
-		
+		//	choose a set of relational operators based on the difficulty
 		var relationalOperators = [
 					"=",
 					"=≠",
 					"=≠<>",
-//					">",
 				][difficultyIndex];
 		
+		//	choose one operator
 		var operator = JMath.choose(relationalOperators);
 		
+		//	preset an answer (we want the chance to be fair that the answer is either correct/incorrect)
 		var answer = JMath.coin();
-//		var answer = false;
-//		var answer = true;
 		
-		var leftN, leftD, rightN, rightD;
+		//	buffer variables
+		var relation, swap = false;
 		
-//		var absoluteMax, baseMin, baseMax;
-//		var factor, maxFactor, factorN, factorD, leftGcdFactors;	//	TODO refactor
-		
-		var swap = false;
-		var relation;
-		
-//		var generateEqualityRelation = 
-		
-		
-		//	TODO refactor algo into function with params baseMin, baseMax, absoluteMax, operator, answer
 		if (difficultyIndex === easy)
 		{
-//			//	easy mode
-//			baseMin = 2;
-//			baseMax = 8;
-//			absoluteMax = 16;
-			
-//			//	choose a left fraction
-//			leftD = JMath.randI(baseMin, baseMax);
-//			leftN = JMath.randI(1, leftD-1);
-			
-//			if (answer === true)
-//			{
-//				//	get the maximum factor
-//				maxFactor = Math.floor(absoluteMax / leftD);
-				
-//				//	get the gcd factors
-//				leftGcdFactors = JMath.factors(JMath.gcd(leftN, leftD));
-				
-//				//	choose a denominator for the factor; remove the gcd factor 1 if possible
-//				factorD = JMath.choose(leftGcdFactors.slice(leftGcdFactors.length > 1));
-				
-//				//	choose a numerator for the factor; it shouldn't be the same as factorD
-//				factorN = JMath.choose(JMath.range(1, factorD).concat(JMath.range(factorD+1, maxFactor+1)));
-				
-//				//	set the factor and multiply the lhs onto the right
-//				factor = factorN / factorD;
-				
-//				rightN = leftN * factor;
-//				rightD = leftD * factor;
-//			}
-//			else	//	answer === false
-//			{
-////				rightD = JMath.randI(2, 12);
-				
-//				//	special case for if leftD is baseMin is 2
-//				if (leftD === 2 && baseMin === 2)
-//					rightD = JMath.randI(3, absoluteMax);
-//				else
-//					rightD = JMath.randI(baseMin, absoluteMax);
-				
-//				//	set the right numerator
-//				if (leftD === rightD)
-//					//	... to anything but leftN
-//					rightN = JMath.choose(JMath.range(1, leftN).concat(JMath.range(leftN+1, rightD)));
-//				else if (JMath.gcd(leftD, rightD) > 1)
-//					//	... to anything but the calculated factor
-//					rightN = JMath.choose(JMath.range(1, leftN*rightD/leftD).concat(JMath.range(Math.floor(leftN*rightD/leftD)+1, rightD)));
-//				else
-//					//	... to anything
-//					rightN = JMath.randI(1, rightD-1);
-//			}
-			
+			//	easy mode
 			relation = generateEqualityRelation(2, 6, 12, answer);
 			
 			//	chance to swap
 			swap = JMath.coin();
-//			equationComponents.lhs = swap ? new JFraction.Fraction(leftN, leftD) : new JFraction.Fraction(rightN, rightD);
-//			equationComponents.rhs = swap ? new JFraction.Fraction(rightN, rightD) : new JFraction.Fraction(leftN, leftD);
 			equationComponents.lhs = swap ? relation.left : relation.right;
 			equationComponents.rhs = swap ? relation.right : relation.left;
 			
@@ -314,11 +251,7 @@ ModesBase {
 		}
 		else if (difficultyIndex === hard)
 		{
-			//	medium mode
-//			baseMin = 2;
-//			baseMax = 16;
-//			absoluteMax = 40;
-			
+			//	hard mode (allows improper fractions)
 			
 			if (operator === "=" || operator === "≠")
 			{
@@ -326,35 +259,43 @@ ModesBase {
 				
 				equationComponents.lhs = swap ? relation.left : relation.right;
 				equationComponents.rhs = swap ? relation.right : relation.left;
-				
 			}
 			else if (operator === "<" || operator === ">")
 			{
+				var n_l, d_l, n_r, d_r;
+				
 				var high = 20;
 				var bound;
 				if (answer === true)
 				{
 					//	assume operator is <
 					//	generate fraction for bigger number first
-					rightN = JMath.randI(2, high);
-					rightD = JMath.randI(2, high);
+					n_r = JMath.randI(2, high);
+					d_r = JMath.randI(2, high);
 					
-					leftD = JMath.randI(2, Math.min(high, high * rightD/rightN));
-					bound = Math.ceil(rightN * leftD / rightD) - 1;
-					leftN = JMath.randI(bound ? 1 : 0, bound);
+					//	upper bound for d_l should be no higher than `high`, and take into account the bound (d_l*n_r/d_r < high)
+					d_l = JMath.randI(2, Math.min(high, high * d_r/n_r));
+					
+					//	temporary upper bound for n_l
+					bound = Math.ceil(d_l * n_r/d_r) - 1;
+					
+					//	n_l < d_l * n_r/d_r
+					n_l = JMath.randI(bound ? 1 : 0, bound);
 				}
 				else
 				{
-					rightN = JMath.randI(2, high);
-					rightD = JMath.randI(2, high);
+					n_r = JMath.randI(2, high);
+					d_r = JMath.randI(2, high);
 					
-					leftD = JMath.randI(2, Math.min(high, high * rightD/rightN));
-					bound = Math.ceil(rightN * leftD / rightD);
-					leftN = JMath.randI(bound, high);
+					d_l = JMath.randI(2, Math.min(high, high * d_r/n_r));
+					bound = Math.ceil(d_l * n_r/d_r);
+					
+					//	n_l ≥ d_l * n_r/d_r
+					n_l = JMath.randI(bound, high);
 				}
 				
-				var left = new JFraction.Fraction(leftN, leftD);
-				var right = new JFraction.Fraction(rightN, rightD);
+				var left = new JFraction.Fraction(n_l, d_l);
+				var right = new JFraction.Fraction(n_r, d_r);
 				
 				if (operator === ">")
 					left.swap(right);
@@ -375,9 +316,6 @@ ModesBase {
 				equationComponents.isTrue = answer;
 			
 		}
-		
-		//	TODO upgrade this generateRandomQuestion() to encompass hard difficulty
-		//	
 	}
 	
 	//	encodes the current question's state
