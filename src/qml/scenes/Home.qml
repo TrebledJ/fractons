@@ -73,12 +73,14 @@ SceneBase {
 //			property bool unlocked: JFractons.currentLevel() >= 15	//	TODO uncomment
 			property bool unlocked: true
 			
+			enabled: unlocked
+			
 			text: unlocked ? "Lottery" : "???"
 			textObj.verticalAlignment: Text.AlignBottom
 			
 			opacity: unlocked ? 1 : 0.6
 			
-			image.source: unlocked ? "qrc:/assets/icons/slot" : "qrc:/assets/icons/question-mark2"
+			image.source: unlocked ? "qrc:/assets/icons/slot" : "qrc:/assets/icons/padlock-closed"
 			image.anchors.bottomMargin: 20
 			
 			onClicked: lotteryButtonClicked()

@@ -484,7 +484,10 @@ SceneBase {
 		if (combo > 0 && combo % 25 == 0)	//	check that combo is a multiple of 25 greater than 0
 		{
 			JStorage.addTokens(1);
-			logEvent("+1 Token", "yellow", 10, "random");
+			
+			//	TOKENS
+			if (JFractons.currentLevel() >= 15)
+				logEvent("+1 Token", "yellow", 10, "random");	//	notify only if lvl ≥ 15 (i.e. when user is 'aware' of tokens)
 		}
 		
 		addFractons(rewardAmount);	//	give reward in fractons

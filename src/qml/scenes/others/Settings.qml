@@ -1,5 +1,6 @@
 import Felgo 3.0
 import QtQuick 2.0
+import QtQuick.Layouts 1.3
 
 import "../../game/singles"
 import "../backdrops"
@@ -21,18 +22,21 @@ SceneBase {
 		}
 	}
 	
-	Grid {
-		anchors.centerIn: parent
-//		spacing: 20
+//	Grid {
+	GridLayout {
+		anchors.left: parent.left
+		anchors.verticalCenter: parent.verticalCenter
+		anchors.margins: 0.2 * parent.width
+		
 		columns: 2
 		columnSpacing: 10
-		rowSpacing: 20
+		rowSpacing: 10
 		
 		TextBase {
-			width: 100
+			width: 50
 			height: 30
-			text: "Music:"
-			horizontalAlignment: Text.AlignRight
+			text: "Music"
+			Layout.alignment: Qt.AlignRight
 			verticalAlignment: Text.AlignVCenter
 		}
 		
@@ -46,11 +50,11 @@ SceneBase {
 		}
 		
 		TextBase {
-			width: 100
+			width: 50
 			height: 30
-			text: "Sound:"
-			horizontalAlignment: Text.AlignRight
+			text: "SFX"
 			verticalAlignment: Text.AlignVCenter
+			Layout.alignment: Qt.AlignRight
 		}
 		
 		BubbleButton {
@@ -60,14 +64,6 @@ SceneBase {
 			text: checked ? "On" : "Off"
 			
 			onCheckedChanged: gameWindow.soundEnabled = checked
-		}
-		
-		TextBase {
-//			anchors.verticalCenter: deleteDataButton.verticalCenter
-			width: 100; height: 30
-			text: "Danger Zone:"
-			horizontalAlignment: Text.AlignRight
-			verticalAlignment: Text.AlignVCenter
 		}
 		
 		BubbleButton {
@@ -81,11 +77,9 @@ SceneBase {
 			*/
 			
 			width: 100; height: 30
-//			anchors {
-//				top: parent.top
-//				right: parent.right
-//				margins: 10
-//			}
+			
+			Layout.topMargin: 60	//	place the delete button a bit further
+			Layout.columnSpan: 2
 			
 			property bool isSafetyOn: true
 			
