@@ -20,5 +20,6 @@
         <file>assets/img/right-arrow.png</file>
         <file>assets/img/right-arrow-navy.png</file>
         <file>assets/sfx/c.wav</file>
+        <file>assets/sfx/cdefg.wav</file>
     </qresource>
 </RCC>

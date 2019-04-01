@@ -137,19 +137,19 @@ ModesBase {
 	}
 	
 	function generateEqualityRelation(baseMin, baseMax, absoluteMax, answer) {
-		var leftN, leftD, rightN, rightD;
+		var n_l, d_l, n_r, d_r;
 		
 		//	choose a left fraction
-		leftD = JMath.randI(baseMin, baseMax);
-		leftN = JMath.randI(1, difficultyIndex === hard ? absoluteMax : leftD-1);
+		d_l = JMath.randI(baseMin, baseMax);
+		n_l = JMath.randI(1, difficultyIndex === hard ? absoluteMax : d_l-1);
 		
 		if (answer === true)
 		{
 			//	get the maximum factor
-			var maxFactor = Math.floor(absoluteMax / leftD);
+			var maxFactor = Math.floor(absoluteMax / d_l);
 			
 			//	get the gcd factors
-			var leftGcdFactors = JMath.factors(JMath.gcd(leftN, leftD));
+			var leftGcdFactors = JMath.factors(JMath.gcd(n_l, d_l));
 			
 			//	choose a denominator for the factor; remove the gcd factor 1 if possible
 			var factorD = JMath.choose(leftGcdFactors.slice(leftGcdFactors.length > 1));
@@ -160,46 +160,46 @@ ModesBase {
 			//	set the factor and multiply the lhs onto the right
 			var factor = factorN / factorD;
 			
-			rightN = leftN * factor;
-			rightD = leftD * factor;
+			n_r = n_l * factor;
+			d_r = d_l * factor;
 		}
 		else	//	answer === false
 		{
 			//	special case for if leftD is baseMin is 2
-			if (leftD === 2 && baseMin === 2)
-				rightD = JMath.randI(3, absoluteMax);
+			if (d_l === 2 && baseMin === 2)
+				d_r = JMath.randI(3, absoluteMax);
 			else
-				rightD = JMath.randI(baseMin, absoluteMax);
+				d_r = JMath.randI(baseMin, absoluteMax);
 			
 			if (difficultyIndex === easy || difficultyIndex === medium)
 			{
 				//	set the right numerator
-				if (leftD === rightD)
+				if (d_l === d_r)
 					//	... to anything but leftN
-					rightN = JMath.choose(JMath.range(1, leftN).concat(JMath.range(leftN+1, rightD)));
-				else if (JMath.gcd(leftD, rightD) > 1)
+					n_r = JMath.choose(JMath.range(1, n_l).concat(JMath.range(n_l+1, d_r)));
+				else if (JMath.gcd(d_l, d_r) > 1)
 					//	... to anything but the calculated factor
-					rightN = JMath.choose(JMath.range(1, leftN*rightD/leftD).concat(JMath.range(Math.floor(leftN*rightD/leftD)+1, rightD)));
+					n_r = JMath.choose(JMath.range(1, n_l*d_r/d_l).concat(JMath.range(Math.floor(n_l*d_r/d_l)+1, d_r)));
 				else
 					//	... to anything
-					rightN = JMath.randI(1, rightD-1);
+					n_r = JMath.randI(1, d_r-1);
 			}
 			else if (difficultyIndex === hard)
 			{
 				//	in hard mode, numerators are not bounded by the denominators
 				
-				if (leftD === rightD)
-					rightN = JMath.choose(JMath.range(1, leftN).concat(JMath.range(leftN+1, absoluteMax)));
-				else if (JMath.gcd(leftD, rightD) > 1)
-					rightN = JMath.choose(JMath.range(1, leftN*rightD/leftD).concat(JMath.range(Math.floor(leftN*rightD/leftD)+1, absoluteMax)));
+				if (d_l === d_r)
+					n_r = JMath.choose(JMath.range(1, n_l).concat(JMath.range(n_l+1, absoluteMax)));
+				else if (JMath.gcd(d_l, d_r) > 1)
+					n_r = JMath.choose(JMath.range(1, n_l*d_r/d_l).concat(JMath.range(Math.floor(n_l*d_r/d_l)+1, absoluteMax)));
 				else
-					rightN = JMath.randI(1, absoluteMax);
+					n_r = JMath.randI(1, absoluteMax);
 			}
 			
 			
 		}
 		
-		return { left: new JFraction.Fraction(leftN, leftD), right: new JFraction.Fraction(rightN, rightD) };
+		return { left: new JFraction.Fraction(n_l, d_l), right: new JFraction.Fraction(n_r, d_r) };
 	}
 	
 	function generateRandomQuestion() {

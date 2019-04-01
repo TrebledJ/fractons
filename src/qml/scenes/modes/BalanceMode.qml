@@ -115,42 +115,87 @@ ModesBase {
 	
 	function generateRandomQuestion() {
 		
-		//	generate lhs fraction
-		var dLeft = JMath.randI(2, 12);
-		var nLeft = JMath.randI(1, dLeft - 1);
+//		//	generate lhs fraction
+//		var dLeft = JMath.randI(2, 12);
+//		var nLeft = JMath.randI(1, dLeft - 1);
 		
-		equationComponents.lhsFraction = new JFraction.Fraction(nLeft, dLeft);
+//		equationComponents.lhsFraction = new JFraction.Fraction(nLeft, dLeft);
 		
-		//	generate rhs fraction
-		var top = 0, bottom = 1;
-		var questionMark = JMath.choose([top, bottom]);
+//		//	generate rhs fraction
+//		var top = 0, bottom = 1;
+//		var questionMark = JMath.choose([top, bottom]);
 		
-		var nRight = '?', dRight = '?';
+//		var nRight = '?', dRight = '?';
 		
-		if (questionMark === top)
-		{
-			dRight = dLeft * JMath.randI(2, 4);		//	denominator
-		}
-		else if (questionMark === bottom)
-		{
-			nRight = nLeft * JMath.randI(2, 4);		//	numerator
-		}
+//		if (questionMark === top)
+//		{
+//			dRight = dLeft * JMath.randI(2, 4);		//	denominator
+//		}
+//		else if (questionMark === bottom)
+//		{
+//			nRight = nLeft * JMath.randI(2, 4);		//	numerator
+//		}
 		
-		//	special for lhs not simplified
-		if (!equationComponents.lhsFraction.isSimplified())
-		{
-			//	if useSimplifiedFraction is true it becomes a simplification exercise
-			var useSimplifiedFraction = JMath.randI(false, true);
-			if (useSimplifiedFraction)
-			{
-				if (questionMark === top)
-					dRight = equationComponents.lhsFraction.simplified().d;	//	denominator
-				else if (questionMark === bottom)
-					nRight = equationComponents.lhsFraction.simplified().n;	//	numerator
-			}
-		}
+//		//	special for lhs not simplified
+//		if (!equationComponents.lhsFraction.isSimplified())
+//		{
+//			//	if useSimplifiedFraction is true it becomes a simplification exercise
+//			var useSimplifiedFraction = JMath.randI(false, true);
+//			if (useSimplifiedFraction)
+//			{
+//				if (questionMark === top)
+//					dRight = equationComponents.lhsFraction.simplified().d;	//	denominator
+//				else if (questionMark === bottom)
+//					nRight = equationComponents.lhsFraction.simplified().n;	//	numerator
+//			}
+//		}
 			
 		
-		equationComponents.rhsFraction = new JFraction.Fraction(nRight, dRight);
+//		equationComponents.rhsFraction = new JFraction.Fraction(nRight, dRight);
+		
+		//	----
+		
+		var n_l, d_l, n_r, d_r;
+		
+		//	choose a left fraction
+		d_l = JMath.randI(2, 8);
+		n_l = JMath.randI(1, d_l-1);
+		
+		//	get the maximum factor
+		var maxFactor = Math.floor(16 / d_l);
+		console.log("Max Factor:", maxFactor);
+		
+		//	get the gcd factors
+		var leftGcdFactors = JMath.factors(JMath.gcd(n_l, d_l));
+		
+		//	choose a denominator for the factor; remove the gcd factor 1 if possible
+		var factorD = JMath.choose(leftGcdFactors.slice(leftGcdFactors.length > 1));
+		
+		//	choose a numerator for the factor; it shouldn't be the same as factorD
+		var factorN = JMath.choose(JMath.range(1, factorD).concat(JMath.range(factorD+1, maxFactor+1)));
+		
+		//	set the factor and multiply the lhs onto the right
+		var factor = factorN / factorD;
+		
+		n_r = n_l * factor;
+		d_r = d_l * factor;
+		
+		//	random chance to swap
+		var swap = JMath.coin();
+		
+		var lhs = swap ? new JFraction.Fraction(n_r, d_r) : new JFraction.Fraction(n_l, d_l);
+		var rhs = swap ? new JFraction.Fraction(n_l, d_l) : new JFraction.Fraction(n_r, d_r);
+		
+		//	random chance: either numerator or denominator is fraction
+		var top = JMath.coin();
+		
+		if (top) rhs.n = '?';
+		else	 rhs.d = '?';
+		
+		
+		
+		equationComponents.lhsFraction = lhs;
+		equationComponents.rhsFraction = rhs;
+		
 	}
 }

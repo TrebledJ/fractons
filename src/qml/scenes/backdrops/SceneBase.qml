@@ -25,10 +25,9 @@ Scene {
 	
 	opacity: 0
 	visible: opacity != 0
-	enabled: visible
+	enabled: state == "show"
 	
 	Behavior on opacity {
-//		NumberAnimation { easing.type: Easing.OutQuad; duration: 1000 }
 		NumberAnimation { easing.type: Easing.Linear; duration: 300 }
 	}
 	

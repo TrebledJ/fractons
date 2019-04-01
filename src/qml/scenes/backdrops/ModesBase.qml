@@ -365,14 +365,13 @@ SceneBase {
 				anchors.fill: parent
 				
 				color: "white"
-				border.color: answerField.enabled ? "lightgrey" : "transparent"
+				border.color: "lightgrey"
 				
 				Rectangle {
 					anchors.fill: parent
 					anchors.margins: 1
 					
-					//	TODO find suitable substitute to "red"
-					color: hasInputError ? "red" : answerField.enabled ? "green" : "white"
+					color: hasInputError ? "red" : "green"
 					opacity: 0.5
 				}
 			}

@@ -70,14 +70,15 @@ SceneBase {
 			id: lotteryButton
 			width: height; height: 80
 			
-			text: enabled ? "Lottery" : "???"
+//			property bool unlocked: JFractons.currentLevel() >= 15	//	TODO uncomment
+			property bool unlocked: true
+			
+			text: unlocked ? "Lottery" : "???"
 			textObj.verticalAlignment: Text.AlignBottom
 			
-			enabled: true
-//			enabled: JFractons.currentLevel() >= 15		//	TODO uncomment this
-			opacity: enabled ? 1 : 0.6
+			opacity: unlocked ? 1 : 0.6
 			
-			image.source: enabled ? "qrc:/assets/icons/slot" : "qrc:/assets/icons/question-mark2"
+			image.source: unlocked ? "qrc:/assets/icons/slot" : "qrc:/assets/icons/question-mark2"
 			image.anchors.bottomMargin: 20
 			
 			onClicked: lotteryButtonClicked()

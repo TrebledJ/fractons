@@ -75,8 +75,10 @@ SceneBase {
 				width: modeView.width; height: 40
 				spacing: 20
 				
-				enabled: JFractons.currentLevel() >= role_min_level
-				opacity: enabled ? 1 : 0.5
+				property bool unlocked: JFractons.currentLevel() >= role_min_level
+				
+				enabled: unlocked
+				opacity: unlocked ? 1 : 0.5
 				
 				clip: true
 				
@@ -103,20 +105,20 @@ SceneBase {
 					
 					background.border.width: 3
 					
-					text: "<b>" + (row.enabled ? role_mode : "Level " + role_min_level) + "</b>"
+					text: "<b>" + (row.unlocked ? role_mode : "Level " + role_min_level) + "</b>"
 					textObj.textFormat: Text.StyledText
 					textObj.horizontalAlignment: Text.AlignRight
 					textObj.anchors.rightMargin: 10
 					textObj.animate: false
 					
-					image.source: row.enabled ? "" : "qrc:/assets/icons/padlock-closed"
+					image.source: row.unlocked ? "" : "qrc:/assets/icons/padlock-closed"
 					
 					onEntered: {
 						modeView.currentIndex = index;
 					}
 					
 					onClicked: {
-						if (!row.enabled)
+						if (!row.unlocked)
 							return;
 						
 						console.debug(role_mode + " Mode clicked.");
