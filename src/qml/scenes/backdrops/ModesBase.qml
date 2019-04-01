@@ -59,6 +59,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
+import QtMultimedia 5.9
 
 import "../../common"
 import "../../game"
@@ -409,6 +410,12 @@ SceneBase {
 		property int eventCounter: 0
 	}
 	
+	SoundEffect {
+		id: sfxCorrectAnswer
+		source: "qrc:/assets/sfx/c.wav"
+//		source: "/Users/JLAW/Documents/Code/Developer SFX/c.wav"
+	}
+	
 	onDifficultyIndexChanged: {
 		console.warn("Difficulty Index Changed:", difficultyIndex)
 		console.log(JSON.stringify(lastQuestions))
@@ -475,6 +482,8 @@ SceneBase {
 	}
 	
 	onCorrectAnswer: {
+		sfxCorrectAnswer.play();
+		
 		addCombo();	//	increment the combo
 		
 		var combo = JStorage.combo();
@@ -517,7 +526,6 @@ SceneBase {
 		JGameStatistics.incDailyCorrect();
 		
 	}
-	
 	
 	onStateChanged: {
 		var msg = modeName + " Mode";

@@ -19,5 +19,6 @@
         <file>assets/icons/cowboy-hat-tick.png</file>
         <file>assets/img/right-arrow.png</file>
         <file>assets/img/right-arrow-navy.png</file>
+        <file>assets/sfx/c.wav</file>
     </qresource>
 </RCC>

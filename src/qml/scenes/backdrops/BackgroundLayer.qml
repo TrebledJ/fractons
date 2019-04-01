@@ -127,7 +127,8 @@ Scene {
 				
 				from: parent.width,
 				property: "x",
-				speed: 15,
+//				speed: 15,
+				speed: 30,
 			};
 			
 			var obj = component.createObject(parent, props);
@@ -160,7 +161,8 @@ Scene {
 			obj.start();
 			
 			//	reset timer interval to a random time
-			spawnTimer.interval = JMath.randI(6000, 8000);
+//			spawnTimer.interval = JMath.randI(6000, 8000);
+			spawnTimer.interval = JMath.randI(3000, 4000);
 		}
 	}
 	

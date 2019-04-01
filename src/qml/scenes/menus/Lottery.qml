@@ -122,9 +122,12 @@ SceneBase {
 			
 			defaultReelWidth: itemSize
 			defaultItemHeight: itemSize + 10
-			reelStopDelay: 1500		//	reels are stopped separately by 1.5 seconds
+//			reelStopDelay: 1500		//	reels are stopped separately by 1.5 seconds
+			reelStopDelay: 800		//	reels are stopped separately by 1.5 seconds
 			reelCount: 3
 			rowCount: 1
+			
+			spinVelocity: 1000
 			
 			model: SlotMachineModel {
 				symbols: {
@@ -304,9 +307,10 @@ SceneBase {
 			
 			tokens -= 1;	//	deduct one token
 			
-			//	run normal animation
+			//	run normal circular animation
 			if (gradientAnimation.easing.type !== Easing.OutInBack && gradientAnimation.duration !== 5000)
-				setGradientAnimation(Easing.OutInBack, 5000);
+//				setGradientAnimation(Easing.OutInBack, 5000);
+				setGradientAnimation(Easing.OutInBack, 1000);
 			
 			//	silence reward texts
 			displayText.text = "";
@@ -350,7 +354,8 @@ SceneBase {
 			multiplier += 1;
 			
 			//	run "excited" animation
-			setGradientAnimation(Easing.Linear, 500);
+//			setGradientAnimation(Easing.Linear, 500);
+//			setGradientAnimation(Easing.Linear, 300);
 		}
 		
 		var count = {
@@ -391,9 +396,9 @@ SceneBase {
 		if (count.e === 1 && count.pi === 1 && count.i === 1)
 			JGameAchievements.addProgressByName("magic numbers", 1);
 		
-		//	ACVM : multiplier
+		//	ACVM : big multiplier
 		if (multiplier >= 5)
-			JGameAchievements.addProgressByName("multiplier", 1);
+			JGameAchievements.addProgressByName("big multiplier", 1);
 		
 		//	ACVM : jackpot
 		if (count.fractons === 3)

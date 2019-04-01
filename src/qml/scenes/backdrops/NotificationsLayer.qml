@@ -46,8 +46,9 @@ Scene {
 		
 		Behavior on anchors.rightMargin {
 			NumberAnimation {
-				duration: 1000
-				easing.type: Easing.InOutQuad
+//				duration: 1000
+				duration: 500
+				easing.type: Easing.InOutBack
 			}
 		}
 		
@@ -131,7 +132,7 @@ Scene {
 		
 		notification.title = obj.title;
 		notification.message = obj.message;
-		notification.seconds = obj.seconds * 1000 * 2;
+		notification.seconds = obj.seconds * 1000;
 		
 		notification.hide = false;
 		notificationTimer.start();

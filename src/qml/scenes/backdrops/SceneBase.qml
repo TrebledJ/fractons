@@ -28,7 +28,8 @@ Scene {
 	enabled: visible
 	
 	Behavior on opacity {
-		NumberAnimation { easing.type: Easing.OutQuad; duration: 1000 }
+//		NumberAnimation { easing.type: Easing.OutQuad; duration: 1000 }
+		NumberAnimation { easing.type: Easing.Linear; duration: 300 }
 	}
 	
 	state: "hide"
