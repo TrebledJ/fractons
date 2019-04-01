@@ -3,8 +3,9 @@
 
 pragma Singleton
 import QtQuick 2.0
+import Felgo 3.0 as Felgo
 
-import Fractons 1.0
+import Fractons 1.0			//	for JAchievement
 
 import "../../common"
 import "../../js/Utils.js" as JUtils

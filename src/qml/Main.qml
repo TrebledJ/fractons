@@ -43,6 +43,9 @@ GameWindow {
 	property int animationSmallerYBound: activeScene.animationSmallerYBound
 	property int animationLargerYBound: activeScene.animationLargerYBound
 	
+	property alias soundEnabled: musicLayer.soundEnabled
+	property alias musicEnabled: musicLayer.musicEnabled
+	
 //	onAnimationSmallerYBoundChanged:  {
 //		console.log("State (" + state + ") -- Smaller YBound:", animationSmallerYBound);
 //	}
@@ -51,10 +54,8 @@ GameWindow {
 //		console.log("State (" + state + ") -- Larger YBound:", animationLargerYBound);
 //	}
 	
-	
-	
-	state: "home"
-//	state: "lottery"
+//	state: "home"
+	state: "settings"
 //	state: "mode_balance"
 	states: [
 		State {
@@ -190,21 +191,29 @@ GameWindow {
 	Modes.BalanceMode {
 		id: modeBalanceScene
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
+		onWrongAnswer: musicLayer.sfxWrongAnswer.play()
 	}
 	
 	Modes.ConversionMode {
 		id: modeConversionScene
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
+		onWrongAnswer: musicLayer.sfxWrongAnswer.play()
 	}
 	
 	Modes.TruthMode {
 		id: modeTruthScene
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
+		onWrongAnswer: musicLayer.sfxWrongAnswer.play()
 	}
 	
 	Modes.OperationsMode {
 		id: modeOperationsScene
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
+		onWrongAnswer: musicLayer.sfxWrongAnswer.play()
 	}
 	
 	
@@ -258,9 +267,8 @@ GameWindow {
 		onBackButtonClicked: gameWindow.state = "home"
 	}
 	
-	NotificationsLayer {
-		
-	}
+	NotificationsLayer {}
+	MusicLayer { id: musicLayer }
 	
 	function gotoExercise(mode, difficulty) {
 		console.log("Going to exercise", mode, "with a", difficulty, "difficulty.");

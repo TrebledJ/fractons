@@ -19,7 +19,15 @@
         <file>assets/icons/cowboy-hat-tick.png</file>
         <file>assets/img/right-arrow.png</file>
         <file>assets/img/right-arrow-navy.png</file>
-        <file>assets/sfx/c.wav</file>
-        <file>assets/sfx/cdefg.wav</file>
+        <file>assets/sounds/debussy-golliwogs-cakewalk.mp3</file>
+        <file>assets/sounds/c.wav</file>
+        <file>assets/sounds/cdefg.wav</file>
+        <file>assets/sounds/tada.wav</file>
+        <file>assets/sounds/debussy-arabesque-1.mp3</file>
+        <file>assets/sounds/debussy-clair-de-lune.mp3</file>
+        <file>assets/sounds/chopin-prelude-4.mp3</file>
+        <file>assets/sounds/brahms-waltz-15.mp3</file>
+        <file>assets/sounds/disappointment.wav</file>
+        <file>assets/sounds/arpy01.wav</file>
     </qresource>
 </RCC>

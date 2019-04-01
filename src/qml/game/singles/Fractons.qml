@@ -2,7 +2,6 @@
 
 pragma Singleton
 import QtQuick 2.0
-import QtMultimedia 5.9
 
 Item {
 //	id: item
@@ -29,8 +28,6 @@ Item {
 	}
 	
 	onLevelUp: /*int level, int previous*/ {
-		sfxLevelUp.play();
-		
 		console.warn("Player leveled up!");
 //		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
 		
@@ -54,11 +51,6 @@ Item {
 		for (var l = previous + 1; l <= level; l++)
 			JStorage.addTokens(l);
 		
-	}
-	
-	SoundEffect {
-		id: sfxLevelUp
-		source: "qrc:/assets/sfx/cdefg.wav"
 	}
 	
 	function addFractons(amount) {

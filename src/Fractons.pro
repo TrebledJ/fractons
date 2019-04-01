@@ -36,8 +36,7 @@ INCLUDEPATH += cpp
 SOURCES += main.cpp \
     cpp/achievement.cpp \
     cpp/achievementsmanager.cpp \
-    cpp/desktopnotifications.cpp \
-    cpp/questengine.cpp
+    cpp/desktopnotifications.cpp
 
 android {
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
@@ -61,7 +60,6 @@ macx {
 HEADERS += \
     cpp/achievement.h \
     cpp/achievementsmanager.h \
-    cpp/desktopnotifications.h \
-    cpp/questengine.h
+    cpp/desktopnotifications.h
 
 DISTFILES +=

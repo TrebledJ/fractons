@@ -115,46 +115,6 @@ ModesBase {
 	
 	function generateRandomQuestion() {
 		
-//		//	generate lhs fraction
-//		var dLeft = JMath.randI(2, 12);
-//		var nLeft = JMath.randI(1, dLeft - 1);
-		
-//		equationComponents.lhsFraction = new JFraction.Fraction(nLeft, dLeft);
-		
-//		//	generate rhs fraction
-//		var top = 0, bottom = 1;
-//		var questionMark = JMath.choose([top, bottom]);
-		
-//		var nRight = '?', dRight = '?';
-		
-//		if (questionMark === top)
-//		{
-//			dRight = dLeft * JMath.randI(2, 4);		//	denominator
-//		}
-//		else if (questionMark === bottom)
-//		{
-//			nRight = nLeft * JMath.randI(2, 4);		//	numerator
-//		}
-		
-//		//	special for lhs not simplified
-//		if (!equationComponents.lhsFraction.isSimplified())
-//		{
-//			//	if useSimplifiedFraction is true it becomes a simplification exercise
-//			var useSimplifiedFraction = JMath.randI(false, true);
-//			if (useSimplifiedFraction)
-//			{
-//				if (questionMark === top)
-//					dRight = equationComponents.lhsFraction.simplified().d;	//	denominator
-//				else if (questionMark === bottom)
-//					nRight = equationComponents.lhsFraction.simplified().n;	//	numerator
-//			}
-//		}
-			
-		
-//		equationComponents.rhsFraction = new JFraction.Fraction(nRight, dRight);
-		
-		//	----
-		
 		var n_l, d_l, n_r, d_r;
 		
 		//	choose a left fraction
@@ -163,7 +123,6 @@ ModesBase {
 		
 		//	get the maximum factor
 		var maxFactor = Math.floor(16 / d_l);
-		console.log("Max Factor:", maxFactor);
 		
 		//	get the gcd factors
 		var leftGcdFactors = JMath.factors(JMath.gcd(n_l, d_l));

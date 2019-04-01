@@ -271,8 +271,8 @@ SceneBase {
 		//	animate changes to anchors.leftMargin by a quadratic
 		Behavior on anchors.leftMargin {
 			NumberAnimation {
-				duration: 400
-				easing.type: Easing.InOutQuad
+				duration: 200
+				easing.type: Easing.InOutBack
 			}
 		}
 		
