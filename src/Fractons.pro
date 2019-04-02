@@ -18,7 +18,9 @@ DEPLOYMENTFOLDERS += assetsFolder
 
 RESOURCES += \
 	images.qrc \
+	sounds.qrc \
 #	resources.qrc # uncomment for publishing
+    
     
 
 

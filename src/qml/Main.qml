@@ -38,24 +38,22 @@ GameWindow {
 	
 	Component.onCompleted: {
 //		jNotifications.notify("Greetings", "Hello there, welcome to Fractons.", 5);
+		
+		musicEnabled = settings.musicEnabled;
+		soundEnabled = settings.soundEnabled;
 	}
 	
 	property int animationSmallerYBound: activeScene.animationSmallerYBound
 	property int animationLargerYBound: activeScene.animationLargerYBound
 	
-	property alias soundEnabled: musicLayer.soundEnabled
-	property alias musicEnabled: musicLayer.musicEnabled
+	property alias musicEnabled: settingsScene.musicEnabled
+	property alias soundEnabled: settingsScene.soundEnabled
 	
-//	onAnimationSmallerYBoundChanged:  {
-//		console.log("State (" + state + ") -- Smaller YBound:", animationSmallerYBound);
-//	}
+	onMusicEnabledChanged: gameWindow.settings.musicEnabled = musicEnabled;
+	onSoundEnabledChanged: gameWindow.settings.soundEnabled = soundEnabled;
 	
-//	onAnimationLargerYBoundChanged:  {
-//		console.log("State (" + state + ") -- Larger YBound:", animationLargerYBound);
-//	}
-	
-//	state: "home"
-	state: "settings"
+	state: "home"
+//	state: "settings"
 //	state: "mode_balance"
 	states: [
 		State {

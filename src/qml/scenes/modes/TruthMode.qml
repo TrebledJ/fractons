@@ -28,7 +28,9 @@ ModesBase {
 	unit: "fractons"
 	
 	Component.onCompleted: {
-		numberPad.visible = false;
+//		numberPad.visible = false;
+		numberPad.height /= 3;
+		setCustomNumpadKeys(["T", "F", "back"]);
 	}
 	
 	
@@ -53,29 +55,29 @@ ModesBase {
 		text: equationComponents.join()
 	}
 	
-	TruthPad {
-		id: truthPad
-		width: 80; height: 100
-		anchors {
-			right: drawingArea.right
-			bottom: drawingArea.bottom
-			margins: 5
-		}
+//	TruthPad {
+//		id: truthPad
+//		width: 80; height: 100
+//		anchors {
+//			right: drawingArea.right
+//			bottom: drawingArea.bottom
+//			margins: 5
+//		}
 		
-		visible: numberPadVisible
+//		visible: numberPadVisible
 		
-		onKeyPressed: /*(key: string)*/ {
-			if (key === 'back')
-			{
-				if (answerField.text.length > 0)
-					answerField.text = answerField.text.substring(0, answerField.text.length - 1);
+//		onKeyPressed: /*(key: string)*/ {
+//			if (key === 'back')
+//			{
+//				if (answerField.text.length > 0)
+//					answerField.text = answerField.text.substring(0, answerField.text.length - 1);
 				
-				return;
-			}
+//				return;
+//			}
 			
-			answerField.text += key;
-		}
-	}
+//			answerField.text += key;
+//		}
+//	}
 	
 	function hasParsingError(text) {
 		//	check undefined input

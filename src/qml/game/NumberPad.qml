@@ -84,7 +84,7 @@ Item {
 		
 		function begin() {
 			index = 0;
-			interval = 250;
+			interval = 150;
 			repeat = true;
 			start();
 		}

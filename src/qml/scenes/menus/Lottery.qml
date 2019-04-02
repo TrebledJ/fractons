@@ -331,6 +331,13 @@ SceneBase {
 		{
 			//	refresh tokens
 			tokens = JStorage.tokens();
+			
+			//	hide text
+			displayText.text = "";
+			
+			//	reset variables
+			rewardFractons = rewardTokens = 0;
+			multiplier = 1;
 		}
 	}
 	

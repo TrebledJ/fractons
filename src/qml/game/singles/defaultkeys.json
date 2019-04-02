@@ -59,12 +59,12 @@
 		"studious": {
 			"1": {
 				"name": "Studious I",
-				"description": "Correctly answer 5 questions.",
+				"description": "Correctly answer 10 questions.",
 				"hint": "",
 				"group": "studious",
 				"reward": 10,
 				"progress": 0,
-				"maxProgress": 5,
+				"maxProgress": 10,
 				"isCollected": false
 			},
 			"2": {
@@ -111,22 +111,22 @@
 		"sprinter": {
 			"1": {
 				"name": "Sprinter I",
-				"description": "Reach a combo of 3.",
+				"description": "Reach a combo of 10.",
 				"hint": "",
 				"group": "sprinter",
 				"reward": 10,
 				"progress": 0,
-				"maxProgress": 3,
+				"maxProgress": 10,
 				"isCollected": false
 			},
 			"2": {
 				"name": "Sprinter II",
-				"description": "Reach a combo of 15.",
+				"description": "Reach a combo of 25.",
 				"hint": "",
 				"group": "sprinter",
 				"reward": 30,
 				"progress": 0,
-				"maxProgress": 15,
+				"maxProgress": 25,
 				"isCollected": false
 			},
 			"3": {
@@ -163,42 +163,42 @@
 		"leveller": {
 			"1": {
 				"name": "Leveller I",
-				"description": "Reach level 3.",
+				"description": "Reach level 5.",
 				"hint": "",
 				"group": "leveller",
 				"reward": 10,
 				"progress": 0,
-				"maxProgress": 3,
+				"maxProgress": 5,
 				"isCollected": false
 			},
 			"2": {
 				"name": "Leveller II",
-				"description": "Reach level 7.",
+				"description": "Reach level 10.",
 				"hint": "",
 				"group": "leveller",
 				"reward": 30,
 				"progress": 0,
-				"maxProgress": 7,
+				"maxProgress": 10,
 				"isCollected": false
 			},
 			"3": {
 				"name": "Leveller III",
-				"description": "Reach level 12.",
+				"description": "Reach level 15.",
 				"hint": "",
 				"group": "leveller",
 				"reward": 60,
 				"progress": 0,
-				"maxProgress": 12,
+				"maxProgress": 15,
 				"isCollected": false
 			},
 			"4": {
 				"name": "Leveller IV",
-				"description": "Reach level 18.",
+				"description": "Reach level 20.",
 				"hint": "",
 				"group": "leveller",
 				"reward": 120,
 				"progress": 0,
-				"maxProgress": 18,
+				"maxProgress": 20,
 				"isCollected": false
 			},
 			"5": {
@@ -452,7 +452,7 @@
 					"description": "Tagged with Technist.",
 					"hint": "",
 					"group": "classified",
-					"reward": 3000,
+					"reward": 5000,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
@@ -462,7 +462,7 @@
 					"description": "Tagged with Trebuchet MS.",
 					"hint": "",
 					"group": "classified",
-					"reward": 3000,
+					"reward": 5000,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
@@ -472,7 +472,7 @@
 					"description": "Tagged with Tin Man.",
 					"hint": "",
 					"group": "classified",
-					"reward": 3000,
+					"reward": 5000,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false

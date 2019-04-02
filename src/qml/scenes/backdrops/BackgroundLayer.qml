@@ -82,8 +82,7 @@ Scene {
 			//	default animations
 			if (!readySpawn)
 			{
-				//	TODO increase to oneIn(1000)
-				var mathOrImage = (JMath.oneIn(100) ? "image" : "math");
+				var mathOrImage = JMath.oneIn(1000) ? "image" : "math";
 				
 				parent = scene;
 				visibleListener = scene;

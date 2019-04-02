@@ -124,7 +124,10 @@ ModesBase {
 		var rhs = equationComponents.reparseRhs(text);
 		
 //		var isCorrect = difficultyIndex === toDecimal ? lhs.equalsValue(rhs) : rhs.equalsValue(lhs);
-		var isCorrect = difficultyIndex === toDecimal ? lhs.approximatesTo(rhs, 2) || lhs.equalsValue(rhs) : rhs.equalsValue(lhs);
+		var isCorrect = difficultyIndex === toDecimal ? equationComponents.isApprox ? lhs.approximatesTo(rhs)
+																					: lhs.equalsValue(rhs)
+													  : rhs.equalsValue(lhs);
+		
 		console.debug("Question:", equationComponents.join());
 		console.debug("Answer:", "'" + lhs + "'", "versus", "User Answer: '" + rhs + "'", ':', isCorrect);
 		

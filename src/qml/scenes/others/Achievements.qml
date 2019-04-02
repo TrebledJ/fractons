@@ -36,10 +36,15 @@ SceneBase {
 //		ListElement { role_group: "pie" }
 //		ListElement { role_group: "token" }
 		
-		ListElement { role_group: "lottery" }	//	all implemented EXCEPT lucky ( TODO )
+		//	TOOD have a role_active which tests whether level ≥ 15
+		ListElement { role_group: "lottery" }	//	all implemented
 		
 		ListElement { role_group: "secret" }	//	all implemented
-//		ListElement { role_group: "classified" }	//	all implemented
+		
+		//	TODO have a role_active which tests whether any achievement with "classified" group has been earned yet
+//		ListElement { 
+//			role_group: "classified"
+//		}	//	all implemented
 	}
 	
 	ListView {

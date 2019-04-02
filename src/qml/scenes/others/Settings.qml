@@ -9,10 +9,13 @@ import "../../common"
 SceneBase {
 	id: sceneBase
 	
+	property alias musicEnabled: musicButton.checked
+	property alias soundEnabled: soundButton.checked
+	
 	Component.onCompleted: {
 		//	load saved settings
-		soundButton.checked = gameWindow.settings.getValue("soundEnabled");
 		musicButton.checked = gameWindow.settings.getValue("musicEnabled");
+		soundButton.checked = gameWindow.settings.getValue("soundEnabled");
 	}
 	
 	onStateChanged: {
@@ -22,9 +25,8 @@ SceneBase {
 		}
 	}
 	
-//	Grid {
 	GridLayout {
-		anchors.left: parent.left
+		anchors.right: parent.right
 		anchors.verticalCenter: parent.verticalCenter
 		anchors.margins: 0.2 * parent.width
 		
@@ -45,8 +47,6 @@ SceneBase {
 			width: 60; height: 30
 			isCheckButton: true
 			text: checked ? "On" : "Off"
-			
-			onCheckedChanged: gameWindow.musicEnabled = checked
 		}
 		
 		TextBase {
@@ -62,8 +62,6 @@ SceneBase {
 			width: 60; height: 30
 			isCheckButton: true
 			text: checked ? "On" : "Off"
-			
-			onCheckedChanged: gameWindow.soundEnabled = checked
 		}
 		
 		BubbleButton {

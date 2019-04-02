@@ -405,8 +405,46 @@ SceneBase {
 	QtObject {
 		id: priv
 		
-		property var eventTextComponent: Qt.createComponent("../../common/EventText.qml")
 		property int eventCounter: 0
+	}
+	
+	Component {
+		id: eventTextComponent
+		TextBase
+		{
+			id:  eventText
+			
+			property alias animation1: positionAnimation
+			property alias animation2: fadeAnimation
+			
+			SequentialAnimation
+			{
+				id: seqAnimation
+				NumberAnimation
+				{
+					id: positionAnimation
+					target: eventText
+					property: 'y'
+					duration: 8000
+				}
+				NumberAnimation
+				{
+					id: fadeAnimation
+					target: eventText
+					property: 'opacity'
+					from: 1
+					to: 0
+					duration: 2000
+				}
+				
+				onStopped: eventText.destroy()
+			}
+			
+			function start()
+			{
+				seqAnimation.start();
+			}
+		}
 	}
 	
 	onDifficultyIndexChanged: {
@@ -555,7 +593,7 @@ SceneBase {
 		};
 		
 		
-		var obj = priv.eventTextComponent.createObject(eventSpace, props);
+		var obj = eventTextComponent.createObject(eventSpace, props);
 		
 		obj.font.pointSize = fontSize;
 		
@@ -636,7 +674,8 @@ SceneBase {
 					"😢",
 					"😭",
 					"😥",
-					"😱"
+					"☹️",
+					"😣"
 				];
 		
 		var x = JMath.randI(0, 50) / 100;

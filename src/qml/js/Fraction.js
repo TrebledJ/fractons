@@ -133,6 +133,18 @@ function Fraction(n, d) {
 	}
 	
 	this.approximatesTo = function(value, decimal_places) {
+		if (decimal_places === undefined)
+		{
+			var result = false;
+			for (var i = 2; i < 12; i++)
+			{
+				if(this.approximatesTo(value, i))
+					return true;
+			}
+			return false;
+		}
+		
+		//	specific value
 		var frac = this.toNumericFraction();
 		var magnitude = Math.pow(10, decimal_places);
 		return Math.floor(Math.round(frac.n / frac.d * magnitude)) / magnitude === value;
