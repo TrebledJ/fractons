@@ -452,14 +452,14 @@
 					"description": "Tagged with Technist.",
 					"hint": "",
 					"group": "classified",
-					"reward": 5000,
+					"reward": 4000,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
 				},
 				"2": {
 					"name": "Pseudonym II",
-					"description": "Tagged with Trebuchet MS.",
+					"description": "Tagged with TrebledJ.",
 					"hint": "",
 					"group": "classified",
 					"reward": 5000,
@@ -472,7 +472,17 @@
 					"description": "Tagged with Tin Man.",
 					"hint": "",
 					"group": "classified",
-					"reward": 5000,
+					"reward": 4000,
+					"progress": 0,
+					"maxProgress": 1,
+					"isCollected": false
+				},
+				"4": {
+					"name": "Pseudonym IV",
+					"description": "Tagged with TrebuchetMS.",
+					"hint": "",
+					"group": "classified",
+					"reward": 3000,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false

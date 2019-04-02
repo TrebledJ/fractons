@@ -474,20 +474,25 @@ SceneBase {
 			JGameAchievements.addProgressByName("no u", 1);
 		}
 		//	ACVM : pseudonym
-		if (text === "Technist")
+		if (text.toLowerCase() === "technist")
 		{
 			console.warn("Pseudonym I!");
 			JGameAchievements.addProgressByName("pseudonym i", 1);
 		}
-		if (text === "Trebuchet MS")
+		if (text.toLowerCase() === "trebledj")
 		{
 			console.warn("Pseudonym II!");
 			JGameAchievements.addProgressByName("pseudonym ii", 1);
 		}
-		if (text === "Tin Man")
+		if (text.toLowerCase() === "tinman" || text.toLowerCase() === "tin man")
 		{
 			console.warn("Pseudonym III!");
 			JGameAchievements.addProgressByName("pseudonym iii", 1);
+		}
+		if (text.toLowerCase() === "trebuchetms" || text.toLowerCase() === "trebuchet ms")
+		{
+			console.warn("Pseudonym IV!");
+			JGameAchievements.addProgressByName("pseudonym iv", 1);
 		}
 		
 		//	back to logic-processing

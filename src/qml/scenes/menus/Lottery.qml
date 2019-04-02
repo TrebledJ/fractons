@@ -132,12 +132,12 @@ SceneBase {
 			model: SlotMachineModel {
 				symbols: {
 					'fracton':	{ frequency: 1, data: { source: '', alt: 'ƒ' } },
-					'token':	{ frequency: 2, data: { source: 'qrc:/assets/icons/coins', alt: 'T' } },
-					'one':		{ frequency: 3, data: { source: '', alt: '1' } },
+					'token':	{ frequency: 1, data: { source: 'qrc:/assets/icons/coins', alt: 'T' } },
+					'one':		{ frequency: 2, data: { source: '', alt: '1' } },
 					'zero':		{ frequency: 3, data: { source: '', alt: '0' } },
-					'pi':		{ frequency: 2, data: { source: '', alt: 'π' } },
-					'e':		{ frequency: 2, data: { source: '', alt: 'e' } },
-					'i':		{ frequency: 2, data: { source: '', alt: 'i' } },
+					'pi':		{ frequency: 1, data: { source: '', alt: 'π' } },
+					'e':		{ frequency: 1, data: { source: '', alt: 'e' } },
+					'i':		{ frequency: 1, data: { source: '', alt: 'i' } },
 				}
 			}
 			
@@ -310,7 +310,7 @@ SceneBase {
 			//	run normal circular animation
 			if (gradientAnimation.easing.type !== Easing.OutInBack && gradientAnimation.duration !== 5000)
 //				setGradientAnimation(Easing.OutInBack, 5000);
-				setGradientAnimation(Easing.OutInBack, 1000);
+				setGradientAnimation(Easing.OutInBack, 2000);
 			
 			//	silence reward texts
 			displayText.text = "";
@@ -323,7 +323,7 @@ SceneBase {
 			slotMachine.spin(10000);		//	defaults to stopping after 10 seconds
 		}
 		
-		slotMachine.updateModels();
+//		slotMachine.updateModels();
 	}
 	
 	onStateChanged: {
@@ -357,13 +357,7 @@ SceneBase {
 		multiplier = 1;
 		
 		if (items[0].type === items[1].type && items[1].type === items[2].type)
-		{
 			multiplier += 1;
-			
-			//	run "excited" animation
-//			setGradientAnimation(Easing.Linear, 500);
-//			setGradientAnimation(Easing.Linear, 300);
-		}
 		
 		var count = {
 			fracton: 0,
@@ -381,18 +375,24 @@ SceneBase {
 		
 		if (count.fracton === 3) { rewardFractons = 300; }
 		else if (count.token === 3) { rewardTokens = 3; }
-		else if (count.i === 3) { rewardFractons = 15; multiplier += 3; }
-		else if (count.e === 3) { rewardFractons = 10; rewardTokens = 1; multiplier += 3; }
-		else if (count.pi === 3) { rewardFractons = 5; rewardTokens = 2; multiplier += 3; }
 		else if (count.one === 3) { rewardFractons = 3; }
 		else if (count.zero === 3) { rewardFractons = 1; }
+		else if (count.pi === 3) { rewardFractons = 30; rewardTokens = 2; multiplier += 3; }
+		else if (count.e === 3) { rewardFractons = 20; rewardTokens = 1; multiplier += 3; }
+		else if (count.i === 3) { rewardFractons = 40; multiplier += 3; }
 		else if (count.fracton === 2 && count.one === 1) { rewardFractons = 50; }
+		else if (count.fracton === 2 && count.zero === 1) { rewardFractons = 10; }
 		else if (count.fracton === 2 && count.pi === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.e === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.i === 1) { rewardFractons = 20; }
 		else if (count.fracton === 2 && count.token === 1) { rewardFractons = 20; rewardTokens = 1; }
 		else if (count.fracton === 1 && count.one === 2) { rewardFractons = 25; }
+		else if (count.fracton === 1 && count.zero === 2) { rewardFractons = 5; }
+		else if (count.fracton === 1 && count.pi === 2) { rewardFractons = 5; }
+		else if (count.fracton === 1 && count.e === 2) { rewardFractons = 5; }
+		else if (count.fracton === 1 && count.i === 2) { rewardFractons = 5; }
 		else if (count.fracton === 1 && count.token === 2) { rewardFractons = 5; rewardTokens = 2; }
+		else if (count.fracton === 1) { rewardFractons = 1; }
 		else if (count.pi === 1 && count.e === 1 && count.i === 1) { rewardFractons = 100; }
 		
 		//	ACVM : binary

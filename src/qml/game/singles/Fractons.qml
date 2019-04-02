@@ -30,7 +30,9 @@ Item {
 	onLevelUp: /*int level, int previous*/ {
 		console.warn("Player leveled up!");
 //		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
-		
+		JGameNotifications.sendMessage('Level Up!',
+									   "Congratulations, you've levelled up to Level " + level + '!',
+									   5);
 		
 		//	QUEST : key = level
 		JQuests.addQuestProgressByKey("level", 1);
@@ -43,10 +45,6 @@ Item {
 		JGameAchievements.setProgressByName("leveller v", level);
 		
 		//	push a notification
-		JGameNotifications.sendMessage('Level Up!',
-									   "Congratulations, you've levelled up to Level " + level + '!',
-									   5);
-		
 		//	add tokens for each level surpassed
 		for (var l = previous + 1; l <= level; l++)
 			JStorage.addTokens(l);

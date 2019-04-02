@@ -179,16 +179,6 @@ JAchievement {
 		jAchievementsManager.achievements.push(obj);	//	add to achievements array in jAchievementsManager
 	}
 	
-	function getByIndex(i) {
-		if (i < 0 || jAchievementsManager.achievements.length <= i)
-		{
-			console.error("[GameAchievements] Achievement with index", i, "is out of range in GameAchievements.qml::getByIndex");
-			return undefined;
-		}
-		
-		return jAchievementsManager.achievements[i];
-	}
-	
 	function getByName(name) {
 		for (var i = 0; i < jAchievementsManager.achievements.length; i++)
 		{
@@ -201,8 +191,16 @@ JAchievement {
 	}
 	
 	function getNames(filter) {
+		if (filter === '' || filter === undefined)
+		{
+			var r = [];
+			for (var ii = 0; ii < jAchievementsManager.achievements.length; ii++)
+				r.push(jAchievementsManager.achievements[ii].name);
+			return r;
+		}
+		
 		//	filters should be whitespace-delimited
-		filter = filter === undefined ? filter = [] : filter.split(' ');
+		filter = filter.split(' ');
 		
 		var passesFilters = function(acvm)
 		{
@@ -233,16 +231,8 @@ JAchievement {
 		return ret;
 	}
 	
-	function addProgressByIndex(i, amount) {
-		addProgress(getByIndex(i), amount);
-	}
-
 	function addProgressByName(name, amount) {
 		addProgress(getByName(name), amount);
-	}
-	
-	function setProgressByIndex(i, amount) {
-		setProgress(getByIndex(i), amount);
 	}
 	
 	function setProgressByName(name, amount) {
@@ -268,7 +258,7 @@ JAchievement {
 		if (acvm.progress >= acvm.maxProgress)
 			return;
 		
-		//	add the amount
+		//	set the amount
 		acvm.progress = amount;
 		
 		if (acvm.progress >= acvm.maxProgress && !acvm.isCollected)
