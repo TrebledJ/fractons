@@ -64,5 +64,19 @@ bool Achievement::operator==(const Achievement &other)
 			m_progress == other.m_progress && 
 			m_maxProgress == other.m_maxProgress && 
 			m_isCollected == other.m_isCollected;
-			
+	
+}
+
+QVariantMap Achievement::toVariantMap() const
+{
+	return QVariantMap {
+		{"name", m_name},
+		{"description", m_description},
+		{"hint", m_hint},
+		{"group", m_group},
+		{"reward", m_reward},
+		{"progress", m_progress},
+		{"maxProgress", m_maxProgress},
+		{"isCollected", m_isCollected}
+	};
 }

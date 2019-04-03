@@ -49,6 +49,8 @@ public:
 	Achievement& operator= (const Achievement &other);
 	bool operator== (const Achievement &other);
 	
+	QVariantMap toVariantMap() const;
+	
 signals:
 	void nameChanged();
 	void descriptionChanged();

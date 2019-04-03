@@ -409,7 +409,7 @@ SceneBase {
 			}
 		}
 		
-		text: "Next"
+		text: "Next →"
 		
 		onClicked: scene.nextButtonClicked();
 	}
