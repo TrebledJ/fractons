@@ -56,6 +56,14 @@ ModesBase {
 			return lhsFractionA + ' ' + op + ' ' + lhsFractionB + ' = ' + rhsFraction;
 		}
 		
+		function solveLHS() {
+			return (operation === addition ? lhsFractionA.add(lhsFractionB) :
+					operation === subtraction ? lhsFractionA.sub(lhsFractionB) : 
+					operation === multiplication ? lhsFractionA.mul(lhsFractionB) :
+					operation === division ? lhsFractionA.div(lhsFractionB) :
+											 lhsFractionA);
+		}
+		
 		//	substitutes arguments in place of question marks, no error checking is done
 		//	input: JFraction.Fraction.string
 		//	return: JFraction.Fraction
@@ -135,11 +143,7 @@ ModesBase {
 		//	parse the rhs as a JFraction
 		var rhs = equationComponents.reparseRhs(ans.toString());
 		
-		var lhs = (operation === addition ? equationComponents.lhsFractionA.add(equationComponents.lhsFractionB) :
-					operation === subtraction ? equationComponents.lhsFractionA.sub(equationComponents.lhsFractionB) : 
-					operation === multiplication ? equationComponents.lhsFractionA.mul(equationComponents.lhsFractionB) :
-					operation === division ? equationComponents.lhsFractionA.div(equationComponents.lhsFractionB) :
-											 equationComponents.lhsFractionA);
+		var lhs = equationComponents.solveLHS();
 		
 		var isCorrect = lhs.equals(rhs.toNumericFraction());
 		console.debug("Question:", equationComponents.join());
@@ -152,6 +156,15 @@ ModesBase {
 		}
 		
 		return isCorrect;
+	}
+	
+	function getCorrectAnswer() {
+		var lhs = equationComponents.solveLHS();
+		
+		if (difficultyIndex === easy)
+			return String(lhs.n);
+		
+		return lhs.toString() + (lhs.isSimplified() ? '' : ' or ' + lhs.simplified());
 	}
 	
 	//	updates equationComponents with new values ('new' is not guaranteed)
@@ -183,7 +196,7 @@ ModesBase {
 			else if (operation === subtraction)
 			{
 				n1 = JMath.randI(2, d);
-				n2 = JMath.randI(1, n1);
+				n2 = JMath.randI(1, n1-1);
 			}
 			
 			equationComponents.lhsFractionA = new JFraction.Fraction(n1, d);

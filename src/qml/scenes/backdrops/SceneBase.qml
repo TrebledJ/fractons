@@ -22,28 +22,33 @@ Scene {
 	property int animationSmallerYBound: 0
 	property int animationLargerYBound: height
 	
+	readonly property bool shown: shownState.state === "show"
+	
 	
 	opacity: 0
 	visible: opacity != 0
-	enabled: state == "show"
+	enabled: shown
 	
 	Behavior on opacity {
 		NumberAnimation { easing.type: Easing.Linear; duration: 300 }
 	}
 	
-	state: "hide"
-	states: [
-		State {
-			name: "show"
-			when: gameWindow.activeScene === scene
-			PropertyChanges { target: scene; opacity: 1 }
-		},
-		State {
-			name: "hide"
-			when: gameWindow.activeScene !== scene
-			PropertyChanges { target: scene; opacity: 0 }
-		}
-	]
+	Item {
+		id: shownState
+		state: "hide"
+		states: [
+			State {
+				name: "show"
+				when: gameWindow.activeScene === scene
+				PropertyChanges { target: scene; opacity: 1 }
+			},
+			State {
+				name: "hide"
+				when: gameWindow.activeScene !== scene
+				PropertyChanges { target: scene; opacity: 0 }
+			}
+		]
+	}
 	
 	BubbleButton {
 		width: 60; height: 30
@@ -77,7 +82,7 @@ Scene {
 		interval: 1000
 		
 		onTriggered: {
-			if (state === "show")
+			if (shown)
 			{
 				var front = messageQueue[0];
 				messageQueue = messageQueue.slice(1);
@@ -100,7 +105,6 @@ Scene {
 								  visibleListener: visibleListener,
 								  fontSize: fontSize
 							  });
-			
 			check();
 		}
 		
@@ -113,5 +117,14 @@ Scene {
 			
 			check();
 		}
+	}
+	
+	
+	function show() {
+		shownState.state = "show";
+	}
+	
+	function hide() {
+		shownState.state = "hide";
 	}
 }

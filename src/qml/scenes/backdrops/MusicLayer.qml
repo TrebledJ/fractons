@@ -45,6 +45,10 @@ Scene {
 		id: bgmGolliwogsCakewalk
 		autoPlay: false; loops: 1
 		source: "qrc:/assets/sounds/debussy-golliwogs-cakewalk.mp3"
+		onPlayingChanged: {
+			console.warn("GolliwogPlayingChanged:", playing);
+		}
+
 		onStopped: next()
 	}
 	
@@ -108,7 +112,7 @@ Scene {
 	SoundEffect {
 		id: sfxCorrectAnswer
 		source: "qrc:/assets/sounds/c.wav"
-		volume: 0.2
+		volume: 0.5
 	}
 	
 	SoundEffect {

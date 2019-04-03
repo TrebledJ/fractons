@@ -11,7 +11,6 @@ import "../../js/Math.js" as JMath
 SceneBase {
 	id: sceneBase
 	
-	signal tokensButtonClicked
 	signal goButtonClicked
 	
 	property int multiplier: 1
@@ -51,8 +50,7 @@ SceneBase {
 			textObj.anchors.leftMargin: width * 1/3
 			text: tokens
 			
-//			onClicked: tokensButtonClicked()
-			onClicked: tokens += 5	//	TODO comment
+			enabled: false
 		}
 		
 	}
@@ -122,7 +120,6 @@ SceneBase {
 			
 			defaultReelWidth: itemSize
 			defaultItemHeight: itemSize + 10
-//			reelStopDelay: 1500		//	reels are stopped separately by 1.5 seconds
 			reelStopDelay: 800		//	reels are stopped separately by 1.5 seconds
 			reelCount: 3
 			rowCount: 1
@@ -326,8 +323,8 @@ SceneBase {
 //		slotMachine.updateModels();
 	}
 	
-	onStateChanged: {
-		if (state === "show")
+	onShownChanged: {
+		if (shown)
 		{
 			//	refresh tokens
 			tokens = JStorage.tokens();

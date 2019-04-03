@@ -21,16 +21,10 @@ ModesBase {
 										 })
 	
 	modeName: 'Conversion'
-	rewardAmount: 2
+	rewardAmount: [2, 1][difficultyIndex]
 	unit: "fractons"
 	
-	
-	onDifficultyIndexChanged: {
-		if (difficultyIndex === toDecimal)
-			setCustomNumpadKeys([7, 8, 9, 4, 5, 6, 1, 2, 3, '.', 0, 'back']);
-		else
-			setCustomNumpadKeys([7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']);
-	}
+	numberPad.keys: difficultyIndex === toDecimal ? [7, 8, 9, 4, 5, 6, 1, 2, 3, '.', 0, 'back'] : [7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']
 	
 	QtObject {
 		id: equationComponents
@@ -123,7 +117,6 @@ ModesBase {
 		var lhs = equationComponents.lhs;
 		var rhs = equationComponents.reparseRhs(text);
 		
-//		var isCorrect = difficultyIndex === toDecimal ? lhs.equalsValue(rhs) : rhs.equalsValue(lhs);
 		var isCorrect = difficultyIndex === toDecimal ? equationComponents.isApprox ? lhs.approximatesTo(rhs)
 																					: lhs.equalsValue(rhs)
 													  : rhs.equalsValue(lhs);
@@ -140,6 +133,21 @@ ModesBase {
 		return isCorrect;
 	}
 	
+	function getCorrectAnswer() {
+		var lhs = equationComponents.lhs;
+		if (difficultyIndex === toDecimal)
+		{
+			if (equationComponents.isApprox)
+				return Math.round(lhs.value() * 1000) / 1000;
+			
+			return lhs.value();
+		}
+		
+		var lhs_s = '' + lhs;
+		var places = lhs_s.length - 2;
+		return new JFraction.Fraction(lhs * Math.pow(10, places), Math.pow(10, places)).simplified().toString();
+	}
+	
 	//	generates a new, random question
 	function generateRandomQuestion() {
 		
@@ -148,7 +156,7 @@ ModesBase {
 			var d = JMath.randI(2, 10);
 			var n = JMath.randI(1, d-1);
 			
-			equationComponents.isApprox = !("2,4,5,8,10".includes(d));
+			equationComponents.isApprox = !("2,4,5,8,10".includes(d)) && !(d === 6 && n === 3);
 			
 			equationComponents.lhs = new JFraction.Fraction(n, d);
 			equationComponents.rhs = '?';
@@ -175,7 +183,7 @@ ModesBase {
 			equationComponents.lhs = JMath.choose(values);
 			equationComponents.rhs = new JFraction.Fraction('?', '?');
 			
-			equationComponents.isApprox = true;
+			equationComponents.isApprox = false;
 		}
 		
 	}

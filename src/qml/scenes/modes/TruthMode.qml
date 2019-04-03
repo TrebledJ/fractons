@@ -27,10 +27,10 @@ ModesBase {
 	rewardAmount: [2, 3, 5][difficultyIndex]
 	unit: "fractons"
 	
+	numberPad.keys: ["T", "F", "back"]
+		
 	Component.onCompleted: {
-//		numberPad.visible = false;
 		numberPad.height /= 3;
-		setCustomNumpadKeys(["T", "F", "back"]);
 	}
 	
 	
@@ -54,30 +54,6 @@ ModesBase {
 		anchors.centerIn: drawingArea
 		text: equationComponents.join()
 	}
-	
-//	TruthPad {
-//		id: truthPad
-//		width: 80; height: 100
-//		anchors {
-//			right: drawingArea.right
-//			bottom: drawingArea.bottom
-//			margins: 5
-//		}
-		
-//		visible: numberPadVisible
-		
-//		onKeyPressed: /*(key: string)*/ {
-//			if (key === 'back')
-//			{
-//				if (answerField.text.length > 0)
-//					answerField.text = answerField.text.substring(0, answerField.text.length - 1);
-				
-//				return;
-//			}
-			
-//			answerField.text += key;
-//		}
-//	}
 	
 	function hasParsingError(text) {
 		//	check undefined input
@@ -138,6 +114,11 @@ ModesBase {
 		return res;
 	}
 	
+	function getCorrectAnswer() {
+		return equationComponents.isTrue ? "T" : "F";
+	}
+	
+	
 	function generateEqualityRelation(baseMin, baseMax, absoluteMax, answer) {
 		var n_l, d_l, n_r, d_r;
 		
@@ -168,10 +149,11 @@ ModesBase {
 		else	//	answer === false
 		{
 			//	special case for if leftD is baseMin is 2
-			if (d_l === 2 && baseMin === 2)
-				d_r = JMath.randI(3, absoluteMax);
-			else
-				d_r = JMath.randI(baseMin, absoluteMax);
+//			if (d_l === 2 || baseMin === 2)
+//				d_r = JMath.randI(3, absoluteMax);
+//			else
+//				d_r = JMath.randI(baseMin, absoluteMax);
+			d_r = JMath.randI(baseMin === 2 ? 3 : baseMin, absoluteMax);
 			
 			if (difficultyIndex === easy || difficultyIndex === medium)
 			{
@@ -181,7 +163,7 @@ ModesBase {
 					n_r = JMath.choose(JMath.range(1, n_l).concat(JMath.range(n_l+1, d_r)));
 				else if (JMath.gcd(d_l, d_r) > 1)
 					//	... to anything but the calculated factor
-					n_r = JMath.choose(JMath.range(1, n_l*d_r/d_l).concat(JMath.range(Math.floor(n_l*d_r/d_l)+1, d_r)));
+					n_r = JMath.choose(JMath.range(1, d_r*n_l/d_l).concat(JMath.range(Math.floor(d_r*n_l/d_l)+1, d_r)));
 				else
 					//	... to anything
 					n_r = JMath.randI(1, d_r-1);

@@ -18,8 +18,8 @@ SceneBase {
 		
 	}
 	
-	onStateChanged: {
-		if (state === "show")
+	onShownChanged: {
+		if (shown)
 		{
 			//	ACVM : stats?
 			JGameAchievements.addProgressByName("stats?", 1);

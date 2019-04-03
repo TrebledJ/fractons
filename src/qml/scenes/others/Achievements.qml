@@ -110,9 +110,8 @@ SceneBase {
 		color: "navy"
 	}
 	
-	onStateChanged: {
-		//	turn on safety when user enters scene
-		if (state === "show")
+	onShownChanged: {
+		if (shown)
 		{
 			//	ACVM : achievements?
 			JGameAchievements.addProgressByName("achievements?", 1);
@@ -122,7 +121,6 @@ SceneBase {
 	Popup {
 		id: infoPopup
 		width: parent.width - 2*margins; height: parent.height - 2*margins
-//		margins: 0
 		margins: JStorage.isMobile ? 0 : 150
 		
 		//	stores the achievement currently inspected
@@ -199,7 +197,6 @@ SceneBase {
 					
 					background: Rectangle {
 						radius: 5
-//						color: Qt.lighter(progressBar.contentItem.color, 3)
 						color: "lightgoldenrodyellow"
 					}
 					

@@ -18,8 +18,8 @@ SceneBase {
 		soundButton.checked = gameWindow.settings.getValue("soundEnabled");
 	}
 	
-	onStateChanged: {
-		if (state === "show")
+	onShownChanged: {
+		if (shown)
 		{
 			deleteDataButton.isSafetyOn = true;
 		}

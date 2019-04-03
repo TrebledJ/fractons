@@ -54,7 +54,7 @@ Scene {
 			property int seconds
 			property real speed: 30 / 1000
 			
-			border.width: 3
+			border.width: 1
 			border.color: "lightgoldenrodyellow"
 			
 			color: "navy"

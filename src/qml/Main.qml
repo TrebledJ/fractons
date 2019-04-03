@@ -54,16 +54,16 @@ GameWindow {
 	
 	state: "home"
 //	state: "settings"
-//	state: "mode_balance"
+//	state: "mode_conversion"
 	states: [
 		State {
 			name: "home"
-			PropertyChanges { target: homeScene; /*state: "show"*/ }
+			PropertyChanges { target: homeScene }
 			PropertyChanges { target: gameWindow; activeScene: homeScene }
 		},
 		State {
 			name: "exerciseMenu"
-			PropertyChanges { target: exerciseMenuScene; /*state: "show"*/ }
+			PropertyChanges { target: exerciseMenuScene }
 			PropertyChanges { target: gameWindow; activeScene: exerciseMenuScene }
 		},
 //		State {
@@ -73,70 +73,70 @@ GameWindow {
 //		},
 		State {
 			name: "mode_balance"
-			PropertyChanges { target: modeBalanceScene; /*state: "show"*/ }
+			PropertyChanges { target: modeBalanceScene }
 			PropertyChanges { target: gameWindow; activeScene: modeBalanceScene }
 		},
 		State {
 			name: "mode_conversion"
-			PropertyChanges { target: modeConversionScene; /*state: "show"*/ }
+			PropertyChanges { target: modeConversionScene }
 			PropertyChanges { target: gameWindow; activeScene: modeConversionScene }
 		},
 		State {
 			name: "mode_truth"
-			PropertyChanges { target: modeTruthScene; /*state: "show"*/ }
+			PropertyChanges { target: modeTruthScene }
 			PropertyChanges { target: gameWindow; activeScene: modeTruthScene }
 		},
 		State {
 			name: "mode_operations"
-			PropertyChanges { target: modeOperationsScene; /*state: "show"*/ }
+			PropertyChanges { target: modeOperationsScene }
 			PropertyChanges { target: gameWindow; activeScene: modeOperationsScene }
 		},
 		
 		State {
 			name: "studyMenu"
-			PropertyChanges { target: studyMenuScene; /*state: "show"*/ }
+			PropertyChanges { target: studyMenuScene }
 			PropertyChanges { target: gameWindow; activeScene: studyMenuScene }
 		},
 		State {
 			name: "lesson_intro"
-			PropertyChanges { target: lessonIntroductionScene; /*state: "show"*/ }
+			PropertyChanges { target: lessonIntroductionScene }
 			PropertyChanges { target: gameWindow; activeScene: lessonIntroductionScene }
 		},
 		State {
 			name: "lesson_adding-subtracting-like"
-			PropertyChanges { target: lessonAdditionSubtractionLikeScene; /*state: "show"*/ }
+			PropertyChanges { target: lessonAdditionSubtractionLikeScene }
 			PropertyChanges { target: gameWindow; activeScene: lessonAdditionSubtractionLikeScene }
 		},
 		State {
 			name: "lesson_balancing"
-			PropertyChanges { target: lessonBalancingScene; /*state: "show"*/ }
+			PropertyChanges { target: lessonBalancingScene }
 			PropertyChanges { target: gameWindow; activeScene: lessonBalancingScene }
 		},
 		
 		State {
 			name: "lottery"
-			PropertyChanges { target: lotteryScene; /*state: "show"*/ }
+			PropertyChanges { target: lotteryScene }
 			PropertyChanges { target: gameWindow; activeScene: lotteryScene }
 		},
 		State {
 			name: "mode_token"
-			PropertyChanges { target: modeTokenScene; /*state: "show"*/ }
+			PropertyChanges { target: modeTokenScene }
 			PropertyChanges { target: gameWindow; activeScene: modeTokenScene }
 		},
 		
 		State {
 			name: "achievements"
-			PropertyChanges { target: achievementsScene; /*state: "show"*/ }
+			PropertyChanges { target: achievementsScene }
 			PropertyChanges { target: gameWindow; activeScene: achievementsScene }
 		},
 		State {
 			name: "statistics"
-			PropertyChanges { target: statisticsScene; /*state: "show"*/ }
+			PropertyChanges { target: statisticsScene }
 			PropertyChanges { target: gameWindow; activeScene: statisticsScene }
 		},
 		State {
 			name: "settings"
-			PropertyChanges { target: settingsScene; /*state: "show"*/ }
+			PropertyChanges { target: settingsScene }
 			PropertyChanges { target: gameWindow; activeScene: settingsScene }
 //			Transition
 		}
@@ -298,24 +298,4 @@ GameWindow {
 		backgroundLayer.animationQueue.push(obj);
 	}
 	
-//	Connections {
-//		target: JFractons
-		
-//		onLevelUp: /*int level*/ {
-//			JGameNotifications.sendMessage('Level Up!',
-//										   "Congratulations, you've levelled up to Level " + level + '!',
-//										   5);
-//		}
-//	}
-	
-//	Connections {
-//		target: JGameAchievements
-		
-//		onAchievementGet: /*string name, int reward*/ {
-//			JGameNotifications.sendMessage('Achievement Get!', 
-//										   'You just got the achievement <i>' + name + '</i> ' +
-//										   'and earned ' + reward + ' ' + (reward == 1 ? 'fracton' : 'fractons') + '!', 
-//										   5)
-//		}
-//	}
 }

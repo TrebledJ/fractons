@@ -147,7 +147,7 @@ function Fraction(n, d) {
 		//	specific value
 		var frac = this.toNumericFraction();
 		var magnitude = Math.pow(10, decimal_places);
-		return Math.floor(Math.round(frac.n / frac.d * magnitude)) / magnitude === value;
+		return Math.round(frac.n / frac.d * magnitude) / magnitude === value;
 	}
 	
 	this.isValid = function() {
@@ -167,6 +167,10 @@ function Fraction(n, d) {
 	
 	this.toString = function() {
 		return this.n + '/' + this.d;
+	}
+	
+	this.value = function() {
+		return this.n / this.d;
 	}
 }
 

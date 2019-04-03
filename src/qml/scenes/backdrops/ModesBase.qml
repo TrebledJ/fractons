@@ -11,6 +11,7 @@
 		int hasParsingError(text: string)	//	checks if text has a parsing error (this shouldn't include empty-string checking)
 		bool checkInput(text: string)		//	checks text against input validation
 		bool checkAnswer(text: string)		//	checks the answer provided by text (should return true if the answer is correct)
+		string getCorrectAnswer()			//	returns an answer that would have been marked as correct
 		void generateRandomQuestion()		//	generates a new, random question
 	
 	When a difficulty is changed, the following abstract functions will be in use. If a question has no difficulty levels,
@@ -32,6 +33,11 @@
 	
 	//	checks the answer provided by text
 	function checkAnswer(text) {
+		
+	}
+	
+	//	returns an answer that would have been marked as correct
+	function getCorrectAnswer() {
 		
 	}
 	
@@ -70,7 +76,8 @@ SceneBase {
 	id: scene
 	
 //	signal backButtonClicked	//	signal provided by SceneBase
-	signal goButtonClicked
+	signal checkButtonClicked
+	signal nextButtonClicked
 	signal difficultyChanged(int index, string difficulty)
 	signal correctAnswer
 	signal wrongAnswer
@@ -78,7 +85,7 @@ SceneBase {
 	property var lastQuestions: ({})
 	
 	property alias panel: panel
-	property alias goButton: goButton
+	property alias nextButton: nextButton
 	property alias answerField: answerField
 	
 	property alias drawingArea: drawingArea
@@ -92,6 +99,7 @@ SceneBase {
 
 	property bool hasInputError: false
 	property string errorMessage
+	property string textMessage
 	
 	property int rewardAmount: 0
 	property string unit	//	"fractons" or "tokens"
@@ -100,26 +108,18 @@ SceneBase {
 	useDefaultBackButton: false
 	animationLargerYBound: numberPadVisible ? numberPad.y : textFieldColumn.y
 	
+	state: "listening"
+	states: [
+		State { name: "listening" },
+		State { name: "static" }
+	]
+	
 	Component.onCompleted: {
-//		console.debug("Level", JFractons.levelAt());
-//		console.debug("fractons", JFractons.fCurrent);
-//		console.debug("leveling_constant", JFractons.fLevelingConstant);
-		
-//		for (var i = 0; i < 10; i++)
-//		{
-//			console.debug("Level", i, "has a thresh of", JFractons.xpThresh(i));
-//		}
-		
-//		for (var i = 0; i < 20; i++)
-//		{
-//			console.debug("XP", i * 10, "has level", JFractons.levelAt(i*10));
-//		}
-		
 		//	check if platform is mobile
 		if (JStorage.isMobile)
 		{
-			errorField.height = 30;
-			errorField.font.pointSize = 12;
+			textField.height = 30;
+			textField.font.pointSize = 12;
 			
 			answerField.height = 30;
 			answerField.font.pointSize = 18;
@@ -127,8 +127,6 @@ SceneBase {
 		else	//	non-mobile
 		{
 			numberPadVisible = false;	//	computers default to no numpad
-			
-//			answerField.onEditingFinished.connect(function(){ goButton.clicked(); });
 		}
 		
 		//	generate a random question
@@ -244,8 +242,10 @@ SceneBase {
 				visible: difficulties.length > 0
 				
 				onClicked: {
-					lastQuestions[difficultyIndex] = getQuestionState();
+					if (scene.state === "listening")
+						lastQuestions[difficultyIndex] = getQuestionState();
 					
+					scene.state = "listening";
 					difficultyIndex = (difficultyIndex + 1) % difficulties.length;
 				}
 			}
@@ -259,16 +259,16 @@ SceneBase {
 			}
 			
 			BubbleButton {
-				id: goButton
+				id: checkButton
 				width: parent.width; height: 30
 				background.radius: 5
 				
-				text: "Go"
+				text: "Check"
 				
-				//	broadcast
-				onClicked: scene.goButtonClicked();
-				//	all the intense logic is kept out of here for brevity
-				//	and moved to the onGoButtonClicked signal handler below
+				enabled: scene.state === "listening"
+				opacity: enabled ? 1 : 0.6
+				
+				onClicked: scene.checkButtonClicked();
 			}
 			
 			TextBase {
@@ -324,17 +324,17 @@ SceneBase {
 		
 		//	this will popup above the answerField below when there is an error message
 		TextField {
-			id: errorField
+			id: textField
 			width: parent.width; height: 20
 			padding: 2
 			
-			text: errorMessage
-			color: "red"
+			text: errorMessage || textMessage
+			color: errorMessage ? "red" : "green"
 			
 			font.pointSize: 8
 			font.family: "Trebuchet MS"
 			
-			visible: errorMessage !== ""
+			visible: errorMessage || textMessage
 			opacity: 0.8
 			
 			readOnly: true
@@ -353,12 +353,16 @@ SceneBase {
 			font.pointSize: 8
 			font.family: "Trebuchet MS"
 			
+			readOnly: scene.state === "static"
+			
 			Keys.onReturnPressed: {
 				if (JStorage.isMobile)
 					return;
 				
-				//	simulate goButton being clicked
-				goButton.clicked();
+				if (scene.state === "listening")
+					checkButton.clicked();
+				else if (scene.state === "static")
+					nextButton.clicked();
 			}
 			
 			background: Rectangle {
@@ -379,11 +383,35 @@ SceneBase {
 			onTextChanged: {
 				//	update the errCode which will update the background if the answer is invalid
 				var text = answerField.text;
-
+				
 				var error = hasParsingError(text);
 				hasInputError = error;
 			}
 		}
+	}
+	
+	BubbleButton {
+		id: nextButton
+		width: checkButton.width; height: 20
+		background.radius: 5
+		
+		anchors {
+			right: parent.right
+			rightMargin: scene.state === "static" ? 0 : -width - 10
+			bottom: parent.bottom
+		}
+		
+		Behavior on anchors.rightMargin {
+			NumberAnimation {
+				easing.overshoot: 1.5
+				duration: 400
+				easing.type: Easing.InOutBack
+			}
+		}
+		
+		text: "Next"
+		
+		onClicked: scene.nextButtonClicked();
 	}
 	
 	//	this will be referenced in child scenes for appropriate drawing points
@@ -448,8 +476,7 @@ SceneBase {
 	}
 	
 	onDifficultyIndexChanged: {
-		console.warn("Difficulty Index Changed:", difficultyIndex)
-		console.log(JSON.stringify(lastQuestions))
+		console.warn("Difficulty Index Changed:", difficultyIndex, difficulties[difficultyIndex])
 		
 		//	generate a new random question
 		if (lastQuestions[difficultyIndex] === undefined)
@@ -458,11 +485,12 @@ SceneBase {
 			parseQuestionState(lastQuestions[difficultyIndex]);
 		
 		modesBase.difficultyChanged(difficultyIndex, difficulties[difficultyIndex]);
+		
+		clearInput();
 	}
 	
-	onGoButtonClicked: {
-		//	animation logic
-		goButton.animateScalar();
+	onCheckButtonClicked: {
+		checkButton.animateScalar();
 		
 		//	processing logic
 		var text = answerField.text;
@@ -508,17 +536,34 @@ SceneBase {
 		else
 		{
 			wrongAnswer();
-			resetCombo();
 		}
 		
 		JGameStatistics.incDailyAttempted();
 //		JGameStatistics.pushQuestion(modeName, difficulties[difficultyIndex], question, input, answer, isCorrect);	//	TODO uncomplete
 		
+		state = "static";
+		
+	}
+	
+	onNextButtonClicked: {
+		//	animation logic
+		nextButton.animateScalar();
+		
 		clearInput();
 		generateRandomQuestion();
+		
+		state = "listening";
 	}
 	
 	onCorrectAnswer: {
+		textMessage = JMath.choose([
+									   "That's the correct answer!",
+									   "Correct!",
+									   "Bravo!",
+									   "Yes!",
+									   "You did it!",
+								   ]);
+		
 		addCombo();	//	increment the combo
 		
 		var combo = JStorage.combo();
@@ -562,13 +607,17 @@ SceneBase {
 		
 		//	add to statistics
 		JGameStatistics.incDailyCorrect();
-		
 	}
 	
-	onStateChanged: {
+	onWrongAnswer: {
+		errorMessage = "Oh no! The answer was " + getCorrectAnswer() + ".";
+		resetCombo();
+	}
+
+	onShownChanged: {
 		var msg = modeName + " Mode";
-		
-		if (state === "show")
+
+		if (shown)
 			backgroundAnimationTimer.run(msg, null, scene, 20);
 		else
 			backgroundAnimationTimer.cancel(msg);
@@ -665,32 +714,32 @@ SceneBase {
 	}
 	
 	function resetCombo() {
-//		combo = 0;
 		JStorage.setCombo(0);
 		
-		var expressions = [
-					"Oh no!",
-					"Oh no!",
-					"Oops!",
-					"Oh dear...",
-					"Combo 0",
-				];
-		var emojis = [
-					"😢",
-					"😭",
-					"😥",
-					"☹️",
-					"😣"
-				];
+//		var expressions = [
+//					"Oh no!",
+//					"Oh no!",
+//					"Oops!",
+//					"Oh dear...",
+//					"Combo 0",
+//				];
+//		var emojis = [
+//					"😢",
+//					"😭",
+//					"😥",
+//					"☹️",
+//					"😣"
+//				];
 		
-		var x = JMath.randI(0, 50) / 100;
+//		var x = JMath.randI(0, 50) / 100;
 		
-		logEvent(JMath.choose(expressions) + ' ' + JMath.choose(emojis), "red", 12, x);
+//		logEvent(JMath.choose(expressions) + ' ' + JMath.choose(emojis), "red", 12, x);
 	}
 	
 	//	this will modify properties such that there IS a state of error present
 	function rejectInput(msg) {
 		errorMessage = msg;
+		textMessage = "";
 		hasInputError = true;
 	}
 	
@@ -702,6 +751,8 @@ SceneBase {
 	
 	//	this will clear the input in answerField
 	function clearInput() {
+		errorMessage = "";
+		textMessage = "";
 		answerField.clear();
 	}
 	

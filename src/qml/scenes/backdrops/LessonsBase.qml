@@ -69,8 +69,8 @@ SceneBase {
 	
 	property bool useDefaultPracticeButton: true
 	
-	onStateChanged: {
-		if (state === "show")
+	onShownChanged: {
+		if (shown)
 		{
 			//	ACVM : lessons?
 			JGameAchievements.addProgressByName("lessons?", 1);

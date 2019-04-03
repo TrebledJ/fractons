@@ -113,6 +113,14 @@ ModesBase {
 		return res;
 	}
 	
+	function getCorrectAnswer() {
+		var lhs = equationComponents.lhsFraction.value();
+		if (equationComponents.rhsFraction.n === '?')
+			return lhs * equationComponents.rhsFraction.d;
+		
+		return equationComponents.rhsFraction.n / lhs;
+	}
+	
 	function generateRandomQuestion() {
 		
 		var n_l, d_l, n_r, d_r;
@@ -151,10 +159,19 @@ ModesBase {
 		if (top) rhs.n = '?';
 		else	 rhs.d = '?';
 		
-		
-		
 		equationComponents.lhsFraction = lhs;
 		equationComponents.rhsFraction = rhs;
-		
 	}
+	
+//	//	== If there is more than one difficulty: == //
+	
+//	//	encodes the current question's state
+//	function getQuestionState() {
+		
+//	}
+	
+//	//	decodes the state provided
+//	function parseQuestionState(state) {
+		
+//	}
 }

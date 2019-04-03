@@ -139,7 +139,7 @@ Scene {
 			else /* !isText */
 				obj.y = JMath.randI(0, parent.height - obj.height);	//	set y after creating obj to determine height
 			
-			obj.opacity = visibleListener === scene ? 0.1 : Qt.binding(function() { return visibleListener.state !== "show" || (visibleListener.state === "show" && obj.opacity !== 0.1) ? 0 : 0.1; });
+			obj.opacity = visibleListener === scene ? 0.1 : Qt.binding(function() { return !visibleListener.shown || (visibleListener.shown && obj.opacity !== 0.1) ? 0 : 0.1; });
 			
 			if (component === buttonComponent)
 			{
