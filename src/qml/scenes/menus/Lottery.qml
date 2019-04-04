@@ -30,21 +30,43 @@ SceneBase {
 		tokens = JStorage.tokens();
 	}
 	
-	BubbleButton {
-		id: tokensButton
-		width: 40 + 10*(''+tokens).length; height: 30
+	Row {
 		anchors {
 			right: parent.right; rightMargin: 10
 			verticalCenter: banner.verticalCenter
 		}
 		
-		image.source: "qrc:/assets/icons/coins"
-		image.anchors.rightMargin: width /2
-		textObj.anchors.right: tokensButton.right
-		textObj.anchors.leftMargin: width * 1/3
-		text: tokens
+		spacing: 10
 		
-		enabled: false
+		BubbleButton {
+			id: tokensButton
+			width: 40 + 10*(''+tokens).length; height: 30
+			
+			
+			image.source: "qrc:/assets/icons/coins"
+			image.anchors.rightMargin: width /2
+			textObj.anchors.right: tokensButton.right
+			textObj.anchors.leftMargin: width * 1/3
+			text: tokens
+			
+			enabled: false
+		}
+		
+		BubbleButton {
+			id: goButton
+			width: 60; height: 30
+			
+//			anchors.top: banner.bottom
+//			anchors.right: parent.right
+//			anchors.margins: 10
+			
+			enabled: !slotMachine.stopping
+			opacity: enabled ? 1 : 0.8
+			
+			text: slotMachine.spinning ? 'Stop' : 'Go'
+			
+			onClicked: sceneBase.goButtonClicked()
+		}
 	}
 	
 	Rectangle {

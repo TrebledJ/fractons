@@ -4,6 +4,9 @@ import QtQuick 2.0
 import "../../common"
 import "../../game/singles"
 
+//	TODO rethink/redesign notifications
+//	 currently they get in the way of buttons
+
 Scene {
 	id: scene
 	
