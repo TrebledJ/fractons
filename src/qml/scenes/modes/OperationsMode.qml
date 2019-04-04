@@ -93,7 +93,7 @@ ModesBase {
 		
 		//	joins with input in rhs
 		function dynamicJoin() {
-			return lhsFractionA + ' ' + op + ' ' + lhsFractionB + ' = ' + reparseRhs(answerField.text);
+			return lhsFractionA + ' ' + op + ' ' + lhsFractionB + ' = ' + reparseRhs(userInput());
 		}
 	}
 	
@@ -101,7 +101,7 @@ ModesBase {
 	Equation {
 		id: equation
 		anchors.centerIn: drawingArea
-		text: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
+		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 	}
 	
 	
@@ -341,4 +341,5 @@ ModesBase {
 //		console.log()
 		
 	}
+	
 }

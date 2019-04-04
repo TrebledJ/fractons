@@ -17,6 +17,9 @@ Scene {
 	
 	property alias backgroundAnimationTimer: backgroundAnimationTimer
 	
+	property alias banner: banner
+	
+	property bool useDefaultTopRibbon: false
 	property bool useDefaultBackButton: true
 	
 	property int animationSmallerYBound: 0
@@ -48,6 +51,15 @@ Scene {
 				PropertyChanges { target: scene; opacity: 0 }
 			}
 		]
+	}
+	
+	Rectangle {
+		id: banner
+		width: parent.width; height: 50
+		anchors.top: parent.top
+		color: "navy"
+		
+		visible: useDefaultTopRibbon
 	}
 	
 	BubbleButton {

@@ -11,6 +11,7 @@ Scene {
 	width: 480
 	height: 320
 	
+	property bool animationsEnabled: true
 	property var animationQueue: []
 	
 	Rectangle {
@@ -47,6 +48,9 @@ Scene {
 				console.error(textComponent.errorString());
 				return;
 			}
+			
+			if (!animationsEnabled)
+				return;
 			
 			var readySpawn = false;
 			var text, fontSize = 10;

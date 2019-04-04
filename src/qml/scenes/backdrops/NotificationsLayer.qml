@@ -45,7 +45,7 @@ Scene {
 		Rectangle {
 			id: notificationRect
 			x: scene.width; y: scene.height / 2
-			width: 150
+			width: 120
 			height: titleText.contentHeight + messageText.contentHeight + 20
 			radius: 5
 
@@ -58,7 +58,7 @@ Scene {
 			border.color: "lightgoldenrodyellow"
 			
 			color: "navy"
-			opacity: 0.4
+			opacity: 0.3
 			
 			Behavior on opacity {
 				NumberAnimation {
@@ -142,7 +142,7 @@ Scene {
 				hoverEnabled: true
 				onClicked: notificationRect.opacity = 0
 				onEntered: notificationRect.opacity = 0.9
-				onExited: notificationRect.opacity = 0.4
+				onExited: notificationRect.opacity = 0.3
 			}
 		}
 	}

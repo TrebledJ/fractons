@@ -9,6 +9,8 @@ SceneBase {
 	
 	signal lessonClicked(string lesson)
 	
+	useDefaultTopRibbon: true
+	
 	ListModel {
 		id: lessonModel
 		
@@ -110,13 +112,5 @@ SceneBase {
 			}	//	Row: row
 		}	//	Component: lessonDelegate
 	}	//	ListView: lessonView
-	
-	
-	Rectangle {
-		id: banner
-		width: parent.width; height: 50
-		anchors.top: parent.top
-		color: "navy"
-	}
 	
 }

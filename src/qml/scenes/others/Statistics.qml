@@ -10,12 +10,10 @@ import "../../game/singles"
 SceneBase {
 	id: sceneBase
 	
+	useDefaultTopRibbon: true
+	
 	Component.onCompleted: {
-//		console.log("Dp Scale:", sceneBase.dpScale);
-//		console.log("x Scale:", sceneBase.xScaleForScene);
-//		console.log("y Scale:", sceneBase.yScaleForScene);
-//		console.log("Physical Pixels [1]:", sceneBase.physicalPixels(1));
-		
+	
 	}
 	
 	onShownChanged: {
@@ -39,8 +37,7 @@ SceneBase {
 //		legend.alignment: Qt.AlignBottom
 //		antialiasing: true
 		 
-//		visible: sceneBase.visible
-//		opacity: 0.95
+//		opacity: sceneBase.opacity
 		
 //		BarSeries {
 //			id: series

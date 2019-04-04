@@ -19,6 +19,8 @@ import Fractons 1.0
 SceneBase {
 	id: sceneBase
 	
+	useDefaultTopRibbon: true
+	
 	ListModel {
 		id: groupModel
 		ListElement { role_group: "explorer"; role_isActive: function() { return true; } }
@@ -103,19 +105,10 @@ SceneBase {
 							}
 						}
 					}
-				}
-			}
-
-			
-		}
-	}
-	
-	Rectangle {
-		id: banner
-		width: parent.width; height: 50
-		anchors.top: parent.top
-		color: "navy"
-	}
+				}	//	Row
+			}	//	Column
+		}	//	delegate: Item
+	}	//	ListView
 	
 	onShownChanged: {
 		

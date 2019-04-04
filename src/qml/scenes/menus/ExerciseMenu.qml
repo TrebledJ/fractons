@@ -11,7 +11,7 @@ SceneBase {
 	
 	signal modeClicked(string mode)
 	
-//	useDefaultBackButton: false
+	useDefaultTopRibbon: true
 	
 	ListModel {
 		id: modeModel
@@ -91,10 +91,11 @@ SceneBase {
 					
 //					visible: false
 					
-					color: "black"	//	4 DEBUG
+//					color: "black"	//	4 DEBUG
 					opacity: 0.6
-//					color: "transparent"
-
+					color: "transparent"
+					
+//					visible: false
 				}
 				
 				//	displays mode name with button function
@@ -137,11 +138,4 @@ SceneBase {
 		}	//	Component: modelDelegate
 	}	//	ListView: modeView
 	
-	Rectangle {
-		id: banner
-		width: parent.width; height: 50
-		anchors.top: parent.top
-		color: "navy"
-	}
-
 }

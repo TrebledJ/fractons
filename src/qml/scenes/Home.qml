@@ -337,7 +337,7 @@ SceneBase {
 		
 		//	anchor to bottom left above ribbon
 		anchors {
-			left: parent.left
+			left: parent.left; leftMargin: 3
 			bottom: ribbonBackground.top
 			margins: 1
 		}

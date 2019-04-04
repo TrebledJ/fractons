@@ -56,14 +56,15 @@ ModesBase {
 		
 		//	joins with input in rhs
 		function dynamicJoin() {
-			return lhsFraction + ' = ' + reparseRhs(answerField.text);
+			return lhsFraction + ' = ' + reparseRhs(userInput());
 		}
 	}
 	
 	Equation {
 		id: equation
 		anchors.centerIn: drawingArea
-		text: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
+//		text: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
+		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 	}
 	
 	function hasParsingError(text) {

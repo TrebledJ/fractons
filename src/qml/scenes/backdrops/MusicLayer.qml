@@ -11,13 +11,14 @@ Scene {
 	width: 480
 	height: 320
 	
-	property var playlist: [bgmGolliwogsCakewalk, bgmClairDeLune, bgmArabesque, bgmPrelude4, bgmWaltz15]
-	property int index: 0
-	signal next
-	
 	property alias sfxCorrectAnswer: sfxCorrectAnswer
 	property alias sfxWrongAnswer: sfxWrongAnswer
 	
+	QtObject {
+		id: p
+		property var playlist: [bgmGolliwogsCakewalk, bgmClairDeLune, bgmArabesque, bgmPrelude4, bgmWaltz15]
+		property int index: 0
+	}
 	
 	Component.onCompleted: {
 		if (musicEnabled)
@@ -25,21 +26,6 @@ Scene {
 	}
 	
 	//	-- Background Music --
-	
-	Connections {
-		target: gameWindow
-		
-		onMusicEnabledChanged: {
-			console.warn("Music Enabled Changed:", musicEnabled);
-			if (musicEnabled) playlist[index].play()
-			else			  playlist[index].pause()
-		}
-		
-		onSoundEnabledChanged: {
-			console.warn("Sound Enabled Changed:", soundEnabled);
-			if (soundEnabled) sfxCorrectAnswer.play();
-		}
-	}
 	
 	BackgroundMusic {
 		id: bgmGolliwogsCakewalk
@@ -81,10 +67,19 @@ Scene {
 	}
 	
 	
-	onNext: {
-		index = (index + 1) % playlist.length;
-		playlist[index].play();
+	function next() {
+		p.index = (p.index + 1) % p.playlist.length;
+		p.playlist[p.index].play();
 	}
+	
+	function playMusic() {
+		p.playlist[p.index].play();
+	}
+	
+	function pauseMusic() {
+		p.playlist[p.index].pause();
+	}
+	
 	
 	//	-- Sound Effects --
 	

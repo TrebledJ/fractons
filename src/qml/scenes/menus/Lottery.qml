@@ -22,6 +22,7 @@ SceneBase {
 	animationSmallerYBound: slotBackground.y + slotBackground.height
 	animationLargerYBound: height
 	
+	useDefaultTopRibbon: true
 	
 	onTokensChanged: JStorage.setTokens(tokens)
 	
@@ -29,41 +30,32 @@ SceneBase {
 		tokens = JStorage.tokens();
 	}
 	
-	Rectangle {
-		id: panel
-		width: parent.width; height: 50
-		anchors.top: parent.top
-		
-		color: "navy"
-		
-		BubbleButton {
-			id: tokensButton
-			width: 40 + 10*(''+tokens).length; height: 30
-			anchors {
-				right: parent.right; rightMargin: 10
-				verticalCenter: parent.verticalCenter
-			}
-			
-			image.source: "qrc:/assets/icons/coins"
-			image.anchors.rightMargin: width /2
-			textObj.anchors.right: tokensButton.right
-			textObj.anchors.leftMargin: width * 1/3
-			text: tokens
-			
-			enabled: false
+	BubbleButton {
+		id: tokensButton
+		width: 40 + 10*(''+tokens).length; height: 30
+		anchors {
+			right: parent.right; rightMargin: 10
+			verticalCenter: banner.verticalCenter
 		}
 		
+		image.source: "qrc:/assets/icons/coins"
+		image.anchors.rightMargin: width /2
+		textObj.anchors.right: tokensButton.right
+		textObj.anchors.leftMargin: width * 1/3
+		text: tokens
+		
+		enabled: false
 	}
 	
 	Rectangle {
 		x: slotBackground.x + slotBackground.width / 4 - width/2; width: 5
-		anchors.top: panel.bottom; anchors.bottom: slotBackground.top
+		anchors.top: banner.bottom; anchors.bottom: slotBackground.top
 		color: slotBackground.color
 	}
 	
 	Rectangle {
 		x: slotBackground.x + slotBackground.width * 3 / 4 - width/2; width: 5
-		anchors.top: panel.bottom; anchors.bottom: slotBackground.top
+		anchors.top: banner.bottom; anchors.bottom: slotBackground.top
 		color: slotBackground.color
 	}
 	
@@ -106,7 +98,7 @@ SceneBase {
 		width: 3*slotMachine.defaultReelWidth + 60; height: slotMachine.defaultItemHeight + 60
 		radius: 5
 		anchors.horizontalCenter: parent.horizontalCenter
-		anchors.top: panel.bottom
+		anchors.top: banner.bottom
 		anchors.topMargin: 10
 		color: "navy"
 		

@@ -111,7 +111,7 @@ Item {
 	
 	onQuestCompleted: /*string text, int reward*/ {
 		JGameNotifications.sendMessage('Quest Completed!',
-									   'You just completed a quest and got ' + reward + ' ' + JUtils.nounify(reward, 'fracton') + '!',
+									   'You completed a quest and got ' + reward + ' ' + JUtils.nounify(reward, 'ƒracton') + '!',
 									   5);
 	}
 	

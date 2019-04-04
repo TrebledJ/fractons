@@ -36,24 +36,41 @@ GameWindow {
 	screenWidth: 960
 	screenHeight: 640
 	
-	Component.onCompleted: {
-//		jNotifications.notify("Greetings", "Hello there, welcome to Fractons.", 5);
-		
-		musicEnabled = settings.musicEnabled;
-		soundEnabled = settings.soundEnabled;
-	}
-	
 	property int animationSmallerYBound: activeScene.animationSmallerYBound
 	property int animationLargerYBound: activeScene.animationLargerYBound
 	
 	property alias musicEnabled: settingsScene.musicEnabled
 	property alias soundEnabled: settingsScene.soundEnabled
+	property alias bgAnimationEnabled: settingsScene.bgAnimationEnabled
 	
-	onMusicEnabledChanged: gameWindow.settings.musicEnabled = musicEnabled;
-	onSoundEnabledChanged: gameWindow.settings.soundEnabled = soundEnabled;
+	Component.onCompleted: {
+		//	load saved settings
+		
+		musicEnabled = settings.musicEnabled;
+		soundEnabled = settings.soundEnabled;
+		
+		var e = settings.getValue('bgAnimationEnabled');
+		bgAnimationEnabled = e !== undefined ? e : true;
+	}
+	
+	onMusicEnabledChanged: {
+		console.warn("Music Enabled Changed:", musicEnabled);
+		gameWindow.settings.musicEnabled = musicEnabled;
+		if (musicEnabled) musicLayer.playMusic()
+		else			  musicLayer.pauseMusic()
+	}
+	onSoundEnabledChanged: {
+		console.warn("Sound Enabled Changed:", soundEnabled);
+		gameWindow.settings.soundEnabled = soundEnabled;
+	}
+	onBgAnimationEnabledChanged: {
+		console.warn("BGAnimations Enabled Changed:", bgAnimationEnabled);
+		gameWindow.settings.setValue('bgAnimationEnabled', bgAnimationEnabled)
+	}
+	
 	
 	state: "home"
-//	state: "achievements"
+//	state: "settings"
 //	state: "mode_conversion"
 	states: [
 		State {
@@ -118,11 +135,11 @@ GameWindow {
 			PropertyChanges { target: lotteryScene }
 			PropertyChanges { target: gameWindow; activeScene: lotteryScene }
 		},
-		State {
-			name: "mode_token"
-			PropertyChanges { target: modeTokenScene }
-			PropertyChanges { target: gameWindow; activeScene: modeTokenScene }
-		},
+//		State {
+//			name: "mode_token"
+//			PropertyChanges { target: modeTokenScene }
+//			PropertyChanges { target: gameWindow; activeScene: modeTokenScene }
+//		},
 		
 		State {
 			name: "achievements"
@@ -145,6 +162,8 @@ GameWindow {
 	BackgroundLayer {
 		id: backgroundLayer
 		z: -100
+		
+		animationsEnabled: bgAnimationEnabled
 	}
 	
 	Home {

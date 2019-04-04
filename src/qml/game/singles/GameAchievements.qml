@@ -80,8 +80,8 @@ Item {
 	
 	onAchievementGet: /*string name, int reward*/ {
 		JGameNotifications.sendMessage('Achievement Get!', 
-									   'You just got the achievement <i>' + name + '</i> ' +
-									   'and earned ' + reward + ' ' + JUtils.nounify(reward, 'fracton') + '!', 
+									   'You got <i>' + name + '</i> ' +
+									   'and earned ' + reward + ' ' + JUtils.nounify(reward, 'ƒracton') + '!', 
 									   5);
 	}
 	

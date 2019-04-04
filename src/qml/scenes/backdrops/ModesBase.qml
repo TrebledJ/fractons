@@ -85,11 +85,6 @@ SceneBase {
 	signal wrongAnswer
 	
 	property var lastQuestions: ({})
-	
-	property alias panel: panel
-	property alias nextButton: nextButton
-	property alias answerField: answerField
-	
 	property alias drawingArea: drawingArea
 	
 	property alias numberPad: numberPad
@@ -102,6 +97,7 @@ SceneBase {
 	property bool hasInputError: false
 	property string errorMessage
 	property string textMessage
+	property bool hasMessage: errorMessage || textMessage
 	
 	property int rewardAmount: 0
 	property string unit	//	"fractons" or "tokens"
@@ -314,6 +310,7 @@ SceneBase {
 		}	//	Column: panelColumn
 	}	//	Rectangle: panel
 	
+	
 	//	this column holds text fields, anchored to the bottom of the scene (for non-mobile/tvos platforms only)
 	Column {
 		id: textFieldColumn
@@ -325,7 +322,7 @@ SceneBase {
 		//	this will popup above the answerField below when there is an error message
 		TextField {
 			id: textField
-			width: parent.width; height: 20
+			width: parent.width; height: hasMessage ? 20 : 0
 			padding: 2
 			
 			text: errorMessage || textMessage
@@ -334,10 +331,40 @@ SceneBase {
 			font.pointSize: 8
 			font.family: "Trebuchet MS"
 			
-			visible: errorMessage || textMessage
 			opacity: 0.8
 			
 			readOnly: true
+			
+			Behavior on height { 
+				PropertyAnimation { 
+					easing.type: Easing.OutBack
+					duration: hasMessage ? 500 : 800
+				}
+			}
+			
+			BubbleButton {
+				id: nextButton
+				width: checkButton.width; height: parent.height
+				background.radius: 5
+				
+				anchors {
+					right: parent.right
+					rightMargin: scene.state === "static" ? 0 : -width - 10
+					bottom: parent.bottom
+				}
+				
+				Behavior on anchors.rightMargin {
+					NumberAnimation {
+						easing.overshoot: 1.5
+						duration: hasMessage ? 800 : 50
+						easing.type: hasMessage ? Easing.OutBack : Easing.Linear
+					}
+				}
+				
+				text: "Next →"
+				
+				onClicked: scene.nextButtonClicked();
+			}
 		}
 		
 		//	this is similar to a qlineedit, and is where the user will enter input
@@ -388,30 +415,6 @@ SceneBase {
 				hasInputError = error;
 			}
 		}
-	}
-	
-	BubbleButton {
-		id: nextButton
-		width: checkButton.width; height: 20
-		background.radius: 5
-		
-		anchors {
-			right: parent.right
-			rightMargin: scene.state === "static" ? 0 : -width - 10
-			bottom: parent.bottom
-		}
-		
-		Behavior on anchors.rightMargin {
-			NumberAnimation {
-				easing.overshoot: 1.5
-				duration: 400
-				easing.type: Easing.InOutBack
-			}
-		}
-		
-		text: "Next →"
-		
-		onClicked: scene.nextButtonClicked();
 	}
 	
 	//	this will be referenced in child scenes for appropriate drawing points
@@ -762,5 +765,9 @@ SceneBase {
 	
 	function setCustomNumpadKeys(keys) {
 		numberPad.keys = keys;
+	}
+	
+	function userInput() {
+		return answerField.text;
 	}
 }

@@ -11,12 +11,9 @@ SceneBase {
 	
 	property alias musicEnabled: musicButton.checked
 	property alias soundEnabled: soundButton.checked
+	property alias bgAnimationEnabled: bgAnimationButton.checked
 	
-	Component.onCompleted: {
-		//	load saved settings
-		musicButton.checked = gameWindow.settings.getValue("musicEnabled");
-		soundButton.checked = gameWindow.settings.getValue("soundEnabled");
-	}
+	useDefaultTopRibbon: true
 	
 	onShownChanged: {
 		if (shown)
@@ -26,17 +23,14 @@ SceneBase {
 	}
 	
 	GridLayout {
-		anchors.right: parent.right
-		anchors.verticalCenter: parent.verticalCenter
-		anchors.margins: 0.2 * parent.width
+		anchors.centerIn: parent
 		
-		columns: 2
+		columns: 5
 		columnSpacing: 10
 		rowSpacing: 10
 		
 		TextBase {
-			width: 50
-			height: 30
+			width: 50; height: 30
 			text: "Music"
 			Layout.alignment: Qt.AlignRight
 			verticalAlignment: Text.AlignVCenter
@@ -49,9 +43,26 @@ SceneBase {
 			text: checked ? "On" : "Off"
 		}
 		
+		Item {
+			width: 40; height: 1
+		}
+		
 		TextBase {
-			width: 50
-			height: 30
+			width: 50; height: 30
+			text: "Background Animations"
+			Layout.alignment: Qt.AlignLeft
+			verticalAlignment: Text.AlignVCenter
+		}
+		
+		BubbleButton {
+			id: bgAnimationButton
+			width: 60; height: 30
+			isCheckButton: true
+			text: checked ? "On" : "Off"
+		}
+		
+		TextBase {
+			width: 50; height: 30
 			text: "SFX"
 			verticalAlignment: Text.AlignVCenter
 			Layout.alignment: Qt.AlignRight
@@ -64,6 +75,11 @@ SceneBase {
 			text: checked ? "On" : "Off"
 		}
 		
+		Repeater {
+			model: 6
+			Item { width: 40; height: 1 }
+		}
+
 		BubbleButton {
 			id: deleteDataButton
 			/*
@@ -76,8 +92,9 @@ SceneBase {
 			
 			width: 100; height: 30
 			
-			Layout.topMargin: 60	//	place the delete button a bit further
+			Layout.topMargin: 50	//	place the delete button a bit further
 			Layout.columnSpan: 2
+			Layout.alignment: Qt.AlignRight
 			
 			property bool isSafetyOn: true
 			

@@ -64,8 +64,6 @@ void AchievementsManager::addAchievement(Achievement *achievement)
 					 [=] ()
 	{
 		qDebug() << "[C++ AchievementsManager] Achievement Get: " << achievement->m_name;
-		QString msg = QString("You just got %1 and earned %2 Fractons!").arg(achievement->m_name).arg(achievement->m_reward);
-		
 		emit achievementGet(achievement->m_name, achievement->m_reward);
 	});
 }
