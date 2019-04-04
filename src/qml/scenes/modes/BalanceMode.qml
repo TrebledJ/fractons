@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 import "../backdrops"
+import "../../common"
 import "../../graphicmath"
 
 import "../../js/Fraction.js" as JFraction
@@ -18,6 +19,33 @@ ModesBase {
 	rewardAmount: 1
 	unit: "fractons"
 	
+	info: Item {
+		Column {
+			width: parent.width
+			spacing: 20
+			
+			TextBase {
+				text: "Balance Mode"
+			}
+			
+			ParagraphText {
+				text: "In this mode, you gain ƒractons by balancing the fractions on both sides of the equation."
+			}
+			
+			TextBase {
+				text: "Example:"
+			}
+			
+			Equation {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: "1/2 = ?/6"
+			}
+			
+			TextBase {
+				text: "Answer: 3"
+			}
+		}
+	}
 	
 	QtObject {
 		id: equationComponents
@@ -60,10 +88,8 @@ ModesBase {
 		}
 	}
 	
-	Equation {
+	centerpiece: Equation {
 		id: equation
-		anchors.centerIn: drawingArea
-//		text: hasInputError || answerField.text.length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 	}
 	

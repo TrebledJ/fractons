@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import "../../common"
 
 TextBase {
 	width: parent.width

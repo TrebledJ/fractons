@@ -1,7 +1,7 @@
 import QtQuick 2.0
 
 import "../backdrops"
-import "../../game"
+import "../../common"
 import "../../graphicmath"
 
 import "../../js/Fraction.js" as JFraction
@@ -27,6 +27,37 @@ ModesBase {
 	
 	numberPad.keys: ["T", "F", "back"]
 		
+	
+	info: Item {
+		Column {
+			width: parent.width
+			spacing: 20
+			
+			TextBase {
+				text: "Truth Mode"
+			}
+			
+			ParagraphText {
+				text: "In this mode, you gain ƒractons by correctly discerning true equations from false ones."
+			}
+			
+			TextBase {
+				text: "Example:"
+			}
+			
+			Equation {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: "1/2 = 0/10"
+			}
+			
+			TextBase {
+				text: "Answer: F"
+			}
+		}
+	}
+	
+	
+	
 	Component.onCompleted: {
 		numberPad.height /= 3;
 	}
@@ -47,9 +78,8 @@ ModesBase {
 		}
 	}
 	
-	Equation {
+	centerpiece: Equation {
 		id: equation
-		anchors.centerIn: drawingArea
 		text: equationComponents.join()
 	}
 	

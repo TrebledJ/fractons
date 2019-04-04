@@ -342,11 +342,63 @@
 			}
 		},
 		"lottery": {
+			"1": {
+				"name": "Lottery I",
+				"description": "Spin 5 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 10,
+				"progress": 0,
+				"maxProgress": 5,
+				"isCollected": false
+			},
+			"2": {
+				"name": "Lottery II",
+				"description": "Spin 15 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 15,
+				"isCollected": false
+			},
+			"3": {
+				"name": "Lottery III",
+				"description": "Spin 50 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 50,
+				"isCollected": false
+			},
+			"4": {
+				"name": "Lottery IV",
+				"description": "Spin 100 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 120,
+				"progress": 0,
+				"maxProgress": 100,
+				"isCollected": false
+			},
+			"5": {
+				"name": "Lottery V",
+				"description": "Spin 250 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 250,
+				"isCollected": false
+			}
+		},
+		"lucky-lottery": {
 			"binary": {
 				"name": "Binary",
 				"description": "Get a combination of 1s and/or 0s in a spin.",
 				"hint": "",
-				"group": "lottery",
+				"group": "lucky-lottery",
 				"reward": 10,
 				"progress": 0,
 				"maxProgress": 1,
@@ -356,7 +408,7 @@
 				"name": "Magic Numbers",
 				"description": "Get a combination of e, π, and i in a spin.",
 				"hint": "",
-				"group": "lottery",
+				"group": "lucky-lottery",
 				"reward": 30,
 				"progress": 0,
 				"maxProgress": 1,
@@ -365,8 +417,8 @@
 			"multiplier": {
 				"name": "Big Multiplier",
 				"description": "Get a multiplier of 5 in a spin.",
-				"hint": "Only possible in a spin with 3es, 3is, or 3 πs.",
-				"group": "lottery",
+				"hint": "",
+				"group": "lucky-lottery",
 				"reward": 30,
 				"progress": 0,
 				"maxProgress": 1,
@@ -376,7 +428,7 @@
 				"name": "Lucky",
 				"description": "Earn 100 or more fractons in a spin.",
 				"hint": "",
-				"group": "lottery",
+				"group": "lucky-lottery",
 				"reward": 30,
 				"progress": 0,
 				"maxProgress": 1,
@@ -386,7 +438,7 @@
 				"name": "Jackpot",
 				"description": "Get 3 ƒs in a spin.",
 				"hint": "",
-				"group": "lottery",
+				"group": "lucky-lottery",
 				"reward": 60,
 				"progress": 0,
 				"maxProgress": 1,

@@ -88,7 +88,7 @@ SceneBase {
 	property alias drawingArea: drawingArea
 	
 	property alias numberPad: numberPad
-	property alias numberPadVisible: numberPadSwitch.checked
+	property alias numberPadEnabled: numberPadSwitch.checked
 	
 	property string modeName
 	property var difficulties: []
@@ -100,11 +100,13 @@ SceneBase {
 	property bool hasMessage: errorMessage || textMessage
 	
 	property int rewardAmount: 0
-	property string unit	//	"fractons" or "tokens"
+	property string unit	//	"fractons" or "tokens"	//	TODO deprecate?
 	
+	property alias info: infoItem.info
+	property alias centerpiece: centerpieceItem.centerpiece
 	
 	useDefaultBackButton: false
-	animationLargerYBound: numberPadVisible ? numberPad.y : textFieldColumn.y
+	animationLargerYBound: numberPadEnabled ? numberPad.y : textFieldColumn.y
 	
 	state: "listening"
 	states: [
@@ -124,28 +126,39 @@ SceneBase {
 		}
 		else	//	non-mobile
 		{
-			numberPadVisible = false;	//	computers default to no numpad
+//			numberPadEnabled = false;	//	computers default to no numpad
 		}
 		
 		//	generate a random question
 		generateRandomQuestion();
 	}
 	
-	
-	BubbleButton {
-		id: infoButton
-		width: height; height: 30
-		anchors {
-			top: drawingArea.top
-			right: drawingArea.right
-			margins: 10
+	Item {
+		id: infoItem
+		opacity: 0
+		
+		anchors.fill: drawingArea
+		
+		Behavior on opacity { 
+			PropertyAnimation { 
+				duration: 1000 
+				easing.type: infoButton.containsMouse ? Easing.InExpo : Easing.OutExpo
+			} 
 		}
 		
-		text: "i"
+		
+		property Item info
+		
+		onInfoChanged: {
+			info.parent = infoItem;
+			info.anchors.fill = infoItem;
+			info.anchors.margins = 20;
+		}
 	}
 	
 	NumberPad {
 		id: numberPad
+//		height: numberPadVisible ? 150 : 0
 		height: 150
 		anchors {
 			left: drawingArea.left
@@ -154,7 +167,9 @@ SceneBase {
 			margins: 5
 		}
 		
-		visible: numberPadVisible
+		visible: numberPadEnabled
+		
+//		Behavior on height { PropertyAnimation { } }
 		
 		onKeyPressed: /*params: {string key}*/ {
 			if (key === 'back')
@@ -186,17 +201,6 @@ SceneBase {
 			anchors.margins: 10
 			spacing: 10
 			
-			/*TextBase {
-				Layout.alignment: Qt.AlignHCenter
-				width: parent.width
-				color: "yellow"
-				text: modeName  // + "\nMode"
-				
-				horizontalAlignment: Text.AlignHCenter
-				
-				font.pointSize: 16
-			}*/
-			
 			//	this is the row of buttons at the top of the panel
 			Row {
 				width: parent.width; height: 30
@@ -214,8 +218,33 @@ SceneBase {
 				}
 				
 				BubbleButton {
+					id: infoButton
+					width: height; height: 30
+//					anchors {
+//						top: drawingArea.top
+//						right: drawingArea.right
+//						margins: 10
+//					}
+					
+					property bool containsMouse: mouseArea.containsMouse
+					
+					text: "?"
+					
+					onEntered: {
+						infoItem.opacity = 1;
+						centerpieceItem.opacity = 0;
+					}
+					onExited: {
+						infoItem.opacity = 0;
+						centerpieceItem.opacity = 1;
+					}
+				}
+				
+				BubbleButton {
 					id: numberPadSwitch
 					width: height; height: parent.height
+					
+					visible: false
 					
 					image.source: "qrc:/assets/icons/calculator"
 					
@@ -223,7 +252,8 @@ SceneBase {
 					checked: true
 					
 					onClicked: {
-						if (numberPad.visible)
+//						if (numberPad.visible)
+						if (numberPadEnabled)
 							numberPad.animate();
 					}
 				}
@@ -266,7 +296,12 @@ SceneBase {
 				enabled: scene.state === "listening"
 				opacity: enabled ? 1 : 0.6
 				
-				onClicked: scene.checkButtonClicked();
+				onClicked: {
+					if (infoButton.containsMouse)
+						return;
+					
+					scene.checkButtonClicked();
+				}
 			}
 			
 			TextBase {
@@ -354,16 +389,20 @@ SceneBase {
 				}
 				
 				Behavior on anchors.rightMargin {
-					NumberAnimation {
-						easing.overshoot: 1.5
-						duration: hasMessage ? 800 : 50
-						easing.type: hasMessage ? Easing.OutBack : Easing.Linear
+					PropertyAnimation {
+						duration: hasMessage ? 800 : 100
+						easing.type: hasMessage ? Easing.OutExpo : Easing.Linear
 					}
 				}
 				
 				text: "Next →"
 				
-				onClicked: scene.nextButtonClicked();
+				onClicked: {
+					if (infoButton.containsMouse)
+						return;
+					
+					scene.nextButtonClicked();
+				}
 			}
 		}
 		
@@ -380,10 +419,14 @@ SceneBase {
 			font.pointSize: 8
 			font.family: "Trebuchet MS"
 			
-			readOnly: scene.state === "static"
+			readOnly: scene.state === "static" || infoButton.containsMouse
 			
 			Keys.onReturnPressed: {
 				if (JStorage.isMobile)
+					return;
+				
+				//	mouse shouldn't be contained in infoButton
+				if (infoButton.containsMouse)
 					return;
 				
 				if (scene.state === "listening")
@@ -430,6 +473,27 @@ SceneBase {
 		property bool ignoreItems: false
 		
 		color: "transparent"
+		
+		
+		Item {
+			id: centerpieceItem
+			anchors.centerIn: parent
+			
+			property Item centerpiece
+			
+			Behavior on opacity {
+				PropertyAnimation {
+					easing.type: infoButton.containsMouse ? Easing.OutExpo : Easing.InExpo
+					duration: 1000 
+				}
+			}
+			
+			onCenterpieceChanged: {
+				centerpiece.parent = centerpieceItem;
+				centerpiece.anchors.centerIn = centerpieceItem;
+			}
+		}
+		
 	}
 	
 	//	an object to store private variables
@@ -498,38 +562,46 @@ SceneBase {
 		//	processing logic
 		var text = answerField.text;
 		
-		//	ACVM : no u
-		if (text.toLowerCase() === "no u")
-		{
-			console.warn("NO U!");
-			JGameAchievements.addProgressByName("no u", 1);
-		}
-		//	ACVM : pseudonym
-		if (text.toLowerCase() === "technist")
-		{
-			console.warn("Pseudonym I!");
-			JGameAchievements.addProgressByName("pseudonym i", 1);
-		}
-		if (text.toLowerCase() === "trebledj")
-		{
-			console.warn("Pseudonym II!");
-			JGameAchievements.addProgressByName("pseudonym ii", 1);
-		}
-		if (text.toLowerCase() === "tinman" || text.toLowerCase() === "tin man")
-		{
-			console.warn("Pseudonym III!");
-			JGameAchievements.addProgressByName("pseudonym iii", 1);
-		}
-		if (text.toLowerCase() === "trebuchetms" || text.toLowerCase() === "trebuchet ms")
-		{
-			console.warn("Pseudonym IV!");
-			JGameAchievements.addProgressByName("pseudonym iv", 1);
-		}
-		
 		//	back to logic-processing
 		var hasAcceptableInput = checkInput(text);
 		if (!hasAcceptableInput)
+		{
+			//	ACVM : no u
+			if (text.toLowerCase() === "no u")
+			{
+				console.warn("NO U!");
+				JGameAchievements.addProgressByName("no u", 1);
+				
+				rejectInput(text + '!');
+			}
+			//	ACVM : pseudonym
+			if (text.toLowerCase() === "technist")
+			{
+				console.warn("Pseudonym I!");
+				JGameAchievements.addProgressByName("pseudonym i", 1);
+				rejectInput("That's me!");
+			}
+			if (text.toLowerCase() === "trebledj")
+			{
+				console.warn("Pseudonym II!");
+				JGameAchievements.addProgressByName("pseudonym ii", 1);
+				rejectInput("That's me!");
+			}
+			if (text.toLowerCase() === "tinman" || text.toLowerCase() === "tin man")
+			{
+				console.warn("Pseudonym III!");
+				JGameAchievements.addProgressByName("pseudonym iii", 1);
+				rejectInput("That's me!");
+			}
+			if (text.toLowerCase() === "trebuchetms" || text.toLowerCase() === "trebuchet ms")
+			{
+				console.warn("Pseudonym IV!");
+				JGameAchievements.addProgressByName("pseudonym iv", 1);
+				rejectInput("That's me!");
+			}
+			
 			return;
+		}
 		
 		var isCorrect = checkAnswer(text);
 		if (isCorrect)
@@ -639,6 +711,8 @@ SceneBase {
 		//	x is should be a real number from 0 to 1
 		if (x === undefined)
 			x = 0;
+		else if (x === "random")
+			;
 		else
 			x = x*eventSpace.width;
 		
@@ -711,7 +785,7 @@ SceneBase {
 		}
 		else
 		{
-			logEvent('Combo ' + num + ' ⭐️', "yellow", 8, "random");
+			logEvent('Combo ' + num + ' ⭐️', "yellow", 8, 0.05);
 		}
 	}
 	

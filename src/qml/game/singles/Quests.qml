@@ -240,6 +240,8 @@ Item {
 		}
 		if (amount === 0)
 			return;
+		if (JFractons.currentLevel() < 5)
+			return;
 		
 		//	check progress hasn't been exceeded
 		if (quests[key].progress >= quests[key].maxProgress)
@@ -262,11 +264,6 @@ Item {
 			JGameAchievements.addProgressByName("adventurer iii", 1);
 			JGameAchievements.addProgressByName("adventurer iv", 1);
 			JGameAchievements.addProgressByName("adventurer v", 1);
-			
-			//	TODO uncomment
-//			if (JFractons.currentLevel() < 5)
-//				return;
-				
 			
 			//	add the reward
 			JFractons.addFractons(questReward);	//	HARDCODE 25 fractons reward

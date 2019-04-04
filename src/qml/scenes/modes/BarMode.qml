@@ -6,7 +6,7 @@ ModesBase {
 	id: modesBase
 	
 	modeName: 'Bar'
-	numberPadVisible: false
+	numberPadEnabled: false
 	
 	Component.onCompleted: {
 //		modesBase.textFieldColumn.visible = false;

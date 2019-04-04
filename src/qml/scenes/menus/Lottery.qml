@@ -147,7 +147,6 @@ SceneBase {
 			}
 			
 			onSpinEnded: {
-				
 				var middle = [];
 				
 				for (var r = 0; r < slotMachine.reelCount; r++)
@@ -248,8 +247,6 @@ SceneBase {
 					mipmap: true
 					source: 'qrc:/assets/img/right-arrow-navy.png'
 				}
-				
-				
 			}
 
 			Column {
@@ -309,7 +306,7 @@ SceneBase {
 			var sum = Object.keys(obj).reduce(function(acc, item) { return acc + obj[item].frequency; }, 0);
 			console.log("Spinning wheel with", sum, "items in reel.")
 			
-			slotMachine.spin(10000);		//	defaults to stopping after 10 seconds
+			slotMachine.spin(5000);		//	defaults to stopping after 5 seconds
 		}
 		
 //		slotMachine.updateModels();
@@ -407,12 +404,18 @@ SceneBase {
 		if (rewardFractons || rewardTokens)
 			setGradientAnimation(Easing.Linear, 300);
 		else
-			displayText.text = 'Sorry, try again.';
+			displayText.text = JMath.choose(['Sorry, try again.', 'Try again.', 'Sorry.', 'Nothing!', "Don't give up!"]);
 		
 		//	ACVM : lucky
 		if (rewardFractons * multiplier >= 100)
 			JGameAchievements.addProgressByName("lucky", 1);
 		
+		//	ACVM : lottery n
+		JGameAchievements.addProgressByName("lottery i", 1);
+		JGameAchievements.addProgressByName("lottery ii", 1);
+		JGameAchievements.addProgressByName("lottery iii", 1);
+		JGameAchievements.addProgressByName("lottery iv", 1);
+		JGameAchievements.addProgressByName("lottery v", 1);
 	}
 	
 }

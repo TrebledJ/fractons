@@ -26,6 +26,34 @@ ModesBase {
 	rewardAmount: [1, 2, 5][difficultyIndex]
 	unit: "fractons"
 	
+	info: Item {
+		Column {
+			width: parent.width
+			spacing: 20
+			
+			TextBase {
+				text: "Operations Mode"
+			}
+			
+			ParagraphText {
+				text: "In this mode, you gain ƒractons by performing operations on fractions."
+			}
+			
+			TextBase {
+				text: "Example:"
+			}
+			
+			Equation {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: ["1/3 + 1/3 = ?/3", "1/2 * 1/2 = ?/?", "1/2 + 1/4 = ?/?"][difficultyIndex]
+			}
+			
+			TextBase {
+				text: "Answer: " + ["2", "1/4", "3/4"][difficultyIndex]
+			}
+		}
+	}
+	
 	
 	QtObject {
 		id: equationComponents
@@ -98,9 +126,8 @@ ModesBase {
 	}
 	
 	//	displays the equation as text
-	Equation {
+	centerpiece: Equation {
 		id: equation
-		anchors.centerIn: drawingArea
 		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 	}
 	

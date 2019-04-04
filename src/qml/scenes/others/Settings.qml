@@ -12,6 +12,7 @@ SceneBase {
 	property alias musicEnabled: musicButton.checked
 	property alias soundEnabled: soundButton.checked
 	property alias bgAnimationEnabled: bgAnimationButton.checked
+	property alias numberPadEnabled: numberPadButton.checked
 	
 	useDefaultTopRibbon: true
 	
@@ -30,7 +31,7 @@ SceneBase {
 		rowSpacing: 10
 		
 		TextBase {
-			width: 50; height: 30
+			width: 40; height: 30
 			text: "Music"
 			Layout.alignment: Qt.AlignRight
 			verticalAlignment: Text.AlignVCenter
@@ -48,9 +49,9 @@ SceneBase {
 		}
 		
 		TextBase {
-			width: 50; height: 30
+			width: 100; height: 30
 			text: "Background Animations"
-			Layout.alignment: Qt.AlignLeft
+			Layout.alignment: Qt.AlignRight
 			verticalAlignment: Text.AlignVCenter
 		}
 		
@@ -62,7 +63,7 @@ SceneBase {
 		}
 		
 		TextBase {
-			width: 50; height: 30
+			width: 40; height: 30
 			text: "SFX"
 			verticalAlignment: Text.AlignVCenter
 			Layout.alignment: Qt.AlignRight
@@ -75,8 +76,26 @@ SceneBase {
 			text: checked ? "On" : "Off"
 		}
 		
+		Item {
+			width: 40; height: 1
+		}
+		
+		TextBase {
+			width: 100; height: 30
+			text: "Number Pad"
+			Layout.alignment: Qt.AlignRight
+			verticalAlignment: Text.AlignVCenter
+		}
+		
+		BubbleButton {
+			id: numberPadButton
+			width: 60; height: 30
+			isCheckButton: true
+			text: checked ? "On" : "Off"
+		}
+		
 		Repeater {
-			model: 6
+			model: 3
 			Item { width: 40; height: 1 }
 		}
 

@@ -39,6 +39,7 @@ SceneBase {
 //		ListElement { role_group: "token" }
 		
 		ListElement { role_group: "lottery"; role_isActive: function() { return JFractons.currentLevel() >= 20 } }
+		ListElement { role_group: "lucky-lottery"; role_isActive: function() { return JFractons.currentLevel() >= 20 } }
 		
 		ListElement { role_group: "secret"; role_isActive: function() { return true; } }
 		ListElement { 
@@ -59,6 +60,8 @@ SceneBase {
 		anchors.top: banner.bottom
 		anchors.bottom: parent.bottom
 		width: parent.width
+		
+		z: -10
 		
 		topMargin: 10
 		leftMargin: 20

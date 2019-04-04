@@ -42,6 +42,7 @@ GameWindow {
 	property alias musicEnabled: settingsScene.musicEnabled
 	property alias soundEnabled: settingsScene.soundEnabled
 	property alias bgAnimationEnabled: settingsScene.bgAnimationEnabled
+	property alias numberPadEnabled: settingsScene.numberPadEnabled
 	
 	Component.onCompleted: {
 		//	load saved settings
@@ -49,8 +50,11 @@ GameWindow {
 		musicEnabled = settings.musicEnabled;
 		soundEnabled = settings.soundEnabled;
 		
-		var e = settings.getValue('bgAnimationEnabled');
-		bgAnimationEnabled = e !== undefined ? e : true;
+		var bga = settings.getValue('bgAnimationEnabled');
+		bgAnimationEnabled = bga !== undefined ? bga : true;
+		
+		var np = settings.getValue('numberPadEnabled');
+		numberPadEnabled = np !== undefined ? np : false;
 	}
 	
 	onMusicEnabledChanged: {
@@ -67,11 +71,15 @@ GameWindow {
 		console.warn("BGAnimations Enabled Changed:", bgAnimationEnabled);
 		gameWindow.settings.setValue('bgAnimationEnabled', bgAnimationEnabled)
 	}
+	onNumberPadEnabledChanged: {
+		console.warn("NumberPad Enabled Changed:", numberPadEnabled);
+		gameWindow.settings.setValue('numberPadEnabled', numberPadEnabled)
+	}
 	
 	
 	state: "home"
 //	state: "settings"
-//	state: "mode_conversion"
+//	state: "mode_operations"
 	states: [
 		State {
 			name: "home"
@@ -193,6 +201,7 @@ GameWindow {
 	
 	Modes.BalanceMode {
 		id: modeBalanceScene
+		numberPadEnabled: gameWindow.numberPadEnabled
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
 		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
 		onWrongAnswer: musicLayer.sfxWrongAnswer.play()
@@ -200,6 +209,7 @@ GameWindow {
 	
 	Modes.ConversionMode {
 		id: modeConversionScene
+		numberPadEnabled: gameWindow.numberPadEnabled
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
 		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
 		onWrongAnswer: musicLayer.sfxWrongAnswer.play()
@@ -207,6 +217,7 @@ GameWindow {
 	
 	Modes.TruthMode {
 		id: modeTruthScene
+		numberPadEnabled: gameWindow.numberPadEnabled
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
 		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
 		onWrongAnswer: musicLayer.sfxWrongAnswer.play()
@@ -214,6 +225,7 @@ GameWindow {
 	
 	Modes.OperationsMode {
 		id: modeOperationsScene
+		numberPadEnabled: gameWindow.numberPadEnabled
 		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
 		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
 		onWrongAnswer: musicLayer.sfxWrongAnswer.play()

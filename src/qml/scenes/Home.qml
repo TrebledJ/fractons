@@ -71,7 +71,9 @@ SceneBase {
 		
 		BubbleButton {
 			id: lotteryButton
-			width: height; height: 80
+			width: height; height: 60
+			
+			anchors.verticalCenter: parent.verticalCenter
 			
 			property bool unlocked: JFractons.currentLevel() >= 20
 //			property bool unlocked: true
@@ -84,7 +86,9 @@ SceneBase {
 			opacity: unlocked ? 1 : 0.6
 			
 			image.source: unlocked ? "qrc:/assets/icons/slot" : "qrc:/assets/icons/padlock-closed"
-			image.anchors.bottomMargin: 20
+			image.anchors.bottomMargin: 15
+			
+			font.pointSize: 12
 			
 			onClicked: lotteryButtonClicked()
 		}
@@ -187,8 +191,7 @@ SceneBase {
 			verticalCenter: parent.verticalCenter
 		}
 		
-		//	TODO uncomment
-//		visible: JFractons.currentLevel() >= 5	//	quests begin from level 5
+		visible: JFractons.currentLevel() >= 5	//	quests begin from level 5
 		
 		/**
 		  Quest Ideas
@@ -343,6 +346,8 @@ SceneBase {
 		}
 		
 		font.pointSize: 8
+		
+		visible: questColumn.visible
 		
 		//	updates text every minute
 		Timer {

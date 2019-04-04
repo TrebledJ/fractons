@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 import "../backdrops"
+import "../../common"
 import "../../graphicmath"
 import "../../game/singles"
 
@@ -25,6 +26,41 @@ ModesBase {
 	unit: "fractons"
 	
 	numberPad.keys: difficultyIndex === toDecimal ? [7, 8, 9, 4, 5, 6, 1, 2, 3, '.', 0, 'back'] : [7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']
+	
+	info: Item {
+		Column {
+			width: parent.width
+			spacing: 20
+			
+			TextBase {
+				text: "Conversion Mode"
+			}
+			
+			ParagraphText {
+				text: "In this mode, you gain ƒractons by converting between decimals and fractions."
+			}
+			
+			TextBase {
+				text: "Example:"
+			}
+			
+			Equation {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: difficultyIndex === toDecimal ? "1/3 ≈ ?" : "0.25 = ?/?"
+			}
+			
+			TextBase {
+				text: "Answer: " + (difficultyIndex === toDecimal ? "0.333" : "1/4")
+			}
+			
+			ParagraphText {
+				font.pointSize: 8
+				text: "For approximations (≈), round the answer to 2 or 3 decimal places."
+				
+				visible: difficultyIndex === toDecimal
+			}
+		}
+	}
 	
 	QtObject {
 		id: equationComponents
@@ -61,9 +97,8 @@ ModesBase {
 		}
 	}
 	
-	Equation {
+	centerpiece: Equation {
 		id: equation
-		anchors.centerIn: drawingArea
 		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
 	}
 	

@@ -58,7 +58,7 @@ Scene {
 			border.color: "lightgoldenrodyellow"
 			
 			color: "navy"
-			opacity: 0.3
+			opacity: 0.2
 			
 			Behavior on opacity {
 				NumberAnimation {
@@ -140,9 +140,8 @@ Scene {
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
-				onClicked: notificationRect.opacity = 0
 				onEntered: notificationRect.opacity = 0.9
-				onExited: notificationRect.opacity = 0.3
+				onExited: notificationRect.opacity = 0.1
 			}
 		}
 	}
@@ -168,7 +167,7 @@ Scene {
 		
 		var v = notification.speed;
 		var d = notification.height;
-		notificationTimer.interval = d/v + 50;
+		notificationTimer.interval = d/v + 100;
 		notificationTimer.start();
 		
 		//	emit a signal
