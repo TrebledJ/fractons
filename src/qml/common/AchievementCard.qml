@@ -7,12 +7,6 @@ import QtQuick.Layouts 1.3
   Sources and Citations
   [1]: Spacer Item for QML Layouts:
 		https://stackoverflow.com/questions/41545643/spacer-item-in-qml-layouts
-  
-		
-  TODO
-   + incorporate display of other information (e.g. progress)
-   + consider making cards clickable so that player can then view information
-   
 */
 
 import "../common"
@@ -26,8 +20,8 @@ Item {
 	
 	property var achievement
 	
-	property color primaryColor: achievement.group === "secret" ? "mediumblue" : "yellow";
-	property color secondaryColor: achievement.group === "secret" ? "gold" : "navy"
+	property color primaryColor: "secret,classified".includes(achievement.group) ? "mediumblue" : "yellow";
+	property color secondaryColor: "secret,classified".includes(achievement.group) ? "gold" : "navy"
 	
 	property string name: achievement.name
 	property string description: achievement.description
@@ -66,7 +60,7 @@ Item {
 			Layout.fillWidth: true
 			color: secondaryColor
 			
-			text: group === "secret" ? hint : description.length > 45 ? description.substr(0, 30) + '...' : description
+			text: "secret,classified".includes(group) ? hint : description.length > 45 ? description.substr(0, 30) + '...' : description
 //			text: achievement === undefined || (group === "secret" && !isCollected) ? "???" : reward + 'ƒ'
 //			font.pointSize: description.length > 30 ? 6 : 8
 			font.pointSize: 6
@@ -93,31 +87,6 @@ Item {
 			horizontalAlignment: Text.AlignLeft
 			verticalAlignment: Text.AlignBottom
 		}
-		
-		//	bottom ribbon
-//		RowLayout {
-//			width: parent.width
-			
-//			//	name at bottom left
-			
-			
-//			//	filler, see [1]
-//			Item {
-//				Layout.fillWidth: true
-//			}
-			
-//			//	reward at bottom right
-////			TextBase {
-////				id: rewardText
-////				Layout.fillHeight: true
-////				color: secondaryColor
-				
-////				text: achievement === undefined || (group === "secret" && !isCollected) ? "???" : reward + 'ƒ'
-////				font.pointSize: 8
-				
-////				verticalAlignment: Text.AlignBottom
-////			}
-//		}
 
 	}
 }

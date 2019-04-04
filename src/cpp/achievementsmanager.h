@@ -50,7 +50,7 @@ signals:
 public slots:
 	
 private:
-	QMap<QString, Achievement> m_achievements;
+	QMap<QString, Achievement*> m_achievements;
 	
 };
 

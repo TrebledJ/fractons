@@ -18,26 +18,26 @@ QStringList AchievementsManager::getNames(const QString& filter) const
 	QStringList ret;
 	QStringList filters = filter.split(' ');
 	
-	auto passes = [&filters] (const Achievement &acvm) -> bool
+	auto passes = [&filters] (Achievement* acvm) -> bool
 	{
 		if (filters.isEmpty())
 			return true;
 		
 		foreach (const QString &f, filters)
 		{
-			if (f.startsWith("!") && acvm.m_group == f.mid(1))
+			if (f.startsWith("!") && acvm->m_group == f.mid(1))
 				return false;
-			if (f.mid(1, 1) != "!" && acvm.m_group != f)
+			if (f.mid(1, 1) != "!" && acvm->m_group != f)
 				return false;
 		}
 		
 		return true;
 	};
 	
-	foreach (const auto &acvm, m_achievements.values())
+	foreach (Achievement* acvm, m_achievements.values())
 	{
 		if (passes(acvm))
-			ret.append(acvm.m_name);
+			ret.append(acvm->m_name);
 	}
 	
 	return ret;
@@ -46,14 +46,14 @@ QStringList AchievementsManager::getNames(const QString& filter) const
 Achievement* AchievementsManager::getByName(const QString& name)
 {
 	if (m_achievements.contains(name.toLower()))
-		return &m_achievements[name.toLower()];
+		return m_achievements[name.toLower()];
 	
 	return nullptr;
 }
 
 void AchievementsManager::addAchievement(Achievement *achievement)
 {
-	m_achievements[achievement->m_name.toLower()] = *achievement;
+	m_achievements[achievement->m_name.toLower()] = achievement;
 	
 	emit achievementsChanged();
 			
@@ -61,7 +61,7 @@ void AchievementsManager::addAchievement(Achievement *achievement)
 			
 	//	send a signal for desktop notification on getting an achievement
 	QObject::connect(achievement, &Achievement::achievementGet, this,
-					 [&, this] ()
+					 [=] ()
 	{
 		qDebug() << "[C++ AchievementsManager] Achievement Get: " << achievement->m_name;
 		QString msg = QString("You just got %1 and earned %2 Fractons!").arg(achievement->m_name).arg(achievement->m_reward);
@@ -75,8 +75,8 @@ QString AchievementsManager::jsonAchievements() const
 	QJsonDocument doc;
 	
 	QJsonArray arr;
-	foreach (const Achievement &acvm, m_achievements.values())
-		arr.append(QJsonObject::fromVariantMap(acvm.toVariantMap()));
+	foreach (Achievement* acvm, m_achievements.values())
+		arr.append(QJsonObject::fromVariantMap(acvm->toVariantMap()));
 	doc.setArray(arr);
 	
 	return doc.toJson();

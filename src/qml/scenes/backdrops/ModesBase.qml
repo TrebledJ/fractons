@@ -72,6 +72,8 @@ import "../../game/singles"
 
 import "../../js/Math.js" as JMath
 
+//	TODO implement velocity
+
 SceneBase {
 	id: scene
 	
@@ -320,8 +322,6 @@ SceneBase {
 		anchors.right: scene.right
 		anchors.bottom: scene.bottom
 		
-		//	TODO make some animation for the error field so that it will slide above the answerField
-		
 		//	this will popup above the answerField below when there is an error message
 		TextField {
 			id: textField
@@ -539,6 +539,8 @@ SceneBase {
 		}
 		
 		JGameStatistics.incDailyAttempted();
+		
+		//	TODO perhaps remake the statistics schema on a per question basis
 //		JGameStatistics.pushQuestion(modeName, difficulties[difficultyIndex], question, input, answer, isCorrect);	//	TODO uncomplete
 		
 		state = "static";
@@ -621,6 +623,8 @@ SceneBase {
 			backgroundAnimationTimer.run(msg, null, scene, 20);
 		else
 			backgroundAnimationTimer.cancel(msg);
+		
+		answerField.forceActiveFocus();
 	}
 	
 	//	this function will create animated text floating upwards across the eventSpace

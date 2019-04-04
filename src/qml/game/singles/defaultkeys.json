@@ -215,17 +215,17 @@
 		"adventurer": {
 			"1": {
 				"name": "Adventurer I",
-				"description": "Complete 3 daily quests.",
+				"description": "Complete 5 quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 10,
 				"progress": 0,
-				"maxProgress": 3,
+				"maxProgress": 5,
 				"isCollected": false
 			},
 			"2": {
 				"name": "Adventurer II",
-				"description": "Complete 15 daily quests.",
+				"description": "Complete 15 quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 30,
@@ -235,7 +235,7 @@
 			},
 			"3": {
 				"name": "Adventurer III",
-				"description": "Complete 50 daily quests.",
+				"description": "Complete 50 quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 60,
@@ -245,7 +245,7 @@
 			},
 			"4": {
 				"name": "Adventurer IV",
-				"description": "Complete 100 daily quests.",
+				"description": "Complete 100 quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 120,
@@ -255,12 +255,12 @@
 			},
 			"5": {
 				"name": "Adventurer V",
-				"description": "Complete 200 daily quests.",
+				"description": "Complete 250 quests.",
 				"hint": "",
 				"group": "adventurer",
 				"reward": 250,
 				"progress": 0,
-				"maxProgress": 200,
+				"maxProgress": 250,
 				"isCollected": false
 			}
 		},
@@ -449,40 +449,40 @@
 			"pseudonym": {
 				"1": {
 					"name": "Pseudonym I",
-					"description": "Tagged with Technist.",
-					"hint": "",
+					"description": "",
+					"hint": "Tagged with Technist.",
 					"group": "classified",
-					"reward": 4000,
+					"reward": 2500,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
 				},
 				"2": {
 					"name": "Pseudonym II",
-					"description": "Tagged with TrebledJ.",
-					"hint": "",
+					"description": "",
+					"hint": "Tagged with TrebledJ.",
 					"group": "classified",
-					"reward": 5000,
+					"reward": 3000,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
 				},
 				"3": {
 					"name": "Pseudonym III",
-					"description": "Tagged with Tin Man.",
-					"hint": "",
+					"description": "",
+					"hint": "Tagged with Tin Man.",
 					"group": "classified",
-					"reward": 4000,
+					"reward": 2500,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
 				},
 				"4": {
 					"name": "Pseudonym IV",
-					"description": "Tagged with TrebuchetMS.",
-					"hint": "",
+					"description": "",
+					"hint": "Tagged with TrebuchetMS.",
 					"group": "classified",
-					"reward": 3000,
+					"reward": 2000,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false

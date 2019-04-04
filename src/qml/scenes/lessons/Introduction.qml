@@ -58,7 +58,7 @@ LessonsBase {
 			}
 		}
 		
-		//	TODO have 1/2 pizzas (halves, not fifths)
+		//	TODO consider 1/2 pizzas (halves, not fifths)
 		
 		
 		Row {

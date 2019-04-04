@@ -13,7 +13,6 @@ LessonsBase {
 	gotoMode: "operations"
 	gotoDifficulty: "easy"
 	
-	//	TODO consider writing/parsing a script with img tags, equations, and whatnot
 	Column {
 		id: lessonContents
 		width: parent.width

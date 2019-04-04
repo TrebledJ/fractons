@@ -53,7 +53,7 @@ GameWindow {
 	onSoundEnabledChanged: gameWindow.settings.soundEnabled = soundEnabled;
 	
 	state: "home"
-//	state: "settings"
+//	state: "achievements"
 //	state: "mode_conversion"
 	states: [
 		State {
@@ -141,20 +141,6 @@ GameWindow {
 //			Transition
 		}
 	]
-	
-	//	TODO Change transition from home to exerciseMenu or studyMenu to a slide
-//	transitions: [
-//		Transition {
-//			from: "home"; to: "exerciseMenu"
-//			NumberAnimation {
-//				target: homeScene
-//				property: "x"
-//				duration: 300
-//				easing.type: Easing.OutCubic
-//				to: -homeScene.width
-//			}
-//		}
-//	]
 	
 	BackgroundLayer {
 		id: backgroundLayer

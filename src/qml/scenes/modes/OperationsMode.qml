@@ -8,8 +8,6 @@ import "../../game/singles"
 import "../../js/Fraction.js" as JFraction
 import "../../js/Math.js" as JMath
 
-//	todo implement velocity
-
 ModesBase {
 	id: modesBase
 	

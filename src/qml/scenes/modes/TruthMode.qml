@@ -7,8 +7,6 @@ import "../../graphicmath"
 import "../../js/Fraction.js" as JFraction
 import "../../js/Math.js" as JMath
 
-//	TODO : WARNING TRUTH MODE IS BUGGY!
-
 ModesBase {
 	id: modesBase
 	

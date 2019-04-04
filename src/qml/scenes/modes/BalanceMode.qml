@@ -6,8 +6,6 @@ import "../../graphicmath"
 import "../../js/Fraction.js" as JFraction
 import "../../js/Math.js" as JMath
 
-//	TODO consider the difficulties and their roles and differences?
-
 ModesBase {
 	id: modesBase
 	

@@ -47,6 +47,9 @@ SceneBase {
 			text: "Study"
 			textObj.verticalAlignment: Text.AlignBottom
 			
+			//	TODO rest of implement study notes
+			visible: false
+			
 			image.source: "qrc:/assets/icons/book-open"
 			image.anchors.bottomMargin: 20
 			
@@ -70,12 +73,12 @@ SceneBase {
 			id: lotteryButton
 			width: height; height: 80
 			
-//			property bool unlocked: JFractons.currentLevel() >= 15	//	TODO uncomment
-			property bool unlocked: true
+			property bool unlocked: JFractons.currentLevel() >= 20
+//			property bool unlocked: true
 			
 			enabled: unlocked
 			
-			text: unlocked ? "Lottery" : "???"
+			text: unlocked ? "Lottery" : "Level 20"
 			textObj.verticalAlignment: Text.AlignBottom
 			
 			opacity: unlocked ? 1 : 0.6
@@ -222,16 +225,6 @@ SceneBase {
 			onEntered: {
 				hoveredQuest = quest;
 			}
-		}
-		
-		//	temporary TODO remove
-		BubbleButton {
-			width: height; height: 40
-			onClicked: {
-				JQuests.debug();
-			}
-			text: "+"
-			visible: false
 		}
 		
 		Connections {
