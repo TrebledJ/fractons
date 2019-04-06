@@ -64,7 +64,7 @@ Item {
 		target: jAchievementsManager
 		onAchievementGet: {
 			//	QUEST : key = achievement
-			JQuests.addQuestProgressByKey("achievement", 1);
+//			JQuests.addQuestProgressByKey("achievement", 1);
 			
 			//	emit signal
 			achievementGet(name, reward);
@@ -79,9 +79,9 @@ Item {
 	}
 	
 	onAchievementGet: /*string name, int reward*/ {
-		JGameNotifications.sendMessage('Achievement Get!', 
-									   'You got <i>' + name + '</i> ' + 'and earned ' + JUtils.nounify(reward, 'ƒracton') + '!', 
-									   '');	//	TODO specify unlocked
+		JGameNotifications.notify('Achievement Get!', 
+								  'You earned <i>' + name + '</i>!', 
+								  'Earned ' + JUtils.nounify(reward, 'ƒracton'));	//	TODO specify unlocked
 	}
 	
 	function loadAchievements() {
@@ -89,7 +89,6 @@ Item {
 		
 		//	retrieve achievements from storage
 		var achievements = JStorage.getValue("achievements");
-//		console.log("[GameAchievements] Loading gave", JSON.stringify(achievements));
 		if (achievements === undefined)
 		{
 			console.error("[GameAchievments] Key: 'achievements' returned undefined from storage.")

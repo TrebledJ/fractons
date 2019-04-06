@@ -29,10 +29,23 @@ Item {
 	
 	onLevelUp: /*int level, int previous*/ {
 		console.warn("Player leveled up!");
-//		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
-		JGameNotifications.sendMessage('Level Up!',
-									   "Congratulations, you've levelled up to Level " + level + '!',
-									   '');	//	TODO specify unlocked items
+		
+		//	push a notification
+		//	add tokens for each level surpassed
+		for (var l = previous + 1; l <= level; l++)
+		{
+			JStorage.addTokens(l);
+			
+			var unlocked = {
+				5: 'Conversion Mode',
+				10: 'Truth Mode',
+				15: 'Operations Mode',
+				20: 'The Lottery',
+			}[l];
+			unlocked = unlocked ? 'Unlocked ' + unlocked : '';
+			
+			JGameNotifications.notify('Level Up!', "Congratulations, you've levelled up to Level " + l + '!', unlocked);
+		}
 		
 		//	QUEST : key = level
 		JQuests.addQuestProgressByKey("level", 1);
@@ -43,11 +56,6 @@ Item {
 		JGameAchievements.setProgressByName("leveller iii", level);
 		JGameAchievements.setProgressByName("leveller iv", level);
 		JGameAchievements.setProgressByName("leveller v", level);
-		
-		//	push a notification
-		//	add tokens for each level surpassed
-		for (var l = previous + 1; l <= level; l++)
-			JStorage.addTokens(l);
 		
 	}
 	

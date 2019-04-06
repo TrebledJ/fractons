@@ -5,6 +5,7 @@ import QtQuick 2.0
 
 import "../../common"
 import "../../js/Math.js" as JMath
+import "../../game/singles"
 
 Scene {
 	id: scene
@@ -64,20 +65,20 @@ Scene {
 		visible: useDefaultTopRibbon
 	}
 	
-	BubbleButton {
+	NotificationButton {
 		width: 60; height: 30
 		anchors {
 			top: parent.top
 			left: parent.left
 			margins: 10
 		}
-		
 		z: 1
 		
-		visible: useDefaultBackButton
-		
 		text: "Back"
+		nCircleText: JGameNotifications.unread
+		nCircleVisible: JGameNotifications.unread > 0
 		
+		visible: useDefaultBackButton
 		onClicked: backButtonClicked();
 	}
 	

@@ -64,7 +64,7 @@ SceneBase {
 		
 		TextBase {
 			width: 40; height: 30
-			text: "SFX"
+			text: "Sound"
 			verticalAlignment: Text.AlignVCenter
 			Layout.alignment: Qt.AlignRight
 		}
@@ -126,7 +126,10 @@ SceneBase {
 					timer.start();	//	start the timer. Once the timer times out, reverts back to the safety state.
 				
 				if (!isSafetyOn)
+				{
 					JStorage.clearData();	//	clear the data. Bye bye data.
+					backButtonClicked();	//	go back to home
+				}
 				
 				isSafetyOn = !isSafetyOn;
 			}

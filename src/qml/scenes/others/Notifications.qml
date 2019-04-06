@@ -23,6 +23,11 @@ SceneBase {
 		visible: !listView.visible
 	}
 	
+	onShownChanged: {
+		if (shown)
+			JGameNotifications.markAsRead();
+	}
+	
 	
 	ListView {
 		id: listView
@@ -31,7 +36,6 @@ SceneBase {
 			left: parent.left
 			right: parent.right
 		}
-		
 		
 		topMargin: 10
 		leftMargin: 10
@@ -42,7 +46,12 @@ SceneBase {
 		
 		visible: count > 0
 		
-		model: JGameNotifications.recentMessagesModel
+		ScrollBar.vertical: ScrollBar {
+			anchors.right: listView.right
+			active: true
+		}
+		
+		model: JGameNotifications.recentNotificationsModel
 		delegate: ItemDelegate {
 			background: Rectangle {
 				anchors.fill: parent
@@ -50,19 +59,18 @@ SceneBase {
 			}
 			
 			width: listView.width - listView.leftMargin - listView.rightMargin
-			height: 40
+			height: 50
+			
 			RowLayout {
 				anchors.fill: parent
-			
 				spacing: 10
 				
 				ParagraphText {
 					id: timestampText
-					width: parent.width * 0.2
+					width: parent.width * 0.2; height: 50
 					Layout.minimumWidth: Layout.maximumWidth
 					Layout.maximumWidth: width
 					
-					height: 40
 					text: JUtils.timeAgo(role_timestamp)
 					font.pointSize: 9
 					
@@ -80,7 +88,7 @@ SceneBase {
 				}
 				
 				ParagraphText {
-					width: parent.width * 0.2; height: 40
+					width: parent.width * 0.2; height: 50
 					Layout.minimumWidth: Layout.maximumWidth
 					Layout.maximumWidth: width
 					
@@ -90,15 +98,33 @@ SceneBase {
 					verticalAlignment: Text.AlignVCenter
 				}
 				
-				ParagraphText {
-					height: 40
+				Column {
+					height: 50
 					Layout.fillWidth: true
 					
-					text: role_message
-					font.pointSize: 11
+					spacing: 2
 					
-					verticalAlignment: Text.AlignVCenter
+					ParagraphText {
+						width: parent.width; height: 30
+						
+						text: role_message
+						font.pointSize: 11
+						
+						verticalAlignment: role_submessage ? Text.AlignBottom : Text.AlignVCenter
+					}
+					
+					TextBase {
+						width: parent.width; height: 18
+						
+						text: role_submessage
+						font.pointSize: 8
+						
+						opacity: 0.5
+						visible: role_submessage
+					}
 				}
+
+				
 				
 			}	//	RowLayout
 		}	//	ItemDelegate

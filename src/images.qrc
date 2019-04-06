@@ -20,5 +20,6 @@
         <file>assets/img/right-arrow.png</file>
         <file>assets/img/right-arrow-navy.png</file>
         <file>assets/icons/tick.png</file>
+        <file>assets/icons/bell.png</file>
     </qresource>
 </RCC>

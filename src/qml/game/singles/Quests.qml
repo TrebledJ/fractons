@@ -110,9 +110,9 @@ Item {
 	}
 	
 	onQuestCompleted: /*string text, int reward*/ {
-		JGameNotifications.sendMessage('Quest Completed!',
-									   'You completed a quest and got ' + JUtils.nounify(reward, 'ƒracton') + '!',
-									   '');
+		JGameNotifications.notify('Quest Completed!',
+								  'You completed <i>' + text + '</i>!',
+								  'Earned ' + JUtils.nounify(reward, 'ƒracton'));
 	}
 	
 	function debug() {
@@ -148,10 +148,10 @@ Item {
 		//	get-one achievements quest
 		//	TODO check that at least one (5 or 10 mb?) achievements are still uncollected
 		//	questObj.achievement
-		values.push("achievement");
+//		values.push("achievement");
 		
 		//	only allow the lottery beginning at a certain level
-		if (JFractons.currentLevel() >= 15)
+		if (JFractons.currentLevel() >= 20)		//	LOTTERY
 		{
 			questObj.lottery.maxProgress = JMath.randI(5, 10);
 			questObj.lottery.text = questObj.lottery.text.arg(questObj.lottery.maxProgress);

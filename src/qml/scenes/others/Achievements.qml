@@ -102,7 +102,7 @@ SceneBase {
 								if (group === "classified" && !isCollected)
 									return false;
 								
-								if (name === "Lessons?")
+								if (name === "Lessons?")	//	TODO implement lessons
 									return false;
 								
 								return true;

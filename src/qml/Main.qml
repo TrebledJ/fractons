@@ -77,9 +77,9 @@ GameWindow {
 	}
 	
 	
-//	state: "home"
-	state: "notifications"
-//	state: "mode_operations"
+	state: "home"
+//	state: "notifications"
+//	state: "mode_balance"
 	states: [
 		State {
 			name: "home"

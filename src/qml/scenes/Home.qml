@@ -186,11 +186,15 @@ SceneBase {
 			Layout.fillWidth: true
 		}
 		
-		BubbleButton {
+		NotificationButton {
 			id: notificationsButton
 			width: height; height: 40
 			
-			text: 'N'
+			nCircleText: JGameNotifications.unread
+			nCircleVisible: JGameNotifications.unread > 0
+			
+			image.source: "qrc:/assets/icons/bell"
+			
 			onClicked: notificationsButtonClicked();
 		}
 		
@@ -213,7 +217,7 @@ SceneBase {
 			verticalCenter: parent.verticalCenter
 		}
 		
-		visible: JFractons.currentLevel() >= 5	//	quests begin from level 5
+//		visible: JFractons.currentLevel() >= 5	//	quests begin from level 5
 		
 		/**
 		  Quest Ideas

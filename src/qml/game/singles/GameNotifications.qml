@@ -4,39 +4,37 @@ import QtQuick 2.0
 Item {
 	id: item
 	
-	signal message(string title, string message, int seconds)
-	
-//	property var recentMessages: []
-	
-	property alias recentMessagesModel: recentMessagesModel
+	property alias recentNotificationsModel: recentNotificationsModel
+	property int unread: 0
 	
 	Component.onCompleted: {
 		console.warn("Reloading JGameNotifications...");
-		
-		sendMessage("Title A", "Message A");
-		sendMessage("Title B", "Message B");
-		sendMessage("A super duper long title.", "A super duper long message that will blow your brains out into the skies.");
 	}
 	
 	ListModel {
-		id: recentMessagesModel
+		id: recentNotificationsModel
 	}
 	
-	function sendMessage(title, msg, unlocked) {
-		unlocked = unlocked || '';
+	function notify(title, msg, submessage) {
+		submessage = submessage || '';
 		
 		var obj = {
 			role_title: title,
 			role_message: msg,
 			role_timestamp: Date.now(),
-			role_unlocked: unlocked
+			role_submessage: submessage
 		}
-		
-		recentMessagesModel.append(obj);
+
+		recentNotificationsModel.insert(0, obj);
+		unread++;
+	}
+	
+	function markAsRead() {
+		unread = 0;
 	}
 	
 	function clearNotifications() {
-		recentMessagesModel.clear();
+		recentNotificationsModel.clear();
 	}
 	
 }

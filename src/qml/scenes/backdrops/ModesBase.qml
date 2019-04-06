@@ -88,7 +88,7 @@ SceneBase {
 	property alias drawingArea: drawingArea
 	
 	property alias numberPad: numberPad
-	property bool numberPadEnabled: false
+	property alias numberPadEnabled: numberPad.visible
 	
 	property string modeName
 	property var difficulties: []
@@ -159,7 +159,7 @@ SceneBase {
 	NumberPad {
 		id: numberPad
 //		height: numberPadVisible ? 150 : 0
-		height: 150
+		height: 150 - textField.height
 		anchors {
 			left: drawingArea.left
 			right: drawingArea.right
@@ -167,11 +167,14 @@ SceneBase {
 			margins: 5
 		}
 		
-		visible: numberPadEnabled
-		
+		enabled: scene.state === "listening"
+		opacity: enabled ? 1 : 0.6
 //		Behavior on height { PropertyAnimation { } }
 		
 		onKeyPressed: /*params: {string key}*/ {
+			if (scene.state === "static")
+				return;
+			
 			if (key === 'back')
 			{
 				if (answerField.text.length > 0)
@@ -277,16 +280,20 @@ SceneBase {
 				width: parent.width; height: 30
 				background.radius: 5
 				
-				text: "Check"
+//				text: "Check"
+				text: scene.state === "listening" ? "Check" : "Next"
 				
-				enabled: scene.state === "listening"
-				opacity: enabled ? 1 : 0.6
+//				enabled: scene.state === "listening"
+//				opacity: enabled ? 1 : 0.6
 				
 				onClicked: {
 					if (infoButton.containsMouse)
 						return;
 					
-					scene.checkButtonClicked();
+					if (scene.state === "listening")
+						scene.checkButtonClicked();
+					else
+						scene.nextButtonClicked();
 				}
 			}
 			
@@ -363,33 +370,33 @@ SceneBase {
 				}
 			}
 			
-			BubbleButton {
-				id: nextButton
-				width: checkButton.width; height: parent.height
-				background.radius: 5
+//			BubbleButton {
+//				id: nextButton
+//				width: checkButton.width; height: parent.height
+//				background.radius: 5
 				
-				anchors {
-					right: parent.right
-					rightMargin: scene.state === "static" ? 0 : -width - 10
-					bottom: parent.bottom
-				}
+//				anchors {
+//					right: parent.right
+//					rightMargin: scene.state === "static" ? 0 : -width - 10
+//					bottom: parent.bottom
+//				}
 				
-				Behavior on anchors.rightMargin {
-					PropertyAnimation {
-						duration: hasMessage ? 800 : 100
-						easing.type: hasMessage ? Easing.OutExpo : Easing.Linear
-					}
-				}
+//				Behavior on anchors.rightMargin {
+//					PropertyAnimation {
+//						duration: hasMessage ? 800 : 100
+//						easing.type: hasMessage ? Easing.OutExpo : Easing.Linear
+//					}
+//				}
 				
-				text: "Next →"
+//				text: "Next →"
 				
-				onClicked: {
-					if (infoButton.containsMouse)
-						return;
+//				onClicked: {
+//					if (infoButton.containsMouse)
+//						return;
 					
-					scene.nextButtonClicked();
-				}
-			}
+//					scene.nextButtonClicked();
+//				}
+//			}
 		}
 		
 		//	this is similar to a qlineedit, and is where the user will enter input
@@ -415,10 +422,10 @@ SceneBase {
 				if (infoButton.containsMouse)
 					return;
 				
-				if (scene.state === "listening")
+//				if (scene.state === "listening")
 					checkButton.clicked();
-				else if (scene.state === "static")
-					nextButton.clicked();
+//				else if (scene.state === "static")
+//					nextButton.clicked();
 			}
 			
 			background: Rectangle {
@@ -610,7 +617,8 @@ SceneBase {
 	
 	onNextButtonClicked: {
 		//	animation logic
-		nextButton.animateScalar();
+//		nextButton.animateScalar();
+		checkButton.animateScalar();
 		
 		clearInput();
 		generateRandomQuestion();

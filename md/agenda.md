@@ -31,7 +31,8 @@ Title | Description | Status
 **Cleanup TODOs** | Check and clean TODOs, commenting/uncommenting appropriate lines, etc. | √
 **Information/Help in Modes** | Implement a help/info button. | √
 **Deploy and Publish** | Prepare the code for deployment. | Deploy √ (macOS) Publish X
-**Redesign 4** | (1) Notifications Scene (add a scene with a list of notifications recently earned in one session). Notifications fly by too quickly. (2) Temporarily disable *Lessons?* achievement. (3) Add a red bubble to notify users of new notifications. | (1) √ (2) √ (3) X
+**Redesign 4** | (1) Notifications Scene (add a scene with a list of notifications recently earned in one session). Notifications fly by too quickly. (2) Temporarily disable *Lessons?* achievement. (3) Add a red bubble to notify users of new notifications. | (1) √ (2) √ (3) √
+**Credits/Versioning** | Add a credits/version page, perhaps in the corner of settings.
 **Tutorial** | Make a tutorial which shows first-timers how to play. Integrate quests and Explorer badges into this as well.
 **Velocity** | Define and implement the velocity feature. The speed with which the user answers a set of questions. User gains more mastery over a higher velocity.
 **Mastery** | Define and implement the mastery feature. (Consider changing "Mastery" to "Skill"?)
