@@ -19,6 +19,21 @@ Also comment out any instances and includes of Felgo's Live Client.
 
 Leave behind `./assets/sounds` folder and `./app_icons.icns`.
 
+### Use the `macdeployqt` Terminal Utility
+
+When deploying, use the `macdeployqt` executable tool. Run the following from the command line, replacing appropriately.
+
+	macdeployqt <ApplicationName>.app -qmldir=<Path-to-QMLs>
+	
+To deploy as a disk-mounted image, add the `-dmg` flag:
+
+	macdeployqt <ApplicationName>.app -dmg -qmldir=<Path-to-QMLs>
+
+Specifically, this was the command I runned after `cd`ing to the shadow build directory.
+
+	cd `dirname /Users/JLAW/Documents/BitBucket/build-Fractureuns-V_Play_Desktop_Qt_5_11_1_clang-Release/Fractureuns.app`
+	macdeployqt Fractureuns.app -qmldir=/Users/JLAW/Documents/BitBucket/Fractureuns/src/qml -dmg
+
 ### Delete all frameworks except for the relevant ones:
 
 * QtCharts
@@ -59,20 +74,15 @@ Leave behind `./assets/sounds` folder and `./app_icons.icns`.
 * QtQuick.2
 * VPlay
 
-### Use the `macdeployqt` Terminal Utility
+### Create a Disk Image using Disk Utility
 
-When deploying, use the `macdeployqt` executable tool. Run the following from the command line, replacing appropriately.
+* Copy your app to a **new folder** (<kbd>⌘</kbd>+<kbd>Shift</kbd>+<kbd>N</kbd>).
+* Open Disk Utility → File → New Image → Image From Folder.
+* Select the folder where you have placed the App. Give a name for the DMG and save. This creates a distributable image for you.
 
-	macdeployqt <ApplicationName>.app -qmldir=<Path-to-QMLs>
-	
-To deploy as a disk-mounted image, add the `-dmg` flag:
+[Source](https://stackoverflow.com/questions/37292756/how-to-create-a-dmg-file-for-a-app-for-mac)
 
-	macdeployqt <ApplicationName>.app -dmg -qmldir=<Path-to-QMLs>
 
-Specifically, this was the command I runned after `cd`ing to the shadow build directory.
-
-	cd `dirname /Users/JLAW/Documents/BitBucket/build-Fractureuns-V_Play_Desktop_Qt_5_11_1_clang-Release/Fractureuns.app`
-	macdeployqt Fractureuns.app -qmldir=/Users/JLAW/Documents/BitBucket/Fractureuns/src/qml -dmg
 
 # Publishing
 
