@@ -30,9 +30,9 @@ Title | Description | Status
 **Profile** | Profile the game, tying up any bottlenecks. Possible bottlenecks to check: (1) ModesBase, refactor into a single base. (1b) Reload is slow. (2) Music, too much data to load? **ToDo: Achievements should be stored in a map for quick access by key.**  | √ Rewrote achievements manager.
 **Cleanup TODOs** | Check and clean TODOs, commenting/uncommenting appropriate lines, etc. | √
 **Information/Help in Modes** | Implement a help/info button. | √
-**Deploy and Publish** | Prepare the code for deployment. | Deploy √ Publish X
-**Redesign 4** | (1) Notifications Scene (add a scene with a list of notifications recently earned in one session). Notifications fly by too quickly. | (1) X
-**Tutorial** | Make a tutorial which shows first-timers how to play. Integrate quests into this as well.
+**Deploy and Publish** | Prepare the code for deployment. | Deploy √ (macOS) Publish X
+**Redesign 4** | (1) Notifications Scene (add a scene with a list of notifications recently earned in one session). Notifications fly by too quickly. (2) Temporarily disable *Lessons?* achievement. (3) Add a red bubble to notify users of new notifications. | (1) √ (2) √ (3) X
+**Tutorial** | Make a tutorial which shows first-timers how to play. Integrate quests and Explorer badges into this as well.
 **Velocity** | Define and implement the velocity feature. The speed with which the user answers a set of questions. User gains more mastery over a higher velocity.
 **Mastery** | Define and implement the mastery feature. (Consider changing "Mastery" to "Skill"?)
 **Integrate Advertisements** | Use Felgo/V-Play's Advert  Plugin(s).

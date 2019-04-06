@@ -98,7 +98,15 @@ SceneBase {
 							id: card
 							width: 80; height: 50
 							opacity: isCollected ? 1 : 0.6
-							visible: group === "classified" ? isCollected ? 1 : 0 : 1
+							visible: {
+								if (group === "classified" && !isCollected)
+									return false;
+								
+								if (name === "Lessons?")
+									return false;
+								
+								return true;
+							}
 							
 							achievement: JGameAchievements.getByName(modelData);
 							

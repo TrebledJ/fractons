@@ -80,9 +80,8 @@ Item {
 	
 	onAchievementGet: /*string name, int reward*/ {
 		JGameNotifications.sendMessage('Achievement Get!', 
-									   'You got <i>' + name + '</i> ' +
-									   'and earned ' + reward + ' ' + JUtils.nounify(reward, 'ƒracton') + '!', 
-									   5);
+									   'You got <i>' + name + '</i> ' + 'and earned ' + JUtils.nounify(reward, 'ƒracton') + '!', 
+									   '');	//	TODO specify unlocked
 	}
 	
 	function loadAchievements() {

@@ -32,7 +32,7 @@ Item {
 //		jNotifications.notify("Level Up!", "Congratulations! You've reached level " + level + "!", 3);
 		JGameNotifications.sendMessage('Level Up!',
 									   "Congratulations, you've levelled up to Level " + level + '!',
-									   5);
+									   '');	//	TODO specify unlocked items
 		
 		//	QUEST : key = level
 		JQuests.addQuestProgressByKey("level", 1);

@@ -57,8 +57,10 @@ Scene {
 		id: banner
 		width: parent.width; height: 50
 		anchors.top: parent.top
-		color: "navy"
 		
+		z: 1
+		
+		color: "navy"
 		visible: useDefaultTopRibbon
 	}
 	

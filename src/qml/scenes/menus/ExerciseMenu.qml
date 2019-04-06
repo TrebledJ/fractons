@@ -51,7 +51,7 @@ SceneBase {
 		
 		spacing: 5
 		
-		headerPositioning: ListView.OverlayHeader
+//		headerPositioning: ListView.OverlayHeader
 		
 		boundsBehavior: Flickable.StopAtBounds
 		
@@ -60,11 +60,11 @@ SceneBase {
 		delegate: modeDelegate
 //		header: headerDelegate
 		
-		ScrollBar.vertical: ScrollBar {
-			id: scrollbar
-			anchors.left: modeView.right
-			active: true
-		}
+//		ScrollBar.vertical: ScrollBar {
+//			id: scrollbar
+//			anchors.left: modeView.right
+//			active: true
+//		}
 		
 		Component {
 			id: modeDelegate

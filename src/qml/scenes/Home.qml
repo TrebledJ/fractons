@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 
 import "backdrops"
 import "../common"
@@ -19,6 +20,7 @@ SceneBase {
 	signal statisticsButtonClicked
 	signal questsButtonClicked
 	signal settingsButtonClicked
+	signal notificationsButtonClicked
 	
 	property var hoveredQuest
 	
@@ -153,7 +155,7 @@ SceneBase {
 	}	//	Row
 
 	
-	Row {
+	RowLayout {
 		id: otherButtons
 		spacing: 10
 		
@@ -178,6 +180,26 @@ SceneBase {
 			
 			image.source: "qrc:/assets/icons/line-chart"
 			onClicked: statisticsButtonClicked();
+		}
+		
+		Item {
+			Layout.fillWidth: true
+		}
+		
+		BubbleButton {
+			id: notificationsButton
+			width: height; height: 40
+			
+			text: 'N'
+			onClicked: notificationsButtonClicked();
+		}
+		
+		BubbleButton {
+			id: settingsButton
+			width: height; height: 40
+			
+			image.source: "qrc:/assets/icons/gear"
+			onClicked: settingsButtonClicked();
 		}
 		
 	}
@@ -359,18 +381,18 @@ SceneBase {
 		}
 	}
 	
-	BubbleButton {
-		id: settingsButton
-		width: height; height: 40
-		anchors {
-			top: parent.top
-			right: parent.right
-			margins: 5
-		}
+//	BubbleButton {
+//		id: settingsButton
+//		width: height; height: 40
+//		anchors {
+//			top: parent.top
+//			right: parent.right
+//			margins: 5
+//		}
 		
-		image.source: "qrc:/assets/icons/gear"
-		onClicked: settingsButtonClicked();
-	}
+//		image.source: "qrc:/assets/icons/gear"
+//		onClicked: settingsButtonClicked();
+//	}
 	
 	
 	

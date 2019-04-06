@@ -77,8 +77,8 @@ GameWindow {
 	}
 	
 	
-	state: "home"
-//	state: "settings"
+//	state: "home"
+	state: "notifications"
 //	state: "mode_operations"
 	states: [
 		State {
@@ -160,6 +160,11 @@ GameWindow {
 			PropertyChanges { target: gameWindow; activeScene: statisticsScene }
 		},
 		State {
+			name: "notifications"
+			PropertyChanges { target: notificationsScene }
+			PropertyChanges { target: gameWindow; activeScene: notificationsScene }
+		},
+		State {
 			name: "settings"
 			PropertyChanges { target: settingsScene }
 			PropertyChanges { target: gameWindow; activeScene: settingsScene }
@@ -182,6 +187,7 @@ GameWindow {
 		onLotteryButtonClicked: gameWindow.state = "lottery"
 		onAchievementsButtonClicked: gameWindow.state = "achievements"
 		onStatisticsButtonClicked: gameWindow.state = "statistics"
+		onNotificationsButtonClicked: gameWindow.state = "notifications"
 		onSettingsButtonClicked: gameWindow.state = "settings"
 	}
 	
@@ -274,6 +280,11 @@ GameWindow {
 	
 	Others.Statistics {
 		id: statisticsScene
+		onBackButtonClicked: gameWindow.state = "home"
+	}
+	
+	Others.Notifications {
+		id: notificationsScene
 		onBackButtonClicked: gameWindow.state = "home"
 	}
 	

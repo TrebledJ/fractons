@@ -24,7 +24,34 @@ function popArray(array, index) {
 }
 
 function nounify(n, noun, suffix) {
-	if (suffix === undefined) suffix = 's';
+	suffix = suffix || 's';
 	
-	return n === 1 ? noun : noun + suffix;
+	return n + ' ' + (n === 1 ? noun : noun + suffix);
+}
+
+
+function timeAgo(date, now) {
+	now = now || Date.now();
+	
+	var diff = new Date(now - date);
+	
+	var hoursAgo = diff.getUTCHours();
+	var minutesAgo = diff.getUTCMinutes();
+	var daysAgo = diff.getUTCDate() - 1;
+	
+	var readable = [];
+	
+	if (daysAgo)
+		readable.push(nounify(daysAgo, 'day'));
+	
+	if (hoursAgo)
+		readable.push(nounify(hoursAgo, 'hour'));
+		
+	if (minutesAgo)
+		readable.push(nounify(minutesAgo, 'minute'));
+	
+	if (readable.length == 0)
+		return 'Just now';
+		
+	return readable.join(' ') + ' ago';
 }

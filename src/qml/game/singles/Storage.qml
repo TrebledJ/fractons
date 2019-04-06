@@ -166,6 +166,7 @@ Item {
 		JGameAchievements.loadAchievements();
 		JGameStatistics.loadStatistics();
 		JQuests.purgeQuests();
+		JGameNotifications.clearNotifications();
 	}
 	
 }
