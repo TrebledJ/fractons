@@ -293,7 +293,6 @@ GameWindow {
 		onBackButtonClicked: gameWindow.state = "home"
 	}
 	
-	NotificationsLayer {}
 	MusicLayer { id: musicLayer }
 	
 	function gotoExercise(mode, difficulty) {
