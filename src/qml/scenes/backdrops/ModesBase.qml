@@ -88,7 +88,7 @@ SceneBase {
 	property alias drawingArea: drawingArea
 	
 	property alias numberPad: numberPad
-	property alias numberPadEnabled: numberPadSwitch.checked
+	property bool numberPadEnabled: false
 	
 	property string modeName
 	property var difficulties: []
@@ -105,7 +105,7 @@ SceneBase {
 	property alias info: infoItem.info
 	property alias centerpiece: centerpieceItem.centerpiece
 	
-	useDefaultBackButton: false
+//	useDefaultBackButton: false
 	animationLargerYBound: numberPadEnabled ? numberPad.y : textFieldColumn.y
 	
 	state: "listening"
@@ -202,19 +202,23 @@ SceneBase {
 			spacing: 10
 			
 			//	this is the row of buttons at the top of the panel
-			Row {
+			RowLayout {
 				width: parent.width; height: 30
 				spacing: 10
 				
-				BubbleButton {
-					id: backButton
-					width: parent.width - parent.spacing - infoButton.width; height: parent.height
-					background.radius: 5
+//				BubbleButton {
+//					id: backButton
+//					width: parent.width - parent.spacing - infoButton.width; height: parent.height
+//					background.radius: 5
 					
-					text: "Back"
+//					text: "Back"
 					
-					onClicked: scene.backButtonClicked()
+//					onClicked: scene.backButtonClicked()
 						
+//				}
+				
+				Item {
+					Layout.fillWidth: true
 				}
 				
 				BubbleButton {
@@ -237,24 +241,6 @@ SceneBase {
 					onExited: {
 						infoItem.opacity = 0;
 						centerpieceItem.opacity = 1;
-					}
-				}
-				
-				BubbleButton {
-					id: numberPadSwitch
-					width: height; height: parent.height
-					
-					visible: false
-					
-					image.source: "qrc:/assets/icons/calculator"
-					
-					isCheckButton: true
-					checked: true
-					
-					onClicked: {
-//						if (numberPad.visible)
-						if (numberPadEnabled)
-							numberPad.animate();
 					}
 				}
 			}
