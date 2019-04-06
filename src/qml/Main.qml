@@ -168,7 +168,11 @@ GameWindow {
 			name: "settings"
 			PropertyChanges { target: settingsScene }
 			PropertyChanges { target: gameWindow; activeScene: settingsScene }
-//			Transition
+		},
+		State {
+			name: "credits"
+			PropertyChanges { target: creditsScene }
+			PropertyChanges { target: gameWindow; activeScene: creditsScene }
 		}
 	]
 	
@@ -189,6 +193,7 @@ GameWindow {
 		onStatisticsButtonClicked: gameWindow.state = "statistics"
 		onNotificationsButtonClicked: gameWindow.state = "notifications"
 		onSettingsButtonClicked: gameWindow.state = "settings"
+		onCreditsButtonClicked: gameWindow.state = "credits"
 	}
 	
 	ExerciseMenu {
@@ -290,6 +295,11 @@ GameWindow {
 	
 	Others.Settings {
 		id: settingsScene
+		onBackButtonClicked: gameWindow.state = "home"
+	}
+	
+	Others.Credits {
+		id: creditsScene
 		onBackButtonClicked: gameWindow.state = "home"
 	}
 	

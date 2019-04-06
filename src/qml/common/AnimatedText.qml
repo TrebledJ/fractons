@@ -13,6 +13,8 @@ Item {
 	property real speed: 30
 	readonly property alias duration: animation.duration
 	
+	property alias opacityAnimation: opacityAnimation
+	
 	TextBase {
 		id: text
 	}
@@ -28,7 +30,8 @@ Item {
 	}
 	
 	Behavior on opacity {
-		NumberAnimation {
+		PropertyAnimation {
+			id: opacityAnimation
 			duration: 3000
 		}
 	}
@@ -37,5 +40,4 @@ Item {
 	function start() {
 		animation.start();
 	}
-	
 }

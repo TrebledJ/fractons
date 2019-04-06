@@ -14,7 +14,7 @@ SceneBase {
 	property alias bgAnimationEnabled: bgAnimationButton.checked
 	property alias numberPadEnabled: numberPadButton.checked
 	
-	useDefaultTopRibbon: true
+	useDefaultTopBanner: true
 	
 	onShownChanged: {
 		if (shown)

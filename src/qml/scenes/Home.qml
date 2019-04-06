@@ -19,8 +19,9 @@ SceneBase {
 	signal achievementsButtonClicked
 	signal statisticsButtonClicked
 	signal questsButtonClicked
-	signal settingsButtonClicked
 	signal notificationsButtonClicked
+	signal settingsButtonClicked
+	signal creditsButtonClicked
 	
 	property var hoveredQuest
 	
@@ -103,6 +104,17 @@ SceneBase {
 		anchors.bottom: parent.bottom
 		color: "navy"
 		
+		TextBase {
+			anchors.verticalCenter: parent.verticalCenter
+			anchors.right: parent.right
+			anchors.margins: 3
+			
+			text: '<font color="yellow"><a href="link"><i><u>credits</u></i></a></font>'
+			color: 'yellow'
+			font.pointSize: 8
+
+			onLinkActivated: creditsButtonClicked();
+		}
 	}
 	
 	Row {

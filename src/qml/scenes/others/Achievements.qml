@@ -19,7 +19,7 @@ import Fractons 1.0
 SceneBase {
 	id: sceneBase
 	
-	useDefaultTopRibbon: true
+	useDefaultTopBanner: true
 	
 	ListModel {
 		id: groupModel
@@ -148,14 +148,7 @@ SceneBase {
 		parent: Overlay.overlay
 		
 		enter: Transition {
-			ParallelAnimation {
-				NumberAnimation { property: "opacity"; easing.type: Easing.InOutSine; duration: 1000; from: 0; to: 1 }
-				NumberAnimation { property: "width"; from: 0; to: popup.width }
-				NumberAnimation { property: "height"; from: 0; to: popup.height }
-				NumberAnimation { property: "x"; from: popup.width / 2; to: 0 }
-				NumberAnimation { property: "y"; from: popup.height / 2; to: 0 }
-			}
-			
+			NumberAnimation { property: "opacity"; easing.type: Easing.InOutSine; duration: 1000; from: 0; to: 1 }
 		}
 		
 		exit: Transition {

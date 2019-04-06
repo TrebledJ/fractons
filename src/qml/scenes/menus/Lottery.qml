@@ -22,7 +22,7 @@ SceneBase {
 	animationSmallerYBound: slotBackground.y + slotBackground.height
 	animationLargerYBound: height
 	
-	useDefaultTopRibbon: true
+	useDefaultTopBanner: true
 	
 	onTokensChanged: JStorage.setTokens(tokens)
 	

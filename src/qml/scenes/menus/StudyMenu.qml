@@ -9,7 +9,7 @@ SceneBase {
 	
 	signal lessonClicked(string lesson)
 	
-	useDefaultTopRibbon: true
+	useDefaultTopBanner: true
 	
 	ListModel {
 		id: lessonModel

@@ -11,7 +11,7 @@ SceneBase {
 	
 	signal modeClicked(string mode)
 	
-	useDefaultTopRibbon: true
+	useDefaultTopBanner: true
 	
 	ListModel {
 		id: modeModel

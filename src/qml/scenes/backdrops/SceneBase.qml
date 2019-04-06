@@ -20,7 +20,7 @@ Scene {
 	
 	property alias banner: banner
 	
-	property bool useDefaultTopRibbon: false
+	property bool useDefaultTopBanner: false
 	property bool useDefaultBackButton: true
 	
 	property int animationSmallerYBound: 0
@@ -62,7 +62,7 @@ Scene {
 		z: 1
 		
 		color: "navy"
-		visible: useDefaultTopRibbon
+		visible: useDefaultTopBanner
 	}
 	
 	NotificationButton {

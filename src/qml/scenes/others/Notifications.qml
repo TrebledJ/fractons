@@ -12,7 +12,7 @@ import "../../js/Utils.js" as JUtils
 SceneBase {
 	id: sceneBase
 	
-	useDefaultTopRibbon: true
+	useDefaultTopBanner: true
 	
 	
 	//	appears when listview contains no notifications

@@ -10,7 +10,7 @@ import "../../game/singles"
 SceneBase {
 	id: sceneBase
 	
-	useDefaultTopRibbon: true
+	useDefaultTopBanner: true
 	
 	Component.onCompleted: {
 	

@@ -19,6 +19,12 @@ function toTitleCase(str) {
 
 function popArray(array, index) {
 	if (index === undefined) index = array.length - 1;
+	if (index === 0)
+		return array.slice(1);
+	if (array.length === 0)
+		return [];
+	if (index >= array.length)
+		return array.slice(0, array.length-1);
 	
 	return array.slice(0, index).concat(array.slice(index+1));
 }
@@ -54,4 +60,8 @@ function timeAgo(date, now) {
 		return 'Just now';
 		
 	return readable.join(' ') + ' ago';
+}
+
+function copyArray(arr) {
+	return arr.slice();
 }
