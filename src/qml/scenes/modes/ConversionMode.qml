@@ -11,97 +11,13 @@ import "../../js/Math.js" as JMath
 ModesBase {
 	id: modesBase
 	
-	difficulties: ["Decimal", "Fraction"]
 	readonly property int toDecimal: 0
 	readonly property int toFraction: 1
-	
 	readonly property var parsingError: ({
 											 0: "",
 											 1: "Program Error: Undefined input passed into `ConversionMode.hasParsingError` function.",
 											 2: "Expected numeric value: [0-9].[0-9]"
 										 })
-	
-	modeName: 'Conversion'
-	rewardAmount: [2, 1][difficultyIndex]
-	unit: "fractons"
-	
-	numberPad.keys: difficultyIndex === toDecimal ? [7, 8, 9, 4, 5, 6, 1, 2, 3, '.', 0, 'back'] : [7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']
-	
-	info: Item {
-		Column {
-			width: parent.width
-			spacing: 20
-			
-			TextBase {
-				text: "Conversion Mode"
-			}
-			
-			ParagraphText {
-				text: "In this mode, you gain ƒractons by converting between decimals and fractions."
-			}
-			
-			TextBase {
-				text: "Example:"
-			}
-			
-			Equation {
-				anchors.horizontalCenter: parent.horizontalCenter
-				text: difficultyIndex === toDecimal ? "1/3 ≈ ?" : "0.25 = ?/?"
-			}
-			
-			TextBase {
-				text: "Answer: " + (difficultyIndex === toDecimal ? "0.333" : "1/4")
-			}
-			
-			ParagraphText {
-				font.pointSize: 8
-				text: "For approximations (≈), round the answer to 2 or 3 decimal places."
-				
-				visible: difficultyIndex === toDecimal
-			}
-		}
-	}
-	
-	QtObject {
-		id: equationComponents
-		property var lhs: new JFraction.Fraction()
-		property var rhs: new JFraction.Fraction()
-		property bool isApprox: false
-		
-		function join() {
-			return lhs + (isApprox ? ' ≈ ' : ' = ') + rhs;
-		}
-		
-		//	substitutes arguments in place of question marks, no error checking is done
-		//	input: JFraction.Fraction.string
-		//	return: JFraction.Fraction
-		function reparseRhs(input) {
-			
-			if (difficultyIndex === toDecimal)
-			{
-				return Number(input);
-			}
-			else if (difficultyIndex === toFraction)
-			{
-				//	parse input as fraction
-				var frac = JFraction.parse(input);
-				
-				return frac;
-			}
-			
-		}
-		
-		//	joins with input in rhs
-		function dynamicJoin() {
-			return lhs + (isApprox ? ' ≈ ' : ' = ') + reparseRhs(userInput());
-		}
-	}
-	
-	centerpiece: Equation {
-		id: equation
-		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
-	}
-	
 	
 	//	checks if text has a parsing error
 	function hasParsingError(text) {
@@ -244,4 +160,73 @@ ModesBase {
 			equationComponents.rhs = JFraction.parse(expressions[1]);
 		}
 	}
+	
+	//	OBJECT PROPERTIES
+	difficulties: ["Decimal", "Fraction"]
+	
+	modeName: 'Conversion'
+	rewardAmount: [2, 1][difficultyIndex]
+	unit: "fractons"
+	
+	numberPad.keys: difficultyIndex === toDecimal ? [7, 8, 9, 4, 5, 6, 1, 2, 3, '.', 0, 'back'] : [7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']
+	
+	help: Item {
+		Column {
+			width: parent.width
+			spacing: 20
+			
+			TextBase { text: "Conversion Mode" }
+			ParagraphText { text: "In this mode, you gain ƒractons by converting between decimals and fractions." }
+			TextBase { text: "Example:" }
+			Equation {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: difficultyIndex === toDecimal ? "1/3 ≈ ?" : "0.25 = ?/?"
+			}
+			TextBase { text: "Answer: " + (difficultyIndex === toDecimal ? "0.333" : "1/4") }
+			ParagraphText {
+				text: "For approximations (≈), round the answer to 2 or 3 decimal places."
+				font.pointSize: 8
+				visible: difficultyIndex === toDecimal
+			}
+		}
+	}
+	
+	centerpiece: Equation {
+		id: equation
+		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
+	}
+	
+	QtObject {
+		id: equationComponents
+		property var lhs: new JFraction.Fraction()
+		property var rhs: new JFraction.Fraction()
+		property bool isApprox: false
+		
+		function join() {
+			return lhs + (isApprox ? ' ≈ ' : ' = ') + rhs;
+		}
+		
+		//	substitutes arguments in place of question marks, no error checking is done
+		//	input: JFraction.Fraction.string
+		//	return: JFraction.Fraction
+		function reparseRhs(input) {
+			if (difficultyIndex === toDecimal)
+			{
+				return Number(input);
+			}
+			else if (difficultyIndex === toFraction)
+			{
+				//	parse input as fraction
+				var frac = JFraction.parse(input);
+				
+				return frac;
+			}
+		}
+		
+		//	joins with input in rhs
+		function dynamicJoin() {
+			return lhs + (isApprox ? ' ≈ ' : ' = ') + reparseRhs(userInput());
+		}
+	}
+	
 }

@@ -4,8 +4,8 @@ import QtQuick.Controls 2.2
 import "../backdrops"
 import "../../common"
 import "../../game/singles"
-//	TODO implement stars/mastery
 
+//	TODO implement stars/mastery
 SceneBase {
 	id: scene
 	
@@ -51,15 +51,13 @@ SceneBase {
 		
 		spacing: 5
 		
-//		headerPositioning: ListView.OverlayHeader
-		
 		boundsBehavior: Flickable.StopAtBounds
 		
 		focus: true
 		model: modeModel
 		delegate: modeDelegate
-//		header: headerDelegate
 		
+		//	TODO add when other modes are implemented
 //		ScrollBar.vertical: ScrollBar {
 //			id: scrollbar
 //			anchors.left: modeView.right
@@ -82,14 +80,18 @@ SceneBase {
 				
 				clip: true
 				
+				Component.onCompleted: {
+					modeRect.background.border.color = Qt.binding(function() {
+						return ListView.isCurrentItem ? "navy" : "transparent";
+					});
+				}
+				
 				//	TODO use another Row to hold stars
 				//	displays stars (mastery)
 				//	TODO define mastery
 				Rectangle {
 					id: starsRect
 					width: 100; height: parent.height
-					
-//					visible: false
 					
 //					color: "black"	//	4 DEBUG
 					opacity: 0.6
@@ -102,7 +104,6 @@ SceneBase {
 				BubbleButton {
 					id: modeRect
 					width: parent.width - parent.spacing - starsRect.width - 15; height: parent.height
-//					width: parent.width - 15; height: parent.height
 					
 					background.border.width: 3
 					
@@ -114,9 +115,7 @@ SceneBase {
 					
 					image.source: row.unlocked ? "" : "qrc:/assets/icons/padlock-closed"
 					
-					onEntered: {
-						modeView.currentIndex = index;
-					}
+					onEntered: modeView.currentIndex = index;
 					
 					onClicked: {
 						if (!row.unlocked)
@@ -125,13 +124,6 @@ SceneBase {
 						console.debug(role_mode + " Mode clicked.");
 						modeClicked(role_mode);
 					}
-				}
-				
-				Component.onCompleted: {
-					
-					modeRect.background.border.color = Qt.binding(function() {
-						return ListView.isCurrentItem ? "navy" : "transparent";
-					});
 				}
 				
 			}	//	Row: row

@@ -18,8 +18,61 @@ import "scenes/lessons" as Lessons
 //	Khan Academy uses "Energy Points". Something abstract but countable. Totally made up. I can do that to. :-)
 //	Let's call it "Fractons" to go with the title.
 
+//	TODO think about ingressive vs congressive
+//	ingressive: always right or wrong, likes to win
+//	congressive: more timid, prefers no winner/loser
+//	currently ƒractons is geared towards being ingressive:
+//	* xp/points system
+//	* corret/wrong answers
+
 GameWindow {
 	id: gameWindow
+	
+	//	== PROPERTY DECLARATIONS ==
+	
+	property int animationSmallerYBound: activeScene.animationSmallerYBound
+	property int animationLargerYBound: activeScene.animationLargerYBound
+	
+	property alias musicEnabled: settingsScene.musicEnabled
+	property alias soundEnabled: settingsScene.soundEnabled
+	property alias bgAnimationEnabled: settingsScene.bgAnimationEnabled
+	property alias numberPadEnabled: settingsScene.numberPadEnabled
+	
+	
+	//	== JS FUNCTIONS ==
+	
+	function gotoExercise(mode, difficulty) {
+		console.log("Going to exercise", mode, "with a", difficulty, "difficulty.");
+		
+		
+		//	set state to mode
+		gameWindow.state = "mode_" + mode.toLowerCase();
+		
+		//	set difficulty
+		if (difficulty === "" || difficulty === undefined || activeScene.difficulties.length === 0)
+			return;
+		
+		var index = activeScene.difficulties.findIndex(function(e){ return e.toLowerCase() === difficulty.toLowerCase(); });
+		if (index === -1)
+			index = 0;	//	default to 0 index if not found
+		
+		activeScene.difficultyIndex = index;
+	}
+	
+	function pushBackgroundAnimation(text, parentObject, visibleListener, fontsize) {
+		
+		var obj = {
+			text: text,
+			parentObject: parentObject,
+			visibleListener: visibleListener,
+			fontsize: fontsize,
+		};
+		
+		backgroundLayer.animationQueue.push(obj);
+	}
+	
+	//	== OBJECT PROPERTIES & ATTACHED PROPERTIES & SIGNAL-HANDLERS ==
+	
 	
 	// You get free licenseKeys from https://v-play.net/licenseKey
 	// With a licenseKey you can:
@@ -33,20 +86,14 @@ GameWindow {
 	// the content of the logical scene size (480x320 for landscape mode by default) gets scaled to the window size based on the scaleMode
 	// you can set this size to any resolution you would like your project to start with, most of the times the one of your main target device
 	// this resolution is for iPhone 4 & iPhone 4S
-	screenWidth: 960
-	screenHeight: 640
 	
-	property int animationSmallerYBound: activeScene.animationSmallerYBound
-	property int animationLargerYBound: activeScene.animationLargerYBound
+	screenWidth: 960; screenHeight: 640
 	
-	property alias musicEnabled: settingsScene.musicEnabled
-	property alias soundEnabled: settingsScene.soundEnabled
-	property alias bgAnimationEnabled: settingsScene.bgAnimationEnabled
-	property alias numberPadEnabled: settingsScene.numberPadEnabled
+	state: "home"
+//	state: "notifications"
+//	state: "mode_balance"
 	
 	Component.onCompleted: {
-		//	load saved settings
-		
 		musicEnabled = settings.musicEnabled;
 		soundEnabled = settings.soundEnabled;
 		
@@ -54,7 +101,7 @@ GameWindow {
 		bgAnimationEnabled = bga !== undefined ? bga : true;
 		
 		var np = settings.getValue('numberPadEnabled');
-		numberPadEnabled = np !== undefined ? np : false;
+		numberPadEnabled = np !== undefined ? np : JStorage.isMobile;
 	}
 	
 	onMusicEnabledChanged: {
@@ -77,115 +124,12 @@ GameWindow {
 	}
 	
 	
-	state: "home"
-//	state: "notifications"
-//	state: "mode_balance"
-	states: [
-		State {
-			name: "home"
-			PropertyChanges { target: homeScene }
-			PropertyChanges { target: gameWindow; activeScene: homeScene }
-		},
-		State {
-			name: "exerciseMenu"
-			PropertyChanges { target: exerciseMenuScene }
-			PropertyChanges { target: gameWindow; activeScene: exerciseMenuScene }
-		},
-//		State {
-//			name: "mode_bar"
-//			PropertyChanges { target: modeBarScene; opacity: 1 }
-//			PropertyChanges { target: gameWindow; activeScene: modeBarScene }
-//		},
-		State {
-			name: "mode_balance"
-			PropertyChanges { target: modeBalanceScene }
-			PropertyChanges { target: gameWindow; activeScene: modeBalanceScene }
-		},
-		State {
-			name: "mode_conversion"
-			PropertyChanges { target: modeConversionScene }
-			PropertyChanges { target: gameWindow; activeScene: modeConversionScene }
-		},
-		State {
-			name: "mode_truth"
-			PropertyChanges { target: modeTruthScene }
-			PropertyChanges { target: gameWindow; activeScene: modeTruthScene }
-		},
-		State {
-			name: "mode_operations"
-			PropertyChanges { target: modeOperationsScene }
-			PropertyChanges { target: gameWindow; activeScene: modeOperationsScene }
-		},
-		
-		State {
-			name: "studyMenu"
-			PropertyChanges { target: studyMenuScene }
-			PropertyChanges { target: gameWindow; activeScene: studyMenuScene }
-		},
-		State {
-			name: "lesson_intro"
-			PropertyChanges { target: lessonIntroductionScene }
-			PropertyChanges { target: gameWindow; activeScene: lessonIntroductionScene }
-		},
-		State {
-			name: "lesson_adding-subtracting-like"
-			PropertyChanges { target: lessonAdditionSubtractionLikeScene }
-			PropertyChanges { target: gameWindow; activeScene: lessonAdditionSubtractionLikeScene }
-		},
-		State {
-			name: "lesson_balancing"
-			PropertyChanges { target: lessonBalancingScene }
-			PropertyChanges { target: gameWindow; activeScene: lessonBalancingScene }
-		},
-		
-		State {
-			name: "lottery"
-			PropertyChanges { target: lotteryScene }
-			PropertyChanges { target: gameWindow; activeScene: lotteryScene }
-		},
-//		State {
-//			name: "mode_token"
-//			PropertyChanges { target: modeTokenScene }
-//			PropertyChanges { target: gameWindow; activeScene: modeTokenScene }
-//		},
-		
-		State {
-			name: "achievements"
-			PropertyChanges { target: achievementsScene }
-			PropertyChanges { target: gameWindow; activeScene: achievementsScene }
-		},
-		State {
-			name: "statistics"
-			PropertyChanges { target: statisticsScene }
-			PropertyChanges { target: gameWindow; activeScene: statisticsScene }
-		},
-		State {
-			name: "notifications"
-			PropertyChanges { target: notificationsScene }
-			PropertyChanges { target: gameWindow; activeScene: notificationsScene }
-		},
-		State {
-			name: "settings"
-			PropertyChanges { target: settingsScene }
-			PropertyChanges { target: gameWindow; activeScene: settingsScene }
-		},
-		State {
-			name: "credits"
-			PropertyChanges { target: creditsScene }
-			PropertyChanges { target: gameWindow; activeScene: creditsScene }
-		}
-	]
+	//	== CHILD OBJECTS ==
 	
-	BackgroundLayer {
-		id: backgroundLayer
-		z: -100
-		
-		animationsEnabled: bgAnimationEnabled
-	}
+	BackgroundLayer { id: backgroundLayer; z: -100; animationsEnabled: bgAnimationEnabled }
 	
 	Home {
 		id: homeScene
-		
 		onStudyButtonClicked: gameWindow.state = "studyMenu"
 		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
 		onLotteryButtonClicked: gameWindow.state = "lottery"
@@ -253,86 +197,122 @@ GameWindow {
 		}
 	}
 	
-	Lessons.Introduction {
-		id: lessonIntroductionScene
-		onBackButtonClicked: gameWindow.state = "studyMenu"
-	}
+	Lessons.Introduction { id: lessonIntroductionScene; onBackButtonClicked: gameWindow.state = "studyMenu" }
+	Lessons.AdditionSubtractionLike { id: lessonAdditionSubtractionLikeScene; onBackButtonClicked: gameWindow.state = "studyMenu" }
+	Lessons.Balancing { id: lessonBalancingScene; onBackButtonClicked: gameWindow.state = "studyMenu" }
 	
-	Lessons.AdditionSubtractionLike {
-		id: lessonAdditionSubtractionLikeScene
-		onBackButtonClicked: gameWindow.state = "studyMenu"
-	}
-	
-	Lessons.Balancing {
-		id: lessonBalancingScene
-		onBackButtonClicked: gameWindow.state = "studyMenu"
-	}
-	
-	Lottery {
-		id: lotteryScene
-		onBackButtonClicked: gameWindow.state = "home"
-	}
+	Lottery { id: lotteryScene; onBackButtonClicked: gameWindow.state = "home" }
 	
 //	Modes.TokenMode {
 //		id: modeTokenScene
 //		onBackButtonClicked: gameWindow.state = "lottery"
 //	}
 	
-	Others.Achievements {
-		id: achievementsScene
-		onBackButtonClicked: gameWindow.state = "home"
-	}
-	
-	Others.Statistics {
-		id: statisticsScene
-		onBackButtonClicked: gameWindow.state = "home"
-	}
-	
-	Others.Notifications {
-		id: notificationsScene
-		onBackButtonClicked: gameWindow.state = "home"
-	}
-	
-	Others.Settings {
-		id: settingsScene
-		onBackButtonClicked: gameWindow.state = "home"
-	}
-	
-	Others.Credits {
-		id: creditsScene
-		onBackButtonClicked: gameWindow.state = "home"
-	}
-	
+	Others.Achievements { id: achievementsScene; onBackButtonClicked: gameWindow.state = "home" }
+	Others.Statistics { id: statisticsScene; onBackButtonClicked: gameWindow.state = "home" }
+	Others.Notifications { id: notificationsScene; onBackButtonClicked: gameWindow.state = "home" }
+	Others.Settings { id: settingsScene; onBackButtonClicked: gameWindow.state = "home" }
+	Others.Credits { id: creditsScene; onBackButtonClicked: gameWindow.state = "home" }
 	MusicLayer { id: musicLayer }
 	
-	function gotoExercise(mode, difficulty) {
-		console.log("Going to exercise", mode, "with a", difficulty, "difficulty.");
-		
-		
-		//	set state to mode
-		gameWindow.state = "mode_" + mode.toLowerCase();
-		
-		//	set difficulty
-		if (difficulty === "" || difficulty === undefined || activeScene.difficulties.length === 0)
-			return;
-		
-		var index = activeScene.difficulties.findIndex(function(e){ return e.toLowerCase() === difficulty.toLowerCase(); });
-		if (index === -1)
-			index = 0;	//	default to 0 index if not found
-		
-		activeScene.difficultyIndex = index;
-	}
 	
-	function pushBackgroundAnimation(text, parentObject, visibleListener, fontSize) {
+	//	== STATES ==
+	
+	states: [
+		State {
+			name: "home"
+			PropertyChanges { target: homeScene }
+			PropertyChanges { target: gameWindow; activeScene: homeScene }
+		},
+		State {
+			name: "exerciseMenu"
+			PropertyChanges { target: exerciseMenuScene }
+			PropertyChanges { target: gameWindow; activeScene: exerciseMenuScene }
+		},
+//		State {
+//			name: "mode_bar"
+//			PropertyChanges { target: modeBarScene; opacity: 1 }
+//			PropertyChanges { target: gameWindow; activeScene: modeBarScene }
+//		},
+		State {
+			name: "mode_balance"
+			PropertyChanges { target: modeBalanceScene }
+			PropertyChanges { target: gameWindow; activeScene: modeBalanceScene }
+		},
+		State {
+			name: "mode_conversion"
+			PropertyChanges { target: modeConversionScene }
+			PropertyChanges { target: gameWindow; activeScene: modeConversionScene }
+		},
+		State {
+			name: "mode_truth"
+			PropertyChanges { target: modeTruthScene }
+			PropertyChanges { target: gameWindow; activeScene: modeTruthScene }
+		},
+		State {
+			name: "mode_operations"
+			PropertyChanges { target: modeOperationsScene }
+			PropertyChanges { target: gameWindow; activeScene: modeOperationsScene }
+		},
+//		State {
+//			name: "mode_token"
+//			PropertyChanges { target: modeTokenScene }
+//			PropertyChanges { target: gameWindow; activeScene: modeTokenScene }
+//		},
 		
-		var obj = {
-			text: text,
-			parentObject: parentObject,
-			visibleListener: visibleListener,
-			fontSize: fontSize,
-		};
+		State {
+			name: "studyMenu"
+			PropertyChanges { target: studyMenuScene }
+			PropertyChanges { target: gameWindow; activeScene: studyMenuScene }
+		},
+		State {
+			name: "lesson_intro"
+			PropertyChanges { target: lessonIntroductionScene }
+			PropertyChanges { target: gameWindow; activeScene: lessonIntroductionScene }
+		},
+		State {
+			name: "lesson_adding-subtracting-like"
+			PropertyChanges { target: lessonAdditionSubtractionLikeScene }
+			PropertyChanges { target: gameWindow; activeScene: lessonAdditionSubtractionLikeScene }
+		},
+		State {
+			name: "lesson_balancing"
+			PropertyChanges { target: lessonBalancingScene }
+			PropertyChanges { target: gameWindow; activeScene: lessonBalancingScene }
+		},
 		
-		backgroundLayer.animationQueue.push(obj);
-	}
+		State {
+			name: "lottery"
+			PropertyChanges { target: lotteryScene }
+			PropertyChanges { target: gameWindow; activeScene: lotteryScene }
+		},
+		
+		State {
+			name: "achievements"
+			PropertyChanges { target: achievementsScene }
+			PropertyChanges { target: gameWindow; activeScene: achievementsScene }
+		},
+		State {
+			name: "statistics"
+			PropertyChanges { target: statisticsScene }
+			PropertyChanges { target: gameWindow; activeScene: statisticsScene }
+		},
+		State {
+			name: "notifications"
+			PropertyChanges { target: notificationsScene }
+			PropertyChanges { target: gameWindow; activeScene: notificationsScene }
+		},
+		State {
+			name: "settings"
+			PropertyChanges { target: settingsScene }
+			PropertyChanges { target: gameWindow; activeScene: settingsScene }
+		},
+		State {
+			name: "credits"
+			PropertyChanges { target: creditsScene }
+			PropertyChanges { target: gameWindow; activeScene: creditsScene }
+		}
+	]
+	
 	
 }

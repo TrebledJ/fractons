@@ -4,13 +4,20 @@ import "../common"
 
 TextBase {
 	id: textBase
+	
+	//	trivial, but DO NOT REMOVE
+	function setText(t) {
+		text = t;
+	}
+	
 	width: contentWidth; height: contentHeight
 	
 	text: "1"
 	horizontalAlignment: Text.AlignHCenter
+	font { pointSize: 24; family: "Cambria Math" }
 	
-	font.family: "Cambria Math"
-	font.pointSize: 24
+	//	font.family: cambriaMath.name
+	//	FontLoader { id: cambriaMath; source: "qrc:/assets/CambriaMath.ttf" }
 	
 	//	smart parse: replace ascii symbols with math symbols
 	onTextChanged: {
@@ -27,11 +34,4 @@ TextBase {
 			
 		}
 	}
-	
-	function setText(t) {
-		text = t;
-	}
-	
-//	font.family: cambriaMath.name
-//	FontLoader { id: cambriaMath; source: "qrc:/assets/CambriaMath.ttf" }
 }

@@ -35,6 +35,10 @@ function nounify(n, noun, suffix) {
 	return n + ' ' + (n === 1 ? noun : noun + suffix);
 }
 
+function toMidnight(date) {
+	date.setHours(0); date.setMinutes(0); date.setSeconds(0); date.setMilliseconds(0);
+	return date;
+}
 
 function timeAgo(date, now) {
 	now = now || Date.now();

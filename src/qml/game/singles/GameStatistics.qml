@@ -4,33 +4,18 @@ import QtQuick 2.0
 Item {
 	id: item
 	
+	//	== SIGNAL & PROPERTY DECLARATIONS ==
+	
 	signal dailyDataModified
 	signal pastQuestionsModified
 	
 	property var dailyData: ({})
 	property var pastQuestions: []
 	
-	Component.onCompleted: {
-		console.warn("Reloading JGameStatistics...");
-		
-		loadStatistics();
-	}
 	
-//	onDailyDataChanged: dailyDataModified();
-//	onPastQuestionsChanged: pastQuestionsModified();
-	
-	onDailyDataModified: {
-		console.log("Daily data changed!");
-		JStorage.setValue('stats/general', dailyData);
-	}
-	
-	onPastQuestionsModified: {
-		console.log("Past questions changed!");
-		JStorage.setValue('stats/questions', pastQuestions);
-	}
+	//	== JS FUNCTIONS ==
 	
 	function loadStatistics() {
-		
 		var tempData = JStorage.getValue('stats/general');
 		if (tempData === undefined) console.error("[Fractons] Key: 'stats/general' returned undefined from storage.");
 		dailyData = tempData !== undefined ? tempData : {};
@@ -41,11 +26,8 @@ Item {
 		
 	}
 	
-	
 	function incDailyAttempted() {
-//		console.log("[GameStatistics] Incrementing daily attempted.");
 		var key = constructDate();
-//		console.log("Constructed key:", key);
 		if (!(key in dailyData))
 		{
 			dailyData[key] = {
@@ -59,9 +41,7 @@ Item {
 	}
 	
 	function incDailyCorrect() {
-//		console.log("[GameStatistics] Incrementing daily correct.");
 		var key = constructDate();
-//		console.log("Constructed key:", key);
 		if (!(key in dailyData))
 		{
 			dailyData[key] = {
@@ -75,7 +55,6 @@ Item {
 	}
 	
 	function addDailyFractons(num) {
-//		console.log("[GameStatistics] Adding daily fractons:", num);
 		if (isNaN(num) || num === undefined)
 		{
 			console.error("[GameStatistics] Expected num to be a number, got", num, "instead.");
@@ -83,7 +62,6 @@ Item {
 		}
 		
 		var key = constructDate();
-//		console.log("Constructed key:", key);
 		if (!(key in dailyData))
 		{
 			dailyData[key] = {
@@ -115,6 +93,23 @@ Item {
 		};
 		pastQuestions.push(obj);
 		pastQuestionsModified();
+	}
+	
+	
+	//	== ATTACHED PROPERTIES & SIGNAL HANDLERS ==
+	
+	Component.onCompleted: {
+		console.warn("Reloading JGameStatistics...");
+		loadStatistics();
+	}
+	
+	onDailyDataModified: {
+		console.log("Daily data changed!");
+		JStorage.setValue('stats/general', dailyData);
+	}
+	onPastQuestionsModified: {
+		console.log("Past questions changed!");
+		JStorage.setValue('stats/questions', pastQuestions);
 	}
 	
 }

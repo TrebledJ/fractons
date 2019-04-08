@@ -46,7 +46,6 @@ SceneBase {
 		spacing: 5
 		
 		headerPositioning: ListView.OverlayHeader
-		
 		boundsBehavior: Flickable.StopAtBounds
 		
 		focus: true
@@ -66,13 +65,11 @@ SceneBase {
 				id: row
 				width: lessonView.width; height: 40
 				spacing: 20
-				
 				clip: true
 				
 				Rectangle {
 					id: starsRect
 					width: 100; height: parent.height
-					
 					color: "black"	//	4 DEBUG
 					opacity: 0.6
 				}
@@ -82,7 +79,6 @@ SceneBase {
 					id: lessonRect
 					width: parent.width - parent.spacing - starsRect.width - 15; height: parent.height
 					background.border.width: 3
-					
 					text: "" + role_lesson + ""
 					textObj.horizontalAlignment: Text.AlignRight
 					textObj.anchors.margins: 10
@@ -91,11 +87,7 @@ SceneBase {
 					textObj.firmAnchor: true
 					font.pointSize: 10
 					
-					
-					onEntered: {
-						lessonView.currentIndex = index;
-					}
-					
+					onEntered: lessonView.currentIndex = index;
 					onClicked: {
 						console.debug('"' + role_lesson + '" (aka ' + role_shorthand + ')', " Lesson clicked.");
 						lessonClicked(role_shorthand);
@@ -103,7 +95,6 @@ SceneBase {
 				}
 				
 				Component.onCompleted: {
-					
 					lessonRect.background.border.color = Qt.binding(function() {
 						return ListView.isCurrentItem ? "navy" : "transparent";
 					});

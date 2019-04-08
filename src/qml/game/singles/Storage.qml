@@ -35,8 +35,48 @@ Item {
 	id: item
 	
 	readonly property bool isMobile: "android,ios,tvos,winrt".includes(Qt.platform.os);
-	
 	property alias storage: storage
+	
+	
+	//	== JS FUNCTIONS ==
+	
+	function getValue(key) { return storage.getValue(key); }
+	function setValue(key, value) { storage.setValue(key, value); }
+	
+	function combo() { return getValue("combo"); }
+	function addCombo(amount) {
+		if (amount === "" || isNaN(amount)) return;
+		setValue("combo", combo() + amount);
+	}
+	function setCombo(amount) {
+		if (amount === "" || isNaN(amount)) return;
+		setValue("combo", amount);
+	}
+	
+	function tokens() { return getValue("tokens"); }
+	function addTokens(amount) {
+		if (amount === "" || isNaN(amount)) return;
+		setValue("tokens", tokens() + amount);
+	}
+	function setTokens(amount) {
+		if (amount === "" || isNaN(amount)) return;
+		setValue("tokens", amount);
+	}
+	
+	function clearData() {
+		console.warn("Clearing data!");
+		storage.clearAll();
+		storage.fillDefaults();
+		
+		JFractons.loadFractons();
+		JGameAchievements.loadAchievements();
+		JGameStatistics.loadStatistics();
+		JQuests.purgeQuests();
+		JGameNotifications.clearNotifications();
+	}
+	
+	
+	//	== CHILD OBJECTS ==
 	
 	Storage {
 		id: storage
@@ -53,10 +93,6 @@ Item {
 			var json = fileUtils.readFile(Qt.resolvedUrl("defaultkeys.json"));
 			var defaultKeys = JSON.parse(json);
 			fillMissingMasteryAchievements(defaultKeys);
-//			for (var key in defaultKeys)
-//			{
-//				setValue(key, defaultKeys[key]);
-//			}
 			
 			//	checking keys
 			console.log("Checking keys...");
@@ -93,80 +129,14 @@ Item {
 		}
 	}
 	
+	//	== ATTACHED PROPERTIES ==
+	
 	Component.onCompleted: {
 		console.warn("Reloading JStorage...");
 		
 		//	see [1]
 		console.warn("Current platform:", Qt.platform.os);
-		
-//		var json = fileUtils.readFile(Qt.resolvedUrl("defaultkeys.json"));
-//		console.log("Read JSON:", json);
-		
-//		var defaultKeys = JSON.parse(json);
-//		console.log("Parsed JSON:", JSON.stringify(defKeys));
-		
-//		storage.fillMissingMasteryAchievements(defaultKeys);
-		
 		storage.fillDefaults();
-		
-	}
-	
-	function getValue(key) {
-		return storage.getValue(key);
-	}
-	
-	function setValue(key, value) {
-		storage.setValue(key, value);
-	}
-	
-	
-	function combo() {
-		return getValue("combo");
-	}
-	
-	function addCombo(amount) {
-		if (amount === "" || isNaN(amount))
-			return;
-		
-		setValue("combo", combo() + amount);
-	}
-	
-	function setCombo(amount) {
-		if (amount === "" || isNaN(amount))
-			return;
-		
-		setValue("combo", amount);
-	}
-	
-	function tokens() {
-		return getValue("tokens");
-	}
-	
-	function addTokens(amount) {
-		if (amount === "" || isNaN(amount))
-			return;
-		
-		setValue("tokens", tokens() + amount);
-	}
-	
-	function setTokens(amount) {
-		if (amount === "" || isNaN(amount))
-			return;
-		
-		setValue("tokens", amount);
-	}
-	
-	function clearData() {
-		console.warn("Clearing data!");
-		storage.clearAll();
-		storage.fillDefaults();
-		
-//		JFractons.fCurrent = defaultKeys.fCurrent;
-		JFractons.loadFractons();
-		JGameAchievements.loadAchievements();
-		JGameStatistics.loadStatistics();
-		JQuests.purgeQuests();
-		JGameNotifications.clearNotifications();
 	}
 	
 }

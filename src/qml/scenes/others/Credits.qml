@@ -30,7 +30,7 @@ SceneBase {
 	Component {
 		id: textComponent
 		AnimatedText {
-			fontSize: 32
+			fontsize: 32
 			from: scene.width
 			speed: 100
 			opacityAnimation.duration: 250

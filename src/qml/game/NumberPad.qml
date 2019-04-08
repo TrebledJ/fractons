@@ -4,33 +4,30 @@ import "../common"
 
 Item {
 	id: item
-	width: 150; height: 200
 	
 	signal keyPressed(string key)
-	property var keys: [7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']
 	
+	property var keys: [7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']
 	property alias grid: grid
+	
+	function animate() {
+		animator.begin();
+	}
+	
+	width: 150; height: 200
 	
 	Rectangle {
 		id: background
-		
 		anchors.fill: parent
 		radius: 5
-		
-		opacity: focus ? 0.4 : 0.95
-		
 		color: "navy"
+		opacity: focus ? 0.4 : 0.95
 	}
-	
 	
 	Grid {
 		id: grid
-		
-		anchors.fill: background
-		anchors.margins: spacing
-		
-		columns: 3
-		rows: Math.ceil(item.keys.length / columns)
+		anchors { fill: background; margins: spacing }
+		columns: 3; rows: Math.ceil(item.keys.length / columns)
 		spacing: 5
 		
 		Repeater {
@@ -39,26 +36,9 @@ Item {
 			
 			BubbleButton {
 				width: (grid.width - (grid.columns - 1)*grid.spacing) / grid.columns; height: (grid.height - (grid.rows - 1)*grid.spacing) / grid.rows
-				
-//				text: modelData === 'back' ? '⬅' : modelData
 				text: modelData === 'back' ? '←' : modelData
-				onReleased: {
-					item.keyPressed('' + modelData);
-				}
-				
-				Connections {
-					target: mouseArea
-					onPressAndHold: {
-						console.debug("Press and held! Key:", modelData);
-					}
-				}
-				
-				
-				Component.onCompleted:{
-//					console.log("Item", modelData, "has grid.columns, grid.rows of", grid.columns, grid.rows)
-				}
+				onReleased: item.keyPressed('' + modelData);
 			}
-			
 		}
 	}
 	
@@ -66,8 +46,8 @@ Item {
 		id: animator
 		property int index: 0
 		
-		running: false
 		repeat: false
+		running: false
 		
 		onTriggered: {
 			if (index >= gridRepeater.count)
@@ -88,10 +68,6 @@ Item {
 			repeat = true;
 			start();
 		}
-	}
-	
-	function animate() {
-		animator.begin();
 	}
 	
 	//	TODO

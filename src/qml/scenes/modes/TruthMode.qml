@@ -10,78 +10,18 @@ import "../../js/Math.js" as JMath
 ModesBase {
 	id: modesBase
 	
-	difficulties: ["Easy", "Medium", "Hard"]
+	//	== PROPERTY DECLARATIONS ==
+	
 	readonly property int easy: 0
 	readonly property int medium: 1
 	readonly property int hard: 2
-	
 	readonly property var parsingError: ({
 											 0: "",
 											 1: "Program Error: Undefined input passed into `TruthMode.hasParsingError` function.",
 											 2: "Expected one character: 'T' or 'F'"
 										 })
 	
-	modeName: 'Truth'
-	rewardAmount: [2, 3, 5][difficultyIndex]
-	unit: "fractons"
-	
-	numberPad.keys: ["T", "F", "back"]
-		
-	
-	info: Item {
-		Column {
-			width: parent.width
-			spacing: 20
-			
-			TextBase {
-				text: "Truth Mode"
-			}
-			
-			ParagraphText {
-				text: "In this mode, you gain ƒractons by correctly discerning true equations from false ones."
-			}
-			
-			TextBase {
-				text: "Example:"
-			}
-			
-			Equation {
-				anchors.horizontalCenter: parent.horizontalCenter
-				text: "1/2 = 0/10"
-			}
-			
-			TextBase {
-				text: "Answer: F"
-			}
-		}
-	}
-	
-	
-	
-	Component.onCompleted: {
-		numberPad.height /= 3;
-	}
-	
-	
-	QtObject {
-		id: equationComponents
-		property var lhs: new JFraction.Fraction()
-		property var rhs: new JFraction.Fraction()
-		
-		property string op: '='
-		
-		//	different from other modes, correct answer is calculated when question is generated
-		property bool isTrue: true
-		
-		function join() {
-			return lhs + ' ' + (op === "<" ? "\<" : op) + ' ' + rhs;
-		}
-	}
-	
-	centerpiece: Equation {
-		id: equation
-		text: equationComponents.join()
-	}
+	//	== JS FUNCTIONS ==
 	
 	function hasParsingError(text) {
 		//	check undefined input
@@ -177,10 +117,6 @@ ModesBase {
 		else	//	answer === false
 		{
 			//	special case for if leftD is baseMin is 2
-//			if (d_l === 2 || baseMin === 2)
-//				d_r = JMath.randI(3, absoluteMax);
-//			else
-//				d_r = JMath.randI(baseMin, absoluteMax);
 			d_r = JMath.randI(baseMin === 2 ? 3 : baseMin, absoluteMax);
 			
 			if (difficultyIndex === easy || difficultyIndex === medium)
@@ -356,4 +292,57 @@ ModesBase {
 		equationComponents.rhs = JFraction.parse(expressions[1]);
 		
 	}
+	
+	
+	//	== OBJECT PROPERTIES ==
+	
+	difficulties: ["Easy", "Medium", "Hard"]
+	modeName: 'Truth'
+	rewardAmount: [2, 3, 5][difficultyIndex]
+	unit: "fractons"
+	numberPad.keys: ["T", "F", "back"]
+	
+	help: Item {
+		Column {
+			width: parent.width
+			spacing: 20
+			
+			TextBase { text: "Truth Mode" }
+			ParagraphText { text: "In this mode, you gain ƒractons by correctly discerning true equations from false ones." }
+			TextBase { text: "Example:" }
+			Equation { anchors.horizontalCenter: parent.horizontalCenter; text: "1/2 = 0/10" }
+			TextBase { text: "Answer: F" }
+		}
+	}
+	
+	centerpiece: Equation {
+		id: equation
+		text: equationComponents.join()
+	}
+	
+	Component.onCompleted: {
+		numberPad.height /= 3;
+	}
+	
+	
+	//	== CHILD OBJECTS ==
+	
+	QtObject {
+		id: equationComponents
+		property var lhs: new JFraction.Fraction()
+		property var rhs: new JFraction.Fraction()
+		
+		property string op: '='
+		
+		//	different from other modes, correct answer is calculated when question is generated
+		property bool isTrue: true
+		
+		function join() {
+			return lhs + ' ' + (op === "<" ? "\<" : op) + ' ' + rhs;
+		}
+	}
+	
+	
+	
+	
 }

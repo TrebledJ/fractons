@@ -34,55 +34,9 @@ Item {
 	id: item
 	
 	signal achievementGet(string name, int reward)
-		
-	Component.onCompleted: {
-		//	basic setup and data retrieval
-		console.warn("Reloading JGameAchievements...");
-		
-		//	connect onChanged signal after setting achievements
-		//	whenever achievements changes, update storage
-		var listener = function() {
-//			console.warn("[GameAchievements] Achievements changed!");
-			
-			var encoded = JSON.parse(jAchievementsManager.jsonAchievements());
-//			console.debug(JSON.stringify(encoded));
-			
-			JStorage.setValue("achievements", encoded);
-		}
-		jAchievementsManager.achievementsChanged.connect(listener);
-		
-		//	connect signal that will remove listener later on
-//		jAchievementsManager.destroyed.connect(function() {	//	sidenote: this doesn't work
-//			jAchievementsManager.achievementsChanged.disconnect(listener);
-//		});
-		
-//		console.log("[GameAchievements] Loading achievements...");
-		loadAchievements();
-	}
 	
-	Connections {
-		target: jAchievementsManager
-		onAchievementGet: {
-			//	QUEST : key = achievement
-//			JQuests.addQuestProgressByKey("achievement", 1);
-			
-			//	emit signal
-			achievementGet(name, reward);
-		}
-	}
 	
-	Component {
-		id: achievementComponent
-		
-		JAchievement {
-		}
-	}
-	
-	onAchievementGet: /*string name, int reward*/ {
-		JGameNotifications.notify('Achievement Get!', 
-								  'You earned <i>' + name + '</i>!', 
-								  'Earned ' + JUtils.nounify(reward, 'ƒracton'));	//	TODO specify unlocked
-	}
+	//	== JS FUNCTIONS ==
 	
 	function loadAchievements() {
 		console.warn("[GameAchievements] Loading Achievements")
@@ -98,7 +52,6 @@ Item {
 		//	clear previous list
 		jAchievementsManager.clearAchievements();
 		
-		
 		var recursiveAdd = function(root)
 		{
 			for (var i in root)
@@ -107,13 +60,8 @@ Item {
 				if (sub.name === undefined)
 					recursiveAdd(sub);
 				else
-				{
-//					console.warn("Found achievement", acvm.name, "... Adding...");
-//					console.log("[GameAchievements] Adding achievement [" + acvm.name + "] to manager.")
-					
 					//	add to achievements array in jAchievementsManager
 					jAchievementsManager.addAchievement(achievementComponent.createObject(jAchievementsManager, sub))
-				}
 			}
 		}
 		
@@ -129,22 +77,12 @@ Item {
 		return acvm;
 	}
 	
-	function getNames(filter) {
-		return jAchievementsManager.getNames(filter);
-	}
+	function getNames(filter) { return jAchievementsManager.getNames(filter); }
 	
-	function addProgressByName(name, amount) {
-		addProgress(getByName(name), amount);
-	}
+	function addProgressByName(name, amount) { addProgress(getByName(name), amount); }
+	function setProgressByName(name, amount) { setProgress(getByName(name), amount); }
 	
-	function setProgressByName(name, amount) {
-		setProgress(getByName(name), amount);
-	}
-	
-	function addProgress(acvm, amount) {
-		setProgress(acvm, acvm.progress + amount);
-	}
-	
+	function addProgress(acvm, amount) { setProgress(acvm, acvm.progress + amount); }
 	function setProgress(acvm, amount) {
 		//	error-checking
 		if (acvm === undefined)
@@ -175,5 +113,51 @@ Item {
 			JFractons.addFractons(acvm.reward);
 		}
 	}
+	
+	
+	//	== ATTACHED PROPERTIES & SIGNAL-HANDLERS ==
+	
+	Component.onCompleted: {
+		//	basic setup and data retrieval
+		console.warn("Reloading JGameAchievements...");
+		
+		//	connect onChanged signal after setting achievements
+		//	whenever achievements changes, update storage
+		var listener = function() {
+			var encoded = JSON.parse(jAchievementsManager.jsonAchievements());
+			JStorage.setValue("achievements", encoded);
+		}
+		jAchievementsManager.achievementsChanged.connect(listener);
+		loadAchievements();
+	}
+	
+	onAchievementGet: /*string name, int reward*/ {
+		JGameNotifications.notify('Achievement Get!', 
+								  'You earned <i>' + name + '</i>!', 
+								  'Earned ' + JUtils.nounify(reward, 'ƒracton'));	//	TODO specify unlocked
+	}
+	
+	
+	//	== COMPONENTS ==
+	
+	Component {
+		id: achievementComponent
+		JAchievement {}
+	}
+	
+	
+	//	== CONNECTIONS ==
+	
+	Connections {
+		target: jAchievementsManager
+		onAchievementGet: {
+			//	QUEST : key = achievement
+//			JQuests.addQuestProgressByKey("achievement", 1);
+			
+			//	emit signal
+			achievementGet(name, reward);
+		}
+	}
+	
 	
 }

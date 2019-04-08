@@ -18,30 +18,24 @@ SceneBase {
 	
 	onShownChanged: {
 		if (shown)
-		{
 			deleteDataButton.isSafetyOn = true;
-		}
 	}
 	
 	GridLayout {
 		anchors.centerIn: parent
-		
-		columns: 5
-		columnSpacing: 10
-		rowSpacing: 10
+		columns: 5; columnSpacing: 10; rowSpacing: 10
 		
 		TextBase {
 			width: 40; height: 30
 			text: "Music"
-			Layout.alignment: Qt.AlignRight
-			verticalAlignment: Text.AlignVCenter
+			Layout.alignment: Qt.AlignRight; verticalAlignment: Text.AlignVCenter
 		}
 		
 		BubbleButton {
 			id: musicButton
 			width: 60; height: 30
-			isCheckButton: true
 			text: checked ? "On" : "Off"
+			isCheckButton: true
 		}
 		
 		Item {
@@ -51,29 +45,27 @@ SceneBase {
 		TextBase {
 			width: 100; height: 30
 			text: "Background Animations"
-			Layout.alignment: Qt.AlignRight
-			verticalAlignment: Text.AlignVCenter
+			Layout.alignment: Qt.AlignRight; verticalAlignment: Text.AlignVCenter
 		}
 		
 		BubbleButton {
 			id: bgAnimationButton
 			width: 60; height: 30
-			isCheckButton: true
 			text: checked ? "On" : "Off"
+			isCheckButton: true
 		}
 		
 		TextBase {
 			width: 40; height: 30
 			text: "Sound"
-			verticalAlignment: Text.AlignVCenter
-			Layout.alignment: Qt.AlignRight
+			Layout.alignment: Qt.AlignRight; verticalAlignment: Text.AlignVCenter
 		}
 		
 		BubbleButton {
 			id: soundButton
 			width: 60; height: 30
-			isCheckButton: true
 			text: checked ? "On" : "Off"
+			isCheckButton: true
 		}
 		
 		Item {
@@ -83,21 +75,17 @@ SceneBase {
 		TextBase {
 			width: 100; height: 30
 			text: "Number Pad"
-			Layout.alignment: Qt.AlignRight
-			verticalAlignment: Text.AlignVCenter
+			Layout.alignment: Qt.AlignRight; verticalAlignment: Text.AlignVCenter
 		}
 		
 		BubbleButton {
 			id: numberPadButton
 			width: 60; height: 30
-			isCheckButton: true
 			text: checked ? "On" : "Off"
+			isCheckButton: true
 		}
 		
-		Repeater {
-			model: 3
-			Item { width: 40; height: 1 }
-		}
+		Repeater { model: 3; Item { width: 40; height: 1 } }
 
 		BubbleButton {
 			id: deleteDataButton
@@ -109,17 +97,18 @@ SceneBase {
 			  state, the button will revert back to the first state.
 			*/
 			
+			property bool isSafetyOn: true
+			
+			
 			width: 100; height: 30
+			
+			text: isSafetyOn ? "Delete Data" : "Confirm?"
 			
 			Layout.topMargin: 50	//	place the delete button a bit further
 			Layout.columnSpan: 2
 			Layout.alignment: Qt.AlignRight
 			
-			property bool isSafetyOn: true
-			
-			text: isSafetyOn ? "Delete Data" : "Confirm?"
-			defaultColor: "crimson"
-			hoverColor: "red"
+			defaultColor: "crimson"; hoverColor: "red"
 			
 			onClicked: {
 				if (isSafetyOn)
@@ -138,8 +127,8 @@ SceneBase {
 			Timer {
 				id: timer
 				interval: 5000
-				running: false
 				repeat: false
+				running: false
 				
 				onTriggered: deleteDataButton.isSafetyOn = true;	//	reverts back to the safety state
 			}

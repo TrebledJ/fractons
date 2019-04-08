@@ -10,89 +10,6 @@ import "../../js/Math.js" as JMath
 ModesBase {
 	id: modesBase
 	
-//	difficulties: ["Easy", "Hard"]
-//	difficulties: ["Easy"]
-//	readonly property int easy: 0
-//	readonly property int hard: 1
-	
-	modeName: 'Balance'
-	rewardAmount: 1
-	unit: "fractons"
-	
-	info: Item {
-		Column {
-			width: parent.width
-			spacing: 20
-			
-			TextBase {
-				text: "Balance Mode"
-			}
-			
-			ParagraphText {
-				text: "In this mode, you gain ƒractons by balancing the fractions on both sides of the equation."
-			}
-			
-			TextBase {
-				text: "Example:"
-			}
-			
-			Equation {
-				anchors.horizontalCenter: parent.horizontalCenter
-				text: "1/2 = ?/6"
-			}
-			
-			TextBase {
-				text: "Answer: 3"
-			}
-		}
-	}
-	
-	QtObject {
-		id: equationComponents
-		property var lhsFraction: new JFraction.Fraction()
-		property var rhsFraction: new JFraction.Fraction()
-		
-		function join() {
-			return lhsFraction + ' = ' + rhsFraction;
-		}
-		
-		//	substitutes arguments in place of question marks, no error checking is done
-		//	input: JFraction.Fraction.string
-		//	return: JFraction.Fraction
-		function reparseRhs(input) {
-			
-			//	parse input as fraction
-			var frac = JFraction.parse(input);
-			
-			//	in BALANCE mode, there will always be only one question mark
-			
-			//	fractional inputs should be rejected since there is only one "?" 
-			var token = (frac.isInteger() ? frac.toInteger() : "??");
-			
-			//	convert rhs fraction to a string so that we can find & replace "?"
-			var rhsFrac_s = rhsFraction.toString();
-			
-			//	find "?" and...
-			var i = rhsFrac_s.indexOf('?');
-			
-			//	...	replace
-			rhsFrac_s = rhsFrac_s.substring(0, i) + token + rhsFrac_s.substring(i + 1);
-			
-			//	return as fraction
-			return JFraction.parse(rhsFrac_s);
-		}
-		
-		//	joins with input in rhs
-		function dynamicJoin() {
-			return lhsFraction + ' = ' + reparseRhs(userInput());
-		}
-	}
-	
-	centerpiece: Equation {
-		id: equation
-		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
-	}
-	
 	function hasParsingError(text) {
 		var errCode = JFraction.isParsibleWithError(text);
 		return errCode;
@@ -199,4 +116,77 @@ ModesBase {
 //	function parseQuestionState(state) {
 		
 //	}
+
+	
+	//	OBJECT PROPERTIES
+	
+//	difficulties: ["Easy", "Hard"]
+//	difficulties: ["Easy"]
+//	readonly property int easy: 0	//	^
+//	readonly property int hard: 1	//  |
+	
+	modeName: 'Balance'
+	rewardAmount: 1
+	unit: "fractons"
+	
+	help: Item {
+		Column {
+			width: parent.width
+			spacing: 20
+			
+			TextBase { text: "Balance Mode" }
+			ParagraphText { text: "In this mode, you gain ƒractons by balancing the fractions on both sides of the equation." }
+			TextBase { text: "Example:" }
+			Equation { anchors.horizontalCenter: parent.horizontalCenter; text: "1/2 = ?/6" }
+			TextBase { text: "Answer: 3" }
+		}
+	}
+	
+	centerpiece: Equation {
+		id: equation
+		text: hasInputError || userInput().length === 0 ? equationComponents.join() : equationComponents.dynamicJoin()
+	}
+	
+	QtObject {
+		id: equationComponents
+		
+		property var lhsFraction: new JFraction.Fraction()
+		property var rhsFraction: new JFraction.Fraction()
+		
+		function join() {
+			return lhsFraction + ' = ' + rhsFraction;
+		}
+		
+		//	substitutes arguments in place of question marks, no error checking is done
+		//	input: JFraction.Fraction.string
+		//	return: JFraction.Fraction
+		function reparseRhs(input) {
+			
+			//	parse input as fraction
+			var frac = JFraction.parse(input);
+			
+			//	in BALANCE mode, there will always be only one question mark
+			
+			//	fractional inputs should be rejected since there is only one "?" 
+			var token = (frac.isInteger() ? frac.toInteger() : "??");
+			
+			//	convert rhs fraction to a string so that we can find & replace "?"
+			var rhsFrac_s = rhsFraction.toString();
+			
+			//	find "?" and...
+			var i = rhsFrac_s.indexOf('?');
+			
+			//	...	replace
+			rhsFrac_s = rhsFrac_s.substring(0, i) + token + rhsFrac_s.substring(i + 1);
+			
+			//	return as fraction
+			return JFraction.parse(rhsFrac_s);
+		}
+		
+		//	joins with input in rhs
+		function dynamicJoin() {
+			return lhsFraction + ' = ' + reparseRhs(userInput());
+		}
+	}
+	
 }

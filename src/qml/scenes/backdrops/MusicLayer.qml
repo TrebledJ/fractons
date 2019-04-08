@@ -7,65 +7,13 @@ import "../../js/Math.js" as JMath
 Scene {
 	id: scene
 	
-	//	"logical size"
-	width: 480
-	height: 320
+	//	== PROPERTY DECLARATIONS ==
 	
 	property alias sfxCorrectAnswer: sfxCorrectAnswer
 	property alias sfxWrongAnswer: sfxWrongAnswer
 	
-	QtObject {
-		id: p
-		property var playlist: [bgmGolliwogsCakewalk, bgmClairDeLune, bgmArabesque, bgmPrelude4, bgmWaltz15]
-		property int index: 0
-	}
 	
-	Component.onCompleted: {
-		if (musicEnabled)
-			bgmGolliwogsCakewalk.play();
-	}
-	
-	//	-- Background Music --
-	
-	BackgroundMusic {
-		id: bgmGolliwogsCakewalk
-		autoPlay: false; loops: 1
-		source: "qrc:/assets/sounds/debussy-golliwogs-cakewalk.mp3"
-		onPlayingChanged: {
-			console.warn("GolliwogPlayingChanged:", playing);
-		}
-
-		onStopped: next()
-	}
-	
-	BackgroundMusic {
-		id: bgmClairDeLune
-		autoPlay: false; loops: 1
-		source: "qrc:/assets/sounds/debussy-clair-de-lune.mp3"
-		onStopped: next()
-	}
-	
-	BackgroundMusic {
-		id: bgmArabesque
-		autoPlay: false; loops: 1
-		source: "qrc:/assets/sounds/debussy-arabesque-1.mp3"
-		onStopped: next()
-	}
-	
-	BackgroundMusic {
-		id: bgmPrelude4
-		autoPlay: false; loops: 1
-		source: "qrc:/assets/sounds/chopin-prelude-4.mp3"
-		onStopped: next()
-	}
-	
-	BackgroundMusic {
-		id: bgmWaltz15
-		autoPlay: false; loops: 1
-		source: "qrc:/assets/sounds/brahms-waltz-15.mp3"
-		onStopped: next()
-	}
-	
+	//	== JS FUNCTIONS == 
 	
 	function next() {
 		p.index = (p.index + 1) % p.playlist.length;
@@ -80,39 +28,40 @@ Scene {
 		p.playlist[p.index].pause();
 	}
 	
+	width: 480; height: 320
 	
-	//	-- Sound Effects --
-	
-	Connections {
-		target: JGameAchievements
-		onAchievementGet: sfxTada.play()
+	Component.onCompleted: {
+		if (musicEnabled)
+			bgmGolliwogsCakewalk.play();
 	}
 	
-	Connections {
-		target: JFractons
-		onLevelUp: sfxLevelUp.play()
+	
+	//	== CHILD OBJECTS ==
+	
+	QtObject {
+		id: p
+		property var playlist: [bgmGolliwogsCakewalk, bgmClairDeLune, bgmArabesque, bgmPrelude4, bgmWaltz15]
+		property int index: 0
 	}
 	
-	SoundEffect {
-		id: sfxLevelUp
-		source: "qrc:/assets/sounds/cdefg.wav"
+	BackgroundMusic {
+		id: bgmGolliwogsCakewalk
+		autoPlay: false; loops: 1
+		source: "qrc:/assets/sounds/debussy-golliwogs-cakewalk.mp3"
+		onPlayingChanged: console.warn("GolliwogPlayingChanged:", playing);	//	DEBUG LOGGER
+		onStopped: next()
 	}
 	
-	SoundEffect {
-		id: sfxTada
-		source: "qrc:/assets/sounds/tada.wav"
-		volume: 0.2
-	}
+	BackgroundMusic { id: bgmClairDeLune; autoPlay: false; loops: 1; onStopped: next(); source: "qrc:/assets/sounds/debussy-clair-de-lune.mp3" }
+	BackgroundMusic { id: bgmArabesque; autoPlay: false; loops: 1; onStopped: next(); source: "qrc:/assets/sounds/debussy-arabesque-1.mp3" }
+	BackgroundMusic { id: bgmPrelude4; autoPlay: false; loops: 1; onStopped: next(); source: "qrc:/assets/sounds/chopin-prelude-4.mp3" }
+	BackgroundMusic { id: bgmWaltz15; autoPlay: false; loops: 1; onStopped: next(); source: "qrc:/assets/sounds/brahms-waltz-15.mp3" }
 	
-	SoundEffect {
-		id: sfxCorrectAnswer
-		source: "qrc:/assets/sounds/c.wav"
-		volume: 0.5
-	}
+	SoundEffect { id: sfxLevelUp; source: "qrc:/assets/sounds/cdefg.wav" }
+	SoundEffect { id: sfxTada; volume: 0.2; source: "qrc:/assets/sounds/tada.wav" }
+	SoundEffect { id: sfxCorrectAnswer; volume: 0.5; source: "qrc:/assets/sounds/c.wav" }
+	SoundEffect { id: sfxWrongAnswer; volume: 0.8; source: "qrc:/assets/sounds/arpy01.wav" }
 	
-	SoundEffect {
-		id: sfxWrongAnswer
-		source: "qrc:/assets/sounds/arpy01.wav"
-		volume: 0.8
-	}
+	Connections { target: JGameAchievements; onAchievementGet: sfxTada.play() }
+	Connections { target: JFractons; onLevelUp: sfxLevelUp.play() }
 }

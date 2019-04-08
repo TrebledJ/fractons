@@ -7,14 +7,6 @@ Item {
 	property alias recentNotificationsModel: recentNotificationsModel
 	property int unread: 0
 	
-	Component.onCompleted: {
-		console.warn("Reloading JGameNotifications...");
-	}
-	
-	ListModel {
-		id: recentNotificationsModel
-	}
-	
 	function notify(title, msg, submessage) {
 		submessage = submessage || '';
 		
@@ -29,12 +21,11 @@ Item {
 		unread++;
 	}
 	
-	function markAsRead() {
-		unread = 0;
-	}
+	function markAsRead() { unread = 0; }
+	function clearNotifications() { recentNotificationsModel.clear(); }
 	
-	function clearNotifications() {
-		recentNotificationsModel.clear();
-	}
+	Component.onCompleted: { console.warn("Reloading JGameNotifications..."); }
+	
+	ListModel { id: recentNotificationsModel }
 	
 }

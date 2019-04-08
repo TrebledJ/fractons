@@ -7,12 +7,10 @@ import "../../js/Math.js" as JMath
 Scene {
 	id: scene
 	
-	//	"logical size"
-	width: 480
-	height: 320
-	
 	property bool animationsEnabled: true
 	property var animationQueue: []
+	
+	width: 480; height: 320
 	
 	Rectangle {
 		id: background
@@ -29,12 +27,7 @@ Scene {
 		property var buttonComponent: Qt.createComponent("../../common/AnimatedButton.qml")
 		property int counter: 0
 		
-		interval: 10000
-		repeat: true
-		running: true
-		triggeredOnStart: true
-		
-		onTriggered: {
+		function spawnAnimation() {
 			if (mathComponent.status !== Component.Ready)
 			{
 				console.debug("Math Component not ready.");
@@ -53,7 +46,7 @@ Scene {
 				return;
 			
 			var readySpawn = false;
-			var text, fontSize = 10;
+			var text, fontsize = 10;
 			var component, parent, visibleListener;
 			var isText = false;
 			
@@ -68,7 +61,7 @@ Scene {
 				text = queueObj.text;
 				parent = queueObj.parentObject ? queueObj.parentObject : scene;
 				visibleListener = queueObj.visibleListener ? queueObj.visibleListener : scene;
-				fontSize = queueObj.fontSize ? queueObj.fontSize : 30;
+				fontsize = queueObj.fontsize ? queueObj.fontsize : 30;
 				component = textComponent;
 				
 				
@@ -95,7 +88,7 @@ Scene {
 				if (mathOrImage === "math")
 				{
 					component = mathComponent;
-					fontSize = counter % 2 == 0 ? 60 : 30;
+					fontsize = counter % 2 == 0 ? 60 : 30;
 					
 					if (counter % 2 == 0)
 					{
@@ -122,15 +115,13 @@ Scene {
 			
 			var props = {
 				z: parent === scene ? 1 : -1,
-//				opacity: visibleListener === scene ? 0.1 : Qt.binding(function() { return visibleListener.state === "show" && opacity != 0 ? 0.1 : 0; }),
 				opacity: 0.1,
 				
 				text: text,
-				fontSize: fontSize,
+				fontsize: fontsize,
 				
 				from: parent.width,
 				property: "x",
-//				speed: 15,
 				speed: 30,
 			};
 			
@@ -164,9 +155,15 @@ Scene {
 			obj.start();
 			
 			//	reset timer interval to a random time
-//			spawnTimer.interval = JMath.randI(6000, 8000);
 			spawnTimer.interval = JMath.randI(3000, 4000);
 		}
+		
+		interval: 10000
+		repeat: true
+		running: true
+		triggeredOnStart: true
+		
+		onTriggered: spawnAnimation()
 	}
 	
 }

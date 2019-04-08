@@ -15,24 +15,19 @@ Column {
 	MathText {
 		id: numerator
 		anchors.horizontalCenter: parent.horizontalCenter
-		
-		
 		text: fraction.n
 	}
 	
 	Rectangle {
 		id: vinculum
-		width: Math.max(numerator.contentWidth, denominator.contentWidth) + 10; height: 1 * numerator.height / 24
 		anchors.horizontalCenter: parent.horizontalCenter
-		
+		width: Math.max(numerator.contentWidth, denominator.contentWidth) + 10; height: 1 * numerator.height / 24
 		color: "navy"
 	}
 	
 	MathText {
 		id: denominator
 		anchors.horizontalCenter: parent.horizontalCenter
-		
-		text: fraction.d
-		font: numerator.font
+		text: fraction.d; font: numerator.font
 	}
 }

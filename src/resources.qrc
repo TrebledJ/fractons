@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qml/common/AchievementCard.qml</file>
         <file>qml/common/BubbleButton.qml</file>
-        <file>qml/common/ButtonBase.qml</file>
         <file>qml/common/CircleButton.qml</file>
         <file>qml/common/TextBase.qml</file>
         <file>qml/game/NumberPad.qml</file>
@@ -27,7 +26,6 @@
         <file>qml/common/AnimatedMath.qml</file>
         <file>qml/common/AnimatedText.qml</file>
         <file>qml/common/ParagraphText.qml</file>
-        <file>qml/common/QuestButton.qml</file>
         <file>qml/game/singles/defaultkeys.json</file>
         <file>qml/game/singles/Fractons.qml</file>
         <file>qml/game/singles/GameAchievements.qml</file>
@@ -39,7 +37,6 @@
         <file>qml/js/Utils.js</file>
         <file>qml/scenes/backdrops/BackgroundLayer.qml</file>
         <file>qml/scenes/backdrops/MusicLayer.qml</file>
-        <file>qml/scenes/backdrops/NotificationsLayer.qml</file>
         <file>qml/scenes/lessons/AdditionSubtractionLike.qml</file>
         <file>qml/scenes/lessons/Balancing.qml</file>
         <file>qml/scenes/lessons/Introduction.qml</file>
@@ -50,5 +47,8 @@
         <file>qml/scenes/modes/OperationsMode.qml</file>
         <file>qml/scenes/modes/TokenMode.qml</file>
         <file>qml/scenes/Home.qml</file>
+        <file>qml/scenes/others/Credits.qml</file>
+        <file>qml/scenes/others/Notifications.qml</file>
+        <file>qml/common/NotificationButton.qml</file>
     </qresource>
 </RCC>

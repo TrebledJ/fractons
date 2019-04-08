@@ -4,13 +4,16 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include <FelgoLiveClient>
+//#define PUBLISH	//	 uncomment to publish
+
+#ifndef PUBLISH
+# include <FelgoLiveClient>
+#endif
 
 //#include <QDebug>
 
 #include "achievement.h"
 #include "achievementsmanager.h"
-//#include "desktopnotifications.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,17 +27,21 @@ int main(int argc, char *argv[])
 	// if you have older projects using Qt App wizards from previous QtCreator versions than 3.1, please change them to QQmlApplicationEngine
 	QQmlApplicationEngine engine;
 	felgo.initialize(&engine);
-	
+
+#ifndef	PUBLISH
 	// ** use this during development **
 	felgo.setMainQmlFileName(QStringLiteral("qml/Main.qml"));	//	comment for publishing
 	// ** for PUBLISHING, use the entry point below **
+#endif
 	
 	// use this instead of the above call to avoid deployment of the qml files and compile them into the binary with qt's resource system qrc
 	// this is the preferred deployment option for publishing games to the app stores, because then your qml files and js files are protected
 	// to avoid deployment of your qml files and images, also comment the DEPLOYMENTFOLDERS command in the .pro file
 	// also see the .pro file for more details
 	
-//	felgo.setMainQmlFileName(QStringLiteral("qrc:/qml/Main.qml")); // uncomment for publishing
+#ifdef PUBLISH
+	felgo.setMainQmlFileName(QStringLiteral("qrc:/qml/Main.qml")); // uncomment for publishing
+#endif
 	
 	
 	qmlRegisterType<Achievement>("Fractons", 1, 0, "JAchievement");	//	use J to prevent conflict with Felgo's Achievement type
@@ -44,17 +51,11 @@ int main(int argc, char *argv[])
 	AchievementsManager manager;
 	engine.rootContext()->setContextProperty("jAchievementsManager", &manager);
 	
-//	DesktopNotifications notifications;
-//	engine.rootContext()->setContextProperty("jNotifications", &notifications);
-	
-	//	connect notifications sender from AchievementsManager to DesktopNotifications object
-//	QObject::connect(&manager, &AchievementsManager::sendNotification, &notifications, 
-//					 &DesktopNotifications::notify);
-	
-	
-//	engine.load(QUrl(felgo.mainQmlFileName()));	// uncomment for publishing
-	
+#ifdef PUBLISH
+	engine.load(QUrl(felgo.mainQmlFileName()));	// uncomment for publishing
+#else
 	FelgoLiveClient liveClient(&engine);	//	comment to disable live client and/or for publishing
+#endif
 
 	return app.exec();
 }

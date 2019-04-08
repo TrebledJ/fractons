@@ -57,20 +57,13 @@ SceneBase {
 	
 	ListView {
 		id: groupList
-		anchors.top: banner.bottom
-		anchors.bottom: parent.bottom
+		anchors { top: banner.bottom; bottom: parent.bottom }
+		z: -10
 		width: parent.width
 		
-		z: -10
+		topMargin: 10; leftMargin: 20; rightMargin: 20
 		
-		topMargin: 10
-		leftMargin: 20
-		rightMargin: 20
-		
-		ScrollBar.vertical: ScrollBar {
-			id: scrollbar
-			active: true
-		}
+		ScrollBar.vertical: ScrollBar { active: true }
 		
 		model: groupModel
 		delegate: Item {
@@ -91,13 +84,12 @@ SceneBase {
 					
 					Repeater {
 						id: repeater
-						
 						model: JGameAchievements.getNames(role_group)
 
 						AchievementCard {
 							id: card
 							width: 80; height: 50
-							opacity: isCollected ? 1 : 0.6
+							
 							visible: {
 								if (group === "classified" && !isCollected)
 									return false;
@@ -107,6 +99,7 @@ SceneBase {
 								
 								return true;
 							}
+							opacity: isCollected ? 1 : 0.6
 							
 							achievement: JGameAchievements.getByName(modelData);
 							
@@ -122,54 +115,36 @@ SceneBase {
 	}	//	ListView
 	
 	onShownChanged: {
-		
 		if (shown)
-		{
-			//	ACVM : achievements?
-			JGameAchievements.addProgressByName("achievements?", 1);
-		}
+			JGameAchievements.addProgressByName("achievements?", 1);	//	ACVM : achievements?
 	}
 	
 	Popup {
 		id: popup
-		width: parent.width - 2*margins; height: parent.height - 2*margins
-		margins: JStorage.isMobile ? 0 : 150
-		
+
 		//	stores the achievement currently inspected
 		property var achievement
 		
-		//	custom background
+		width: parent.width - 2*margins; height: parent.height - 2*margins
+		
 		background: Item { visible: false }
+		margins: JStorage.isMobile ? 0 : 150
+		modal: true	//	shadows the rest of the app
+		parent: Overlay.overlay	//	popup is relative to window
 		
-		//	shadows the rest of the app
-		modal: true
-		
-		//	popup is relative to window
-		parent: Overlay.overlay
-		
-		enter: Transition {
-			NumberAnimation { property: "opacity"; easing.type: Easing.InOutSine; duration: 1000; from: 0; to: 1 }
-		}
-		
-		exit: Transition {
-			NumberAnimation { property: "opacity"; easing.type: Easing.OutQuad; duration: 300; to: 0 }
-		}
+		enter: Transition { NumberAnimation { property: "opacity"; easing.type: Easing.InOutSine; duration: 1000; from: 0; to: 1 } }
+		exit: Transition { NumberAnimation { property: "opacity"; easing.type: Easing.OutQuad; duration: 300; to: 0 } }
 		
 		Rectangle {
 			id: background
 			anchors.fill: parent
 			radius: 10
-			opacity: 0.9
-			color: popup.achievement ? popup.achievement.primaryColor : ""
+			color: popup.achievement ? popup.achievement.primaryColor : ""; opacity: 0.9
 		}
 
 		Image {
+			anchors { top: parent.top; right: parent.right; margins: 20 }
 			width: height; height: 60
-			anchors {
-				top: parent.top
-				right: parent.right
-				margins: 20
-			}
 			
 			source: "qrc:/assets/icons/tick.png"
 			visible: popup.achievement ? popup.achievement.isCollected : false
@@ -180,8 +155,8 @@ SceneBase {
 			spacing: 10
 			
 			TextBase {
-				font.pixelSize: 36
 				text: popup.achievement ? "<b>" + popup.achievement.name + "</b>" : ""
+				font.pixelSize: 36
 				color: popup.achievement ? popup.achievement.secondaryColor : ""
 			}
 			
@@ -203,17 +178,15 @@ SceneBase {
 					
 					return popup.achievement.description;
 				}
-				
-				color: popup.achievement ? popup.achievement.secondaryColor : ""
-
 				font.pixelSize: 20
 				wrapMode: Text.WordWrap
+				
+				color: popup.achievement ? popup.achievement.secondaryColor : ""
 			}
 			
-			Item {
-				width: 1; height: 50 - descriptionText.contentHeight / 4;
-			}
+			Item { width: 1; height: 50 - descriptionText.contentHeight / 4; }
 			
+			//	Row [ Progress: (######__) 75% ]
 			Row {
 				spacing: 10
 				
@@ -225,10 +198,9 @@ SceneBase {
 				
 				ProgressBar {
 					id: progressBar
-					width: 150; height: 10
 					anchors.verticalCenter: parent.verticalCenter
-					from: 0
-					to: popup.achievement ? popup.achievement.maxProgress : 1
+					width: 150; height: 10
+					from: 0; to: popup.achievement ? popup.achievement.maxProgress : 1
 					value: popup.achievement ? popup.achievement.progress : 0
 					
 					background: Rectangle {
@@ -243,7 +215,6 @@ SceneBase {
 					}
 				}	//	ProgressBar
 				
-				
 				TextBase {
 					text: {
 						if (!popup.achievement) 
@@ -252,9 +223,8 @@ SceneBase {
 						return popup.achievement.progress + '/' + popup.achievement.maxProgress + 
 								' (' + Math.round(popup.achievement.progress / popup.achievement.maxProgress * 100) + '%)';
 					}
-					
-					color: popup.achievement ? popup.achievement.secondaryColor : ""
 					font.pixelSize: 18
+					color: popup.achievement ? popup.achievement.secondaryColor : ""
 				}
 			}	//	Row
 			
@@ -271,21 +241,15 @@ SceneBase {
 					
 					return "Reward: " + s;
 				}
-				
-				color: popup.achievement ? popup.achievement.secondaryColor : ""
 				font.pixelSize: 16
-			}
+				color: popup.achievement ? popup.achievement.secondaryColor : ""
+			}	//	TextBase
 			
 		}	//	Column
 		
-		MouseArea {
-			anchors.fill: parent
-			onClicked: popup.close()
-		}
+		MouseArea { anchors.fill: parent; onClicked: popup.close() }
+		onClosed: achievement = undefined;
 		
-		onClosed: {
-			achievement = undefined;
-		}
 	}	//	Popup
 	
 }

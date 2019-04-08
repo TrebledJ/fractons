@@ -64,19 +64,13 @@ SceneBase {
 	property string lessonName
 	property string gotoMode
 	property string gotoDifficulty
-	
 	property alias flickable: flickable
-	
 	property bool useDefaultPracticeButton: true
 	
 	onShownChanged: {
 		if (shown)
-		{
-			//	ACVM : lessons?
-			JGameAchievements.addProgressByName("lessons?", 1);
-		}
+			JGameAchievements.addProgressByName("lessons?", 1);	//	ACVM : lessons?
 	}
-	
 	
 	onLessonItemsChanged: {
 		if (lessonItems[1] !== undefined)
@@ -87,44 +81,29 @@ SceneBase {
 	
 	Flickable  {
 		id: flickable
-		anchors {
-			fill: parent
-			margins: 10
-			topMargin: header.height + 10
-		}
-		contentWidth: width
-		contentHeight: lessonContents.height	//	contents is aliased to inherited lesson
-		
-		//	leave room for the previous/next buttons
-		bottomMargin: 50
+		anchors { fill: parent; margins: 10; topMargin: header.height + 10 }
+		contentWidth: width; contentHeight: lessonContents.height	//	contents is aliased to inherited lesson
+		bottomMargin: 50	//	leave room for the previous/next buttons
 		
 		//	rectangular container for previous/next buttons
 		Rectangle {
-			width: parent.width; height: 40
 			anchors.top: flickable.contentItem.bottom
+			width: parent.width; height: 40
 			color: "transparent"
 			
-			visible: false	//	TODO make this workable
+			visible: false	//	TODO uncomment and make prev/next buttons workable
 			
 			BubbleButton {
+				anchors { verticalCenter: parent.verticalCenter; left: parent.left }
 				width: 60; height: 30
-				anchors {
-					verticalCenter: parent.verticalCenter
-					left: parent.left
-				}
 				text: "Previous"
-				
 				onClicked: previousLessonButtonClicked()
 			}
 			
 			BubbleButton {
+				anchors { verticalCenter: parent.verticalCenter; right: parent.right }
 				width: 60; height: 30
-				anchors {
-					verticalCenter: parent.verticalCenter
-					right: parent.right
-				}
 				text: "Next"
-				
 				onClicked: nextLessonButtonClicked()
 			}
 			
@@ -135,37 +114,24 @@ SceneBase {
 	//	header bar
 	Rectangle {
 		id: header
-		width: parent.width; height: 50
 		anchors.top: parent.top
-		
+		width: parent.width; height: 50
 		color: "navy"
 		
 		TextBase {
 			id: titleText
 			anchors.centerIn: parent
-			color: "yellow"
-			
 			text: lessonName
-			font.pointSize: lessonName.length < 30 ? 18 : lessonName.length < 50 ? 14 : 12
-			font.bold: true
+			color: "yellow"
+			font { bold: true; pointSize: lessonName.length < 30 ? 18 : lessonName.length < 50 ? 14 : 12 }
 		}
 		
 		BubbleButton {
+			anchors { top: parent.top; right: parent.right; margins: 5 }
 			width: height; height: parent.height - 2*anchors.margins
-			anchors {
-				top: parent.top
-//				bottom: parent.bottom
-				right: parent.right
-				margins: 5
-			}
 			
 			visible: useDefaultPracticeButton
-			
-//			text: "Practice"
-//			textObj.animate: false
 			image.source: "qrc:/assets/icons/star"
-//			image.anchors.margins: 3
-			
 			onClicked: {
 				if (gotoMode === "")
 				{
