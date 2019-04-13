@@ -89,10 +89,13 @@ SceneBase {
 	property alias numberPad: numberPad
 	property alias numberPadEnabled: numberPad.visible
 	
+	property alias answerField: answerField
+	
 	property string modeName
 	property var difficulties: []
 	property int difficultyIndex: 0
 
+	property alias acceptableInput: answerField.acceptableCharInput
 	property bool hasInputError: false
 	property string errorMessage
 	property string textMessage
@@ -229,6 +232,10 @@ SceneBase {
 		return answerField.text;
 	}
 	
+	function setUserInput(input)  {
+		answerField.text = input;
+	}
+	
 	
 	//	== OBJECT PROPERTIES ==
 	
@@ -257,7 +264,10 @@ SceneBase {
 		if (lastQuestions[difficultyIndex] === undefined)
 			generateRandomQuestion();
 		else
+		{
 			parseQuestionState(lastQuestions[difficultyIndex]);
+			delete lastQuestions[difficultyIndex];
+		}
 		
 		modesBase.difficultyChanged(difficultyIndex, difficulties[difficultyIndex]);
 		
@@ -342,7 +352,8 @@ SceneBase {
 	
 	onCorrectAnswer: {
 		textMessage = JMath.choose([
-									   "That's the correct answer!",
+									   "That's correct!",
+									   "That's right!",
 									   "Correct!",
 									   "Bravo!",
 									   "Yes!",
@@ -395,7 +406,7 @@ SceneBase {
 	}
 	
 	onWrongAnswer: {
-		errorMessage = "Oh no! The answer was " + getCorrectAnswer() + ".";
+		errorMessage = "Oh no! " + getCorrectAnswer() + ".";
 		resetCombo();
 	}
 
@@ -458,8 +469,8 @@ SceneBase {
 	
 	Rectangle {
 		id: panel
-		width: scene.width / 4
 		anchors { top: scene.top; left: scene.left; bottom: scene.bottom }
+		width: scene.width / 4
 		
 		color: "navy"
 		
@@ -592,6 +603,9 @@ SceneBase {
 		//	this is similar to a qlineedit, and is where the user will enter input
 		TextField {
 			id: answerField
+			
+			property var acceptableCharInput
+			
 			width: parent.width; height: 20
 			
 			placeholderText: "Answer"
@@ -622,6 +636,18 @@ SceneBase {
 				
 				var error = hasParsingError(text);
 				hasInputError = error;
+				
+				if (error)
+					return;
+				
+				if (acceptableCharInput !== undefined && text.length > 0)
+				{
+					var lastChar = text[text.length - 1];
+					if (typeof(acceptableCharInput) === 'object' && lastChar in acceptableCharInput)
+						text = text.substr(0, text.length-1);
+					else if (typeof(acceptableCharInput) === 'string' && acceptableCharInput.includes(lastChar))
+						text = text.substr(0, text.length-1);
+				}
 			}
 			
 			Rectangle {

@@ -77,7 +77,7 @@ Item {
 //		values.push("achievement");
 		
 		//	only allow the lottery beginning at a certain level
-		if (JFractons.currentLevel() >= 20)		//	LOTTERY
+		if (JFractons.currentLevel() >= 25)		//	LOTTERY
 		{
 			questObj.lottery.maxProgress = JMath.randI(5, 10);
 			questObj.lottery.text = questObj.lottery.text.arg(questObj.lottery.maxProgress);

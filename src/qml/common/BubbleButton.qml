@@ -43,7 +43,7 @@ Item {
 	property real defaultDiagonal: 1
 	
 	property bool isCheckButton: false
-	property bool checked: false
+	property bool isChecked: false
 	
 	
 	//	== JS FUNCTIONS ==
@@ -89,7 +89,7 @@ Item {
 	
 	//	== OBJECT PROPERTIES & SIGNAL-HANDLERS ==
 	
-	state: checked ? "on" : "off"
+	state: isChecked ? "on" : "off"
 	
 	onColorChanged: defaultColor = hoverColor = color;
 	
@@ -117,7 +117,7 @@ Item {
 		//	ACVM : buttons?
 		JGameAchievements.addProgressByName("buttons?", 1);
 		
-		if (isCheckButton) checked = !checked;
+		if (isCheckButton) isChecked = !isChecked;
 		if (!bubbleOn) return;
 		animateExitPress();
 	}
@@ -140,7 +140,7 @@ Item {
 		width: parent.width * diagonalScalar; height: parent.height * diagonalScalar
 		radius: 5
 		color: mouseArea.containsMouse ? hoverColor : defaultColor
-		opacity: isCheckButton ? checked ? 1 : 0.6 : parent.opacity
+		opacity: isCheckButton ? isChecked ? 1 : 0.6 : parent.opacity
 	}
 	
 	//	button image

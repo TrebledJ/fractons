@@ -81,7 +81,7 @@ ModesBase {
 		if (difficultyIndex === easy)
 			return String(lhs.n);
 		
-		return lhs.toString() + (lhs.isSimplified() ? '' : ' or ' + lhs.simplified());
+		return "The answer was " + lhs.toString() + (lhs.isSimplified() ? '' : ' or ' + lhs.simplified());
 	}
 	
 	//	updates equationComponents with new values ('new' is not guaranteed)
@@ -213,43 +213,20 @@ ModesBase {
 	
 	//	encodes the current question's state
 	function getQuestionState() {
-	    return equationComponents.join();
+		return {
+			lhsFractionA: equationComponents.lhsFractionA,
+			lhsFractionB: equationComponents.lhsFractionB,
+			rhsFraction: equationComponents.rhsFraction,
+			operation: operation
+		};
 	}
 	
 	//	decodes the state provided
 	function parseQuestionState(state) {
-		var expressions = state.split('=');
-		
-		var ops = { buffer: "=" };
-		ops[addition] = JMath.operations.add;
-		ops[subtraction] = JMath.operations.sub;
-		ops[multiplication] = JMath.operations.mul;
-		
-		var i, index;
-		for (i in ops)
-		{
-			index = expressions[0].indexOf(ops[i]);
-			if (index !== -1)	//	found a match
-				break;
-		}
-		var op, lhs;
-		if (index === -1)	//	not found: division
-		{
-			op = division;
-			var temp = expressions[0].split('/');
-			lhs = [temp[0] + '/' + temp[1], temp[2] + '/' + temp[3]];
-		}
-		else	//	found: addition, subtraction, or multiplication
-		{
-			op = i;	//	set to operation
-			lhs = expressions[0].split(ops[i]);
-		}
-		
-		
-		equationComponents.lhsFractionA = JFraction.parse(lhs[0]);
-		equationComponents.lhsFractionB = JFraction.parse(lhs[1]);
-		operation = op;
-		equationComponents.rhsFraction = JFraction.parse(expressions[1]);
+		equationComponents.lhsFractionA = state.lhsFractionA;
+		equationComponents.lhsFractionB = state.lhsFractionB;
+		equationComponents.rhsFraction = state.rhsFraction;
+		operation = state.operation;
 	}
 	
 	

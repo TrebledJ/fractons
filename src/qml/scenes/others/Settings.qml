@@ -9,10 +9,10 @@ import "../../game/singles"
 SceneBase {
 	id: sceneBase
 	
-	property alias musicEnabled: musicButton.checked
-	property alias soundEnabled: soundButton.checked
-	property alias bgAnimationEnabled: bgAnimationButton.checked
-	property alias numberPadEnabled: numberPadButton.checked
+	property alias musicEnabled: musicButton.isChecked
+	property alias soundEnabled: soundButton.isChecked
+	property alias bgAnimationEnabled: bgAnimationButton.isChecked
+	property alias numberPadEnabled: numberPadButton.isChecked
 	
 	useDefaultTopBanner: true
 	
@@ -34,7 +34,7 @@ SceneBase {
 		BubbleButton {
 			id: musicButton
 			width: 60; height: 30
-			text: checked ? "On" : "Off"
+			text: isChecked ? "On" : "Off"
 			isCheckButton: true
 		}
 		
@@ -51,7 +51,7 @@ SceneBase {
 		BubbleButton {
 			id: bgAnimationButton
 			width: 60; height: 30
-			text: checked ? "On" : "Off"
+			text: isChecked ? "On" : "Off"
 			isCheckButton: true
 		}
 		
@@ -64,7 +64,7 @@ SceneBase {
 		BubbleButton {
 			id: soundButton
 			width: 60; height: 30
-			text: checked ? "On" : "Off"
+			text: isChecked ? "On" : "Off"
 			isCheckButton: true
 		}
 		
@@ -81,7 +81,7 @@ SceneBase {
 		BubbleButton {
 			id: numberPadButton
 			width: 60; height: 30
-			text: checked ? "On" : "Off"
+			text: isChecked ? "On" : "Off"
 			isCheckButton: true
 		}
 		

@@ -42,14 +42,16 @@ function Fraction(n, d) {
 	this.d = (d !== undefined && d !== 0 ? d : 1);
 	
 	this.simplified = function() {
-		if (this.n === 0)
+		//	allow type coercion
+		if (this.n == 0)
 			return new Fraction(0, 1);
 		
 		var g = gcd(this.n, this.d);
-		return new Fraction(n/g, d/g);
+		return new Fraction(this.n/g, this.d/g);
 	}
 	
 	this.isSimplified = function() {
+		if (this.n == 0 && this.d != 1) return false;
 		return gcd(this.n, this.d) === 1;
 	}
 	
@@ -194,9 +196,6 @@ var isParsibleWithError = function(input) {
 	if (input.length === 0)
 		return 0;
 	
-//	var tokens = input.split(' ').filter(function(t){ return t.trim() !== ""; });
-//	var fracTokens = tokens.join('').split('/');
-	
 	var tokens = input.replace(/ /g, '');
 	var fracTokens = tokens.split('/');
 	
@@ -223,7 +222,6 @@ var isParsibleWithError = function(input) {
   \param input: string
  **/
 var parse = function(input) {
-//	var fracTokens = input.split(' ').filter(function(t){ return t.trim() !== ""; }).join('').split('/');
 	var fracTokens = input.replace(/ /g, '').split('/');
 	
 	var numerator = fracTokens[0];

@@ -83,7 +83,7 @@ ModesBase {
 	}
 	
 	function getCorrectAnswer() {
-		return equationComponents.isTrue ? "T" : "F";
+		return "The answer was " + equationComponents.isTrue ? "T" : "F";
 	}
 	
 	
@@ -268,29 +268,18 @@ ModesBase {
 	
 	//	encodes the current question's state
 	function getQuestionState() {
-		return equationComponents.join();
+		return {
+			lhs: equationComponents.lhs,
+			op: equationComponents.op,
+			rhs: equationComponents.rhs
+		};
 	}
 	
 	//	decodes the state provided
 	function parseQuestionState(state) {
-		var expressions;
-		
-		var i, ops = "=≠<>≤≥";
-		for (i in ops)
-		{
-			if (state.indexOf(ops[i]) !== -1)
-			{
-				expressions = state.split(ops[i]);
-				break;
-			}
-		}
-		
-		expressions = [expressions[0].trim(), expressions[1].trim()];
-		
-		equationComponents.lhs = JFraction.parse(expressions[0]);
-		equationComponents.op = ops[i];
-		equationComponents.rhs = JFraction.parse(expressions[1]);
-		
+		equationComponents.lhs = state.lhs;
+		equationComponents.op = state.op;
+		equationComponents.rhs = state.rhs;
 	}
 	
 	

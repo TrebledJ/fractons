@@ -96,7 +96,7 @@ ModesBase {
 		
 		var lhs_s = '' + lhs;
 		var places = lhs_s.length - 2;
-		return new JFraction.Fraction(lhs * Math.pow(10, places), Math.pow(10, places)).simplified().toString();
+		return "The answer was " + new JFraction.Fraction(lhs * Math.pow(10, places), Math.pow(10, places)).simplified().toString();
 	}
 	
 	//	generates a new, random question
@@ -141,24 +141,32 @@ ModesBase {
 	
 	//	encodes the current question's state
 	function getQuestionState() {
-		return equationComponents.join();
+//		return equationComponents.join();
+		return {
+			lhs: equationComponents.lhs,
+			rhs: equationComponents.rhs,
+			isApprox: equationComponents.isApprox
+		};
 	}
 	
 	//	decodes the state provided
 	function parseQuestionState(state) {
-		var expressions = state.split('=');
-		expressions = [expressions[0].trim(), expressions[1].trim()];
+		equationComponents.lhs = state.lhs;
+		equationComponents.rhs = state.rhs;
+		equationComponents.isApprox = state.isApprox;
+//		var expressions = state.split('=');
+//		expressions = [expressions[0].trim(), expressions[1].trim()];
 		
-		if (difficultyIndex === toDecimal)
-		{
-			equationComponents.lhs = JFraction.parse(expressions[0]);
-			equationComponents.rhs = expressions[1];
-		}
-		else if (difficultyIndex === toFraction)
-		{
-			equationComponents.lhs = Number(expressions[0]);
-			equationComponents.rhs = JFraction.parse(expressions[1]);
-		}
+//		if (difficultyIndex === toDecimal)
+//		{
+//			equationComponents.lhs = JFraction.parse(expressions[0]);
+//			equationComponents.rhs = expressions[1];
+//		}
+//		else if (difficultyIndex === toFraction)
+//		{
+//			equationComponents.lhs = Number(expressions[0]);
+//			equationComponents.rhs = JFraction.parse(expressions[1]);
+//		}
 	}
 	
 	//	OBJECT PROPERTIES

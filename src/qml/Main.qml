@@ -89,9 +89,9 @@ GameWindow {
 	
 	screenWidth: 960; screenHeight: 640
 	
-	state: "home"
+//	state: "home"
 //	state: "notifications"
-//	state: "mode_balance"
+	state: "mode_fill"
 	
 	Component.onCompleted: {
 		musicEnabled = settings.musicEnabled;
@@ -153,6 +153,14 @@ GameWindow {
 //		id: modeBarScene
 //		onBackButtonClicked: gameWindow.state = "exerciseMenu"
 //	}
+	
+	Modes.FillMode {
+		id: modeFillScene
+		numberPadEnabled: gameWindow.numberPadEnabled
+		onBackButtonClicked:  gameWindow.state = "exerciseMenu"
+		onCorrectAnswer: musicLayer.sfxCorrectAnswer.play()
+		onWrongAnswer: musicLayer.sfxWrongAnswer.play()
+	}
 	
 	Modes.BalanceMode {
 		id: modeBalanceScene
@@ -234,6 +242,11 @@ GameWindow {
 //			PropertyChanges { target: modeBarScene; opacity: 1 }
 //			PropertyChanges { target: gameWindow; activeScene: modeBarScene }
 //		},
+		State {
+			name: "mode_fill"
+			PropertyChanges { target: modeFillScene }
+			PropertyChanges { target: gameWindow; activeScene: modeFillScene }
+		},
 		State {
 			name: "mode_balance"
 			PropertyChanges { target: modeBalanceScene }

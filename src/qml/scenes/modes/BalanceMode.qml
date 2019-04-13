@@ -60,7 +60,7 @@ ModesBase {
 		if (equationComponents.rhsFraction.n === '?')
 			return lhs * equationComponents.rhsFraction.d;
 		
-		return equationComponents.rhsFraction.n / lhs;
+		return "The answer was " + equationComponents.rhsFraction.n / lhs;
 	}
 	
 	function generateRandomQuestion() {

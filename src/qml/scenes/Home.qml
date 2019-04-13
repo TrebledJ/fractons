@@ -61,10 +61,10 @@ SceneBase {
 			anchors.verticalCenter: parent.verticalCenter
 			width: height; height: 60
 			
-			property bool unlocked: JFractons.currentLevel() >= 20
+			property bool unlocked: JFractons.currentLevel() >= 25	//	LOTTERY
 //			property bool unlocked: true
 			
-			text: unlocked ? "Lottery" : "Level 20"
+			text: unlocked ? "Lottery" : "Level 25"
 			textObj.verticalAlignment: Text.AlignBottom
 			font.pointSize: 12
 			opacity: unlocked ? 1 : 0.6

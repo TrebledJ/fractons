@@ -111,10 +111,12 @@ Item {
 			JStorage.addTokens(l);
 			
 			var unlocked = {
+				1: 'Balance Mode',
 				5: 'Conversion Mode',
-				10: 'Truth Mode',
-				15: 'Operations Mode',
-				20: 'The Lottery',
+				10: 'Operations Mode',
+				15: 'Fill Mode',
+				20: 'Truth Mode',
+				25: 'The Lottery',
 			}[l];
 			unlocked = unlocked ? 'Unlocked ' + unlocked : '';
 			

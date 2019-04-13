@@ -30,7 +30,6 @@ var operations = {
 function gcd(m, n) {
 	if (n > m)
 		return gcd(n, m);
-	
 	return n === 0 ? m : gcd(n, m%n);
 }
 
