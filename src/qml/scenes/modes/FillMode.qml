@@ -57,19 +57,11 @@ ModesBase {
 	function generateRandomQuestion() {
 		grid.clear();
 		
-//		var d = JMath.choose(JUtils.popArray(JMath.factors(100), 0));	//	pop to remove 1 at index 0
-//		var n = JMath.randI(1, d);
-		
 		var maxSize = [8, 10, 16][difficultyIndex];
 		
 		var d = JMath.randI(2, maxSize);
 		var n = JMath.randI(1, d);
 		question.fraction = new JFraction.Fraction(n, d);
-		
-		
-//		var maxFactor = Math.floor(maxSize / d);
-//		var factor = JMath.randI(1, maxFactor);
-//		grid.gridSize = d * factor;
 		
 		var possibleSizes = [];
 		for (var i = 2; i <= maxSize; i++)
