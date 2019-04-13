@@ -89,9 +89,9 @@ GameWindow {
 	
 	screenWidth: 960; screenHeight: 640
 	
-//	state: "home"
+	state: "home"
 //	state: "notifications"
-	state: "mode_fill"
+//	state: "mode_fill"
 	
 	Component.onCompleted: {
 		musicEnabled = settings.musicEnabled;
