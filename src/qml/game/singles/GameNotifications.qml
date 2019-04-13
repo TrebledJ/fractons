@@ -22,7 +22,7 @@ Item {
 	}
 	
 	function markAsRead() { unread = 0; }
-	function clearNotifications() { recentNotificationsModel.clear(); }
+	function clearNotifications() { recentNotificationsModel.clear(); unread = 0; }
 	
 	Component.onCompleted: { console.warn("Reloading JGameNotifications..."); }
 	
