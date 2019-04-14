@@ -21,12 +21,12 @@ SceneBase {
 		
 		//		ListElement { role_stars: 0; role_mode: "Bar" }	//	deprecated ?
 		
-		ListElement { role_stars: 0; role_min_level: 5; role_mode: "Conversion" }	//	convert between decimals and fractions
+		ListElement { role_stars: 0; role_min_level: 4; role_mode: "Conversion" }	//	convert between decimals and fractions
 		
-		ListElement { role_stars: 0; role_min_level: 10; role_mode: "Operations" }	//	Standard equation solving, given two fractions on the lhs and an operation
-		ListElement { role_stars: 0; role_min_level: 15; role_mode: "Fill" }			//	create a grid of tiles and highlight tiles to create a fraction out of the whole
+		ListElement { role_stars: 0; role_min_level: 8; role_mode: "Operations" }	//	Standard equation solving, given two fractions on the lhs and an operation
+		ListElement { role_stars: 0; role_min_level: 12; role_mode: "Fill" }			//	create a grid of tiles and highlight tiles to create a fraction out of the whole
 		
-		ListElement { role_stars: 0; role_min_level: 20; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
+		ListElement { role_stars: 0; role_min_level: 16; role_mode: "Truth" }		//	given an equation or inequality, tell if it is True or False
 		//	TODO implement these other modes
 //		ListElement { role_stars: 0; role_min_level: 9; role_mode: "Word" }		//	solve a word exercise, giving a fractional answer
 		

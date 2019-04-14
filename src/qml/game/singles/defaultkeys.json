@@ -504,7 +504,7 @@
 					"description": "",
 					"hint": "Tagged with Technist.",
 					"group": "classified",
-					"reward": 2500,
+					"reward": 1500,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
@@ -514,7 +514,7 @@
 					"description": "",
 					"hint": "Tagged with TrebledJ.",
 					"group": "classified",
-					"reward": 3000,
+					"reward": 1500,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
@@ -524,7 +524,7 @@
 					"description": "",
 					"hint": "Tagged with Tin Man.",
 					"group": "classified",
-					"reward": 2500,
+					"reward": 1500,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false
@@ -534,7 +534,7 @@
 					"description": "",
 					"hint": "Tagged with TrebuchetMS.",
 					"group": "classified",
-					"reward": 2000,
+					"reward": 1500,
 					"progress": 0,
 					"maxProgress": 1,
 					"isCollected": false

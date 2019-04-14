@@ -297,25 +297,25 @@ SceneBase {
 			{
 				console.warn("Pseudonym I!");
 				JGameAchievements.addProgressByName("pseudonym i", 1);
-				rejectInput("That's me!");
+				rejectInput("How to [Earn an Achievement]");
 			}
 			if (text.toLowerCase() === "trebledj")
 			{
 				console.warn("Pseudonym II!");
 				JGameAchievements.addProgressByName("pseudonym ii", 1);
-				rejectInput("That's me!");
+				rejectInput("Pure Guesswork");
 			}
 			if (text.toLowerCase() === "tinman" || text.toLowerCase() === "tin man")
 			{
 				console.warn("Pseudonym III!");
 				JGameAchievements.addProgressByName("pseudonym iii", 1);
-				rejectInput("That's me!");
+				rejectInput("Ah, the scarecrow.");
 			}
 			if (text.toLowerCase() === "trebuchetms" || text.toLowerCase() === "trebuchet ms")
 			{
 				console.warn("Pseudonym IV!");
 				JGameAchievements.addProgressByName("pseudonym iv", 1);
-				rejectInput("That's me!");
+				rejectInput("Trebuchet > Catapult");
 			}
 			
 			return;

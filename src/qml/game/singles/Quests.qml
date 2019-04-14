@@ -77,7 +77,7 @@ Item {
 //		values.push("achievement");
 		
 		//	only allow the lottery beginning at a certain level
-		if (JFractons.currentLevel() >= 25)		//	LOTTERY
+		if (JFractons.currentLevel() >= 20)		//	LOTTERY
 		{
 			questObj.lottery.maxProgress = JMath.randI(5, 10);
 			questObj.lottery.text = questObj.lottery.text.arg(questObj.lottery.maxProgress);
@@ -85,11 +85,11 @@ Item {
 		}
 		
 		//	allow the levelling quest up to a certain level
-		if (JFractons.currentLevel() < 25)
-		{
+//		if (JFractons.currentLevel() < 25)
+//		{
 			//	questObj.level
 			values.push("level");
-		}
+//		}
 		
 		//	A. choose 3 random quests
 		//	map to a list of pairs of keys and values

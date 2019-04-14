@@ -17,13 +17,19 @@ SceneBase {
 	property var objects: []
 	property var messages: [
 		{
-			text: 'Created using Qt and the Felgo SDK.'
+			text: 'ƒractons was brought to you by TrebledJ.'
 		},
 		{
-			text: 'ƒractons was brought to you by Johnathan Law.'
+			text: 'Originally made with Flash/Actionscript 2.0 in 9<sup>th</sup> grade.'
 		},
 		{
-			text: 'Thanks for playing!'
+			text: 'Now returning with Qt/QML and the Felgo SDK.'
+		},
+//		{
+//			text: 'Icons, sounds, and music were gathered from a variety of online sources.'
+//		},
+		{
+			text: 'Thanks for playing and enjoy!'
 		}
 	]
 	
