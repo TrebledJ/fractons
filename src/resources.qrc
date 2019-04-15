@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qml/common/AchievementCard.qml</file>
         <file>qml/common/BubbleButton.qml</file>
-        <file>qml/common/CircleButton.qml</file>
         <file>qml/common/TextBase.qml</file>
         <file>qml/game/NumberPad.qml</file>
         <file>qml/graphicmath/Equation.qml</file>
@@ -50,5 +49,6 @@
         <file>qml/scenes/others/Credits.qml</file>
         <file>qml/scenes/others/Notifications.qml</file>
         <file>qml/common/NotificationButton.qml</file>
+        <file>qml/scenes/modes/FillMode.qml</file>
     </qresource>
 </RCC>
