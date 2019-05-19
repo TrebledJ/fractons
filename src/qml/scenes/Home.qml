@@ -181,7 +181,7 @@ SceneBase {
 			id: repeater
 			
 			function updateDelegate() {
-				for (var i = 0; i < repeater.count; i++)
+				for (let i = 0; i < repeater.count; i++)
 					itemAt(i).quest = JQuests.getQuestByIndex(i);
 			}
 			
@@ -220,7 +220,7 @@ SceneBase {
 			//	anchor to the left and vary margin depending on whether quest buttons have been entered
 			left: parent.left
 			leftMargin: {
-				for (var i = 0; i < repeater.count; i++)
+				for (let i = 0; i < repeater.count; i++)
 					if (repeater.itemAt(i).isEntered)
 						return 5;
 				return -width;

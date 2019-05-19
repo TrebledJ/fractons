@@ -37,7 +37,7 @@ ModesBase {
 		}
 		else if (difficultyIndex === toFraction)
 		{
-			var errCode = JFraction.isParsibleWithError(text);
+			let errCode = JFraction.isParsibleWithError(text);
 			return errCode;
 		}
 		
@@ -104,8 +104,8 @@ ModesBase {
 		
 		if (difficultyIndex === toDecimal)
 		{
-			var d = JMath.randI(2, 10);
-			var n = JMath.randI(1, d-1);
+			let d = JMath.randI(2, 10);
+			let n = JMath.randI(1, d-1);
 			
 			equationComponents.isApprox = !("2,4,5,8,10".includes(d)) && !(d === 6 && n === 3);
 			
@@ -114,7 +114,7 @@ ModesBase {
 		}
 		else if (difficultyIndex === toFraction)
 		{
-			var values = [
+			let values = [
 						0.1,
 						0.125,
 						0.2,
@@ -211,9 +211,7 @@ ModesBase {
 			else if (difficultyIndex === toFraction)
 			{
 				//	parse input as fraction
-				var frac = JFraction.parse(input);
-				
-				return frac;
+				return JFraction.parse(input);
 			}
 		}
 		

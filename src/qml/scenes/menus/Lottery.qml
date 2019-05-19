@@ -220,9 +220,9 @@ SceneBase {
 			onSpinEnded: {
 				var middle = [];
 				
-				for (var r = 0; r < slotMachine.reelCount; r++)
+				for (let r = 0; r < slotMachine.reelCount; r++)
 				{
-					var item = slotMachine.getItem(r, 0);
+					let item = slotMachine.getItem(r, 0);
 					item.animate(0.8, 1.2);
 					
 					middle.push(slotMachine.getItemData(r, 0));
@@ -379,8 +379,8 @@ SceneBase {
 			displayText.text = "";
 
 			//	compute sum
-			var obj = slotMachine.model.symbols;
-			var sum = Object.keys(obj).reduce(function(acc, item) { return acc + obj[item].frequency; }, 0);
+			let obj = slotMachine.model.symbols;
+			let sum = Object.keys(obj).reduce(function(acc, item) { return acc + obj[item].frequency; }, 0);
 			console.log("Spinning wheel with", sum, "items in reel.")
 			
 			slotMachine.spin(5000);		//	defaults to stopping after 5 seconds

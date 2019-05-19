@@ -24,7 +24,6 @@ BubbleButton {
 			color: "white"; visible: circle.opacity >= 0.98
 		}
 		
-		
 		Behavior on width { PropertyAnimation { duration: 500; easing.type: Easing.InOutBack } }
 		Behavior on height { PropertyAnimation { duration: 500; easing.type: Easing.InOutBack } }
 		Behavior on opacity { PropertyAnimation { duration: 400 } }

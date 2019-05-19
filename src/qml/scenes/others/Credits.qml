@@ -52,7 +52,7 @@ SceneBase {
 		else
 		{
 			
-			for (var i = 0; i < objects.length; i++)
+			for (let i = 0; i < objects.length; i++)
 			{
 				if (objects[i] !== undefined)
 					objects[i].opacity = 0;

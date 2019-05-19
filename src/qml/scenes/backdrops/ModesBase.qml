@@ -642,7 +642,7 @@ SceneBase {
 				
 				if (acceptableCharInput !== undefined && text.length > 0)
 				{
-					var lastChar = text[text.length - 1];
+					let lastChar = text[text.length - 1];
 					if (typeof(acceptableCharInput) === 'object' && lastChar in acceptableCharInput)
 						text = text.substr(0, text.length-1);
 					else if (typeof(acceptableCharInput) === 'string' && acceptableCharInput.includes(lastChar))

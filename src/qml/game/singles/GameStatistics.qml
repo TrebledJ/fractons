@@ -48,7 +48,7 @@ Item {
 				attempted: 0,
 				correct: 0,
 				fractonsEarned: 0
-			}
+			};
 		}
 		dailyData[key].correct += 1;
 		dailyDataModified();
@@ -68,7 +68,7 @@ Item {
 				attempted: 0,
 				correct: 0,
 				fractonsEarned: 0
-			}
+			};
 		}
 		
 		dailyData[key].fractonsEarned += Number(num);

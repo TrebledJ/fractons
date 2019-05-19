@@ -45,7 +45,7 @@ SceneBase {
 				
 //				//  deduce the new min and max
 //				var max = -1e8;
-//				for (var i = 0; i < series.count; i++)
+//				for (let i = 0; i < series.count; i++)
 //					max = Math.max(max, series.at(i).values.reduce(function(a,b) { return Math.max(a, b); }));
 			
 //				//  set the new min and max

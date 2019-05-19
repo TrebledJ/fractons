@@ -88,9 +88,6 @@ ModesBase {
 	//	return: void
 	function generateRandomQuestion() {
 		
-		var n1, n2, d, d1, d2;
-		n1 = n2 = d = d1 = d2 = 0;
-		
 		//	generate fraction components
 		if (difficultyIndex === easy)
 		{
@@ -100,6 +97,8 @@ ModesBase {
 			//	 + only addition and subtraction
 			//	 + numerator answer only
 			//	 + denominators up to 20
+			
+			let n1, n2, d;
 			
 			//	generate appropriate result, then derive question
 			operation = JMath.randI(addition, subtraction);
@@ -128,6 +127,8 @@ ModesBase {
 			//	 + only multiplication and division
 			//	 + both numerator and denominator answer
 			//	 + denominators up to 10
+			
+			let n1, n2, d1, d2;
 			
 			operation = JMath.randI(multiplication, division);
 			
@@ -163,6 +164,8 @@ ModesBase {
 			//	 + all operations
 			//	 + both numerator and denominator answer
 			//	 + denominators up to 12
+			
+			let n1, n2, d1, d2;
 			
 			operation = JMath.randI(addition, division);
 			

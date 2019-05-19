@@ -10,12 +10,12 @@ Item {
 	function notify(title, msg, submessage) {
 		submessage = submessage || '';
 		
-		var obj = {
+		let obj = {
 			role_title: title,
 			role_message: msg,
 			role_timestamp: Date.now(),
 			role_submessage: submessage
-		}
+		};
 
 		recentNotificationsModel.insert(0, obj);
 		unread++;

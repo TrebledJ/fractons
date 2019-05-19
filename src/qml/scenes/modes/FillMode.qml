@@ -64,7 +64,7 @@ ModesBase {
 		question.fraction = new JFraction.Fraction(n, d);
 		
 		var possibleSizes = [];
-		for (var i = 2; i <= maxSize; i++)
+		for (let i = 2; i <= maxSize; i++)
 			if ((i*i*n) % d === 0)
 				possibleSizes.push(i);
 		
@@ -167,7 +167,7 @@ ModesBase {
 				property int gridSize: 10				//	default number of cells going across and down
 				
 				function clear() {
-					for (var i = 0; i < repeater.count; i++)
+					for (let i = 0; i < repeater.count; i++)
 						repeater.itemAt(i).isChecked = false;
 					countSelected = 0;
 				}

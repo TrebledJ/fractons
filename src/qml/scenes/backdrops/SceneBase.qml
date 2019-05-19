@@ -108,7 +108,7 @@ Scene {
 		onTriggered: {
 			if (shown)
 			{
-				var front = messageQueue[0];
+				let front = messageQueue[0];
 				messageQueue = messageQueue.slice(1);
 				pushBackgroundAnimation(front.message, front.parent, front.visibleListener, front.fontsize);	//	animate the mode name onto the background
 			}

@@ -54,7 +54,7 @@ Item {
 		
 		var recursiveAdd = function(root)
 		{
-			for (var i in root)
+			for (let i in root)
 			{
 				var sub = root[i];
 				if (sub.name === undefined)

@@ -53,7 +53,7 @@ Scene {
 			//	choose animations from the animation queue
 			if (!readySpawn && animationQueue.length > 0)
 			{
-				var queueObj = animationQueue[0];
+				let queueObj = animationQueue[0];
 				
 				//	pop the object from the queue
 				animationQueue = animationQueue.slice(1);
@@ -63,7 +63,6 @@ Scene {
 				visibleListener = queueObj.visibleListener ? queueObj.visibleListener : scene;
 				fontsize = queueObj.fontsize ? queueObj.fontsize : 30;
 				component = textComponent;
-				
 				
 				if (text.substr(0, 5) === "#math")
 				{
@@ -79,7 +78,7 @@ Scene {
 			//	default animations
 			if (!readySpawn)
 			{
-				var mathOrImage = JMath.oneIn(1000) ? "image" : "math";
+				let mathOrImage = JMath.oneIn(1000) ? "image" : "math";
 				
 				parent = scene;
 				visibleListener = scene;
@@ -96,7 +95,7 @@ Scene {
 					}
 					else
 					{
-						var d = JMath.randI(2, 10);
+						let d = JMath.randI(2, 10);
 						text = JMath.randI(1, d) + '/' + d;
 					}
 					
@@ -139,11 +138,10 @@ Scene {
 			if (component === buttonComponent)
 			{
 				//  ACVM : euler, newton, gauss (secret)
-				var person = JMath.choose(["euler", "newton", "gauss"])
+				let person = JMath.choose(["euler", "newton", "gauss"])
 				
-				var imageSource = "qrc:/assets/icons/" + person;
+				let imageSource = "qrc:/assets/icons/" + person;
 				obj.button.image.source = imageSource;
-				
 				obj.button.entered.connect(function()
 				{
 					console.log("Image of", person, "entered!");

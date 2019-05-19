@@ -106,7 +106,7 @@ Item {
 		
 		//	push a notification
 		//	add tokens for each level surpassed
-		for (var l = previous + 1; l <= level; l++)
+		for (let l = previous + 1; l <= level; l++)
 		{
 			JStorage.addTokens(l);
 			

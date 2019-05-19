@@ -108,9 +108,9 @@ Item {
 		}
 		
 		function fillMissingMasteryAchievements(keys) {
-			for (var k in keys.achievements.mastery)
+			for (let k in keys.achievements.mastery)
 			{
-				for (var i = 1; i <= 5; i++)
+				for (let i = 1; i <= 5; i++)
 				{
 					var obj = {
 						name: JUtils.toTitleCase(k) + " " + ["I", "II", "III", "IV", "V"][i - 1],

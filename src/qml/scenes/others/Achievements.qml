@@ -46,7 +46,7 @@ SceneBase {
 			role_group: "classified"
 			role_isActive: function() { 
 				var achievements = JGameAchievements.getNames("classified");
-				for (var i in achievements)
+				for (let i in achievements)
 					if (JGameAchievements.getByName(achievements[i]).isCollected)
 						return true;
 				
@@ -170,7 +170,7 @@ SceneBase {
 					
 					if ("secret,classified".includes(popup.achievement.group)) 
 					{
-						var s = popup.achievement.hint;
+						let s = popup.achievement.hint;
 						if (popup.achievement.isCollected && popup.achievement.description)
 							s += "\n\n" + popup.achievement.description
 						return s;

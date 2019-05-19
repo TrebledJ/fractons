@@ -21,7 +21,7 @@ Row {
 	
 	function clear() {
 		//	destroy each item
-		for (var i = 0; i < items.length; i++)
+		for (let i = 0; i < items.length; i++)
 			items[i].destroy();
 		
 		items = [];	//	clear array
@@ -58,7 +58,7 @@ Row {
 	function parse(text) {
 		var buffer = "";	//	holds buffered text
 		
-		for (var i = 0; i < text.length; i++)
+		for (let i = 0; i < text.length; i++)
 		{
 			if (text[i] === '(')
 			{

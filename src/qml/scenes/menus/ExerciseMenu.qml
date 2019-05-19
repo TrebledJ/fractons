@@ -109,7 +109,7 @@ SceneBase {
 					
 					background.border.width: 3
 					
-					text: "<b>" + (row.unlocked ? role_mode : "Level " + role_min_level) + "</b>"
+					text: (row.unlocked ? role_mode : "Level " + role_min_level)
 					textObj.textFormat: Text.StyledText
 					textObj.horizontalAlignment: Text.AlignRight
 					textObj.anchors.rightMargin: 10

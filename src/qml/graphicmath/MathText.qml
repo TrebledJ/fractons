@@ -27,11 +27,10 @@ TextBase {
 			'/': '÷'
 		};
 		
-		for (var symb in replace)
+		for (let symb in replace)
 		{
 			if (text.includes(symb))
 				setText(text.replace(symb, replace[symb]));
-			
 		}
 	}
 }

@@ -12,8 +12,10 @@ qmlFolder.source = qml
 DEPLOYMENTFOLDERS += qmlFolder # comment for publishing
 
 assetsFolder.source = assets
-DEPLOYMENTFOLDERS += assetsFolder 
-#DEPLOYMENTFOLDERS += assets/sounds
+DEPLOYMENTFOLDERS += assetsFolder
+
+#soundsFolder.source = assets/sounds
+#DEPLOYMENTFOLDERS += soundsFolder
 
 # Add more folders to ship with the application here
 

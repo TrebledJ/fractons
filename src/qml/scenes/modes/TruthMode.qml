@@ -83,7 +83,7 @@ ModesBase {
 	}
 	
 	function getCorrectAnswer() {
-		return "The answer was " + equationComponents.isTrue ? "T" : "F";
+		return "The answer was " + (equationComponents.isTrue ? "T" : "F");
 	}
 	
 	
@@ -97,19 +97,19 @@ ModesBase {
 		if (answer === true)
 		{
 			//	get the maximum factor
-			var maxFactor = Math.floor(absoluteMax / d_l);
+			let maxFactor = Math.floor(absoluteMax / d_l);
 			
 			//	get the gcd factors
-			var leftGcdFactors = JMath.factors(JMath.gcd(n_l, d_l));
+			let leftGcdFactors = JMath.factors(JMath.gcd(n_l, d_l));
 			
 			//	choose a denominator for the factor; remove the gcd factor 1 if possible
-			var factorD = JMath.choose(leftGcdFactors.slice(leftGcdFactors.length > 1));
+			let factorD = JMath.choose(leftGcdFactors.slice(leftGcdFactors.length > 1));
 			
 			//	choose a numerator for the factor; it shouldn't be the same as factorD
-			var factorN = JMath.choose(JMath.range(1, factorD).concat(JMath.range(factorD+1, maxFactor+1)));
+			let factorN = JMath.choose(JMath.range(1, factorD).concat(JMath.range(factorD+1, maxFactor+1)));
 			
 			//	set the factor and multiply the lhs onto the right
-			var factor = factorN / factorD;
+			let factor = factorN / factorD;
 			
 			n_r = n_l * factor;
 			d_r = d_l * factor;
@@ -144,7 +144,6 @@ ModesBase {
 					n_r = JMath.randI(1, absoluteMax);
 			}
 			
-			
 		}
 		
 		return { left: new JFraction.Fraction(n_l, d_l), right: new JFraction.Fraction(n_r, d_r) };
@@ -166,12 +165,12 @@ ModesBase {
 		var answer = JMath.coin();
 		
 		//	buffer variables
-		var relation, swap = false;
+		var swap = false;
 		
 		if (difficultyIndex === easy)
 		{
 			//	easy mode
-			relation = generateEqualityRelation(2, 6, 12, answer);
+			let relation = generateEqualityRelation(2, 6, 12, answer);
 			
 			//	chance to swap
 			swap = JMath.coin();
@@ -183,7 +182,7 @@ ModesBase {
 		}
 		else if (difficultyIndex === medium)
 		{
-			relation = generateEqualityRelation(2, 8, 16, answer);
+			let relation = generateEqualityRelation(2, 8, 16, answer);
 			
 			//	chance to swap
 			swap = JMath.coin();
@@ -203,17 +202,16 @@ ModesBase {
 			
 			if (operator === "=" || operator === "≠")
 			{
-				relation = generateEqualityRelation(2, 8, 16, answer);
+				let relation = generateEqualityRelation(2, 8, 16, answer);
 				
 				equationComponents.lhs = swap ? relation.left : relation.right;
 				equationComponents.rhs = swap ? relation.right : relation.left;
 			}
 			else if (operator === "<" || operator === ">")
 			{
-				var n_l, d_l, n_r, d_r;
+				let n_l, d_l, n_r, d_r;
 				
-				var high = 20;
-				var bound;
+				let high = 20;
 				if (answer === true)
 				{
 					//	assume operator is <
@@ -225,7 +223,7 @@ ModesBase {
 					d_l = JMath.randI(2, Math.min(high, high * d_r/n_r));
 					
 					//	temporary upper bound for n_l
-					bound = Math.ceil(d_l * n_r/d_r) - 1;
+					let bound = Math.ceil(d_l * n_r/d_r) - 1;
 					
 					//	n_l < d_l * n_r/d_r
 					n_l = JMath.randI(bound ? 1 : 0, bound);
@@ -235,15 +233,15 @@ ModesBase {
 					n_r = JMath.randI(2, high);
 					d_r = JMath.randI(2, high);
 					
-					d_l = JMath.randI(2, Math.min(high, high * d_r/n_r));
-					bound = Math.ceil(d_l * n_r/d_r);
+					d_l = JMath.randI(2, Math.min(high, Math.floor(high * d_r/n_r)));
+					let bound = Math.ceil(d_l * n_r/d_r);
 					
 					//	n_l ≥ d_l * n_r/d_r
 					n_l = JMath.randI(bound, high);
 				}
 				
-				var left = new JFraction.Fraction(n_l, d_l);
-				var right = new JFraction.Fraction(n_r, d_r);
+				let left = new JFraction.Fraction(n_l, d_l);
+				let right = new JFraction.Fraction(n_r, d_r);
 				
 				if (operator === ">")
 					left.swap(right);
@@ -330,8 +328,5 @@ ModesBase {
 			return lhs + ' ' + (op === "<" ? "\<" : op) + ' ' + rhs;
 		}
 	}
-	
-	
-	
 	
 }
