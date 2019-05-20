@@ -11,8 +11,11 @@ import "../../js/Math.js" as JMath
 ModesBase {
 	id: modesBase
 	
-	readonly property int toDecimal: 0
-	readonly property int toFraction: 1
+	enum Difficulty {
+		ToDecimal,
+		ToFraction
+	}
+
 	readonly property var parsingError: ({
 											 0: "",
 											 1: "Program Error: Undefined input passed into `ConversionMode.hasParsingError` function.",
@@ -22,7 +25,7 @@ ModesBase {
 	//	checks if text has a parsing error
 	function hasParsingError(text) {
 		
-		if (difficultyIndex === toDecimal)
+		if (difficulty === ConversionMode.Difficulty.ToDecimal)
 		{
 			if (text === undefined)
 				return 1;
@@ -35,7 +38,7 @@ ModesBase {
 			
 			return 0;
 		}
-		else if (difficultyIndex === toFraction)
+		else if (difficulty === ConversionMode.Difficulty.ToFraction)
 		{
 			let errCode = JFraction.isParsibleWithError(text);
 			return errCode;
@@ -54,7 +57,7 @@ ModesBase {
 		var errCode = hasParsingError(text);
 		if (errCode)
 		{
-			rejectInput(difficultyIndex === toDecimal ? parsingError[errCode] : JFraction.ParsingError[errCode]);
+			rejectInput(difficulty === ConversionMode.Difficulty.ToDecimal ? parsingError[errCode] : JFraction.ParsingError[errCode]);
 			return false;
 		}
 		
@@ -68,14 +71,14 @@ ModesBase {
 		var lhs = equationComponents.lhs;
 		var rhs = equationComponents.reparseRhs(text);
 		
-		var isCorrect = difficultyIndex === toDecimal ? equationComponents.isApprox ? lhs.approximatesTo(rhs)
+		var isCorrect = difficulty === ConversionMode.Difficulty.ToDecimal ? equationComponents.isApprox ? lhs.approximatesTo(rhs)
 																					: lhs.equalsValue(rhs)
 													  : rhs.equalsValue(lhs);
 		
 		console.debug("Question:", equationComponents.join());
 		console.debug("Answer:", "'" + lhs + "'", "versus", "User Answer: '" + rhs + "'", ':', isCorrect);
 		
-		if (isCorrect && difficultyIndex === toFraction)
+		if (isCorrect && difficulty === ConversionMode.Difficulty.ToFraction)
 		{
 			if (rhs.d > 1000)
 				JGameAchievements.addProgressByName("troublemaker", 1);
@@ -86,12 +89,12 @@ ModesBase {
 	
 	function getCorrectAnswer() {
 		var lhs = equationComponents.lhs;
-		if (difficultyIndex === toDecimal)
+		if (difficulty === ConversionMode.Difficulty.ToDecimal)
 		{
 			if (equationComponents.isApprox)
-				return Math.round(lhs.value() * 1000) / 1000;
+				return "The answer was " + Math.round(lhs.value() * 1000) / 1000;
 			
-			return lhs.value();
+			return "The answer was " + lhs.value();
 		}
 		
 		var lhs_s = '' + lhs;
@@ -102,7 +105,7 @@ ModesBase {
 	//	generates a new, random question
 	function generateRandomQuestion() {
 		
-		if (difficultyIndex === toDecimal)
+		if (difficulty === ConversionMode.Difficulty.ToDecimal)
 		{
 			let d = JMath.randI(2, 10);
 			let n = JMath.randI(1, d-1);
@@ -112,7 +115,7 @@ ModesBase {
 			equationComponents.lhs = new JFraction.Fraction(n, d);
 			equationComponents.rhs = '?';
 		}
-		else if (difficultyIndex === toFraction)
+		else if (difficulty === ConversionMode.Difficulty.ToFraction)
 		{
 			let values = [
 						0.1,
@@ -159,10 +162,10 @@ ModesBase {
 	difficulties: ["Decimal", "Fraction"]
 	
 	modeName: 'Conversion'
-	rewardAmount: [2, 1][difficultyIndex]
+	rewardAmount: [2, 1][difficulty]
 	unit: "fractons"
 	
-	numberPad.keys: difficultyIndex === toDecimal ? [7, 8, 9, 4, 5, 6, 1, 2, 3, '.', 0, 'back'] : [7, 8, 9, 4, 5, 6, 1, 2, 3, '/', 0, 'back']
+	numberPad.keys: [7, 8, 9, 4, 5, 6, 1, 2, 3, (difficulty === ConversionMode.Difficulty.ToDecimal ? '.' : '/'), 0, 'back']
 	
 	help: Item {
 		Column {
@@ -174,13 +177,13 @@ ModesBase {
 			TextBase { text: "Example:" }
 			Equation {
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: difficultyIndex === toDecimal ? "1/3 ≈ ?" : "0.25 = ?/?"
+				text: difficulty === ConversionMode.Difficulty.ToDecimal ? "1/3 ≈ ?" : "0.25 = ?/?"
 			}
-			TextBase { text: "Answer: " + (difficultyIndex === toDecimal ? "0.333" : "1/4") }
+			TextBase { text: "Answer: " + (difficulty === ConversionMode.Difficulty.ToDecimal ? "0.333" : "1/4") }
 			ParagraphText {
 				text: "For approximations (≈), round the answer to 2 or 3 decimal places."
 				font.pointSize: 8
-				visible: difficultyIndex === toDecimal
+				visible: difficulty === ConversionMode.Difficulty.ToDecimal
 			}
 		}
 	}
@@ -204,11 +207,11 @@ ModesBase {
 		//	input: JFraction.Fraction.string
 		//	return: JFraction.Fraction
 		function reparseRhs(input) {
-			if (difficultyIndex === toDecimal)
+			if (difficulty === ConversionMode.Difficulty.ToDecimal)
 			{
 				return Number(input);
 			}
-			else if (difficultyIndex === toFraction)
+			else if (difficulty === ConversionMode.Difficulty.ToFraction)
 			{
 				//	parse input as fraction
 				return JFraction.parse(input);

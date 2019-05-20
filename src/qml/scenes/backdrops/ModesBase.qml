@@ -79,7 +79,6 @@ SceneBase {
 	
 	signal checkButtonClicked
 	signal nextButtonClicked
-	signal difficultyChanged(int index, string difficulty)
 	signal correctAnswer
 	signal wrongAnswer
 	
@@ -93,7 +92,7 @@ SceneBase {
 	
 	property string modeName
 	property var difficulties: []
-	property int difficultyIndex: 0
+	property int difficulty: 0
 
 	property alias acceptableInput: answerField.acceptableCharInput
 	property bool hasInputError: false
@@ -257,19 +256,17 @@ SceneBase {
 		generateRandomQuestion();
 	}
 	
-	onDifficultyIndexChanged: {
-		console.warn("Difficulty Index Changed:", difficultyIndex, difficulties[difficultyIndex])
+	onDifficultyChanged: {
+		console.warn("Difficulty Index Changed:", difficulty, difficulties[difficulty])
 		
 		//	generate a new random question
-		if (lastQuestions[difficultyIndex] === undefined)
+		if (lastQuestions[difficulty] === undefined)
 			generateRandomQuestion();
 		else
 		{
-			parseQuestionState(lastQuestions[difficultyIndex]);
-			delete lastQuestions[difficultyIndex];
+			parseQuestionState(lastQuestions[difficulty]);
+			delete lastQuestions[difficulty];
 		}
-		
-		modesBase.difficultyChanged(difficultyIndex, difficulties[difficultyIndex]);
 		
 		clearInput();
 	}
@@ -503,15 +500,15 @@ SceneBase {
 				width: parent.width; height: 30
 				background.radius: 5
 				
-				text: difficulties.length === 0 ? "" : difficulties[difficultyIndex]
+				text: difficulties.length === 0 ? "" : difficulties[difficulty]
 				visible: difficulties.length > 0
 				
 				onClicked: {
 					if (scene.state === "listening")
-						lastQuestions[difficultyIndex] = getQuestionState();
+						lastQuestions[difficulty] = getQuestionState();
 					
 					scene.state = "listening";
-					difficultyIndex = (difficultyIndex + 1) % difficulties.length;
+					difficulty = (difficulty + 1) % difficulties.length;
 				}
 			}
 			

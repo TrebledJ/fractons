@@ -12,14 +12,20 @@ ModesBase {
 	id: modesBase
 	
 	//	== PROPERTY DECLARATIONS ==
-	property int operation: addition
-	readonly property int addition: 0
-	readonly property int subtraction: 1
-	readonly property int multiplication: 2
-	readonly property int division: 3
-	readonly property int easy: 0
-	readonly property int medium: 1
-	readonly property int hard: 2
+	property int operation: OperationsMode.Operation.Addition
+	
+	enum Operation {
+		Addition,
+		Subtraction,
+		Multiplication,
+		Division
+	}
+	
+	enum Difficulty {
+		Easy,
+		Medium,
+		Hard
+	}
 	
 	
 	//	== JS FUNCTIONS ==
@@ -78,7 +84,7 @@ ModesBase {
 	function getCorrectAnswer() {
 		var lhs = equationComponents.solveLHS();
 		
-		if (difficultyIndex === easy)
+		if (difficulty === OperationsMode.Difficulty.Easy)
 			return String(lhs.n);
 		
 		return "The answer was " + lhs.toString() + (lhs.isSimplified() ? '' : ' or ' + lhs.simplified());
@@ -89,7 +95,7 @@ ModesBase {
 	function generateRandomQuestion() {
 		
 		//	generate fraction components
-		if (difficultyIndex === easy)
+		if (difficulty === OperationsMode.Difficulty.Easy)
 		{
 			//	easy difficulty:
 			//	 + proper fractions only
@@ -101,15 +107,15 @@ ModesBase {
 			let n1, n2, d;
 			
 			//	generate appropriate result, then derive question
-			operation = JMath.randI(addition, subtraction);
+			operation = JMath.randI(OperationsMode.Operation.Addition, OperationsMode.Operation.Subtraction);
 			
 			d = JMath.randI(3, 20);
-			if (operation === addition)
+			if (operation === OperationsMode.Operation.Addition)
 			{
 				n1 = JMath.randI(1, d - 2);
 				n2 = JMath.randI(1, d - n1);
 			}
-			else if (operation === subtraction)
+			else if (operation === OperationsMode.Operation.Subtraction)
 			{
 				n1 = JMath.randI(2, d);
 				n2 = JMath.randI(1, n1-1);
@@ -119,7 +125,7 @@ ModesBase {
 			equationComponents.lhsFractionB = new JFraction.Fraction(n2, d);
 			equationComponents.rhsFraction = new JFraction.Fraction('?', d);
 		}
-		else if (difficultyIndex === medium)
+		else if (difficulty === OperationsMode.Difficulty.Medium)
 		{
 			//	medium difficulty:
 			//	 + proper and improper fractions
@@ -130,18 +136,18 @@ ModesBase {
 			
 			let n1, n2, d1, d2;
 			
-			operation = JMath.randI(multiplication, division);
+			operation = JMath.randI(OperationsMode.Operation.Multiplication, OperationsMode.Operation.Division);
 			
 			d1 = JMath.randI(3, 10);
 			
-			if (operation === multiplication)
+			if (operation === OperationsMode.Operation.Multiplication)
 			{
 				d2 = JMath.randI(3, 10);
 				
 				n1 = JMath.randI(1, d1);
 				n2 = JMath.randI(1, d2);
 			}
-			else if (operation === division)
+			else if (operation === OperationsMode.Operation.Division)
 			{
 				n2 = JMath.randI(1, 10);
 				
@@ -156,7 +162,7 @@ ModesBase {
 			equationComponents.lhsFractionB = new JFraction.Fraction(n2, d2);
 			equationComponents.rhsFraction = new JFraction.Fraction('?', '?');
 		}
-		else if (difficultyIndex === hard)
+		else if (difficulty === OperationsMode.Difficulty.Hard)
 		{
 			//	hard difficulty:
 			//	 + both proper and improper fractions
@@ -167,12 +173,12 @@ ModesBase {
 			
 			let n1, n2, d1, d2;
 			
-			operation = JMath.randI(addition, division);
+			operation = JMath.randI(OperationsMode.Operation.Addition, OperationsMode.Operation.Division);
 			
 			d1 = JMath.randI(3, 12);
 			d2 = JMath.randI(3, 12);
 			
-			if (operation === addition)
+			if (operation === OperationsMode.Operation.Addition)
 			{
 				n1 = JMath.randI(1, d1 - 2);
 				
@@ -185,7 +191,7 @@ ModesBase {
 				
 				n2 = JMath.randI(1, d2);
 			}
-			else if (operation === subtraction)
+			else if (operation === OperationsMode.Operation.Subtraction)
 			{
 				n1 = JMath.randI(1, d1);
 				
@@ -196,12 +202,12 @@ ModesBase {
 				//	(n1*d2 - 1)/d1	>	n2				> 0
 				n2 = JMath.randI(0, Math.floor(d2*n1/d1 - 1/d1));
 			}
-			else if (operation === multiplication)
+			else if (operation === OperationsMode.Operation.Multiplication)
 			{
 				n1 = JMath.randI(1, d1);
 				n2 = JMath.randI(1, d2);
 			}
-			else if (operation === division)
+			else if (operation === OperationsMode.Operation.Division)
 			{
 				n1 = JMath.randI(1, d1);
 				n2 = JMath.randI(1, d2);
@@ -237,7 +243,7 @@ ModesBase {
 	
 	difficulties: ["Easy", "Medium", "Hard"]
 	modeName: 'Operations'
-	rewardAmount: [1, 2, 5][difficultyIndex]
+	rewardAmount: [1, 2, 5][difficulty]
 	unit: "fractons"
 	
 	help: Item {
@@ -250,9 +256,9 @@ ModesBase {
 			TextBase { text: "Example:" }
 			Equation {
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: ["1/3 + 1/3 = ?/3", "1/2 * 1/2 = ?/?", "1/2 + 1/4 = ?/?"][difficultyIndex]
+				text: ["1/3 + 1/3 = ?/3", "1/2 * 1/2 = ?/?", "1/2 + 1/4 = ?/?"][difficulty]
 			}
-			TextBase { text: "Answer: " + ["2", "1/4", "3/4"][difficultyIndex] }
+			TextBase { text: "Answer: " + ["2", "1/4", "3/4"][difficulty] }
 		}
 	}
 	
@@ -271,10 +277,10 @@ ModesBase {
 		property var rhsFraction: new JFraction.Fraction('?')
 		
 		readonly property string op: {
-			if (operation === addition) return '+';
-			else if (operation === subtraction) return '-';
-			else if (operation === multiplication) return '*';
-			else if (operation === division) return '/';
+			if (operation === OperationsMode.Operation.Addition) return '+';
+			else if (operation === OperationsMode.Operation.Subtraction) return '-';
+			else if (operation === OperationsMode.Operation.Multiplication) return '*';
+			else if (operation === OperationsMode.Operation.Division) return '/';
 			return '?';
 		}
 		
@@ -283,10 +289,10 @@ ModesBase {
 		}
 		
 		function solveLHS() {
-			return (operation === addition ? lhsFractionA.add(lhsFractionB) :
-					operation === subtraction ? lhsFractionA.sub(lhsFractionB) : 
-					operation === multiplication ? lhsFractionA.mul(lhsFractionB) :
-					operation === division ? lhsFractionA.div(lhsFractionB) :
+			return (operation === OperationsMode.Operation.Addition ? lhsFractionA.add(lhsFractionB) :
+					operation === OperationsMode.Operation.Subtraction ? lhsFractionA.sub(lhsFractionB) : 
+					operation === OperationsMode.Operation.Multiplication ? lhsFractionA.mul(lhsFractionB) :
+					operation === OperationsMode.Operation.Division ? lhsFractionA.div(lhsFractionB) :
 											 lhsFractionA);
 		}
 		
@@ -300,7 +306,7 @@ ModesBase {
 			
 			//	in medium/hard mode, both numerator and denominator are ?
 			//	so we just return the entire fraction input
-			if (difficultyIndex !== easy)
+			if (difficulty !== OperationsMode.Difficulty.Easy)
 				return frac;
 			
 			//	fractional inputs should be rejected since there is only one "?" 

@@ -12,9 +12,12 @@ ModesBase {
 	
 	//	== PROPERTY DECLARATIONS ==
 	
-	readonly property int easy: 0
-	readonly property int medium: 1
-	readonly property int hard: 2
+	enum Difficulty {
+		Easy,
+		Medium,
+		Hard
+	}
+
 	readonly property var parsingError: ({
 											 0: "",
 											 1: "Program Error: Undefined input passed into `TruthMode.hasParsingError` function.",
@@ -92,7 +95,7 @@ ModesBase {
 		
 		//	choose a left fraction
 		d_l = JMath.randI(baseMin, baseMax);
-		n_l = JMath.randI(1, difficultyIndex === hard ? absoluteMax : d_l-1);
+		n_l = JMath.randI(1, difficulty === TruthMode.Difficulty.Hard ? absoluteMax : d_l-1);
 		
 		if (answer === true)
 		{
@@ -119,7 +122,7 @@ ModesBase {
 			//	special case for if leftD is baseMin is 2
 			d_r = JMath.randI(baseMin === 2 ? 3 : baseMin, absoluteMax);
 			
-			if (difficultyIndex === easy || difficultyIndex === medium)
+			if (difficulty === TruthMode.Difficulty.Easy || difficulty === TruthMode.Difficulty.Medium)
 			{
 				//	set the right numerator
 				if (d_l === d_r)
@@ -132,7 +135,7 @@ ModesBase {
 					//	... to anything
 					n_r = JMath.randI(1, d_r-1);
 			}
-			else if (difficultyIndex === hard)
+			else if (difficulty === TruthMode.Difficulty.Hard)
 			{
 				//	in hard mode, numerators are not bounded by the denominators
 				
@@ -156,7 +159,7 @@ ModesBase {
 					"=",
 					"=≠",
 					"=≠<>",
-				][difficultyIndex];
+				][difficulty];
 		
 		//	choose one operator
 		var operator = JMath.choose(relationalOperators);
@@ -167,7 +170,7 @@ ModesBase {
 		//	buffer variables
 		var swap = false;
 		
-		if (difficultyIndex === easy)
+		if (difficulty === TruthMode.Difficulty.Easy)
 		{
 			//	easy mode
 			let relation = generateEqualityRelation(2, 6, 12, answer);
@@ -180,7 +183,7 @@ ModesBase {
 			equationComponents.op = operator;
 			equationComponents.isTrue = answer;
 		}
-		else if (difficultyIndex === medium)
+		else if (difficulty === TruthMode.Difficulty.Medium)
 		{
 			let relation = generateEqualityRelation(2, 8, 16, answer);
 			
@@ -196,7 +199,7 @@ ModesBase {
 			else if (operator === "≠")
 				equationComponents.isTrue = !answer;
 		}
-		else if (difficultyIndex === hard)
+		else if (difficulty === TruthMode.Difficulty.Hard)
 		{
 			//	hard mode (allows improper fractions)
 			
@@ -285,7 +288,7 @@ ModesBase {
 	
 	difficulties: ["Easy", "Medium", "Hard"]
 	modeName: 'Truth'
-	rewardAmount: [2, 3, 5][difficultyIndex]
+	rewardAmount: [2, 3, 5][difficulty]
 	unit: "fractons"
 	numberPad.keys: ["T", "F", "back"]
 	

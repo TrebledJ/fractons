@@ -56,7 +56,7 @@ GameWindow {
 		if (index === -1)
 			index = 0;	//	default to 0 index if not found
 		
-		activeScene.difficultyIndex = index;
+		activeScene.difficulty = index;
 	}
 	
 	function pushBackgroundAnimation(text, parentObject, visibleListener, fontsize) {

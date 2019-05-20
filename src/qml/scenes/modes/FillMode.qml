@@ -13,9 +13,12 @@ import "../../js/Utils.js" as JUtils
 ModesBase {
 	id: modesBase
 
-	readonly property int easy: 0
-	readonly property int medium: 1
-	readonly property int hard: 2
+	enum Difficulty {
+		Easy,
+		Medium,
+		Hard
+	}
+
 	property int countSelected: 0
 
 	
@@ -57,7 +60,7 @@ ModesBase {
 	function generateRandomQuestion() {
 		grid.clear();
 		
-		var maxSize = [8, 10, 16][difficultyIndex];
+		var maxSize = [8, 10, 16][difficulty];
 		
 		var d = JMath.randI(2, maxSize);
 		var n = JMath.randI(1, d);
@@ -96,11 +99,11 @@ ModesBase {
 	difficulties: ["Easy", "Medium", "Hard"]
 	
 	modeName: 'Fill'
-	rewardAmount: [2, 3, 5][difficultyIndex]
+	rewardAmount: [2, 3, 5][difficulty]
 	unit: "fractons"
 	
 	answerField.visible: false	//	hide the answer field
-	acceptableInput: "1234567890/".split('');
+	acceptableInput: "1234567890/".split('')
 	
 	help: Item {
 		Column {
@@ -207,14 +210,14 @@ ModesBase {
 				//	displays number of selected cells
 				anchors { bottom: grid.top; left: grid.left }
 				text: countSelected
-				visible: difficultyIndex === easy
+				visible: difficulty === FillMode.Difficulty.Easy
 			}
 			
 			TextBase {
 				//	displays grid size: WxH
 				anchors { bottom: grid.top; right: grid.right }
 				text: grid.gridSize + '×' + grid.gridSize
-				visible: difficultyIndex === easy || difficultyIndex === medium
+				visible: difficulty === FillMode.Difficulty.Easy || difficulty === FillMode.Difficulty.Medium
 			}
 			
 			MouseArea {
