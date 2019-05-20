@@ -8,7 +8,6 @@ import "scenes/backdrops"
 import "scenes/menus"
 import "scenes/modes" as Modes
 import "scenes/others" as Others
-import "scenes/lessons" as Lessons
 
 //	TODO create an accounts feature that will let users switch accounts (locally, of course)
 
