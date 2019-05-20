@@ -195,20 +195,6 @@ GameWindow {
 	}
 	
 	
-	StudyMenu {
-		id: studyMenuScene
-		onBackButtonClicked: gameWindow.state = "home"
-		
-		onLessonClicked: {
-			console.debug("Lesson: '" + lesson + "'");
-			gameWindow.state = "lesson_" + lesson;
-		}
-	}
-	
-	Lessons.Introduction { id: lessonIntroductionScene; onBackButtonClicked: gameWindow.state = "studyMenu" }
-	Lessons.AdditionSubtractionLike { id: lessonAdditionSubtractionLikeScene; onBackButtonClicked: gameWindow.state = "studyMenu" }
-	Lessons.Balancing { id: lessonBalancingScene; onBackButtonClicked: gameWindow.state = "studyMenu" }
-	
 	Lottery { id: lotteryScene; onBackButtonClicked: gameWindow.state = "home" }
 	
 //	Modes.TokenMode {
