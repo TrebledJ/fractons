@@ -38,9 +38,11 @@ Specifically, this was the command I runned after `cd`ing to the shadow build di
 
 * QtCharts
 * QtCore
+* QtDBus (Qt 5.12)
 * QtGui
 * QtMultimedia
 * QtMultimediaQuick
+* QtMultimedia Widgets (for audio)
 * QtNetwork
 * QtOpenGL
 * QtPrintSupport

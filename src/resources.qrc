@@ -20,7 +20,6 @@
         <file>qml/config.json</file>
         <file>qml/Main.qml</file>
         <file>qml/scenes/others/Settings.qml</file>
-        <file>qml/scenes/backdrops/LessonsBase.qml</file>
         <file>qml/common/AnimatedButton.qml</file>
         <file>qml/common/AnimatedMath.qml</file>
         <file>qml/common/AnimatedText.qml</file>
@@ -36,13 +35,8 @@
         <file>qml/js/Utils.js</file>
         <file>qml/scenes/backdrops/BackgroundLayer.qml</file>
         <file>qml/scenes/backdrops/MusicLayer.qml</file>
-        <file>qml/scenes/lessons/AdditionSubtractionLike.qml</file>
-        <file>qml/scenes/lessons/Balancing.qml</file>
-        <file>qml/scenes/lessons/Introduction.qml</file>
-        <file>qml/scenes/lessons/PartsOfWhole.qml</file>
         <file>qml/scenes/menus/ExerciseMenu.qml</file>
         <file>qml/scenes/menus/Lottery.qml</file>
-        <file>qml/scenes/menus/StudyMenu.qml</file>
         <file>qml/scenes/modes/OperationsMode.qml</file>
         <file>qml/scenes/modes/TokenMode.qml</file>
         <file>qml/scenes/Home.qml</file>

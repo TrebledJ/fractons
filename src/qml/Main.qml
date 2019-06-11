@@ -37,12 +37,27 @@ GameWindow {
 	property alias bgAnimationEnabled: settingsScene.bgAnimationEnabled
 	property alias numberPadEnabled: settingsScene.numberPadEnabled
 	
+	enum Tutorial {
+		Start,
+		AwaitClickOnExerciseMenu,
+		AwaitClickOnExercise,
+		AwaitAnswerExercise,
+		AwaitClickOnAchievements,
+		AwaitClickOnNotifications,
+		AwaitClickOnStatistics,
+		AwaitClickOnSettings,
+		AwaitClickOnBack,
+		AwaitClickOnOK,
+		End
+	}
+
+	property int tutorialState: Main.Tutorial.Start
+	
 	
 	//	== JS FUNCTIONS ==
 	
 	function gotoExercise(mode, difficulty) {
 		console.log("Going to exercise", mode, "with a", difficulty, "difficulty.");
-		
 		
 		//	set state to mode
 		gameWindow.state = "mode_" + mode.toLowerCase();
@@ -93,6 +108,10 @@ GameWindow {
 //	state: "mode_fill"
 	
 	Component.onCompleted: {
+//		console.log("Tutorial state:", tutorialState)
+//		var flag = JStorage.getValue('isTutorialMode')
+//		isTutorialMode = flag !== undefined ? flag : true;
+		
 		musicEnabled = settings.musicEnabled;
 		soundEnabled = settings.soundEnabled;
 		
@@ -129,6 +148,9 @@ GameWindow {
 	
 	Home {
 		id: homeScene
+		
+		opacity: tutorialState === Main.Tutorial.Start ? 0.3 : 1
+		
 		onStudyButtonClicked: gameWindow.state = "studyMenu"
 		onExercisesButtonClicked: gameWindow.state = "exerciseMenu"
 		onLotteryButtonClicked: gameWindow.state = "lottery"
@@ -137,6 +159,47 @@ GameWindow {
 		onNotificationsButtonClicked: gameWindow.state = "notifications"
 		onSettingsButtonClicked: gameWindow.state = "settings"
 		onCreditsButtonClicked: gameWindow.state = "credits"
+	}
+	
+	Item {
+		anchors.fill: homeScene
+//		visible: homeScene.visible
+		visible: false
+		
+		Column {
+			anchors.fill: parent
+			spacing: 10
+			TextBase {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: "Welcome to ƒractons!"
+				font.pointSize: 64
+			}
+			
+			TextBase {
+				anchors.horizontalCenter: parent.horizontalCenter
+				text: "Would you like to take the tutorial?"
+				font.pointSize: 18
+			}
+			
+			Row {
+				anchors.horizontalCenter: parent.horizontalCenter
+				spacing: 20
+				BubbleButton {
+					width: 100; height: 50
+					text: "Yes!"
+					onClicked: {
+						tutorialState = Main.Tutorial.AwaitClickOnExerciseMenu
+					}
+				}
+				BubbleButton {
+					width: 100; height: 50
+					text: "No, thanks!"
+					onClicked: {
+						//	exit tutorial mode
+					}
+				}
+			}
+		}
 	}
 	
 	ExerciseMenu {

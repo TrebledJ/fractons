@@ -1,15 +1,18 @@
+#DEFINES += PUBLISH  # uncomment for publishing
+
 # allows to add DEPLOYMENTFOLDERS and links to the V-Play library and QtCreator auto-completion
 CONFIG += felgo
 
 # uncomment this line to add the Live Client Module and use live reloading with your custom C++ code
 # for the remaining steps to build a custom Live Code Reload app see here: https://v-play.net/custom-code-reload-app/
-CONFIG += felgo-live	# comment for publishing
+!contains(DEFINES, PUBLISH): CONFIG += felgo-live	# comment for publishing
 
 # configure the bundle identifier for iOS
 PRODUCT_IDENTIFIER = com.trebledj.wizardEVP.Fractons
 
-qmlFolder.source = qml
-DEPLOYMENTFOLDERS += qmlFolder # comment for publishing
+# comment for publishing
+!contains(DEFINES, PUBLISH): qmlFolder.source = qml
+!contains(DEFINES, PUBLISH): DEPLOYMENTFOLDERS += qmlFolder
 
 assetsFolder.source = assets
 DEPLOYMENTFOLDERS += assetsFolder
@@ -64,5 +67,3 @@ HEADERS += \
     cpp/achievement.h \
     cpp/achievementsmanager.h \
     cpp/desktopnotifications.h
-
-DISTFILES +=
