@@ -1,0 +1,587 @@
+{
+	"fractons": 0,
+	"tokens": 0,
+	"leveling_constant": 25,
+	"combo": 0,
+	"achievements": {
+		"explorer": {
+			"button": {
+				"name": "Buttons?",
+				"description": "Click a button. Any button!",
+				"hint": "Huh? Whats this?",
+				"group": "explorer",
+				"reward": 1,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"achievements": {
+				"name": "Achievements?",
+				"description": "Visit the achievements page.",
+				"hint": "Huh? Achievements?",
+				"group": "explorer",
+				"reward": 1,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"statistics": {
+				"name": "Stats?",
+				"description": "Visit the statistics page.",
+				"hint": "Huh? Statistics?",
+				"group": "explorer",
+				"reward": 1,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"learner": {
+				"name": "Lessons?",
+				"description": "Open any lesson.",
+				"hint": "What lessons?",
+				"group": "explorer",
+				"reward": 1,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"associate": {
+				"name": "Associate",
+				"description": "Correctly answer any question.",
+				"hint": "Yes, I did it!",
+				"group": "explorer",
+				"reward": 1,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			}
+		},
+		"studious": {
+			"1": {
+				"name": "Studious I",
+				"description": "Correctly answer 10 questions.",
+				"hint": "",
+				"group": "studious",
+				"reward": 10,
+				"progress": 0,
+				"maxProgress": 10,
+				"isCollected": false
+			},
+			"2": {
+				"name": "Studious II",
+				"description": "Correctly answer 50 questions.",
+				"hint": "",
+				"group": "studious",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 50,
+				"isCollected": false
+			},
+			"3": {
+				"name": "Studious III",
+				"description": "Correctly answer 200 questions.",
+				"hint": "",
+				"group": "studious",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 200,
+				"isCollected": false
+			},
+			"4": {
+				"name": "Studious IV",
+				"description": "Correctly answer 1000 questions.",
+				"hint": "",
+				"group": "studious",
+				"reward": 120,
+				"progress": 0,
+				"maxProgress": 1000,
+				"isCollected": false
+			},
+			"5": {
+				"name": "Studious V",
+				"description": "Correctly answer 5000 questions.",
+				"hint": "",
+				"group": "studious",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 5000,
+				"isCollected": false
+			}
+		},
+		"sprinter": {
+			"1": {
+				"name": "Sprinter I",
+				"description": "Reach a combo of 10.",
+				"hint": "",
+				"group": "sprinter",
+				"reward": 10,
+				"progress": 0,
+				"maxProgress": 10,
+				"isCollected": false
+			},
+			"2": {
+				"name": "Sprinter II",
+				"description": "Reach a combo of 25.",
+				"hint": "",
+				"group": "sprinter",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 25,
+				"isCollected": false
+			},
+			"3": {
+				"name": "Sprinter III",
+				"description": "Reach a combo of 50.",
+				"hint": "",
+				"group": "sprinter",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 50,
+				"isCollected": false
+			},
+			"4": {
+				"name": "Sprinter IV",
+				"description": "Reach a combo of 100.",
+				"hint": "",
+				"group": "sprinter",
+				"reward": 120,
+				"progress": 0,
+				"maxProgress": 100,
+				"isCollected": false
+			},
+			"5": {
+				"name": "Sprinter V",
+				"description": "Reach a combo of 250.",
+				"hint": "",
+				"group": "sprinter",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 250,
+				"isCollected": false
+			}
+		},
+		"leveller": {
+			"1": {
+				"name": "Leveller I",
+				"description": "Reach level 5.",
+				"hint": "",
+				"group": "leveller",
+				"reward": 10,
+				"progress": 0,
+				"maxProgress": 5,
+				"isCollected": false
+			},
+			"2": {
+				"name": "Leveller II",
+				"description": "Reach level 10.",
+				"hint": "",
+				"group": "leveller",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 10,
+				"isCollected": false
+			},
+			"3": {
+				"name": "Leveller III",
+				"description": "Reach level 15.",
+				"hint": "",
+				"group": "leveller",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 15,
+				"isCollected": false
+			},
+			"4": {
+				"name": "Leveller IV",
+				"description": "Reach level 20.",
+				"hint": "",
+				"group": "leveller",
+				"reward": 120,
+				"progress": 0,
+				"maxProgress": 20,
+				"isCollected": false
+			},
+			"5": {
+				"name": "Leveller V",
+				"description": "Reach level 25.",
+				"hint": "",
+				"group": "leveller",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 25,
+				"isCollected": false
+			}
+		},
+		"adventurer": {
+			"1": {
+				"name": "Adventurer I",
+				"description": "Complete 5 quests.",
+				"hint": "",
+				"group": "adventurer",
+				"reward": 10,
+				"progress": 0,
+				"maxProgress": 5,
+				"isCollected": false
+			},
+			"2": {
+				"name": "Adventurer II",
+				"description": "Complete 15 quests.",
+				"hint": "",
+				"group": "adventurer",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 15,
+				"isCollected": false
+			},
+			"3": {
+				"name": "Adventurer III",
+				"description": "Complete 50 quests.",
+				"hint": "",
+				"group": "adventurer",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 50,
+				"isCollected": false
+			},
+			"4": {
+				"name": "Adventurer IV",
+				"description": "Complete 100 quests.",
+				"hint": "",
+				"group": "adventurer",
+				"reward": 120,
+				"progress": 0,
+				"maxProgress": 100,
+				"isCollected": false
+			},
+			"5": {
+				"name": "Adventurer V",
+				"description": "Complete 250 quests.",
+				"hint": "",
+				"group": "adventurer",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 250,
+				"isCollected": false
+			}
+		},
+		"seasoned": {
+			"1": {
+				"name": "Seasoned I",
+				"description": "Master 1 mode.",
+				"hint": "",
+				"group": "seasoned",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"2": {
+				"name": "Seasoned II",
+				"description": "Master 3 modes.",
+				"hint": "",
+				"group": "seasoned",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 3,
+				"isCollected": false
+			},
+			"3": {
+				"name": "Seasoned III",
+				"description": "Master 5 modes.",
+				"hint": "",
+				"group": "seasoned",
+				"reward": 120,
+				"progress": 0,
+				"maxProgress": 5,
+				"isCollected": false
+			},
+			"4": {
+				"name": "Seasoned IV",
+				"description": "Master 7 modes.",
+				"hint": "",
+				"group": "seasoned",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 7,
+				"isCollected": false
+			}
+		},
+		"mastery": {
+			"balance": {
+				"1": {
+					"name": "Balance Mastery I",
+					"description": "Obtain a level 1 mastery in Balance mode.",
+					"hint": "",
+					"group": "balance",
+					"reward": 10,
+					"progress": 0,
+					"maxProgress": 1,
+					"isCollected": false
+				}
+			},
+			"conversion": {
+				
+			},
+			"truth": {
+				
+			},
+			"operations": {
+				
+			},
+			"word": {
+				
+			},
+			"fill": {
+				
+			},
+			"token": {
+				
+			},
+			"pie": {
+				
+			}
+		},
+		"lottery": {
+			"1": {
+				"name": "Lottery I",
+				"description": "Spin 5 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 10,
+				"progress": 0,
+				"maxProgress": 5,
+				"isCollected": false
+			},
+			"2": {
+				"name": "Lottery II",
+				"description": "Spin 15 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 15,
+				"isCollected": false
+			},
+			"3": {
+				"name": "Lottery III",
+				"description": "Spin 50 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 50,
+				"isCollected": false
+			},
+			"4": {
+				"name": "Lottery IV",
+				"description": "Spin 100 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 120,
+				"progress": 0,
+				"maxProgress": 100,
+				"isCollected": false
+			},
+			"5": {
+				"name": "Lottery V",
+				"description": "Spin 250 times in the lottery.",
+				"hint": "",
+				"group": "lottery",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 250,
+				"isCollected": false
+			}
+		},
+		"lucky-lottery": {
+			"binary": {
+				"name": "Binary",
+				"description": "Get a combination of 1s and/or 0s in a spin.",
+				"hint": "",
+				"group": "lucky-lottery",
+				"reward": 10,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"magic": {
+				"name": "Magic Numbers",
+				"description": "Get a combination of e, π, and i in a spin.",
+				"hint": "",
+				"group": "lucky-lottery",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"multiplier": {
+				"name": "Big Multiplier",
+				"description": "Get a multiplier of 5 in a spin.",
+				"hint": "",
+				"group": "lucky-lottery",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"lucky": {
+				"name": "Lucky",
+				"description": "Earn 100 or more fractons in a spin.",
+				"hint": "",
+				"group": "lucky-lottery",
+				"reward": 30,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"jackpot": {
+				"name": "Jackpot",
+				"description": "Get 3 ƒs in a spin.",
+				"hint": "",
+				"group": "lucky-lottery",
+				"reward": 60,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			}
+		},
+		"secret": {
+			"troublemaker": {
+				"name": "Troublemaker",
+				"description": "Correctly answer a question with a fraction denominator > 1000.",
+				"hint": "Such trouble fraction.",
+				"group": "secret",
+				"reward": 250,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"nou": {
+				"name": "no u",
+				"description": "Input no u, 3 times.",
+				"hint": "no u",
+				"group": "secret",
+				"reward": 500,
+				"progress": 0,
+				"maxProgress": 3,
+				"isCollected": false
+			},
+			"gauss": {
+				"name": "Gauss",
+				"description": "Click on a Gauss as he skims by.",
+				"hint": "Find Gauss.",
+				"group": "secret",
+				"reward": 500,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"newton": {
+				"name": "Newton",
+				"description": "Click on a Newton as he skims by.",
+				"hint": "Find Newton.",
+				"group": "secret",
+				"reward": 500,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			},
+			"euler": {
+				"name": "Euler",
+				"description": "Click on an Euler as he skims by.",
+				"hint": "Find Euler.",
+				"group": "secret",
+				"reward": 500,
+				"progress": 0,
+				"maxProgress": 1,
+				"isCollected": false
+			}
+		},
+		"classified": {
+			"pseudonym": {
+				"1": {
+					"name": "Pseudonym I",
+					"description": "",
+					"hint": "Tagged with Technist.",
+					"group": "classified",
+					"reward": 2500,
+					"progress": 0,
+					"maxProgress": 1,
+					"isCollected": false
+				},
+				"2": {
+					"name": "Pseudonym II",
+					"description": "",
+					"hint": "Tagged with TrebledJ.",
+					"group": "classified",
+					"reward": 3000,
+					"progress": 0,
+					"maxProgress": 1,
+					"isCollected": false
+				},
+				"3": {
+					"name": "Pseudonym III",
+					"description": "",
+					"hint": "Tagged with Tin Man.",
+					"group": "classified",
+					"reward": 2500,
+					"progress": 0,
+					"maxProgress": 1,
+					"isCollected": false
+				},
+				"4": {
+					"name": "Pseudonym IV",
+					"description": "",
+					"hint": "Tagged with TrebuchetMS.",
+					"group": "classified",
+					"reward": 2000,
+					"progress": 0,
+					"maxProgress": 1,
+					"isCollected": false
+				}
+			}
+		}
+	},
+	"stats/general": {
+		
+	},
+	"stats/questions": [
+		
+	],
+	"quests/all": {
+		"fractons": {
+			"text": "Earn %1 fractons.",
+			"progress": 0,
+			"maxProgress": "dependent",
+			"isCollected": false
+		},
+		"level": {
+			"text": "Level up once.",
+			"progress": 0,
+			"maxProgress": 1,
+			"isCollected": false
+		},
+		"questions": {
+			"text": "Correctly answer %1 questions in %2 mode.",
+			"progress": 0,
+			"maxProgress": "dependent",
+			"isCollected": false
+		},
+		"achievement": {
+			"text": "Earn 1 achievement.",
+			"progress": 0,
+			"maxProgress": 1,
+			"isCollected": false
+		},
+		"lottery": {
+			"text": "Spin the lottery wheel %1 times.",
+			"progress": 0,
+			"maxProgress": "dependent",
+			"isCollected": false
+		}
+	},
+	"quests/current": {
+		
+	},
+	"quests/last_purge_time": "1970-01-01T00:00:00Z"
+}

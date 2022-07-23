@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/icons/book-open.png</file>
+        <file>assets/icons/calculator.png</file>
+        <file>assets/icons/gear.png</file>
+        <file>assets/icons/html-tag.png</file>
+        <file>assets/icons/line-chart.png</file>
+        <file>assets/icons/slot.png</file>
+        <file>assets/icons/star-yellow.png</file>
+        <file>assets/icons/star.png</file>
+        <file>assets/icons/trophy.png</file>
+        <file>assets/icons/coins.png</file>
+        <file>assets/icons/question-mark2.png</file>
+        <file>assets/icons/padlock-closed.png</file>
+        <file>assets/icons/euler.png</file>
+        <file>assets/icons/gauss.jpg</file>
+        <file>assets/icons/newton.png</file>
+        <file>assets/icons/cowboy-hat.png</file>
+        <file>assets/icons/cowboy-hat-tick.png</file>
+        <file>assets/img/right-arrow.png</file>
+        <file>assets/img/right-arrow-navy.png</file>
+        <file>assets/icons/tick.png</file>
+    </qresource>
+</RCC>

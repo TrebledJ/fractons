@@ -1,0 +1,142 @@
+//	SceneBase.qml
+
+import Felgo 3.0
+import QtQuick 2.0
+
+import "../../common"
+import "../../js/Math.js" as JMath
+
+Scene {
+	id: scene
+	
+	//	"logical size"
+	width: 480
+	height: 320
+	z: -1
+	signal backButtonClicked
+	
+	property alias backgroundAnimationTimer: backgroundAnimationTimer
+	
+	property alias banner: banner
+	
+	property bool useDefaultTopRibbon: false
+	property bool useDefaultBackButton: true
+	
+	property int animationSmallerYBound: 0
+	property int animationLargerYBound: height
+	
+	readonly property bool shown: shownState.state === "show"
+	
+	
+	opacity: 0
+	visible: opacity != 0
+	enabled: shown
+	
+	Behavior on opacity {
+		NumberAnimation { easing.type: Easing.Linear; duration: 300 }
+	}
+	
+	Item {
+		id: shownState
+		state: "hide"
+		states: [
+			State {
+				name: "show"
+				when: gameWindow.activeScene === scene
+				PropertyChanges { target: scene; opacity: 1 }
+			},
+			State {
+				name: "hide"
+				when: gameWindow.activeScene !== scene
+				PropertyChanges { target: scene; opacity: 0 }
+			}
+		]
+	}
+	
+	Rectangle {
+		id: banner
+		width: parent.width; height: 50
+		anchors.top: parent.top
+		color: "navy"
+		
+		visible: useDefaultTopRibbon
+	}
+	
+	BubbleButton {
+		width: 60; height: 30
+		anchors {
+			top: parent.top
+			left: parent.left
+			margins: 10
+		}
+		
+		z: 1
+		
+		visible: useDefaultBackButton
+		
+		text: "Back"
+		
+		onClicked: backButtonClicked();
+	}
+	
+	
+	Timer {
+		id: backgroundAnimationTimer
+		
+		property var messageQueue: []
+		
+		property string message
+		property var parent_
+		property var visibleListener
+		property int fontSize
+		
+		//	use a timer to prevent spammy messages
+		interval: 1000
+		
+		onTriggered: {
+			if (shown)
+			{
+				var front = messageQueue[0];
+				messageQueue = messageQueue.slice(1);
+				pushBackgroundAnimation(front.message, front.parent, front.visibleListener, front.fontSize);	//	animate the mode name onto the background
+			}
+			
+			check();
+		}
+		
+		function check() {
+			if (messageQueue.length > 0 && !running)
+				start();
+		}
+		
+		function run(message, parent_, visibleListener, fontSize) {
+			console.log("Pushing message:", message);
+			messageQueue.push({
+								 message: message,
+								  parent: parent_,
+								  visibleListener: visibleListener,
+								  fontSize: fontSize
+							  });
+			check();
+		}
+		
+		function cancel(message) {
+			stop();
+			
+			console.log("Cancel message:", message);
+			var index = messageQueue.map(function(item){ return item.message }).lastIndexOf(message);
+			messageQueue = messageQueue.slice(0, index).concat(messageQueue.slice(index + 1));	//	remove index "index"
+			
+			check();
+		}
+	}
+	
+	
+	function show() {
+		shownState.state = "show";
+	}
+	
+	function hide() {
+		shownState.state = "hide";
+	}
+}
