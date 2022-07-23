@@ -56,10 +56,6 @@ SceneBase {
 			id: goButton
 			width: 60; height: 30
 			
-//			anchors.top: banner.bottom
-//			anchors.right: parent.right
-//			anchors.margins: 10
-			
 			enabled: !slotMachine.stopping
 			opacity: enabled ? 1 : 0.8
 			

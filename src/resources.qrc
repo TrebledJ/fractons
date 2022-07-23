@@ -1,18 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>assets/vplay-logo.png</file>
         <file>qml/common/AchievementCard.qml</file>
         <file>qml/common/BubbleButton.qml</file>
         <file>qml/common/ButtonBase.qml</file>
         <file>qml/common/CircleButton.qml</file>
-        <file>qml/common/TextAnimation.qml</file>
         <file>qml/common/TextBase.qml</file>
-        <file>qml/game/AnimatedMath.qml</file>
-        <file>qml/game/Fractons.qml</file>
-        <file>qml/game/GameAchievements.qml</file>
         <file>qml/game/NumberPad.qml</file>
-        <file>qml/game/qmldir</file>
-        <file>qml/game/TruthPad.qml</file>
         <file>qml/graphicmath/Equation.qml</file>
         <file>qml/graphicmath/Fraction.qml</file>
         <file>qml/graphicmath/MathText.qml</file>
@@ -23,29 +16,39 @@
         <file>qml/scenes/modes/BalanceMode.qml</file>
         <file>qml/scenes/modes/BarMode.qml</file>
         <file>qml/scenes/modes/ConversionMode.qml</file>
-        <file>qml/scenes/modes/StandardMode.qml</file>
         <file>qml/scenes/modes/TruthMode.qml</file>
         <file>qml/scenes/others/Achievements.qml</file>
         <file>qml/scenes/others/Statistics.qml</file>
-        <file>qml/scenes/ExerciseMenuScene.qml</file>
-        <file>qml/scenes/HomeScene.qml</file>
-        <file>qml/scenes/StudyMenu.qml</file>
         <file>qml/config.json</file>
         <file>qml/Main.qml</file>
-        <file>qml/game/Storage.qml</file>
         <file>qml/scenes/others/Settings.qml</file>
         <file>qml/scenes/backdrops/LessonsBase.qml</file>
-        <file>qml/scenes/lessons/One.qml</file>
-        <file>qml/scenes/lessons/ParagraphText.qml</file>
-        <file>qml/scenes/lessons/Zero.qml</file>
-        <file>assets/icons/Calculator.png</file>
-        <file>assets/icons/Document.png</file>
-        <file>assets/icons/Gear.png</file>
-        <file>assets/icons/HtmlTag.png</file>
-        <file>assets/icons/LineChart.png</file>
-        <file>assets/icons/OpenBook.png</file>
-        <file>assets/icons/Star.png</file>
-        <file>assets/icons/Trophy.png</file>
-        <file>assets/icons/YellowStar.png</file>
+        <file>qml/common/AnimatedButton.qml</file>
+        <file>qml/common/AnimatedMath.qml</file>
+        <file>qml/common/AnimatedText.qml</file>
+        <file>qml/common/ParagraphText.qml</file>
+        <file>qml/common/QuestButton.qml</file>
+        <file>qml/game/singles/defaultkeys.json</file>
+        <file>qml/game/singles/Fractons.qml</file>
+        <file>qml/game/singles/GameAchievements.qml</file>
+        <file>qml/game/singles/GameNotifications.qml</file>
+        <file>qml/game/singles/GameStatistics.qml</file>
+        <file>qml/game/singles/qmldir</file>
+        <file>qml/game/singles/Quests.qml</file>
+        <file>qml/game/singles/Storage.qml</file>
+        <file>qml/js/Utils.js</file>
+        <file>qml/scenes/backdrops/BackgroundLayer.qml</file>
+        <file>qml/scenes/backdrops/MusicLayer.qml</file>
+        <file>qml/scenes/backdrops/NotificationsLayer.qml</file>
+        <file>qml/scenes/lessons/AdditionSubtractionLike.qml</file>
+        <file>qml/scenes/lessons/Balancing.qml</file>
+        <file>qml/scenes/lessons/Introduction.qml</file>
+        <file>qml/scenes/lessons/PartsOfWhole.qml</file>
+        <file>qml/scenes/menus/ExerciseMenu.qml</file>
+        <file>qml/scenes/menus/Lottery.qml</file>
+        <file>qml/scenes/menus/StudyMenu.qml</file>
+        <file>qml/scenes/modes/OperationsMode.qml</file>
+        <file>qml/scenes/modes/TokenMode.qml</file>
+        <file>qml/scenes/Home.qml</file>
     </qresource>
 </RCC>
