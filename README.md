@@ -16,6 +16,22 @@ Check it out in [releases](https://github.com/TrebledJ/fractons/releases)!
 * Daily quests! 🤠
 * SFX and background music 🎵
 * Floating fractions in the background (with the occasional secret! 🤫)
+* Notifications to notify you when you level up, complete a quest, or earned an achievement
+
+## Showcase
+
+![](./docs/img2.png)
+
+Main menu. Daily quests are on the left. Achievements, statistics on the top left. Notifications and settings on the top right.
+
+![](./docs/img4.png)
+
+Solving questions in Balance mode. How fast can you fill in the question mark?
+
+![](./docs/img5.png)
+![](./docs/img6.png)
+
+Tons of achievements to try to earn!
 
 ## History
 
