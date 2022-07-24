@@ -16,7 +16,7 @@ Check it out in [releases](https://github.com/TrebledJ/fractons/releases)!
 * Daily quests! 🤠
 * SFX and background music 🎵
 * Floating fractions in the background (with the occasional secret! 🤫)
-* Notifications to notify you when you level up, complete a quest, or earned an achievement
+* Notifications to notify you when you level up, complete a quest, or earn an achievement
 
 ## Showcase
 
